@@ -1,0 +1,1779 @@
+# ================================================ [Armory] ==================================================
+# ============================================================================================================
+# ============================================================================================================
+
+msgid "Laser"
+msgstr "Лазер"
+
+msgid "Plasma cannon"
+msgstr "Плазменная пушка"
+
+msgid "Rocket launcher"
+msgstr "Ракетная установка"
+
+#msgid "Cannon"
+#msgstr "Пушка"
+
+#msgid "Railgun"
+#msgstr "Рельсотрон"
+
+msgid "Repair laser"
+msgstr "Ремонтная установка"
+
+msgid "Bolter"
+msgstr "Болтер"
+
+msgid "Lightning Gun"
+msgstr "Молниевое орудие"
+
+msgid "Pulse Gun"
+msgstr "Импульсная пушка"
+
+msgid "Particle Accelerator"
+msgstr "Ускоритель частиц"
+
+msgid "Photon Blaster"
+msgstr "Фотонный бластер"
+
+msgid "Vortex Cannon"
+msgstr "Вихревая пушка"
+
+msgid "Pulse Laser"
+msgstr "Импульсный лазер"
+
+msgid "Assault Cannon"
+msgstr "Штурмовая пушка"
+
+msgid "Magnetic Mortar"
+msgstr "Магнитный миномет"
+
+msgid "Charging Beam"
+msgstr "Заряжающий луч"
+
+msgid "Nano Repair Beam"
+msgstr "Наноремонтная установка"
+
+msgid "'Mantis' launcher"
+msgstr "Пусковая установка 'Богомол'"
+
+msgid "Photon Cannon"
+msgstr "Фотонная пушка"
+
+msgid "Ion Emitter"
+msgstr "Ионный излучатель"
+
+msgid "Plasma Beam Disintegrator"
+msgstr "Плазмонитиевый дезинтегратор"
+
+msgid "Plasma Flak Cannon"
+msgstr "Зенитный плазмомет"
+
+msgid "Hyperkinetic Artillery"
+msgstr "Гиперкинетическая артиллерия"
+
+msgid "'Avalanche' Gravity Cannon"
+msgstr "Гравитационная пушка 'Лавина'"
+
+msgid "'Cyclone' Missile Battery"
+msgstr "Ракетная батарея 'Циклон'"
+
+msgid "Transphasic Laser"
+msgstr "Трансфазный лазер"
+
+# ================================================= [Tech] ===================================================
+# ============================================================================================================
+# ============================================================================================================
+
+# Info lines
+msgid "system active"
+msgstr "система активна"
+
+msgid "recharging shields"
+msgstr "восстановление щитов"
+
+msgid "out of range"
+msgstr "цель вне радиуса"
+
+msgid "out of range or shields low"
+msgstr "цель вне радиуса или низкий заряд щита"
+
+msgid "ready state"
+msgstr "режим готовности"
+
+msgid "system inactive"
+msgstr "система неактивна"
+
+msgid "rate of fire is reduced"
+msgstr "скорострельность снижена"
+
+# aura info lines
+msgid "shield recharging"
+msgstr "восстановление щита"
+
+msgid "shield resistance"
+msgstr "сопротивление щита урону"
+
+msgid "weapons fire rate"
+msgstr "скорострельность орудий"
+
+msgid "impenetrable shields"
+msgstr "непробиваемые щиты"
+
+msgid "shield cooldown after hit"
+msgstr "задержка перезарядки щита после урона"
+
+msgid "torpedo defence"
+msgstr "защита от торпед"
+
+msgid "hull repairing"
+msgstr "ремонт корпуса"
+
+msgid "hull destruction"
+msgstr "разрушение корпуса"
+
+msgid "shields are synchronized"
+msgstr "щиты синхронизированы"
+
+msgid "tractor beam range increased"
+msgstr "дальность притягивающего луча повышена"
+
+msgid "emergency system standby"
+msgstr "экстренный стабилизатор в режиме ожидания"
+
+msgid " standby"
+msgstr " в режиме ожидания"
+
+msgid "auto repair speed"
+msgstr "скорость автоматического ремонта"
+
+msgid "jump range increased"
+msgstr "дальность прыжка увеличена"
+
+msgid "hyperdrive charge"
+msgstr "зарядка гипердвигателя"
+
+# Bastion
+
+msgid "Bastion system"
+msgstr "Система 'Бастион'"
+
+msgid "'Veil' system"
+msgstr "Система 'Завеса'"
+
+msgid "Energy recuperation system"
+msgstr "Система рекуперации энергии"
+
+msgid "Multiphase shield"
+msgstr "Многофазный щит"
+
+msgid "Reflection Protocol"
+msgstr "Протокол отражения"
+
+msgid "Replaces the standard shield generator with a new one with advanced functionality but less power"
+msgstr "Заменяет стандартный генератор щита на новый, обладающий расширенным функционалом но меньшей мощностью"
+
+# macrofield projector
+
+msgid "Macrofield projector"
+msgstr "Проектор макрополей"
+
+msgid "Repair wave"
+msgstr "Ремонтная волна"
+
+msgid "Renovation ray"
+msgstr "Обновляющий луч"
+
+msgid "Shield booster"
+msgstr "Усилитель щита"
+
+msgid "Shield synchronizer"
+msgstr "Синхронизатор щитов"
+
+msgid "A massive system that provides the ability to repair allied ships right on the battlefield"
+msgstr "Массивная система, обеспечивающая возможность ремонтировать союзные корабли прямо на поле боя"
+
+# pulseTBG
+
+msgid "Pulse tractor beam generator"
+msgstr "Импульсный генератор притягивающего луча"
+
+msgid "Number of pulses"
+msgstr "Количество импульсов"
+
+msgid "An experimental reactor operating on the principle of a temporary increase of the effect"
+msgstr "Экспериментальный реактор, работающий по принципу временного наращивания эффекта"
+
+# Ремматрица
+
+msgid "Repair system"
+msgstr "Ремонтная система"
+
+msgid "Polarizing nanobots"
+msgstr "Поляризующие наноботы"
+
+msgid "Repair matrix"
+msgstr "Ремонтная матрица"
+
+msgid "Emergency stabilization"
+msgstr "Экстренная стабилизация"
+
+msgid "Auto-repair treshold"
+msgstr "Лимит автоматического ремонта"
+
+msgid "Auto-repair value"
+msgstr "Скорость автоматического ремонта"
+
+msgid "Additional armor plates equipped with integrated repair systems"
+msgstr "Дополнительные пластины обшивки, снабженные интегрированными ремонтными системами"
+
+# X-гипергенератор
+
+msgid "X-perimental Hypergenerator"
+msgstr "Экспериментальный гипергенератор "
+
+msgid "Quantum overdrive"
+msgstr "Квантовая перегрузка"
+
+msgid "Space Destabilizer"
+msgstr "Дестабилизатор пространства"
+
+msgid "Focused Jump"
+msgstr "Сфокусированный прыжок"
+
+msgid "A modified jump generator capable of distort space using Xotan technologies"
+msgstr "Модифицированный прыжковый генератор, способный искривлять пространство по технологиям Ксотан"
+
+# Subspace cargo system
+msgid "Subspace cargo system"
+msgstr "Подпространственная грузовая система"
+
+msgid "Creates a stable pocket subspace dimension based on rift technologies"
+msgstr "Создает устойчивое карманное подпространственное измерение, основанное на технологиях разлома"
+
+# =============================================== [Stations] =================================================
+# ============================================================================================================
+# ============================================================================================================
+
+# names
+msgid "Megacomplex"
+msgstr "Мегакомплекс"
+
+# ======================================= [Системы] =======================================
+# ============================================================================================================
+# ============================================================================================================
+
+#Бастион====
+
+#subsys1 desc
+msgid "%s\nActivation of the module increases the shield's resistance to all damage by %i%%, hull is restored at a rate of %.1f%% the maximum amount of shield per second (%i/sec), but the rate of fire of all weapons drops by %i%%. Reactivation or loss of the shield turns off the module.\nCooldown - %i seconds."
+msgstr "%s\nАктивация модуля повышает сопротивление щита всему урону на %i%%, корпус восстанавливается со скоростью %.1f%%, максимального запаса щита в секунду (%i ед.), но скорострельность всех орудий падает на %i%%. Повторная активация, либо потеря щита выключают модуль.\nПерезарядка - %i с."
+
+#subsys2 desc
+msgid "%s\nThe energy, electric and plasma damage received by shield accumulates the charge of the module, limited to %i%% of the maximum amount of shield. The conversion rate is %i%% damage received. Activation of the module consumes the charge and restores the same volume of the shield for %i seconds. The module interrupts operation if the shield is turned off.\nCooldown - %i seconds."
+msgstr "%s\nПолучаемый по щиту урон энергетического, электрического и плазменного типа накапливает заряд модуля, ограниченный %i%% максимального запаса щита. Конверсия составляет %i%% получаемого урона. Активация модуля расходует заряд и восстанавливает аналогиный объем щита в течение %i с. Модуль прерывает работу, если щит выключается.\nПерезарядка - %i с."
+
+#subsys3 desc
+msgid "%s\nActivation applies impenetrability shields mode for %i sec., and also significantly reduces the pause of shield recharge after receiving damage.\nCooldown - %i seconds."
+msgstr "%s\nАктивация переводит щиты в режим непроницаемости на %i с., а также значительно сокращает паузу перезарядки щита после получения урона.\nПерезарядка - %i с."
+
+#subsys4 desc
+msgid "%s\nWithin %i s. module will automatically shoot down hostile torpedoes within a radius of %i km if the ship's shield exceeds %i%%.\nCooldown - %i seconds."
+msgstr "%s\nВ течение %i с. после активации модуль будет автоматически сбивать враждебные торпеды в радиусе %i км, если щит корабля превышает %i%%.\nПерезарядка - %i с."
+
+#Проектор====
+
+#subsys1 desc
+msgid "%s\nConsumes %i%% energy per second, restoring %i hull points to surrounding player-owned allied vessels for each %i TJ of energy consumed (~%i points per second). The repair of your own ship has been increased by %i%%. It does not allow you to use %s and %s while working.\nThe radius of operation of the module is %i km.\nThe working time is %i seconds.\nCooldown - %i s."
+msgstr "%s\nСжигает %i%% запаса энергии в секунду, восстанавливая %i ед. корпуса окружающим союзным судам за каждый затраченный %i тДж энергии (~%i ед. в секунду). Ремонт собственного корабля увеличен на %i%%. Не позволяет использовать %s и %s во время работы.\nРадиус работы модуля - %i км.\nВремя работы - %i секунд.\nПерезарядка - %i с."
+
+msgid "%s\nConsumes %i%% energy per second and repairs the selected player-owned target, restoring %i hull points per second for each %i TJ of energy consumed (~%i points per second). Repair continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the operation of the shield booster.\nBeam working range: %i km.\nModule cooldown when changing targets: %i s."
+msgstr "%s\nСжигает %i%% энергоблока и ремонтирует выбранную цель, восстанавливая %i ед. корпуса в секунду за каждый затраченный %i тДж энергии (~%i ед. в секунду). Ремонт выполняется до тех пор, пока не израсходуется весь запас энергии или модуль не будет выключен вручную. Нельзя включить во время работы ремонтной волны, прерывает работу усилителя щита.\nДальность работы луча: %i км.\nПерезарядка модуля при смене цели: %i с."
+
+msgid "%s\nConsumes %i%% of the energy per second and charges the player-owned target shield, restoring %i points per second for each consumed %i TJ of energy (~%i points per second). Charging continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the work of the renovation ray.\nThe module will not work if the target's shield drops below %i%%\nBeam working range: %i km.\nModule cooldown when changing targets: %i s."
+msgstr "%s\nСжигает %i%% энергоблока и заряжает щит цели, восстанавливая %i ед. в секунду за каждый затраченный %i тДж энергии(~%i ед. в секунду). Зарядка выполняется до тех пор, пока не израсходуется весь запас энергии или модуль не будет выключен вручную. Нельзя включить во время работы 'ремонтной волны', прерывает работу 'Обновляющего луча'.\nМодуль не будет работать, если запас щитов цели падает ниже %i%%\nДальность работы усилителя: %i км.\nПерезарядка модуля при смене цели: %i с."
+
+msgid "%s\nConnects the shields of your and the player-owned allied ship selected as the target. Tries to equalize the percentage of shields by siphoning %i%% of the shield per second from one ship to another. It can work in parallel with other modules of this system.\nThe range of the module: %i km.\nCooldown after changing the target: %i sec.\nThe module will not work if shields of one of the ships falls below %i%%"
+msgstr "%s\nСвязывает щиты вашего и союзного корабля, выбранного в качестве цели. Пытается уравнять процент щитов, перекачивая %i%% щита в секунду от одного корабля к другому. Может работать параллельно с другими модулями этой системы.\nДальность действия модуля: %i км.\nПерезарядка после смены цели: %i с.\nМодуль не будет работать, если запас щитов одного из кораблей падает ниже %i%%."
+
+#pulseTBG====
+
+#subsys1 desc
+msgid "%s\nActivates a pulse generator that increases the range of the tractor beam by %i km every two seconds for the duration of its operation.\nRecharge %i seconds"
+msgstr "%s\nАктивирует импульсный генератор, который увеличивает дальность притягивающего луча на %i км каждые две секунды на время своей работы.\nПерезарядка %i секунд"
+
+#Ремматрица====
+
+#subsys1 desc
+msgid "%s\nActivating the system will repair %i%% of the ship's hull in %i seconds.\nCooldown - %i seconds.\nThe module cannot repair hull above %i%%"
+msgstr "%s\nАктивация системы восстановит %i%% прочности корабля за %i секунд.\nПерезарядка составляет %i секунд.\nМодуль не может ремонтировать корпус выше %i%%"
+
+msgid "%s\nActivation repairs %.2f%% hull per second for %i seconds.\nTaking damage or healing from repair weapons on the hull while the module is running interrupts repairs and reduces the remaining cooldown time by %i%%.\nCooldown - %i seconds"
+msgstr "%s\nАктивация ремонтирует %.2f%% корпуса в секунду в течение %i секунд.\nПолучение урона, либо восстановления от ремонтных орудий по корпусу во время работы модуля прерывает ремонт и уменьшает оставшееся время перезарядки на %i%%.\nПерезарядка составляет %i секунд"
+
+msgid "%s\nActivating the module puts it in standby mode for %i second. If during this time the ship's hull falls below %i%%, the module is triggered, restoring it by %i%%, after which it increases the automatic repair by %i%% for %i seconds.\nCooldown - %i seconds"
+msgstr "%s\nАктивация модуля переводит его в режим готовности на %i секунд. Если за это время корпус корабля падает ниже %i%%, модуль срабатывает, восстанавливая его на %i%%, после чего на %i секунд повышает автоматический ремонт на %i%%.\nПерезарядка составляет %i секунд"
+
+#Гипергенератор====
+
+msgid "Alpha"
+msgstr "Альфа"
+
+msgid "Beta"
+msgstr "Бета"
+
+msgid "Gamma"
+msgstr "Гамма"
+
+msgid "Delta"
+msgstr "Дельта"
+
+msgid "Epsilon"
+msgstr "Эпсилон"
+
+msgid "Zeta"
+msgstr "Дзета"
+
+msgid "Omega"
+msgstr "Омега"
+
+#subsys1 desc
+msgid "%s\nActivation puts the module into standby mode. As soon as the ship's computer starts calculating the jump route, the module turns on and begins to restore %i%% of the shield charge per second, the duration is limited by %i seconds.\nThe rate of fire of the all weapons will be reduced by %i%% before the jump. Adds %i seconds to the JD recharge time after the jump.\nCooldown - %i seconds, while the recharge begins only after the jump"
+msgstr "%s\nАктивация переводит модуль в режим готовности. Как только корабельный компьютер начинает вычислять маршрут прыжка, модуль включается и начинает восстанавливать %i%% заряда щита в секунду, время действия ограничено %i секундами.\nСкорострельность орудий будет снижена на %i%% до выполнения прыжка. Добавляет %i секунд ко времени перезарядки ПД после прыжка.\nПерезарядка системы - %i секунд, при этом перезарядка начинается только после прыжка"
+
+msgid "%s\nActivation begins to accelerate the current hyperdrive recharge by %i%% per second, while destroying %i%% of the hull per second.\nThe destabilizer will run idle if the ship's shield charge exceeds %i%%, or the hull drops below %i%% \nThe module functions for %i seconds.\nCooldown - %i seconds"
+msgstr "%s\nАктивация начинает ускорять текущую перезарядку гипердвигателя на %i%% в секунду, при этом разрушая %i%% корпуса в секунду.\nДестабилизатор будет работать в холостую, если заряд щита корабля превышает %i%%, либо запас прочности корпуса падает ниже %i%%\nМодуль функционирует в течение %i секунд. Перезарядка составляет %i секунд"
+
+msgid "%s\nActivation partially resets the hyperdrive charge and increases the maximum jump range by %i%%.\nHyperdrive recharge after a jump increases by %i seconds for each additional unit of range.\nCooldown - %i seconds and is possible only after making a jump.\nThe module can only be activated when the hyperdrive is fully charged"
+msgstr "%s\nАктивация частично сбрасывает заряд гипердвигателя и повышает максимальную дальность прыжка на %i%%.\nПерезарядка гипердвигателя после прыжка повышается на %i секунд за каждую дополнительную единицу дальности.\nПерезарядка модуля составляет %i секунд и возможна только после совершения прыжка.\nМодуль возможно активировать только тогда, когда гипердвигатель полностью заряжен"
+
+# ============================================= [Общее - инфотабы] ===========================================
+# ============================================================================================================
+# ============================================================================================================
+
+#: tabNames
+msgid "List of changes"
+msgstr "Список изменений"
+
+msgid "List of weapons"
+msgstr "Список вооружения"
+
+msgid "List of systems"
+msgstr "Список систем"
+
+msgid "List of stations"
+msgstr "Список станций"
+
+msgid "Fighters/drones"
+msgstr "Истребители"
+
+msgid "Interfaces"
+msgstr "Интерфейсы"
+
+msgid "Alert system"
+msgstr "Система оповещений"
+
+msgid "Changelog"
+msgstr "Чейнджлог"
+
+# =========================================== [Инфотаб вооружения] ===========================================
+# ============================================================================================================
+# ============================================================================================================
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Starfall - standart weapons"
+msgstr "Starfall - стандартные орудия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Starfall - light weapons"
+msgstr "Starfall - легкие орудия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Starfall - heavy weapons"
+msgstr "Starfall - тяжелые орудия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Starfall - main caliber weapons"
+msgstr "Starfall - орудия главного калибра"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Vanilla - standart"
+msgstr "Ванилла - стандартные"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Vanilla - heavy"
+msgstr "Ванилла - тяжелые"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "small"
+msgstr "малая"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "small to medium"
+msgstr "малая - средняя"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "medium"
+msgstr "средняя"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "medium to high"
+msgstr "средняя - большая"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "high"
+msgstr "большая"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "very high"
+msgstr "очень большая"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "extremely high"
+msgstr "огромная"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "poor"
+msgstr "ниже среднего"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "good"
+msgstr "хорошая"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "homing"
+msgstr "самонаводящееся"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "medium to homing"
+msgstr "средняя - наведение"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "very accurate"
+msgstr "высокоточное"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "ultra low"
+msgstr "очень низкая"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "low"
+msgstr "низкая"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "physical"
+msgstr "физический"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "anti-matter"
+msgstr "антиматерия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "electric"
+msgstr "электро"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "plasma"
+msgstr "плазма"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "energy"
+msgstr "энергия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "particles"
+msgstr "частицы"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "no"
+msgstr "нет"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "standart"
+msgstr "стандартное"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "heavy"
+msgstr "тяжелое"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "main caliber"
+msgstr "главный калибр"
+
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "light"
+msgstr "легкое"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Weapon class"
+msgstr "Класс орудия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Damage type"
+msgstr "Тип урона"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Fire range"
+msgstr "Дистанция стрельбы"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Accuracy"
+msgstr "Точность"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Fire rate"
+msgstr "Скорострельность"
+
+# общее----------------------------------------------------------------------------
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "increased"
+msgstr "увеличен"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "decreased"
+msgstr "снижен"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base damage increased by "
+msgstr "Базовый урон повышен на "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base repair amount increased by "
+msgstr "Базовый ремонт повышен на "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "When assembling, damage bonus from parts "
+msgstr "При производстве: бонус урона от деталей "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "When assembling, rate of fire bonus from parts "
+msgstr "При производстве: бонус скорострельности от деталей "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "When assembling, range bonus from parts "
+msgstr "При производстве: бонус дальности от деталей "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "When assembling, a new part that adds a bonus damage to the hull"
+msgstr "При производстве: новая деталь, добавляющая бонус к урону по корпусу"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "When assembling, a new part that adds a bonus damage to the shields"
+msgstr "При производстве: новая деталь, добавляющая бонус к урону по щитам"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "When assembling, a new part that adds a bonus to battery/overheating"
+msgstr "При производстве: новая деталь, добавляющая бонус к аккумулятору/перегреву"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base projectile speed will increase with the tech level"
+msgstr "Базовая скорость снаряда будет повышаться с техуровнем оружия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base firing range will increase with the tech level"
+msgstr "Базовая дальность стрельбы будет повышаться с техуровнем оружия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base damage will increase with the tech level"
+msgstr "Базовый урон будет повышаться с техуровнем оружия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base repair rate will increase with the tech level"
+msgstr "Базовый ремонт будет повышаться с техуровнем оружия"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base range increased by "
+msgstr "Базовая дальность повышена на "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base range decreased by "
+msgstr "Базовая дальность снижена на "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "More parts to damage bonus"
+msgstr "Можно вложить больше деталей на бонус к урону"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "More parts to range bonus"
+msgstr "Можно вложить больше деталей на бонус к дальности"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "More parts to battery/overheat bonus"
+msgstr "Можно вложить больше деталей на бонус к аккумулятору/перегреву"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Less parts to range bonus"
+msgstr "Можно вложить меньше деталей на бонус к дальности"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Weapon class changed to 'Heavy'"
+msgstr "Класс оружия изменен на 'Тяжелый'"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "When assembling, a new part that adds a bonus speed to the projectile"
+msgstr "При производстве: новая деталь, добавляющая бонус к скорости снаряда"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base damage to hull increased by "
+msgstr "Урон по корпусу повышен на "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Base damage to shields increased by "
+msgstr "Урон по щитам повышен на "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Cannot take the following type of damage: "
+msgstr "Не может получать следующий тип урона: "
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Cost decreased"
+msgstr "Стоимость снижена"
+
+# пулемет--------------------------------------------------------------------------
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "Chaingun"
+msgstr "Пулемет"
+
+#: .data/scripts/player/ui/infoTab/.infoWeapons.lua
+msgid "The simplest low and medium range combat weapon"
+msgstr "Простейшее оружие ближнего/дальнего боя"
+
+# лазер--------------------------------------------------------------------------
+
+#: desc
+msgid "Medium-range weapon. It has high accuracy and a good hit rate, which, coupled with the energy type of damage, allows you to inflict stable damage to the enemy"
+msgstr "Орудие средней дистанции. Обладает высокой точностью и хорошей частотой попаданий, что, вкупе с энергетическим типом урона, позволяет наносить стабильные повреждения противнику"
+
+#: pierce
+msgid "Pierce up to two blocks (railgun mechanics)"
+msgstr "Теперь обладает пробиванием до двух блоков (механика рельсотрона)"
+
+# плазма--------------------------------------------------------------------------
+
+#: desc
+msgid "A powerful and rapid-fire low-range weapon that causes huge damage to enemy shields"
+msgstr "Мощное и скорострельное оружие ближнего боя, наносящее огромный урон щитам противника"
+
+# ракетница--------------------------------------------------------------------------
+
+#: desc
+msgid "A long-range siege weapon. During assembly at the station, the projectiles can be homing"
+msgstr "Дальнобойное осадное орудие. При производстве на станции снаряды могут быть с самонаведением"
+
+#: desc
+msgid "When assembling: Fuel now adds damage, not range"
+msgstr "При производстве: топливо теперь добавляет урон, а не дальность"
+
+# пушка--------------------------------------------------------------------------
+
+#: desc
+msgid "A gun with a huge alpha damage, capable of destroying smaller ships with a couple of volleys, but it overheats very quickly and cools down for a long time"
+msgstr "Орудие с огромным разовым уроном, способным уничтожать меньшие корабли с пары залпов, однако очень быстро перегревается и долго остывает"
+
+# рельсотрон--------------------------------------------------------------------------
+
+#: desc
+msgid "A redesigned version of the railgun. Most of the characteristics have been reduced, but instead the railgun now launches three projectiles at once, allowing you to tear opponents apart in close combat"
+msgstr "Переработанный вариант рельсотрона. Большинство характеристик снижены, но взамен рельсотрон теперь запускает сразу три снаряда, позволяя разрывать противников на части в ближнем бою"
+
+#: stat
+msgid "The minimum penetration is reduced by 1, the maximum by 40%"
+msgstr "Минимальное пробивание снижено на 1, максимальное - на 40%"
+
+#: stat
+msgid "Base damage reduced by 15%"
+msgstr "Наносимый базовый урон снижен на 15%"
+
+#: stat
+msgid "Significantly reduced accuracy"
+msgstr "Значительно снижена точность"
+
+#: stat
+msgid "When assembling, the electromagnet now adds damage to shields, not range"
+msgstr "При производстве: электромагнит теперь добавляет урон по щитам, а не дальность"
+
+#: stat
+msgid "Weapon specializations for range and accuracy are disabled"
+msgstr "Специализации орудия на дальность и точность выключены"
+
+#: stat
+msgid "Now the gun makes three simultaneous shots, thereby increasing the potential damage three times"
+msgstr "Теперь орудие совершает три одновременных выстрела, тем самым увеличивая потенциальный урон в три раза"
+
+# Ремонтная установка--------------------------------------------------------------------------
+
+#: desc
+msgid "Repair emitter designed for installation on ships. Allows you to repair the hull or shields of allies at medium range"
+msgstr "Ремонтный излучатель, предназначенный для установки на корабли. Позволяет чинить корпус, либо щиты союзников на средней дистанции"
+
+#: stat
+msgid "During assembly: you can invest more parts to hull repair value, their effect is enhanced"
+msgstr "При производстве: можно вложить больше деталей на ремонт корпуса, их эффект усилен"
+
+#: stat
+msgid "During assembly: you can invest more parts to shield repair value, their effect is enhanced (higher than for the hull)"
+msgstr "При производстве: можно вложить больше деталей на ремонт щита, их эффект усилен (выше, чем для корпуса)"
+
+# Болтер--------------------------------------------------------------------------
+
+#: desc
+msgid "Low- and medium-range weapon that allow you to quickly destroy the enemy's hull"
+msgstr "Орудие ближнего боя и средней дистанции, позволяющее быстро разрушать корпус противника"
+
+#: stat
+msgid "The threshold of the minimum rate of fire (in case of random assignment) has been increased"
+msgstr "Порог минимальной скорострельности (при случайном назначении) повышен"
+
+# Вольт--------------------------------------------------------------------------
+
+#: desc
+msgid "A long-range weapon capable of effectively destroying enemy shields"
+msgstr "Дальнобойное орудие, разрушающее щиты противника"
+
+#: stat
+msgid "Rate of fire significantly reduced (damage remains the same)"
+msgstr "Скорострельность значительно снижена (урон остается прежним)"
+
+#: stat
+msgid "In production: one of the parts now gives a rate of fire"
+msgstr "При производстве: одна из деталей теперь дает скорострельность"
+
+# Тесла--------------------------------------------------------------------------
+
+#: desc
+msgid "A high-precision low-range weapon that destroys enemy shields and technical blocks"
+msgstr "Высокоточное орудие ближнего боя, уничтожающее щиты и технические блоки противника"
+
+#: stat
+msgid "During production: one of the parts now gives additional damage to shields"
+msgstr "При производстве: одна из деталей теперь дает дополнительный урон по щитам"
+
+# Импульсное орудие--------------------------------------------------------------------------
+
+#: desc
+msgid "A rapid-fire low-range weapon that partially ignores enemy shields"
+msgstr "Скорострельное орудие ближнего боя, частично игнорирующее щиты противника"
+
+#: stat
+msgid "Removed vanilla damage penalty (25%), added 5% damage bonus"
+msgstr "Убран ванильный штраф к урону (25%), добавлен 5% бонус к урону"
+
+# Импульсная пушка--------------------------------------------------------------------------
+
+#: desc
+msgid "A light energy weapon created on the basis of machine-gun samples. It has an increased range, but the rate of fire is lower. Very cheap in production"
+msgstr "Легкое энергетическое орудие, созданное на базе пулеметных образцов. Обладает повышенной дальностью, но скорострельность ниже. Очень дешево в производстве"
+
+#: stat
+msgid "Inherits the mechanics of firing a machine gun, deals a little less damage, but shoots further"
+msgstr "Наследует механику стрельбы пулемета, наносит немного меньше урона, но стреляет дальше"
+
+# Ускоритель частиц--------------------------------------------------------------------------
+
+#: desc
+msgid "A light sniper gun based on a bolter. It allows you to inflict good damage to the enemy's hull at an average distance and shows itself perfectly on automatic batteries of heavy combat vessels"
+msgstr "Легкое снайперское орудие на базе болтера. Позволяет наносить хороший урон корпусу противника на средней дистанции и отлично показывает себя на автоматических батареях тяжелых судов"
+
+#: stat
+msgid "Inherits the mechanics of bolter, shoots much less often and does a little less damage, but the range is higher"
+msgstr "Наследует механику стрельбы болтера, стреляет значительно реже и наносит немного меньше урона, но выше дальность"
+
+# Фотонный бластер--------------------------------------------------------------------------
+
+#: desc
+msgid "A modified version of the pulse gun. Deals more damage at the cost of reducing the range, and also has a basic bonus damage to the shield"
+msgstr "Модифицированная версия импульсной пушки. Наносит больше урона ценой снижения дальности, а также обладает базовым бонусным уроном по щиту"
+
+#: stat
+msgid "Inherits the mechanics of firing a pulse cannon, deals more damage, the type of damage is changed"
+msgstr "Наследует механику стрельбы импульсной пушки, наносит больше урона, тип урона изменен"
+
+#: stat
+msgid "It has a basic additional damage to the shield, this bonus is increased by parts on the assembly"
+msgstr "Обладает базовым дополнительным уроном в щит, этот бонус повышается деталями на производстве"
+
+# Вихревая пушка--------------------------------------------------------------------------
+
+#: name
+
+#: desc
+msgid "A modified version of the plasma cannon. The damage inflicted on the shield and body is balanced, shoots further and deals a little more damage"
+msgstr "Измененный вариант плазменной пушки. Наносимый урон по щиту и корпусу сбалансирован, стреляет дальше и наносит немного больше урона"
+
+#: stat
+msgid "The gun is well suited for installation on automatic batteries of heavy vessels"
+msgstr "Орудие хорошо подходит для установки на автоматические батареи тяжелых судов"
+
+#: stat
+msgid "Basic damage bonuses on the shield and body are increased by parts during assembly"
+msgstr "Базовые бонусы к урону по щиту и корпусу повышаются деталями при произвордстве"
+
+# Импульсный лазер--------------------------------------------------------------------------
+
+#: desc
+msgid "A powerful rapid-fire emitter that does a lot of damage in a short period of time. Designed for installation on fighter jets"
+msgstr "Мощный скорострельный излучатель, наносящий большой урон за короткий промежуток времени. Предназначен для установки на истребители"
+
+#: stat
+msgid "Reduces the fighter's firing radius by 25%"
+msgstr "Снижает радиус стрельбы истребителя на 25%"
+
+#: stat
+msgid "Provides a large bonus to the compactness of the fighter, speed and a small one to maneuverability"
+msgstr "Предоставляет крупный бонус к компактности истребителя, скорости и небольшой - к маневренности"
+
+# Штурмовая пушка--------------------------------------------------------------------------
+
+#: desc
+msgid "A powerful all-purpose gun designed for installation on fighter jets. Very high projectile speed"
+msgstr "Мощное универсальное орудие, предназначенное для установки на истребители. Очень высокая скорость полета снаряда"
+
+#: stat
+msgid "Increases the fighter's firing radius by 25%"
+msgstr "Повышает радиус стрельбы истребителя на 25%"
+
+#: stat
+msgid "Provides a major bonus to the compactness of the fighter and maneuverability, as well as a small one to its strength"
+msgstr "Предоставляет крупный бонус к компактности истребителя и маневренности, а также небольшой - к его прочности"
+
+# Магнитный миномет--------------------------------------------------------------------------
+
+#: desc
+msgid "An artillery weapon for fighters. Deals good alpha damage, but the projectiles are quite slow. Has basic damage bonuses against shield and hull"
+msgstr "Артиллерийское орудие для истребителей. Наносит хороший разовый урон, но снаряды довольно медленные. Обладает базовыми бонусами к урону против щита и корпуса"
+
+#: stat
+msgid "Increases the fighter's firing radius by 175%"
+msgstr "Повышает радиус стрельбы истребителя на 175%"
+
+#: stat
+msgid "Provides an average bonus to the maneuverability and speed of the fighter"
+msgstr "Предоставляет средний бонус к маневренности и скорости истребителя"
+
+# Заряжающий луч--------------------------------------------------------------------------
+
+#: desc
+msgid "Shield-restoring emitter designed for installation on fighter jets"
+msgstr "Восстанавливающий щиты излучатель, предназначенный для установки на истребители"
+
+#: stat
+msgid "Repairs shields only"
+msgstr "Ремонтирует только щиты"
+
+#: stat
+msgid "Increases the fighter's firing radius by 15%"
+msgstr "Повышает радиус стрельбы истребителя на 15%"
+
+#: stat
+msgid "Provides a large bonus to the compactness of the fighter, and a small one to the speed"
+msgstr "Предоставляет крупный бонус к компактности истребителя, и небольшой - к скорости"
+
+# Наноремонтная установка--------------------------------------------------------------------------
+
+#: desc
+msgid "Repair gun designed for installation on fighter jets. Repairs hull only"
+msgstr "Ремонтная установка, предназначенная для установки на истребители. Ремонтирует только корпус"
+
+#: stat
+msgid "Available from the very beginning of the game"
+msgstr "Доступна с самого начала игры"
+
+# Богомол--------------------------------------------------------------------------
+
+#: desc
+msgid "Created on the basis of a rocket launcher, this gun launches four high-speed homing projectiles at the target, capable of quickly covering a long distance. Despite the fact that the Mantis loses to most weapons systems in terms of damage per second, it is excellent for eliminating small and medium-sized remote targets"
+msgstr "Созданная на базе ракетной установки, эта пушка запускает в цель четыре скоростных самонаводящихся снаряда, способных быстро преодолеть большое расстояние. Несмотря на то, что по урону в секунду 'Богомол' проигрывает большинству систем вооружения, он отлично подходит для ликвидации малых и средних удаленных целей"
+
+#: stat
+msgid "The gun has a large alpha damage, but its rate of fire is significantly reduced"
+msgstr "Орудие обладает крупным разовым уроном, но его скорострельность значительно снижена"
+
+#: stat
+msgid "Projectiles always homing"
+msgstr "Снаряды всегда имеют опцию самонаведения"
+
+# Фотонка--------------------------------------------------------------------------
+
+#: desc
+msgid "Powerful armament for the main batteries of heavy and artillery vessels. Shoots large slow projectiles that cause a lot of damage. The energy type of damage makes the weapon universal against any resists"
+msgstr "Мощное вооружение для главных батарей тяжелых и артиллерийских судов. Стреляет крупными медленными снарядами, наносящими большой урон. Энергетический тип урона делает орудие универсальным против любых резистов"
+
+#: stat
+msgid "Created on the basis of a cannon. Damage, explosion and firing radius are lower, projectile velocity and rate of fire are higher"
+msgstr "Создано на базе пушки. Урон, радиус взрыва и стрельбы ниже, скорость снаряда и скорострельность выше"
+
+#: stat
+msgid "Receives significant bonuses when assembling at the station"
+msgstr "Получает весомые бонусы при производстве на станции"
+
+# Ионка--------------------------------------------------------------------------
+
+#: desc
+msgid "A modified version of a photon cannon designed to destroy enemy shields. The electric type of damage allows you to inflict decent damage even to the hull when hitting tech blocks"
+msgstr "Модифицированный вариант фотонной пушки, предназначенный для разрушения щитов противника. Электрический тип урона позволяет наносить приличный урон даже корпусу при попадании в технические блоки"
+
+#: stat
+msgid "Created on the basis of a photon cannon. The damage inflicted is significantly reduced, the projectile flies slower and the radius is smaller"
+msgstr "Создано на базе фотонной пушки. Наносимый урон значительно снижен, снаряд летит медленней и меньше радиус"
+
+#: stat
+msgid "It has a large base bonus damage to shields, during production this bonus increases noticeably"
+msgstr "Обладает крупным базовым бонусным уроном в щиты, при производстве этот бонус заметно повышается"
+
+# Плазмонитиевый дезинтегратор--------------------------------------------------------------------------
+
+#: desc
+msgid "Rail-type weapon. Average firing radius, plasma damage, inaccurate. It is capable of piercing up to two blocks, thus causing good damage to both shields and hull of targets without armor. Great for using on automatic batteries of heavy vessels"
+msgstr "Оружие рельсового типа. Средний радиус стрельбы, плазменный урон, неточное. Способен пробивать до двух блоков, таким образом наносит хороший урон и по щитам, и по корпусу целей без брони. Отлично подходит для установки на автоматические батареи тяжелых судов"
+
+#: stat
+msgid "It has a basic bonus to shield damage, inheriting the features of the plasma damage type"
+msgstr "Обладает базовым бонусом к урону по щитам, наследуя особенности плазменного типа урона"
+
+# Зенитный плазмомет--------------------------------------------------------------------------
+
+#: desc
+msgid "Anti-fighter plasma weapon. Shoots two projectiles at once with a reduced explosion radius and range compared to a vanilla anti-aircraft gun"
+msgstr "Заградительное плазменное оружие. Стреляет сразу по два снаряда со сниженным радиусом взрыва и дальностью по сравнению с ванильным зенитным орудием"
+
+#: stat
+msgid "High rate of fire and firing two projectiles allow you to create an effective barrage"
+msgstr "Высокая скорострельность и стрельба по два снаряда позволяют создавать эффективный заградительный огонь"
+
+#: stat
+msgid "Unlike other anti-aircraft guns, it has a battery and consumes it when firing"
+msgstr "В отличие от остальных зенитных орудий имеет аккумулятор и расходует его при стрельбе"
+
+# Гиперкинет--------------------------------------------------------------------------
+
+#: desc
+msgid "Heavy sniper weapon. Deals huge damage to targets without shields and armor blocks, allowing you to destroy enemy ships in one shot. Extremely low rate of fire"
+msgstr "Тяжелое снайперское оружие. Наносит огромный урон по целям без щитов и блоков брони, позволяя одним залпом уничтожать суда противников. Крайне низкая скорострельность"
+
+#: stat
+msgid "It has very low damage to shields and to targets with armor"
+msgstr "Обладает очень низким уроном по щитам и по целям с броней"
+
+#: stat
+msgid "Weapon reveals the maximum potential during assembly at the station"
+msgstr "Орудие раскрывает максимальный потенциал при производстве на станции"
+
+#: stat
+msgid "Weapons of the 'main caliber' class impose a permanent penalty to the rate of fire if more than two units are installed"
+msgstr "Орудия класса 'главный калибр' накладывают постоянный штраф к скорострельности, если установлено более двух единиц"
+
+# Лавина--------------------------------------------------------------------------
+
+#: desc
+msgid "Heavy bomber gun. Shoots at a short distance in volleys of two slow projectiles. Deals crushing damage to the target if it hits"
+msgstr "Тяжелое бомбардировочное орудие. Стреляет на небольшую дистанцию залпами по два медленных снаряда. Наносит сокрушительный урон цели, если попадает"
+
+#: stat
+msgid "Very bad versus mobile targets"
+msgstr "Очень плохо справляется с подвижными целями"
+
+#: stat
+msgid "Does massive damage"
+msgstr "Наносит колоссальный урон"
+
+#: stat
+msgid "No overheat"
+msgstr "Орудие не перегревается"
+
+# Циклон--------------------------------------------------------------------------
+
+#: desc
+msgid "Enhanced version of the 'Mantis'. Launches a swarm of missiles in several volleys before overheating. The missiles fly fast, far away and are aimed at the target. It cools down for a very long time (40 seconds) after firing"
+msgstr "Усиленный вариант 'Богомола'. Запускает рой ракет несколькими залпами до перегрева. Ракеты летят быстро, далеко и наводятся на цель. Очень долго (40 секунд) остывает после стрельбы"
+
+#: stat
+msgid "An excellent weapon for the targeted destruction of important targets"
+msgstr "Отличное оружие для точечного уничтожения важных целей"
+
+#: stat
+msgid "Does a lot of damage, but cools down for a very long time"
+msgstr "Наносит большой урон, но очень долго остывает"
+
+# Трансфазный--------------------------------------------------------------------------
+
+#: desc
+msgid "Heavy version of the laser gun. It pierces up to two blocks and has a basic bonus damage on shields. It has an increased range and discharges its battery more slowly"
+msgstr "Тяжелый вариант лазерной пушки. Пробивает два блока и обладает базовым бонусом к урону по щитам. Обладает увеличенной дальностью и медленее разряжает свой аккумулятор"
+
+#: stat
+msgid "A universal tool in its class"
+msgstr "Универсальное орудие в своем классе"
+
+# ============================================ [Инфотаб алертов] =============================================
+# ============================================================================================================
+# ============================================================================================================
+
+#: locNames
+msgid "Combat group alerts"
+msgstr "Оповещения боевой группы"
+
+#: locNames
+msgid "Weapon alerts"
+msgstr "Оповещение вооружения"
+
+#: invite
+msgid "Group invite"
+msgstr "Приглашение в группу"
+
+#: invitedesc
+msgid "Interactive - an invitation to the group from another player. Clicking on the confirmation button allows you to accept the invitation"
+msgstr "Интерактивное - приглашение в группу от другого игрока. Нажатие на кнопку подтверждения позволяет принять приглашение"
+
+#: kick
+msgid "Kick from group"
+msgstr "Кик из группы"
+
+#: kickdesc
+msgid "Non-interactive - triggered when you are kicked out of the group through the corresponding button"
+msgstr "Не интерактивное - срабатывает, когда вас кикают из группы через соответствующую кнопку"
+
+#: turretdead
+msgid "The turret is destroyed"
+msgstr "Турель уничтожена"
+
+#: turretdeaddesc
+msgid "Non-interactive - triggered when the enemy destroys one of your turrets"
+msgstr "Не интерактивное - срабатывает, когда противник уничтожает одну из Ваших турелей"
+
+# ============================================= [Инфотаб общее] ==============================================
+# ============================================================================================================
+# ============================================================================================================
+
+#: locNames --------------------
+msgid "Weapons - new"
+msgstr "Вооружение - нововведения"
+
+msgid "Weapons - vannila changes"
+msgstr "Вооружение - изменения ваниллы"
+
+msgid "Systems - new"
+msgstr "Системы - нововведения"
+
+msgid "Stations - new"
+msgstr "Станции - нововведения"
+
+msgid "Interface - new"
+msgstr "Интерфейс - нововведения"
+
+#: wpnclasses --------------------
+msgid "Weapon class "
+msgstr "Классы оружия"
+
+#: wpnclassesdesc
+msgid "A new characteristic of weapon: 'class' determines the behavior of various types of weapons in some situations. You can see the class of the gun in the information panel of the turret, the corresponding line will be located at the very top"
+msgstr "Новая характеристика вооружения: 'класс орудия' определяет поведение различных видов вооружения в некоторых ситуациях. Класс орудия Вы можете увидеть в информационной панели турели, соответствующая строка будет находится на самом верху"
+
+#: wpnclasses main caliber
+msgid "Weapon class - Main caliber"
+msgstr "Класс оружия - главный калибр"
+
+#: wpnclasses main caliber desc
+msgid "Extremely powerful weapons, which have a huge fire power after assebmbly at the stations, surpassing any other types of weapons. Each ship can use a maximum of two 'main caliber' class weapons without consequences, otherwise the ship receives a serious penalty to the rate of fire. These weapons cannot be used in the production of fighters"
+msgstr "Чрезвычайно мощное вооружение, обладающее при производстве на станциях огромной убойной мощью, превосходящей любые другие образцы оружия. Каждый корабль может без последствий использовать максимум две единицы орудий класса 'главный калибр', в противном случае корабль получает серьезный штраф к скорострельности. Эти орудия нельзя использовать в производстве истребителей"
+
+#: wpnclasses light
+msgid "Weapon class - light"
+msgstr "Класс оружия - легкое"
+
+#: wpnclasses light desc
+msgid "Usually, light-class weapons have modest characteristics, inferior to other weapons systems in almost all parameters, however, this situation changes during the production of fighters.\nEach gun has its own unique bonus to fighter basic characteristics, depending on the technical level of the turret, a bonus (or penalty) to the firing range, and also, most importantly, when producing a fighter, a different damage coefficient is applied to the turrets from the standard:\nCombat turrets - 105% instead of 40%\nRepair and other turrets - 80% instead of 40%"
+msgstr "Обычно, орудия легкого класса обладают скромными характеристиками, уступая другим системам вооружения почти по всем параметрам, однако, эта ситуация меняется при производстве истребителей.\nКаждое орудие имеет свой уникальный бонус к их базовым характеристикам, скалирующийся от технического уровня турели, бонус (или штраф) к дальности стрельбы, а также, что самое важное, при производстве истребителя к турелям применяется отличный от стандартного коэффициент урона:\nБоевые турели - 105% вместо 40%\nРемонтные и прочие турели - 80% вместо 40%"
+
+#: wpnclasses heavy
+msgid "Weapon class - heavy"
+msgstr "Класс оружия - тяжелое"
+
+#: wpnclasses heavy desc
+msgid "Weapons of this class cannot be used in the production of fighters"
+msgstr "Орудия этого класса нельзя использовать при производстве истребителей"
+
+#: wpnclasses standart
+msgid "Weapon class - standart"
+msgstr "Класс оружия - стандартное"
+
+#: wpnclasses heavy desc
+msgid "Conventional weapons using standard Avorion rules"
+msgstr "Обычное вооружение, использующее стандартные правила Авориона"
+
+#: wpnnew --------------------
+msgid "New weapons"
+msgstr "Новые образцы оружия"
+
+#: wpnnewdesc
+msgid "17 new weapons have been added to the game. You can find out more about each one in the tab 'Weapons'"
+msgstr "В игру добавлено 17 единиц оружия. Подробнее про каждое Вы можете узнать во вкладке 'Вооружение'"
+
+#: wpnnewpulsegundesc
+msgid "Class: Standard. Rapid-fire low- and medium range weapon. does not overheat"
+msgstr "Класс: стандартное. Скорострельное орудие ближнего и дайнего боя. не перегревается"
+
+#: wpnnew particleaccelerator desc
+msgid "Class: Standard. Light accurate medium-range weapon"
+msgstr "Класс: стандартное. Легкое точное оружие средней дистанции"
+
+#: wpnnew photonblaster desc
+msgid "Class: Standard. Medium-range rapid-fire weapon that deals increased damage to shields"
+msgstr "Класс: стандартное. Скорострельное оружие средней дистанции, наносящее увеличенный урон щитам"
+
+#: wpnnew photonblaster desc
+msgid "Class: Standard. Universal medium-range plasma cannon"
+msgstr "Класс: стандартное. Универсальное плазменное орудие средней дистанции"
+
+#: wpnnew mantis desc
+msgid "Class: Standard. Long-range homing weapon designed to deal against mobile targets"
+msgstr "Класс: стандартное. Дальнобойное самонаводящееся орудие против подвижных целей"
+
+#: wpnnew prd desc
+msgid "Class: Standard. Powerful, but not very accurate rail-type plasma weapon"
+msgstr "Класс: стандартное. Мощное, но не очень точное плазменное вооружение рельсового типа"
+
+#: wpnnew plasmaflak desc
+msgid "Class: Defensive. Rapid-fire weapon against fighters"
+msgstr "Класс: оборонительное. Скорострельное зенитное орудие против истребителей"
+
+#: wpnnew pulselaser desc
+msgid "Class: light. A rapid-firing light low-range weapon designed for fighters"
+msgstr "Класс: легкое. Скорострельное легкое орудие ближнего боя, предназначенное для истребителей"
+
+#: wpnnew assaultcannon desc
+msgid "Class: light. A versatile powerful, but not very accurate medium-range weapon designed for fighters"
+msgstr "Класс: легкое. Универсальное мощное, но не очень точное орудие средней дистанции, предназначенное для истребителей"
+
+#: wpnnew magneticmortar desc
+msgid "Class: light. A long-range siege weapon designed for fighters"
+msgstr "Класс: легкое. Осадное орудие дальнего боя, предназначенное для истребителей"
+
+#: wpnnew nanorepair desc
+msgid "Class: light. Beam weapon for hull repair, designed for fighters"
+msgstr "Класс: легкое. Лучевое орудие для ремонта корпуса, предназначенное для истребителей"
+
+#: wpnnew chargingbeam desc
+msgid "Class: light. A beam gun for repairing shields, designed for fighters"
+msgstr "Класс: легкое. Лучевое орудие для ремонта щитов, предназначенное для истребителей"
+
+#: wpnnew photoncannon desc
+msgid "Class: heavy. A powerful siege weapon designed for heavy ships"
+msgstr "Класс: тяжелое. Мощное осадное оружие, предназначенное для тяжелых кораблей"
+
+#: wpnnew ionemitter desc
+msgid "Class: heavy. A powerful siege weapon designed for heavy ships. Deals serious damage to enemy shields"
+msgstr "Класс: тяжелое. Мощное осадное оружие, предназначенное для тяжелых кораблей. Наносит серьезный урон щитам противника"
+
+#: wpnnew hyperkinetic desc
+msgid "Class: Main caliber. High-powered sniper weapon capable of destroying vulnerable targets with a single shot"
+msgstr "Класс: главный калибр. Высокомощное снайперское вооружение, способное уничтожать незащищенные цели с одного залпа"
+
+#: wpnnew avalanche desc
+msgid "Class: Main caliber. A siege weapon capable of inflicting massive damage to slow and stationary targets"
+msgstr "Класс: главный калибр. Осадное орудие, способное наносить чудовищный урон медленным и неподвижным целям"
+
+#: wpnnew cyclone desc
+msgid "Class: Main caliber. A weapon capable of inflicting great damage to any targets at a long distance, but in need of a long recharge"
+msgstr "Класс: главный калибр. Орудие, способное наносить большой урон любым целям на большой дистанции, но нуждающееся в долгой перезарядке"
+
+#: wpnnew transphasic desc
+msgid "Class: Main caliber. A universal laser heavy weapon that deals good damage at medium range"
+msgstr "Класс: главный калибр. Универсальное лазерное тяжелое орудие, наносящее стабильный урон на средней дистанции"
+
+#: wpnvanillachanges --------------------
+msgid "Vanilla weapons changes"
+msgstr "Ребаланс ванильных орудий"
+
+#: wpnvanillachanges desc
+msgid "Almost all vanilla weapons have changes that somehow increase their combat potential. This also affects opponents, making them more dangerous. The full list of changes is available in the 'Weapons' tab"
+msgstr "Почти все ванильные орудия подверглись изменениям, так или иначе повышающим их боевой потенциал. Это также влияет и на противников, делая их опаснее. Полный список изменений доступен во вкладке 'Вооружение'"
+
+#: wpnvanillachanges Chaingun desc
+msgid "Class: Standard. Base damage increased. The damage, range and speed of the projectile will increase further with the technical level"
+msgstr "Класс: стандартное. Базовый урон повышен. Урон, дальность и скорость снаряда будут дополнительно возрастать с техуровнем"
+
+#: wpnvanillachanges Laser desc
+msgid "Class: Standard. The base damage is increased and range is slightly reduced. Now it pierces up to two blocks. During assembly, it receives bonus damage on shields"
+msgstr "Класс: стандартное. Базовый урон повышен, а дальность стрельба немного снижена. Теперь пробивает до двух блоков. При производстве получает бонусный урон по щитам"
+
+#: wpnvanillachanges PlasmaGun desc
+msgid "Class: Standard. The base damage is increased and additionally increases with the tech level. The base range also increases slightly with the tech level. Bonus damage to shields increases during assembly"
+msgstr "Класс: стандартное. Базовый урон повышен и дополнительно возрастает с повышением техуровня. Базовая дальность также слегка повышается с техуровнем. Бонусный урон по щитам возрастает при производстве"
+
+#: wpnvanillachanges RocketLauncher desc
+msgid "Class: heavy. The class has been changed, the damage has been increased, the assembly bonuses have been redesigned. During production, it is possible to increase the flight speed of missiles, but the range has become lower"
+msgstr "Класс: тяжелое. Класс изменен, урон повышен, переработаны бонусы при производстве. При производстве можно повысить скорость полета ракет, но дальность стала ниже"
+
+#: wpnvanillachanges Cannon desc
+msgid "Class: heavy. The class has been changed. The base damage has been increased, and the weapon now receives a base bonus to damage on shields and hull. Can no longer receive the Antimatter damage type. Gets big bonuses during assembly"
+msgstr "Класс: тяжелое. Класс изменен. Повышен базовый урон, а также орудие теперь получает базовый бонус к урону по щитам и корпусу. Больше не может получать тип урона 'Антиматерия'. Получает большие бонусы при производстве"
+
+#: wpnvanillachanges Railgun desc
+msgid "Class: heavy. The class has been changed. The logic of use has been redesigned - now it is a low- and medium-range weapon operating like a slug gun"
+msgstr "Класс: тяжелое. Класс изменен. Переработана логика использования - теперь это оружие малой и средней дистанции, работающей по принципу дробовика"
+
+#: wpnvanillachanges RepairLaser name
+msgid "Repair Laser"
+msgstr "Ремонтный лазер"
+
+#: wpnvanillachanges RepairLaser desc
+msgid "Class: Standard. The basic repair has been greatly increased and will be further increased with tech level. During assembly, the range is greatly increased"
+msgstr "Класс: стандартное. Базовый ремонт сильно повышен и будет дополнительно повышаться с техуровнем. При производстве сильно увеличивается дальность"
+
+#: wpnvanillachanges Bolter desc
+msgid "Class: Standard. The base damage is increased, the threshold of the minimum rate of fire is increased, and the base speed of the projectile will increase with the tech level. Gets more bonuses during assembly"
+msgstr "Класс: стандартное. Базовый урон повышен, повышен порог минимальной скорострельности, а также базовая скорость снаряда будет повышаться с техуровнем. Получает больше бонусов при производстве"
+
+#: wpnvanillachanges LightningGun desc
+msgid "Class: heavy. The class has been changed. The base damage is increased, the rate of fire is significantly reduced (does not affect damage). Receives strong bonuses during assembly"
+msgstr "Класс: тяжелое. Класс изменен. Базовый урон повышен, скорострельность значительно снижена (на урон не влияет). Получает сильные бонусы при производстве"
+
+#: wpnvanillachanges TeslaGun desc
+msgid "Class: Standard. Shield damage increased. Can no longer receive the type of damage 'plasma', however, during assembly, the damage to shields increases significantly, as well as normal damage"
+msgstr "Класс: стандартное. Урон по щитам повышен. Больше не может получать тип урона 'плазма', однако, при производстве урон по щитам существенно возрастает, как и обычный урон"
+
+#: wpnvanillachanges PulseCannon desc
+msgid "Class: Standard. Base damage is noticeably increased. The range of fire and the speed of the projectile will increase with tech level. Assembly bonuses are increased"
+msgstr "Класс: стандартное. Базовый урон заметно увеличен. Дальность стрельбы и скорость снаряда будут повышаться с техуровнем. Бонусы при производстве повышены"
+
+#: systemsnew --------------------
+msgid "New systems"
+msgstr "Новые системы"
+
+#: systemsnewdesc
+msgid "The mod contains new ship systems that allow you to more accurately specialize vessels for various tasks. Some of them are active - in addition to providing passive bonuses, they supplement their effect with interactive abilities.\n Learn more in the 'systems' tab"
+msgstr "Мод содержит новые корабельные системы, позволяющие более точно специализировать корабль для различных задач. Некоторые из них являются активными - кроме предоставления пассивных бонусов, они дополняют свой эффект активируемыми способностями.\nПодробнее во вкладке 'системы'"
+
+# active -----
+
+#: systemsnew bastionsystem desc
+msgid "Designed to improve the survival ability of hull-based ships.\nIncreases  durability, applies additional passive repair in case of serious damage. Active abilities are aimed at repairing hull"
+msgstr "Предназначена для улучшения выживаемости кораблей, танкующих корпусом.\nУсиливает корпус корабля, ускоряет пассивный ремонт при серьезных повреждениях. Активные способности направлены на ремонт корпуса"
+
+#: systemsnew xperimentalhypergenerator desc
+msgid "A system for heavy carrier ships and scouts. Increases the chances of leaving the sector after an unlucky warp into an enemy fleet.\nImproves the jump range and cooldown, but increases the energy consumption of the jump.\nActive abilities affect jump range, charging speed, and survival before jumping"
+msgstr "Система для тяжелых кораблей-носителей и разведчиков. Повышает шансы уйти из сектора при неудачном варпе в толпу противников.\nУлучшает прыжковый двигатель, но увеличивает энергопотребление прыжка.\nАктивные способности влияют на дальность прыжка, скорость зарядки и выживаемость перед прыжком"
+
+#: systemsnew bastionsystem desc
+msgid "Designed for heavy shield-based ships.\nReduces the volume of the shield, but increases its regeneration and reduces the time before charging.\nActive abilities allow you to strengthen the shield, restore it, make it impenetrable and completely protect yourself from any torpedoes for a while"
+msgstr "Предназначена для кораблей, танкующих щитом.\nСнижает объем щита, но повышает его регенерацию и снижает время перед началом зарядки.\nАктивные способности позволяют упрочнять щит, восстанавливать его, делать непроницаемым и на время полностью защищаться от любых торпед"
+
+#: systemsnew macrofieldprojector desc
+msgid "Designed to specialize ship into repair class. Uses the ship's battery to generate repair beams or a powerful repair field"
+msgstr "Предназначен для специализации в корабль-ремонтник. Использует аккумулятор корабля для генерации ремонтных лучейи мощного ремонтного поля"
+
+#: systemsnew pulsetractorbeamgenerator desc
+msgid "Allows you to temporarily accelerate the radius of the tractor beam to large values"
+msgstr "Позволяет на время разгонять радиус притягивающего луча до больших значений"
+
+# passive -----
+
+#: systemsnew subspacecargo desc
+msgid "Improves the cargo bay, but reduces energy production and slightly reduces the shields. Always a percentage bonus"
+msgstr "Улучшает грузовой отсек, но снижает выработку энергии и немного ухудшает щит. Всегда процентный бонус"
+
+#: stationsnew --------------------
+msgid "New stations"
+msgstr "Новые станции"
+
+#: stationsnew desc
+msgid "New stations added by modification. For more information, see the 'stations' tab"
+msgstr "Новые станции, добавляемые модификацией. Подробнее во вкладке 'станции'"
+
+#: stationsnew megacomplex desc
+msgid "Megacomplex is a station that allows you to set up automatic and fast logistics of resources between all docked stations"
+msgstr "Мегакомплекс - станция, позволяющая наладить автоматическую и быструю логистику ресурсов между всеми пристыкованными станциями"
+
+#: alertsystem --------------------
+msgid "Alert system"
+msgstr "Система оповещений"
+
+#: alertsystem desc
+msgid "A system of visual and audio alerts. The graphical part in the form of an icon appears on the right side of the screen and unfolds when the cursor is hovered over. The current working types of alerts are indicated in the corresponding tab"
+msgstr "Система визуальных и звуковых оповещений. Графическая часть в виде иконки появляется в правой части экрана и разворачивается при наведении курсора. Текущие рабочие типы оповещений указаны в соответствующей вкладке"
+
+#: combatgroup --------------------
+msgid "Combat group"
+msgstr "Боевая группа"
+
+#: combatgroup desc
+msgid "Graphical interface for working with a group of players. Allows you to search, invite to a group, kick players and transfer leadership without the need to use chat commands. For more information, see the 'interfaces' tab"
+msgstr "Графический интерфейс для работы с группой игроков. Позволяет искать, приглашать в группу, кикать игроков и передавать лидерство без необходимости использования команд в чате. Подробнее во вкладке 'интерфейсы'"
+
+#: auracore --------------------
+msgid "An interface that displays active effects from the Starfall mod affecting the ship"
+msgstr "Интерфейс, отображающий действующие на корабль активные эффекты из мода Starfall"
+
+# ============================================= [Инфотаб систем] =============================================
+# ============================================================================================================
+# ============================================================================================================
+
+#: locnames --------------------
+msgid "Starfall - interactive"
+msgstr "Starfall - интерактивные"
+
+msgid "Starfall - passive"
+msgstr "Starfall - пассивные"
+
+#: bastion desc --------------------
+msgid "A unique system designed to be installed on ships based on a shield. Modifies the ship's shields, reducing their volume, but in return increases their charging speed and reduces the time before it starts.\nActive Bastion systems allow you to reduce damage to the shield at the cost of reducing weapons fire rate (while repairing the hull), accumulate a charge from the damage received to replenish the shield, make it temporarily impenetrable, and also instantly destroy hostile torpedoes for a short time"
+msgstr "Уникальная система, предназначенная для установки на корабли, опирающиеся на щит. Модифицирует щиты корабля, снижая их объем, но взамен повышает скорость их зарядки и снижает время перед ее началом.\nАктивные системы 'Бастиона' позволяют снижать урон по щиту ценой снижения скорострельности боевых установок (при этом ремонтируется корпус), накапливать из получаемого урона заряд для восполнения щита, делать его временно непробиваемым, а также на короткое время моментально уничтожать враждебные торпеды"
+
+msgid "Activating the module increases the shield's resistance to all damage, and also slowly restores the ship's hull. During the operation of the module, the rate of fire of all weapons drops"
+msgstr "Активация модуля повышает сопротивление щита всему урону, а также медленно восстанавливает корпус корабля. Во время работы модуля скорострельность всех орудий падает"
+
+msgid "Plasma, energy and electrical damage received by the shield accumulates a charge that can be used to restore shields"
+msgstr "Получаемый щитом урон плазменного, энергетического и электрического типа накаплиает заряд, который можно использовать для восстановления части объема щитов"
+
+msgid "Activation makes the shields impenetrable for the duration of the module. Also, for a short time after activation, the delay before regeneration after receiving damage is significantly reduced"
+msgstr "Активация делает щиты непроницаемыми на время действия модуля. Также, в течение небольшого времени после активации задержка перед регенерацией после получения урона значительно снижается"
+
+msgid "During operation, your ship will automatically and instantly shoot down all torpedoes that are aimed at it, as well as all hostile torpedoes within the range of the module. Anti-aircraft weapons are not required for operation"
+msgstr "На время работы ваш корабль будет автоматически и моментально сбивать все торпеды, которые нацелены на него, а также все враждебные торпеды в радиусе действия модуля. Зенитные установки не требуются для работы"
+
+#: macrofieldprojector desc --------------------
+msgid "A special system designed to fully specialize ship to repair-class at the cost of a significant reduction in defensive and offensive capabilities. To achieve an acceptable amount of repairs per second, it is necessary to turn the ship into a flying battery, since three of the four active systems directly depend on its volume (and on the rate of energy replenishment).\nActive systems allow you to send a beam to an ally restoring the hull or shield, absorbing battery energy for operation, or, in critical situations, at the cost of huge energy costs, activate mass repairs of the hull in a large radius.\nIn addition, it allows you to link the shields of your and any other player's ship, gradually equalizing their percentage of volume"
+msgstr "Особенная система, предназначенная для полной специализации корабля в ремонтный ценой существенного снижения оборонительной и наступательной способностей. Для достижения приемлемого объема ремонта в секунду необходимо превратить корабль в летающий аккумулятор, поскольку три из четырех активных систем напрямую зависят от его объема (и от скорости восполнения энергии).\nАктивные системы позволяют направлять в союзника восстанавливающий корпус или щит луч, поглощающий энергию аккумулятора для работы, либо, в критических ситуациях, ценой огромных затрат энергии активировать массовый ремонт корпуса в большом радиусе.\nПомимо этого позволяет связать щиты вашего и любого другого корабля игрока, постепенно уравнивая их процент объема"
+
+msgid "Activating the module burns the ship's energy very quickly, restoring the hull to all allied ships of the players. This effect also works on the ship itself, restoring the increased volume of the hull to it. Wave activation disables %s and %s"
+msgstr "Активация модуля очень быстро сжигает энергию корабля, восстанавливая корпус всем союзным судам игроков. Этот эффект работает и на сам корабль, восстанавливая ему увеличенный объем корпуса. Активация волны отключает %s и %s"
+
+msgid "Gradually burns the battery's energy reserve, repairing the hull of the selected allied ship. The amount of repair directly depends on the amount of energy burned. The beam does not work if the target has flown out of range or if its hull is 100%. Activation turns off the operation of the 'Shield Amplifier'.\nWorks only on ships owned by players!"
+msgstr "Постепенно сжигает запас энергии аккумулятора, ремонтируя выбранному союзному кораблю корпус. Объем ремонта напрямую зависит от количества сжигаемой энергии. Луч не работает, если цель улетела за радиус действия или если ее корпус составляет 100%. Активация выключает работу 'Усилителя щита'.\n Работает только на корабли, принадлежащие игрокам!"
+
+msgid "Works as a 'Renovation ray', but restores the shields of an allied target. The amount of repair directly depends on the amount of energy burned. The booster does not work if the target has flown out of range, if its shields have dropped below the minimum threshold, or if they have reached 100%. Activation disables the operation of the 'Renovation ray'.\nWorks only on ships owned by players!"
+msgstr "Работает как 'обновляющий луч', но восстанавливает щиты союзной цели. Объем ремонта напрямую зависит от количества сжигаемой энергии. Усилитель не работает, если цель улетела за радиус действия, если ее щиты опустились ниже минимального порога или если достигли 100%. Активация выключает работу 'Обновляющего луча'.\n Работает только на корабли, принадлежащие игрокам!"
+
+msgid "Forms a link between your ship and the target. The module will gradually syphon the shields in both directions, trying to equalize their percentage. It does not consume energy and can work independently of the other three modules./nWorks only on ships owned by players!"
+msgstr "Формирует связь между вашим кораблем и целью. Модуль будет постепенно перекачивать щиты в обе стороны, стараясь уравнять их процент. Не расходует энергию и может работать независимо от других трех модулей.\n Работает только на корабли, принадлежащие игрокам!"
+
+#: repairdrones desc --------------------
+msgid "Designed for combat vessels based on the hull. When installed, it slightly increases its volume and provides a unique bonus in the form of accelerated repairs when the hull is at a critical level. Active systems allow you to accelerate repairs in combat, increase the chances of surviving in a dangerous situation and restore hull faster out of combat"
+msgstr "Предназначена для боевых кораблей, опирающихся на корпус. При установке немного повышает его объем и обеспечивает уникальный бонус в виде ускоренного ремонта, когда запас прочности на критическом уровне. Активные системы позволяют ускорить ремонт в бою, повысить шансы выжить в опасной ситуации и быстрее восстанавливать корабль вне боя"
+
+msgid "Activation of this system restores hull for a limited time. However, this system will not restore hull if its volume exceeds 50%"
+msgstr "Активация этой системы восстанавливает часть запаса прочности (в процентах) в течение времени действия. Однако, эта система не будет восстанавливать корпус, если его объем превышает 50%"
+
+msgid "Gradually restores the hull for a long time, works even in the negative environment of rifts. Receiving any damage or repairs with the help of repair lasers interrupts the operation of the module and reduces the remaining recharge time by 60%"
+msgstr "Постепенно восстанавливает корпус в течение длительного времени, работает даже в негативной среде разломов. Получение любого урона, либо ремонта с помощью ремонтных лазеров прерывает работу модуля и сокращает оставшееся время перезарядки на 60%"
+
+msgid "Activation puts the module in standby mode for 20 seconds. If during this time hull durability falls below a certain value, the module turns on, simultaneously restoring a certain percentage of hull and accelerates passive repair three times"
+msgstr "Активация переводит модуль в режим готовности на 20 секунд. Если за это время запас прочности корпуса падает ниже определенного значения, модуль включается, единовременно восстанавливая определенный процент прочности и ускоряет пассивный ремонт в три раза на некоторое время"
+
+#: XperimentalHypergenerator desc --------------------
+msgid "An excellent module for risky travel and exploration. Slightly increases the jump range and reduces its cooldown at the cost of a decent increase in energy consumption.\nThe active systems of this module allow you to significantly increase the jump range at the cost of increasing the recharge time after its execution, accelerate the charging of the hyperdrive in critical situations and sacrifice the combat capability of the ship to get additional survival during the calculation of the jump route"
+msgstr "Отличный модуль для рискованных путешествий и разведки. Немного увеличивает дальность прыжка и снижает его откат ценой приличного повышения энергопотребления.\nАктивные системы этого модуля позволяют значительно увеличивать дальность прыжка ценой повышения времени перезарядки после его выполнения, ускорять зарядку гипердвигателя в критических ситуациях и жертвовать боеспособностью корабля, чтобы получить дополнительную выживаемость во время рассчета маршрута прыжка"
+
+msgid "Activation puts the module into standby mode. As soon as the ship begins to calculate the jump route, the module is activated and begins to quickly restore shields, while the rate of fire of the weapons will be seriously reduced before the jump"
+msgstr "Активация переводит модуль в режим готовности. Как только корабль начинает вычислять маршрут прыжка, модуль активируется и начинает быстро восстанавливать запас щита, при этом скорострельность орудий будет серьезно снижена до выполнения прыжка"
+
+msgid "The activation of the module greatly accelerates the recharge of the hyperdrive, causing damage to the ship's hull during operation. For the module to work, it is necessary that the volume of the ship's shields fall below a certain threshold"
+msgstr "Активация модуля очень сильно ускоряет перезарядку гипердвигателя, нанося урон корпусу корабля во время работы. Для работы модуля необходимо, чтобы прочность щитов корабля упала ниже определенного порога"
+
+msgid "Activation requires additional hyperdrive charging (cannot be performed if the hyperdrive is still charging) and increases the allowable jump range by more than twice. Adds extra time to recharge after performing a jump, depending on the range bonus provided."
+msgstr "Активация требует дополнительной зарядки гипердвигателя (не может быть выполнена, если гипердвигатель все еще заряжается) и повышает допустимую дальность прыжка более чем в два раза. Добавляет дополнительное время на перезарядку после выполнения прыжка в зависимости от предоставленного бонуса к дальности"
+
+#: pulseTractorBeamGenerator desc --------------------
+msgid "Does not provide any passive bonuses. It is equipped with only one active system, which gradually expands the radius of the attracting beam to large values, allowing you to collect loot in a huge radius during the action"
+msgstr "Не предоставляет никаких бонусов при установке. Укомплектован только одной активной системой, которая постепенно расширяет радиус притягивающего луча до больших значений, позволяя за время действия собрать лут в огромном радиусе"
+
+msgid "During operation, every two seconds it makes an impulse that increases the range of the attracting beam by a fixed value. The number of pulses depends on the rarity level of the system. At the end of the work, the beam range returns to the initial value"
+msgstr "За время работы каждые две секунды совершает импульс, повышающий дальность притягивающего луча на фиксированное значение. Количество импульсов зависит от уровня редкости системы. По окончании работы дальность луча возвращается к прежнему значению"
+
+
+#: subspaceCargo desc --------------------
+msgid "Using rift technology creates a stable subspace storage"
+msgstr "Используя технологии разлома создает устойчивое подпространственное хранилище"
+
+
+# ============================================= [Инфотаб Станций] ============================================
+# ============================================================================================================
+# ============================================================================================================
+
+#: locnames --------------------
+msgid "Starfall - general"
+msgstr "Starfall - общие"
+
+#: megacomplex --------------------
+msgid "A megacomplex is a station that allows you to automatically create a logistics of resources between all stations docked to it. In addition, it contains various display and control functionality"
+msgstr "Мегакомплекс - станция, которая позволяет автоматически создавать логистику ресурсов между всеми станциями, к нему пристыкованными. Кроме того, содержит различный функционал отображения и управления"
+
+msgid "'Production' tab"
+msgstr "Вкладка 'Производство'"
+
+msgid "The first tab (production) displays all stations that produce resources and transfer them to the complex. Each line represents a station and all its production streams (including the ratio of active production to off)"
+msgstr "Первая вкладка (производство) отображает все станции, которые производят ресурсы и передают их НА комплекс. Каждая строка представляет из себя станцию и все ее производственные потоки (в том числе отношение активных производств к выключенным)"
+
+msgid "Detailed Information button"
+msgstr "Кнопка подробной информации"
+
+msgid "Expands an additional window in which all the production streams of the station are listed in detail. They can be turned on and off at your discretion. By disabling the stream, you will prohibit the megacomplex from taking a specific resource from a specific station"
+msgstr "Разворачивает дополнительное окно, в котором подробно перечислены все производственные потоки станции. Их можно включать и отключать по своему усмотрению. Отключив поток, вы запретите мегакомплексу забирать конкретный ресурс с конкретной станции"
+
+msgid "'Consumption' tab"
+msgstr "Вкладка 'Потребление'"
+
+msgid "Displays all stations that need resources to work. Additionally displays the capabilities of the megacomplex to supply the station with resources produced by other docked stations. Here you can completely disable the supply of resources to the station by using the shutdown button to the right border of line"
+msgstr "Отображает все станции, которые нуждаются в ресурсах для работы. Доболнительно отображает возможности мегакомплекса снабжать станцию ресурсами, производимыми другими пристыкованными станциями. Здесь можно полностью отключать снабжение станции ресурсами, задействовав кнопку выключения справа от названия"
+
+msgid "Consumption Details button"
+msgstr "Кнопка подробной информации потребления"
+
+msgid "Expands an additional window in which all the consumption streams of the station are listed in detail. They can be turned on and off at your discretion. By disabling the stream, you will prohibit the megacomplex from transferring a specific resource to a specific station"
+msgstr "Разворачивает дополнительное окно, в котором подробно перечислены все потоки потребления станции. Их можно включать и отключать по своему усмотрению. Отключив поток, вы запретите мегакомплексу передавать конкретный ресурс на конкретную станцию"
+
+msgid "'Storage and utilization' tab"
+msgstr "Вкладка 'настройка запасания и утилизации'"
+
+msgid "This tab lists all the resources produced/consumed by the stations in one way or another. Here you can set a limit for a specific resource, check the consumption/production streams associated with the resource, and activate a special 'utilization' mode"
+msgstr "В этой вкладке перечислены все ресурсы, так или иначе производимые/потребляемые станциями. Здесь можно назначить лимит конкретного ресурса, проверить связанные с ресурсом потоки потребления/производства, а также активировать особый режим 'удаление'"
+
+msgid "'Utilization' Mode"
+msgstr "Режим 'Удаления'"
+
+msgid "Experimental modification of the request from the stations: the complex will take this resource from them in the usual manner, but as soon as the stock on the complex reaches the limit, it will begin to completely remove this product from the warehouse of the manufacturing stations, thereby not allowing it to accumulate and stop the production process"
+msgstr "Экспериментальная модификация запроса у станций: комплекс будет забирать у них данный ресурс в обычном порядке, но как только запас на комплексе достигнет лимита, он начнет полностью удалять данный товар на складе станций-производителей, тем самым не позволяя ему накапливаться и останавливать процесс производства"
+
+msgid "'Export' tab"
+msgstr "Вкладка 'Экспорт'"
+
+msgid "The functionality of this tab is under development"
+msgstr "Функционал данной вкладки в процессе разработки"
+
+msgid "'Settings' tab"
+msgstr "Вкладка 'Настройки'"
+
+msgid "Allows you to forcibly initiate some procedures if their automatic initialization failed"
+msgstr "Позволяет принудительно инициировать некоторые процедуры, ели их автоматическая инициализация провалилась"
+
+# =========================================== [Инфотаб интерфейсов] ==========================================
+# ============================================================================================================
+# ============================================================================================================
+
+#: locNames --------------------
+msgid "General info"
+msgstr "Основная информация"
+
+msgid "A special interface called by the corresponding button on the screen allows you to perform group management (player invitation, player kick, leader transfer) without using chat commands"
+msgstr "Специальный интерфейс, вызываемый соответствующей кнопкой на экране, позволяет выполнять менеджмент группы (приглашение игрока, кик игрока, передача лидера) без использования команд в чат"
+
+msgid "'Collapse' button"
+msgstr "Кнопка 'свернуть'"
+
+msgid "Minimizes the window, leaving the 'expand' button on its place, allowing you to expand it later"
+msgstr "Сворачивает окно, оставляя рядом соответствующую кнопку, позволяющую развернуть его впоследствии"
+
+msgid "'Update' button"
+msgstr "Кнопка 'Обновить'"
+
+msgid "Updates information in the active window"
+msgstr "Выполняет обновление информации в активном окне"
+
+msgid "'Switch to adding' button"
+msgstr "Кнопка 'Переключиться на добавление'"
+
+msgid "Switches the main window to the mode of adding players. Unavailable if you are not a group leader"
+msgstr "Переключает основное окно в режим добавления игроков. Недоступна, если Вы не являетесь лидером группы"
+
+msgid "'Switch to Group Management' button"
+msgstr "Кнопка 'Переключиться на управление группой'"
+
+msgid "Opens a window with a list of online players who are not in your group"
+msgstr "Раскрывает окно со списком игроков онлайн, которые не состоят в вашей группе"
+
+msgid "Group Control Panel"
+msgstr "Панель управления группой"
+
+msgid "This window contains a list of all the players in the group, and also allows you to transfer leadership and kick players (including yourself). Unavailable functions will not be active"
+msgstr "Это окно содержит список всех игроков в группе, а также позволяет передавать лидерство и кикать игроков (в том числе себя). Недоступные функции не будут активны"
+
+msgid "Player status"
+msgstr "Статус игрока"
+
+msgid "Indicates the status of the player (offline, online, leader) and allows you to transfer the leader"
+msgstr "Указывает статус игрока (оффлайн, онлайн, лидер) и позволяет передавать лидера"
+
+msgid "'Kick' button"
+msgstr "Кнопка 'кик'"
+
+msgid "Allows you to kick the player (available only to the leader). You can't kick players offline"
+msgstr "Позволяет кикнуть игрока (доступно только лидеру). Нельзя кикать игроков в оффлайне"
+
+msgid "'Leave' button"
+msgstr "Кнопка 'покинуть группу'"
+
+msgid "Allows you to leave the group"
+msgstr "Позволяет покинуть группу"
+
+msgid "Player Invitation Panel"
+msgstr "Панель приглашения игроков"
+
+msgid "This window displays online players who are not in the same group as the current player. Being the leader of the group (or not being in the group), you can invite the specified player, in which case the button will change to a confirmation one and become inactive. The specified player will receive an alert with that allows him to instantly accept/decline the invitation.\n The button is inactive if you are not a leader"
+msgstr "В этом окне отображаются игроки в онлайне, не состоящие в одной группе с текущим игроком. Будучи лидером группы (или не находясь в группе), Вы можете пригласить указанного игрока, в таком случае кнопка изменится на подтверждающую и станет неактивна. Указанный игрок получит оповещение с кнопкой, позволяющей мгновенно принять/отклонить приглашение.\n Кнопка неактивна, если Вы не являетесь лидером"
+
+msgid "Active System Interface"
+msgstr "Интерфейс активных систем"
+
+msgid "Customizable interface that provides access to the active systems installed on the ship"
+msgstr "Настраиваемый интерфейс, предоставляющий доступ к установленным на корабль активным системам"
+
+msgid "Frame switcher"
+msgstr "Переключатель рамок"
+
+msgid "Allows you to include a frame on each system panel to improve visibility. The frame color is similar to the system color"
+msgstr "Позволяет включать рамку на каждой панели систем для улучшения видимости. Цвет рамки аналогичен системному"
+
+msgid "Movement switcher"
+msgstr "Переключатель режима перемещения"
+
+msgid "Allows you to unlock elements with which you can move panels around the screen. To do this, click on them and, holding the left mouse button pressed (the element will turn green), specify a new location"
+msgstr "Позволяет разблокировать элементы, с помощью которых можно перемещать панели по экрану. Для этого на них необходимо нажать и, удерживая левую кнопку мыши нажатой (элемент окрасится в зеленый), указать новое место расположения"
+
+msgid "Main icon switcher"
+msgstr "Переключатель иконки системы"
+
+msgid "Allows you to enable and disable the display of the module icon on its panel"
+msgstr "Позволяет включать и отключать отображение иконки модуля на своей панели"
+
+msgid "Color switcher"
+msgstr "Переключатель цветов"
+
+msgid "Opens the color selection panel for the progress bars. Clicking on the button next to each bar resets the color to the original one"
+msgstr "Открывает панель выбора цвета для полос состояния. Нажатие на кнопку возле каждой панели сбрасывает цвет к изначальному"
+
+msgid "Reset to Default"
+msgstr "Сброс настроек"
+
+msgid "Resets all panel settings to the original ones. After activation, you need to click on the confirmation button"
+msgstr "Сбрасывает все настройки панелей к изначальным. После активации требуется нажать на подтверждающую кнопку"
+
+msgid "Open/close 'active system interface' settings"
+msgstr "Открыть/закрыть настройки интерфейса активных систем"
+
+# =============================================== [Мегакомплекс] =============================================
+# ============================================================================================================
+# ============================================================================================================
+
+#: tabs --------------------
+msgid "Megacomplex interface"
+msgstr "Управление мегакомплексом"
+
+msgid "Configuring import"
+msgstr "Настройка приема ресурсов с фабрик"
+
+msgid "Configuring export"
+msgstr "Настройка отправки ресурсов на фабрики"
+
+msgid "Configuring storage and utilization"
+msgstr "Настройка запасания и утилизации ресурсов"
+
+msgid "Configuring external export"
+msgstr "Настройка экспорта ресурсов на корабли"
+
+msgid "Megacomplex Settings"
+msgstr "Конфигурация работы мегакомплекса"
+
+#: production --------------------
+
+msgid "Starting the analysis procedure (updating the list of stations)"
+msgstr "Запуск процедуры анализа (обновление списка станций)"
+
+msgid "Forced update"
+msgstr "Принудительное обновление содержимого"
+
+msgid "Resetting megacomplex data and settings"
+msgstr "Сброс данных и настроек мегакомплекса"
+
+msgid "Name of the associated station"
+msgstr "Имя связанной станции"
+
+msgid "Active production streams / Maximum number of streams of the current station"
+msgstr "Активные потоки производства / Максимальное кол-во потоков текущей станции"
+
+msgid "Switch to Detailed mode"
+msgstr "Перейти в подробный режим"
+
+msgid "Shutdown/activation of all production streams"
+msgstr "Выключение / активация всех потоков производства"
+
+msgid "All production streams are turned off"
+msgstr "Все потоки производства выключены"
+
+msgid "Production streams are partially functioning"
+msgstr "Потоки производства функционируют частично"
+
+msgid "Production streams are functioning"
+msgstr "Потоки производства функционируют"
+
+msgid "Provided: "
+msgstr "Обеспечено: "
+
+#: consumption --------------------
+
+msgid "Export streams"
+msgstr "Потоки потребления товаров"
+
+msgid "All export streams are turned off"
+msgstr "Потоки потребления отключены"
+
+msgid "Export streams are partially functioning"
+msgstr "Потоки потребления функционируют частично"
+
+msgid "Export streams are functioning"
+msgstr "Потоки потребления функционируют"
+
+#: storage --------------------
+
+msgid "In cargo: "
+msgstr "На складе: "
+
+msgid "Productions: "
+msgstr "Производств: "
+
+msgid "Export: "
+msgstr "Потреблений: "
+
+msgid "Limit "
+msgstr "Лимит: "
+
+msgid "\nGoods name"
+msgstr "\nНазвание товара"
+
+msgid "The number of resources in the megacomplex cargo at the moment"
+msgstr "Количество ресурса на складе мегакомплекса в текущий момент"
+
+msgid "On/off utilization mode.\n In this mode, the complex will try to accumulate this product from the stations indefinitely, while all goods over the storage limit will be deleted from stations"
+msgstr "Запуск/отключение режима утилизации.\nВ этом режиме комплекс будет пытаться безгранично накапливать данный товар со станций, при этом весь товар сверх лимита хранения будет удален"
+
+msgid "Limitation on the amount of this product in the cargo of the megacomplex"
+msgstr "Ограничение на объем данного товара на складе мегакомплекса"
+
+msgid "Number of stations producing this product"
+msgstr "Количество станций, производящих данный товар"
+
+msgid "Number of stations consuming this product"
+msgstr "Количество станций, потребляющих данный товар"
+
+msgid "Enter here a new value for the storage limit of this product"
+msgstr "Введите здесь новое значение для лимита хранения данного ресурса"
+
+#: linegenerator --------------------
+
+msgid "Station cargo: "
+msgstr "Склад станции: "
+
+msgid "Product name"
+msgstr "Название товара"
+
+msgid "Stock of goods in the station cargo"
+msgstr "Запас товара на складе станции"
+
+msgid "Disable/enable this stream"
+msgstr "Выключить/включить данный поток"
+
+# ============================================== [Главный калибр] ============================================
+# ============================================================================================================
+# ============================================================================================================
+
+msgid "Overload of weapon systems! Weapons of the 'main caliber' class are set to exceed the safe limit. The rate of fire of the weapons is reduced by "
+msgstr "Перегрузка орудийных систем! Орудий класса 'главный калибр' установлено больше безопасного лимита. Скорострельность орудий снижена на "
+
+# =============================================== [tooltipmaker] =============================================
+# ============================================================================================================
+# ============================================================================================================
+
+msgid "Projectile speed"
+msgstr "Скорость снаряда"
+
+msgid "Instant"
+msgstr "Мгновенное"
+
+# ================================================= [alertCore] ==============================================
+# ============================================================================================================
+# ============================================================================================================
+
+msgid "Your turret is destroyed!"
+msgstr "Ваша турель уничтожена!"
+
+msgid "Invitation to a group"
+msgstr "Приглашение в группу"
+
+msgid "You were kicked from the group"
+msgstr "Вы были исключены из группы"
+
+# =============================================== [combatGroup] ==============================================
+# ============================================================================================================
+# ============================================================================================================
+
+#: locLines --------------------
+
+msgid "Expand combat group window"
+msgstr "Развернуть окно группы"
+
+msgid "Collapse window"
+msgstr "Свернуть окно группы"
+
+msgid "Refresh window"
+msgstr "Обновить содержимое"
+
+msgid "Switch to the mode of adding players"
+msgstr "Переключить в режим добавления игроков"
+
+msgid "Switch to the current group display mode"
+msgstr "Переключить в режим отображения текущей группы"
+
+msgid "Collapse invitation window"
+msgstr "Свернуть окно приглашений"
+
+msgid "Open invitation window"
+msgstr "Открыть окно приглашений"
+
+msgid "You are invited to the group!"
+msgstr "Вас пригласили в группу!"
+
+msgid "Cannot find players to invite"
+msgstr "Нет подходящих игроков"
+
+msgid "Leave the group"
+msgstr "Покинуть группу"
+
+# =============================================== [auraCore] =============---=================================
+# ============================================================================================================
+# ============================================================================================================
+
+msgid "Active effects"
+msgstr "Активные эффекты"
+
+msgid "An interface element that is initially hidden. As soon as the effects of modules / environment from the Starfall mod begin to act on the ship, information about this effect will appear near the vanilla status icons"
+msgstr "Элемент интерфейса, изначально скрытый. Как только на корабль начинают действовать эффекты модулей / окружения из мода Starfall - информация об этом эффекте появится возле ванильных иконок состояния."
+
+# ================================================= [aSI] ====================================================
+# ============================================================================================================
+# ============================================================================================================
+
+msgid "Switch frames on/off"
+msgstr "Включить/выключить дополнительные рамки"
+
+msgid "Enable/disable window move mode"
+msgstr "Включить/выключить режим перемещения"
+
+msgid "Switch system icon on/off"
+msgstr "Выключить/включить иконку модуля"
+
+msgid "Change progressbar colors"
+msgstr "Изменить цвета полос состояния"
+
+msgid "Reset settings to default"
+msgstr "Сбросить настройки"
+
+msgid "Set 'ready' color"
+msgstr "Установить цвет 'готов к работе'"
+
+msgid "Set 'standby' color"
+msgstr "Установить цвет 'режим ожидания'"
+
+msgid "Set 'cooldown' color"
+msgstr "Установить цвет 'перезарядка'"
+
+msgid "Set 'recharge' color"
+msgstr "Установить цвет 'заряд'"

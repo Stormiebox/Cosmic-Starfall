@@ -1,0 +1,442 @@
+package.path = package.path .. ";data/scripts/neltharaku/?.lua"
+package.path = package.path .. ";data/scripts/lib/?.lua"
+package.path = package.path .. ";data/scripts/entity/?.lua"
+package.path = package.path .. ";data/scripts/player/ui/?.lua"
+
+
+include('utility')
+include('callable')
+include('Neltharaku')
+
+--namespace gI
+gI = {}
+
+local _debug = false
+local _myName = ''
+local rUnit = 40
+local rPaddingX = 15
+local rPaddingY = 10
+local _window = nil
+local _frame = nil
+local _UItable = {}
+local _chosenButton = nil
+local _chosenButtonInt = 0
+local _chosenKick
+local _chosenKickInt = 0
+local _notAleaderIcon = 'data/textures/icons/group-leader.png'
+local _kickIcon = 'data/textures/icons/kick.png'
+local _toChangeIcon = 'data/textures/icons/submit.png'
+local _initSW = true
+local _thisVeryPlayer = nil
+local _addPlayerWindow = nil
+
+_colorG = ColorHSV(150, 64, 100)
+_colorY = ColorHSV(60, 94, 78)
+_colorR = ColorHSV(16, 97, 84)
+_colorB = ColorHSV(240, 40, 100)
+_colorC = ColorHSV(264, 60, 100)
+
+local playersOnline = {}
+local playerElements = {}
+--icon
+--name
+--status
+--kick
+
+function gI.DebugMsg(_text)
+	if _debug then
+		print(_myName.._text)
+	end
+end
+
+function gI.Operated()
+	if not(Entity()) or not(Player()) then return false end
+	if Entity().index == _thisVeryPlayer.craftIndex then
+		return true
+	end
+	
+	return false
+end
+local isOperated = gI.Operated
+
+local Debug = gI.DebugMsg
+local TSR = Neltharaku.TableSelfReport
+
+function gI.DoMeow()
+	Debug('Meow')
+end
+
+--Ищет кнопку, которую нажали, в таблице, к которой она принадлежит. Дичь
+--Сама кнопка в _element
+--Таблица, в которой искать в _table
+--Позиция кнопки в строке в _pos
+function gI.getElementIndex(_element, _table, _pos)
+	local _result = nil
+	for _index,_rows in pairs(_table) do
+		if _rows[_pos].index == _element.index then
+			_result =_index
+		end
+	end
+	return _result
+end
+
+--------------------------------------------------------------------------------------------------
+
+function gI.initialize()
+	terminate()
+	return
+	-- if onServer() then
+		-- Server():registerCallback("onPlayerLogIn", "onPlayerChanged")
+		-- Server():registerCallback("onPlayerLogOff", "onPlayerChanged")
+	-- else
+		-- if not(Player()) then return end
+		-- Player():registerCallback('onGroupChanged','UltraMeow')
+		-- Player():registerCallback('onGroupLeaderChanged','UltraMeow2')
+	-- end
+	
+	-- _thisVeryPlayer = Player()
+	-- _myName = 'groupInterface('..Entity().name..'): '
+	-- Debug('initialization')
+end
+
+function gI.UltraMeow()
+	Debug('onGroupChanged alert')
+end
+
+function gI.UltraMeow2()
+	Debug('onGroupLeaderChanged alert')
+end
+
+function gI.onPlayerChanged()
+	_initSW = true
+end
+callable(gI,'onPlayerChanged')
+
+function gI.refreshCall()
+	if onClient() then
+		invokeServerFunction('onPlayerChanged')
+	end
+end
+
+function gI.getIcon()
+    return "data/textures/icons/FederationSC.png"
+end
+
+function gI.interactionPossible(playerIndex, option)
+    local player = Player()
+    if isOperated then
+        return true
+    end
+	return true
+end
+
+function gI.initUI()
+	_window,_frame = Neltharaku.CreateStandartWindow('Боевая группа',rUnit,12,8)
+	ScriptUI():registerWindow(_window, "Боевая группа"%_t)
+	--gI.groupRender()
+	local _rect = Rect(5,5,20,20)
+	_window:createRoundButton(_rect,_toChangeIcon,'refreshCall')
+	_window:show()
+end
+
+--------------------------------------------------------------------------------------------------
+--Проверяет наличие игрока (имя фракции, не спрашивайте, блять!) в списке игроков онлайн
+function gI.checkPlayerOnline(_factionindex)
+	local _playername = Faction(_factionindex).name
+	for _,_rows in pairs(playersOnline) do
+		if _playername == _rows then return true end
+	end
+	return false
+end
+local isOnline = gI.checkPlayerOnline
+
+function gI.groupRender()
+	if onServer() or not(_frame) or not(Player()) then return end
+	local _party = Player().group
+	local _players = {}
+	local _offsetY = 0
+
+	_frame:clear()
+	_UItable = {}
+	
+	if _party then
+		local _leaderIndex = _party.leader
+		
+		Debug('SIZEOF: '..tostring(_party.size))
+		_players = {_party:getPlayers()}
+
+		for _index,_rows in pairs(_players) do
+			local _iconPic = _notAleaderIcon
+			if _rows == _leaderIndex then
+				_iconPic = 'data/textures/icons/group-leader-colored.png'
+			end
+			local isOffline = not(isOnline(_rows))
+			local isLeader = false
+			local isSelf = false
+			
+			if _rows == _leaderIndex then
+				isLeader = true
+			end
+			
+			if Faction().index == _rows then
+				isSelf = true
+			end
+
+			local _thisPlayer = Faction(_rows)
+			local _elements = {1,5,3,1}
+			local rects = Neltharaku.UIrowAutoplace(_elements,rUnit,rPaddingX,_offsetY)
+			--LEADER
+			local _icon = _frame:createRoundButton(rects[1],_iconPic,'TransferLeader')
+				if isOffline or not(isLeader) then _icon.active = false end
+				
+			--NAME
+			local _name = _frame:createTextField(rects[2],_thisPlayer.name)
+				_name.fontSize = 12
+				if isOffline then 
+					_name.fontColor = ColorHSV(0, 0, 100) 
+				end
+			
+			--STATE
+			local _stateText = 'Online'
+			local _stateColor = ColorHSV(150, 64, 100)
+			local _state = _frame:createTextField(rects[3],_stateText)
+				_state.fontSize = 12
+				_state.fontColor = _stateColor
+			if isOffline then
+				_state:hide()
+			end	
+			
+			--KICK
+			local _kick = _frame:createRoundButton(rects[4],_kickIcon,'TransferLeave')
+			if isOffline or not(isSelf) then _kick.active = false end
+			table.insert(_UItable,{_icon,_name,_state,_kick,_rows})
+			_offsetY = _offsetY + rPaddingY + rUnit
+		end
+	end
+	--Кнопка "новый"
+	local _elements = {3,3,3} --12
+	local rects = Neltharaku.UIrowAutoplace(_elements,rUnit,rPaddingX,_offsetY)
+	_frame:createButton(rects[1],'Добавить игрока','onPressAddPlayer')
+	_frame:createButton(rects[2],'Обновить','refreshCall')
+	_frame:createButton(rects[3],'Списки игроков','nil')
+end
+
+--Описывает нажатие на соответствующую кнопку
+function gI.TransferLeader(_button)
+	local _index = gI.getElementIndex(_button,_UItable,1)
+	local _player = Faction(_UItable[_index][5])
+	
+	local _chosenName = _player.name
+	invokeServerFunction('serverApplyCommand','/leader',_chosenName)
+end
+
+function gI.TransferLeave()
+	if onClient() then
+		invokeServerFunction('TransferLeave')
+	else
+		Server():addChatCommand(Player(),'/leave')
+	end
+end
+callable(gI,'TransferLeave')
+
+function gI.onPressAddPlayer()
+	if onClient() then
+		invokeServerFunction('debugGetPlayers')
+	end
+end
+callable(gI,'onPressAddPlayer')
+
+--Передает команду на сервер для исполнения в чате
+function gI.serverApplyCommand(_command,_name)
+	Debug('serverApplyCommand attempt @ server ('.._command..')')
+	Server():addChatCommand(Player(), _command..' '.._name)
+	_initSW = true
+end
+callable(gI,'serverApplyCommand')
+
+function gI.nullifySpecial()
+	gI.buttonReturnToInitial()
+	gI.buttonKickReturnToInit()
+end
+
+--Возвращает кнопку передачи лидера в обычную форму
+function gI.buttonReturnToInitial()
+	if not(_chosenButton) then return end
+	_chosenButton.icon = _notAleaderIcon
+	_chosenButton = nil
+end
+
+--Возвращает кнопку кика в обычную форму
+function gI.buttonKickReturnToInit()
+	if not(_chosenKick) then return end
+	_chosenKick.icon = _kickIcon
+	_chosenKickInt = nil
+end
+
+function gI.getUpdateInterval()
+	return 2
+end
+
+function gI.update(timeStep)
+	if onServer() and isOperated() then
+		if _initSW then
+			_initSW = false
+			local _table = {Server():getOnlinePlayers()}
+			playersOnline = {}
+			for i=1,#_table do
+			--playersOnline[_table[i].name] = _table[i].state
+			table.insert(playersOnline,_table[i].name)
+			end
+			gI.SyncMe()
+		end
+	else
+		--onClient()
+		if _chosenButton and not(_chosenButton:isMouseOverAndUnobscured()) then
+			gI.buttonReturnToInitial()
+			-- _chosenButton.icon = _notAleaderIcon
+			-- _chosenButton = nil
+			Debug('isMouseOverAndUnobscured failure: doing nil and stuff')
+		end
+	end
+end
+
+--Активация функции обновляет список игроков онлайн и выполняет генерацию интерфейса согласно новым данным
+function gI.ServerGetInfo()
+	local _table = {Server():getOnlinePlayers()}
+	playersOnline = {}
+	for i=1,#_table do
+		table.insert(playersOnline,_table[i].name)
+	end
+	gI.SyncMe()
+end
+
+function gI.SyncMe()
+	local _player = Player(callingPlayer)
+	--local _table = {}
+	-- for i=1,#playersOnline do
+		-- table.insert(_table,playersOnline[i].name)
+	-- end
+	invokeClientFunction(_player,'refreshInt',playersOnline)
+end
+
+function gI.refreshInt(_table)
+	if onServer() then return end
+	playersOnline = _table
+	gI.nullifySpecial()
+	gI.groupRender()
+end
+
+function gI.debugGetPlayers(_group)
+	--invokeServerFunction('getPlayerByName')
+	if onClient() then
+		local _group = Player().group
+		invokeServerFunction('debugGetPlayers',_group)
+	else
+		local _playersInGroup = {} --name
+		local _onlineNames = {}
+		local _resultTable = {} --name
+		--Записывает имена игроков, находящихся в группе игрока
+		if _group then
+			for _,_rows in pairs(_group) do
+				local _result = Faction(_rows).name
+				table.insert(_playersInGroup,_result)
+			end
+			TSR(_playersInGroup,'_playersInGroup')
+		end
+		
+		
+		--Записывает имена всех игроков на сервере, кто онлайн
+		local _playersOnline = {Server():getOnlinePlayers()}
+		--TSR(_playersOnline,'_playersOnline')
+		for _index,_rows in pairs(_playersOnline) do
+			table.insert(_onlineNames,_rows.name)
+		end
+		TSR(_onlineNames,'_onlineNames')
+		
+		--Сравнивает имена в группе и онлайн, чтобы найти тех, кто онлайн и не в группе
+		if _playersInGroup then
+			for _,_rows in pairs(_onlineNames) do
+				local _uniq = true
+				for _,_rows2 in pairs(_playersInGroup) do
+					if _rows == _rows2 then _uniq = false end
+				end
+				if _uniq then
+					table.insert(_resultTable,_rows)
+				end
+			end
+		--Иначе просто записывает имена всех игроков онлайн
+		else
+			_resultTable = _onlineNames
+		end
+		TSR(_resultTable,'_resultTable')
+		invokeClientFunction(Player(callingPlayer),'renderAddInterface',_onlineNames)
+	end
+end
+callable(gI,'debugGetPlayers')
+
+function gI.renderAddInterface(_table)
+	local _frame = nil
+	
+	if _addPlayerWindow then
+		_addPlayerWindow:hide()
+		_addPlayerWindow = nil
+		_frame = nil
+	end
+	
+	_addPlayerWindow,_frame = Neltharaku.CreateStandartWindow('Игроки онлайн',rUnit,12,(#_table)/3 + 1)
+	
+	--генерация линий
+	local _paddingY = rPaddingY
+	local _buttonsTable = {}
+	for i=1,(#_table)/3 + 1 do
+		local _elements = {3.5,3.5,3.5}
+		local _rects = Neltharaku.UIrowAutoplace(_elements,rUnit,rPaddingX,_paddingY)
+		
+		_paddingY = _paddingY + rPaddingY + rUnit
+		
+		for _,_rows in pairs(_rects) do
+			local _button = _frame:createButton(_rows,'','onAddPlayerPress')
+			table.insert(_buttonsTable,_button)
+		end
+	end
+	
+	--Обработка созданных кнопочеГ
+	for _index,_rows in pairs(_buttonsTable) do
+		if _table[_index] then
+			_rows.caption = _table[_index]
+		else
+			_rows:hide()
+		end
+	end
+	
+	_addPlayerWindow:show()
+	
+end
+
+function gI.onAddPlayerPress(_button)
+	local _name = _button.caption
+	Debug('onAddPlayerPress command sent with name: '.._name)
+	_button.active = false
+	invokeServerFunction('serverApplyCommand','/invite',_name)
+	Player():invokeFunction('alertCore','entityGroupInviteBroadcast',_name) 
+end
+
+-- function gI.getPlayerIdByName(_name)
+	-- if onServer() then
+		-- local _foundFullID = nil
+		-- local _result = nil
+	
+		-- local _playersList = {Server():getPlayers()}
+		-- for _,_rows in pairs(_playersList) do
+			-- local _foundName = _rows.name
+			-- local _foundID = _rows.fullLogId
+			-- if _foundName == _name then
+				-- _foundFullID = _foundID
+			-- end
+		-- end
+		
+		-- if _foundFullID then
+			
+		-- end
+	-- end
+-- end
