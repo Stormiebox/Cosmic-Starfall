@@ -8,7 +8,7 @@ include("tooltipmaker")
 include("Tech")
 include("cosmicstarfalllib")
 
---include('callable')
+--Include('callable')
 
 local _debug = false
 local _prototype = true
@@ -19,19 +19,19 @@ local scriptname = 'pulseTractorBeamGenerator'
 local onlineFlag = true
 --local isMultiplied = false
 
---Базовые величины активных фаз систем. Используйте как конфиг, отдельный делать лень :)
-GeneratorMaxPulsesBase = 0   --единицы, базовое значение количества импульсов во время работы (изменяется в зависимости от качества модуля, если GeneratorPulsesPerRarity дефолт, то от +4 до +28)
-GeneratorPulsesPerRarity = 4 --единицы, количество импульсов, добавляемых качеством модуля (для дефолт=4 самый плохой дает 4, белый - 8, зеленый - 12 и т.д.)
-GeneratorRangePerPulse = 300 --единицы, расстояние, на которое увеличивается радиус притягивания за импульс, одна единица равна 10 метрам (дефолт - 200, т.е. 2км за импульс)
-GeneratorCooldown = 240      --секунды, время перезарядки (дефолт - 240)
+--Basic values ​​of active phases of systems. Use it as a config, too lazy to make a separate one :)
+GeneratorMaxPulsesBase = 0   --units, the basic value of the number of pulses during operation (varies depending on the quality of the module, if GeneratorPulsesPerRarity is default, then from +4 to +28)
+GeneratorPulsesPerRarity = 3 --units, the number of pulses added by the quality of the module (for default=3 the worst gives 3, white -6, green -9, etc.)
+GeneratorRangePerPulse = 200 --units, the distance by which the radius of attraction increases per impulse, one unit is equal to 10 meters (default -200, i.e. 2 km per impulse)
+GeneratorCooldown = 300      --seconds, reload time (default -300)
 
---Автоматические переменные
-GeneratorIsWorking = 0     --Статус работы модуля, остаток времени работы
-GeneratorIsReady = 0       --Статус перезарядки модуля, остаток времени перезарядки
-GeneratorAllowedPulses = 0 --Общее высчитываемое максимальное количество импульсов
-_rarity = 0                --Уровень модуля
+--Automatic Variables
+GeneratorIsWorking = 0     --Module operating status, remaining operating time
+GeneratorIsReady = 0       --Module recharge status, remaining recharge time
+GeneratorAllowedPulses = 0 --Total calculated maximum number of pulses
+_rarity = 0                --Module level
 
---Переменные интерфейса
+--Interface Variables
 local progressBars = {}
 
 -- optimization so that energy requirement doesn't have to be read every frame
@@ -52,9 +52,9 @@ end
 local Debug = DebugMsg
 
 function UIplaysound(_type)
-	--0 - activation
-	--1 - deactivation
-	--2 - error
+	--0 -activation
+	--1 -deactivation
+	--2 -error
 	local soundPath = '/systems/'
 	if _type == 0 then
 		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.5)
@@ -71,7 +71,7 @@ function UIplaysound(_type)
 	return
 end
 
---Заставляет основную функцию-обработчик (ниже) обращаться к серверу раз в две секунды для выполнения активных фаз
+--Causes the main handler function (below) to contact the server once every two seconds to perform active phases
 function getUpdateInterval()
 	return 2
 end
@@ -82,7 +82,7 @@ function update(timeStep)
 	-- end
 end
 
---Основная функция-обработчик работы всех модулей, завязанная на API игры
+--The main function is the handler for all modules, tied to the game API
 function updateServer(timePassed)
 	-- if not(onlineFlag) then
 	-- Debug('onlineFlag: false for player '..Player(callingPlayer).name)
@@ -93,7 +93,7 @@ function updateServer(timePassed)
 	local _ship = Entity()
 	if GeneratorIsReady > 0 then
 		GeneratorIsReady = math.max(0, GeneratorIsReady - timePassed)
-		--invokeClientFunction(Player(),"updateUIbars",GeneratorCooldown,GeneratorIsReady,0)
+		--Invoke client function(player(),"update u ibars",generator cooldown,generator is ready,0)
 		executeUpdateProgressbar(1, GeneratorIsReady / GeneratorCooldown)
 	end
 	if GeneratorIsWorking > 0 then
@@ -138,17 +138,17 @@ function pGeneratorActivate()
 			if _debug then print("_cv не обнаружен, принудительно установлен как 0") end
 			Entity():setValue("isPulseGenerator", 0)
 		end
-		GeneratorIsReady = GeneratorCooldown                     --запускает откат
+		GeneratorIsReady = GeneratorCooldown --starts rollback
 		GeneratorAllowedPulses = GeneratorMaxPulsesBase + GeneratorPulsesPerRarity * (_rarity + 2) +
-			1                                                    --считает максимальное кол-во импульсов
+			1                          --counts the maximum number of pulses
 		if _debug then print(GeneratorAllowedPulses, "- количество импульсов") end
 		GeneratorIsWorking = GeneratorAllowedPulses *
-		2                                                        --длительность зависит от количества импульсов
+			2                                                    --duration depends on the number of pulses
 
-		invokeClientFunction(Player(), "updateStatusEffects", 0, true) --Включает иконку на верхней панели игрока
+		invokeClientFunction(Player(), "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 
-		--Аура на себя
+		--Aura on yourself
 		local _aura = {
 			getSubtechSignature(systemname, 1),
 			0,
@@ -170,16 +170,16 @@ end
 
 callable(nil, "pGeneratorActivate")
 
---Запускает основные функции активных эффектов в режиме "сервер", чтобы переменные корректно работали в updateServer
+--Runs the main functions of active effects in "server" mode so that variables work correctly in updateServer
 function pGeneratorActivateTransfer()
 	invokeServerFunction("pGeneratorActivate", _rarity)
 end
 
---Функция вызывается до onInstalled, поэтому здесь тоже нужно добавлять rarity.value для отображения корректного значения в описании модуля
+--The function is called before onInstalled, so here you also need to add rarity.value to display the correct value in the module description
 function getBonuses(seed, rarity, permanent)
 	math.randomseed(seed)
 
-	local _bonus1 = 10 -- Влияют только на цену
+	local _bonus1 = 10 -- They only affect the price
 	local _bonus2 = 10 -- Same
 
 	return _bonus1, _bonus2
@@ -187,7 +187,7 @@ end
 
 -- function onInstallCheck()
 
--- end
+-- End
 
 callable(nil, "onInstallCheck")
 
@@ -196,7 +196,7 @@ function onInstalled(seed, rarity, permanent)
 
 	_rarity = rarity.value
 
-	--Инициализация элементов интерфейса
+	--Initializing Interface Elements
 
 	if onClient() and not (TBGwindow) then
 		initializeUI()
@@ -204,7 +204,7 @@ function onInstalled(seed, rarity, permanent)
 		Player():registerCallback("onShipChanged", "UIshowhide")
 		Player():registerCallback("onSectorChanged", "UIshowhide")
 	else
-		--executeDrawInterface()
+		--Execute draw interface()
 	end
 end
 
@@ -233,18 +233,18 @@ function executeDrawInterface(subSysDesc)
 	local subsys = {}
 
 	local subsys1 = {
-		getSubtechName(systemname, 1), --name
-		getSubtechIcon(systemname, 1), --icon
-		subSysDesc[1],           --desc
-		'pGeneratorActivate',    --command
+		getSubtechName(systemname, 1), --Name
+		getSubtechIcon(systemname, 1), --Icon
+		subSysDesc[1],           --Desc
+		'pGeneratorActivate',    --Command
 	}
 
 	table.insert(subsys, subsys1)
 
 	local _table = {
-		scriptname,        --systemScript
-		getTechName(systemname), --systemName
-		getTechIcon(systemname), --systemIcon
+		scriptname,        --System script
+		getTechName(systemname), --System name
+		getTechIcon(systemname), --System icon
 		Entity().id,       --entityID
 		subsys             --subsys
 	}
@@ -275,10 +275,10 @@ function executeDelete()
 	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDelete', scriptname, entity)
 end
 
---Отвечает за различный связанный визуал(иконки на экране, свечение и прочее)
+--Responsible for various related visuals (icons on the screen, glow, etc.)
 function updateStatusEffects(_type, _status)
 	--[[
-	0 - иконка работы генератора
+	0 -generator operation icon
 ]]
 	if _type == 0 then
 		if _status then
@@ -290,8 +290,8 @@ function updateStatusEffects(_type, _status)
 	end
 end
 
---Цепляет ивент конца активной фазы модуля для одноразовых действий
--- 0 - импульсный генератор
+--Catch the event of the end of the active phase of the module for one-time actions
+-- 0 -pulse generator
 function onFinishWork(_time, _type)
 	if _time == 0 then
 		if _type == 0 then
@@ -355,7 +355,7 @@ function getTooltipLines(seed, rarity, permanent)
 			boosted = permanent
 		})
 
-	--Пустая строка
+	--Empty string
 	table.insert(texts, { ltext = "" })
 
 	table.insert(texts, {
@@ -376,7 +376,7 @@ function getDescriptionLines(seed, rarity, permanent)
 	}
 end
 
-function getComparableValues(seed, rarity) --Не понимаю, нафига это нужно
+function getComparableValues(seed, rarity) --I don’t understand why this is needed
 	local _h, _r = getBonuses(seed, rarity, permanent)
 
 	local base = {}

@@ -1,51 +1,49 @@
-
-
---Масштабирование
+--Scaling
 scales[WeaponType.PULSEGUN] = scales[WeaponType.ChainGun]
 
 scales[WeaponType.PLASMAFLAK] = scales[WeaponType.AntiFighter]
 
 scales[WeaponType.ASSAULTCANNON] = {
-	{from = 0, to = 52, size = 1.0, usedSlots = 1},
+    { from = 0, to = 52, size = 1.0, usedSlots = 1 },
 }
 scales[WeaponType.MAGNETICMORTAR] = {
-	{from = 0, to = 52, size = 1.0, usedSlots = 1},
+    { from = 0, to = 52, size = 1.0, usedSlots = 1 },
 }
 scales[WeaponType.PARTICLEACCELERATOR] = {
-	{from = 0, to = 52, size = 1.0, usedSlots = 1},
+    { from = 0, to = 52, size = 1.0, usedSlots = 1 },
 }
 scales[WeaponType.ASSAULTBLASTER] = {
-	{from = 0, to = 36, size = 1.0, usedSlots = 1},
-    {from = 37, to = 46, size = 1.5, usedSlots = 2},
-    {from = 47, to = 52, size = 2.0, usedSlots = 3},
+    { from = 0,  to = 36, size = 1.0, usedSlots = 1 },
+    { from = 37, to = 46, size = 1.5, usedSlots = 2 },
+    { from = 47, to = 52, size = 2.0, usedSlots = 3 },
 }
 scales[WeaponType.HEPT] = scales[WeaponType.PlasmaGun]
 scales[WeaponType.PULSELASER] = {
-	{from = 0, to = 36, size = 1.0, usedSlots = 1},
-    {from = 37, to = 46, size = 1.5, usedSlots = 2},
-    {from = 47, to = 52, size = 2.0, usedSlots = 3},
+    { from = 0,  to = 36, size = 1.0, usedSlots = 1 },
+    { from = 37, to = 46, size = 1.5, usedSlots = 2 },
+    { from = 47, to = 52, size = 2.0, usedSlots = 3 },
 }
 scales[WeaponType.MANTIS] = {
-    {from = 0, to = 40, size = 1.0, usedSlots = 2},
-    {from = 41, to = 48, size = 2.0, usedSlots = 3},
-    {from = 49, to = 52, size = 3.0, usedSlots = 4},
+    { from = 0,  to = 40, size = 1.0, usedSlots = 2 },
+    { from = 41, to = 48, size = 2.0, usedSlots = 3 },
+    { from = 49, to = 52, size = 3.0, usedSlots = 4 },
 }
 scales[WeaponType.PRD] = {
-    {from = 0, to = 40, size = 1.0, usedSlots = 2},
-    {from = 41, to = 48, size = 2.0, usedSlots = 3},
-    {from = 49, to = 52, size = 3.0, usedSlots = 4},
+    { from = 0,  to = 40, size = 1.0, usedSlots = 2 },
+    { from = 41, to = 48, size = 2.0, usedSlots = 3 },
+    { from = 49, to = 52, size = 3.0, usedSlots = 4 },
 }
 scales[WeaponType.PHOTON] = {
-	{from = 0, to = 36, size = 1.0, usedSlots = 2},
-    {from = 37, to = 52, size = 2.0, usedSlots = 2},
+    { from = 0,  to = 36, size = 1.0, usedSlots = 2 },
+    { from = 37, to = 52, size = 2.0, usedSlots = 2 },
 }
 scales[WeaponType.HYPERKINETIC] = {
-    {from = 0, to = 28, size = 2, usedSlots = 4},
-    {from = 29, to = 35, size = 2.5, usedSlots = 4},
-    {from = 36, to = 42, size = 4, usedSlots = 4},
-    {from = 43, to = 49, size = 4, usedSlots = 4},
+    { from = 0,  to = 28, size = 2,   usedSlots = 4 },
+    { from = 29, to = 35, size = 2.5, usedSlots = 4 },
+    { from = 36, to = 42, size = 4,   usedSlots = 4 },
+    { from = 43, to = 49, size = 4,   usedSlots = 4 },
     --dummy for cooaxial, add 1 to size and level
-    {from = 50, to = 52, size = 4, usedSlots = 6},
+    { from = 50, to = 52, size = 4,   usedSlots = 6 },
 }
 --[[scales[WeaponType.GRAVITON] = {
     {from = 0, to = 20, size = 0.5, usedSlots = 1},
@@ -54,112 +52,112 @@ scales[WeaponType.HYPERKINETIC] = {
     {from = 50, to = 52, size = 3.5, usedSlots = 6},
 }]]
 scales[WeaponType.NANOREPAIR] = {
-    {from = 0, to = 28, size = 0.5, usedSlots = 1},
-    {from = 29, to = 52, size = 1.0, usedSlots = 2},
+    { from = 0,  to = 28, size = 0.5, usedSlots = 1 },
+    { from = 29, to = 52, size = 1.0, usedSlots = 2 },
 }
 scales[WeaponType.CHARGINGBEAM] = {
-    {from = 0, to = 28, size = 0.5, usedSlots = 2},
-    {from = 29, to = 52, size = 1.0, usedSlots = 2},
+    { from = 0,  to = 28, size = 0.5, usedSlots = 2 },
+    { from = 29, to = 52, size = 1.0, usedSlots = 2 },
 }
 scales[WeaponType.SOLARTORPEDO] = {
-    {from = 0, to = 36, size = 1.0, usedSlots = 2},
-    {from = 37, to = 52, size = 2.0, usedSlots = 2},
+    { from = 0,  to = 36, size = 1.0, usedSlots = 2 },
+    { from = 37, to = 52, size = 2.0, usedSlots = 2 },
 }
 scales[WeaponType.AVALANCHE] = {
-	{from = 0, to = 36, size = 5, usedSlots = 4},
-    {from = 37, to = 52, size = 5, usedSlots = 4},
+    { from = 0,  to = 36, size = 5, usedSlots = 4 },
+    { from = 37, to = 52, size = 5, usedSlots = 4 },
 }
 scales[WeaponType.CYCLONE] = {
-    {from = 0, to = 52, size = 4, usedSlots = 4},
+    { from = 0, to = 52, size = 4, usedSlots = 4 },
 }
 scales[WeaponType.TRANSPHASIC] = {
-    {from = 0, to = 52, size = 4, usedSlots = 4},
+    { from = 0, to = 52, size = 4, usedSlots = 4 },
 }
 
 
 
---Специализации - ванилька
+--Specialties -vanilla
 possibleSpecialties[WeaponType.RailGun] = {
-    {specialty = Specialty.HighShootingTime, probability = 0.25},
-    {specialty = Specialty.HighDamage, probability = 0.1},
-    {specialty = Specialty.HighFireRate, probability = 0.10},
+    { specialty = Specialty.HighShootingTime, probability = 0.25 },
+    { specialty = Specialty.HighDamage,       probability = 0.1 },
+    { specialty = Specialty.HighFireRate,     probability = 0.10 },
 }
 
---Специализации
+--Specializations
 possibleSpecialties[WeaponType.PULSEGUN] = {
-    {specialty = Specialty.HighDamage, probability = 0.3},
-} 
+    { specialty = Specialty.HighDamage, probability = 0.3 },
+}
 possibleSpecialties[WeaponType.ASSAULTCANNON] = {
-    {specialty = Specialty.HighDamage, probability = 0.3},
-} 
+    { specialty = Specialty.HighDamage, probability = 0.3 },
+}
 possibleSpecialties[WeaponType.MAGNETICMORTAR] = {
-    {specialty = Specialty.HighDamage, probability = 0.2},
-	{specialty = Specialty.HighRange, probability = 0.15},
-} 
+    { specialty = Specialty.HighDamage, probability = 0.2 },
+    { specialty = Specialty.HighRange,  probability = 0.15 },
+}
 possibleSpecialties[WeaponType.PARTICLEACCELERATOR] = {
-    {specialty = Specialty.HighShootingTime, probability = 0.2},
-    {specialty = Specialty.HighDamage, probability = 0.2},
-    {specialty = Specialty.HighRange, probability = 0.25},
-	{specialty = Specialty.BurstFire, probability = 0.1},
-} 
+    { specialty = Specialty.HighShootingTime, probability = 0.2 },
+    { specialty = Specialty.HighDamage,       probability = 0.2 },
+    { specialty = Specialty.HighRange,        probability = 0.25 },
+    { specialty = Specialty.BurstFire,        probability = 0.1 },
+}
 possibleSpecialties[WeaponType.ASSAULTBLASTER] = {
-    {specialty = Specialty.HighDamage, probability = 0.2},
-} 
+    { specialty = Specialty.HighDamage, probability = 0.2 },
+}
 possibleSpecialties[WeaponType.HEPT] = {
-    {specialty = Specialty.LessEnergyConsumption, probability = 0.2},
-    {specialty = Specialty.HighFireRate, probability = 0.1},
-    {specialty = Specialty.BurstFireEnergy, probability = 0.1},
-} 
+    { specialty = Specialty.LessEnergyConsumption, probability = 0.2 },
+    { specialty = Specialty.HighFireRate,          probability = 0.1 },
+    { specialty = Specialty.BurstFireEnergy,       probability = 0.1 },
+}
 possibleSpecialties[WeaponType.PULSELASER] = {
-    {specialty = Specialty.BurstFireEnergy, probability = 1},
-} 
+    { specialty = Specialty.BurstFireEnergy, probability = 1 },
+}
 possibleSpecialties[WeaponType.MANTIS] = {
-    {specialty = Specialty.HighShootingTime, probability = 0.2},
-    {specialty = Specialty.HighDamage, probability = 0.2},
+    { specialty = Specialty.HighShootingTime, probability = 0.2 },
+    { specialty = Specialty.HighDamage,       probability = 0.2 },
 }
 possibleSpecialties[WeaponType.PRD] = {
-    {specialty = Specialty.HighShootingTime, probability = 0.2},
-    {specialty = Specialty.HighDamage, probability = 0.2},
+    { specialty = Specialty.HighShootingTime, probability = 0.2 },
+    { specialty = Specialty.HighDamage,       probability = 0.2 },
 }
 possibleSpecialties[WeaponType.PHOTON] = {
-    {specialty = Specialty.LessEnergyConsumption, probability = 0.2},
-    {specialty = Specialty.HighDamage, probability = 0.1},
+    { specialty = Specialty.LessEnergyConsumption, probability = 0.2 },
+    { specialty = Specialty.HighDamage,            probability = 0.1 },
 }
 possibleSpecialties[WeaponType.HYPERKINETIC] = {
-    {specialty = Specialty.HighDamage, probability = 0.1},
-    {specialty = Specialty.HighRange, probability = 0.25},
+    { specialty = Specialty.HighDamage, probability = 0.1 },
+    { specialty = Specialty.HighRange,  probability = 0.25 },
 }
 --[[possibleSpecialties[WeaponType.GRAVITON] = {
     {specialty = Specialty.HighRange, probability = 0.2},
 }]]
 possibleSpecialties[WeaponType.NANOREPAIR] = {
-    {specialty = Specialty.HighDamage, probability = 0.2},
-    {specialty = Specialty.HighRange, probability = 0.1},
+    { specialty = Specialty.HighDamage, probability = 0.2 },
+    { specialty = Specialty.HighRange,  probability = 0.1 },
 }
 possibleSpecialties[WeaponType.CHARGINGBEAM] = {
-    {specialty = Specialty.HighDamage, probability = 0.2},
-    {specialty = Specialty.HighRange, probability = 0.1},
+    { specialty = Specialty.HighDamage, probability = 0.2 },
+    { specialty = Specialty.HighRange,  probability = 0.1 },
 }
 possibleSpecialties[WeaponType.SOLARTORPEDO] = {
-    {specialty = Specialty.HighDamage, probability = 0.2},
+    { specialty = Specialty.HighDamage, probability = 0.2 },
 }
 possibleSpecialties[WeaponType.AVALANCHE] = {
-    {specialty = Specialty.HighDamage, probability = 0.1},
+    { specialty = Specialty.HighDamage, probability = 0.1 },
 }
 possibleSpecialties[WeaponType.CYCLONE] = {
-    {specialty = Specialty.HighDamage, probability = 0.2},
+    { specialty = Specialty.HighDamage, probability = 0.2 },
 }
 possibleSpecialties[WeaponType.TRANSPHASIC] = {
-    {specialty = Specialty.LessEnergyConsumption, probability = 0.2},
+    { specialty = Specialty.LessEnergyConsumption, probability = 0.2 },
 }
 
 possibleSpecialties[WeaponType.PLASMAFLAK] = {
-    {specialty = Specialty.HighRange, probability = 0.1},
-    {specialty = Specialty.HighFireRate, probability = 0.1},
-    {specialty = Specialty.HighDamage, probability = 0.1},
+    { specialty = Specialty.HighRange,    probability = 0.1 },
+    { specialty = Specialty.HighFireRate, probability = 0.1 },
+    { specialty = Specialty.HighDamage,   probability = 0.1 },
 }
 
---Специальная функция, назначающая солнечное торпеде свойство coaxial всегда
+--A special function that assigns the solar torpedo the coaxial property always
 function TurretGenerator.scaleSolar(rand, turret, type, tech, turnSpeedFactor, coaxialPossible)
     if coaxialPossible == nil then coaxialPossible = true end -- avoid coaxialPossible = coaxialPossible or true, as it will set it to true if "false" is passed
 
@@ -182,7 +180,7 @@ function TurretGenerator.scaleSolar(rand, turret, type, tech, turnSpeedFactor, c
 
     local coaxialDamageScale = turret.coaxial and 3 or 1
 
-    local weapons = {turret:getWeapons()}
+    local weapons = { turret:getWeapons() }
     for _, weapon in pairs(weapons) do
         weapon.localPosition = weapon.localPosition * scale.size
 
@@ -238,7 +236,7 @@ function TurretGenerator.scaleSolar(rand, turret, type, tech, turnSpeedFactor, c
     return lvl
 end
 
---Импульсная пушка
+--Pulse Cannon
 function TurretGenerator.generatePULSEGUNTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -256,18 +254,18 @@ function TurretGenerator.generatePULSEGUNTurret(rand, dps, tech, material, rarit
 
     -- attach weapons to turret
     TurretGenerator.attachWeapons(rand, result, weapon, numWeapons)
-	
+
     TurretGenerator.scale(rand, result, WeaponType.PULSEGUN, tech, 0.75)
     TurretGenerator.addSpecialties(rand, result, WeaponType.PULSEGUN)
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('pulsegun')
+    result.title = getWeaponName('pulsegun')
 
     return result
 end
 
---Ускоритель частиц
+--Particle accelerator
 function TurretGenerator.generatePARTICLEACCELERATORTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -278,37 +276,37 @@ function TurretGenerator.generatePARTICLEACCELERATORTurret(rand, dps, tech, mate
     result.crew = crew
 
     -- generate weapons
-    local weapons = {1, 2, 4}
+    local weapons = { 1, 2, 4 }
     local numWeapons = weapons[rand:getInt(1, #weapons)]
 
     local weapon = WeaponGenerator.generatePARTICLEACCELERATOR(rand, dps, tech, material, rarity)
     weapon.fireDelay = weapon.fireDelay * numWeapons
 
     -- attach weapons to turret
-	TurretGenerator.attachWeapons(rand, result, weapon, numWeapons)
-	
-	local shootingTime = 8 * rand:getFloat(0.9, 1.3)
+    TurretGenerator.attachWeapons(rand, result, weapon, numWeapons)
+
+    local shootingTime = 8 * rand:getFloat(0.9, 1.3)
     local coolingTime = 3 * rand:getFloat(0.8, 1.2)
-	TurretGenerator.createStandardCooling(result, coolingTime, shootingTime)
-	
-	local weapons = {result:getWeapons()}
+    TurretGenerator.createStandardCooling(result, coolingTime, shootingTime)
+
+    local weapons = { result:getWeapons() }
     result:clearWeapons()
     for _, weapon in pairs(weapons) do
         weapon.damage = weapon.damage * ((coolingTime + shootingTime) / shootingTime)
         result:addWeapon(weapon)
     end
-	
+
     TurretGenerator.scale(rand, result, WeaponType.PARTICLEACCELERATOR, tech, 0.75)
     TurretGenerator.addSpecialties(rand, result, WeaponType.PARTICLEACCELERATOR)
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('particleaccelerator')
+    result.title = getWeaponName('particleaccelerator')
 
     return result
 end
 
---Штурмовой бластер
+--Assault Blaster
 function TurretGenerator.generateASSAULTBLASTERTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -326,18 +324,18 @@ function TurretGenerator.generateASSAULTBLASTERTurret(rand, dps, tech, material,
 
     -- attach weapons to turret
     TurretGenerator.attachWeapons(rand, result, weapon, numWeapons)
-	
+
     TurretGenerator.scale(rand, result, WeaponType.ASSAULTBLASTER, tech, 0.75)
     TurretGenerator.addSpecialties(rand, result, WeaponType.ASSAULTBLASTER)
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('assaultblaster')
+    result.title = getWeaponName('assaultblaster')
 
     return result
 end
 
---HEPT
+--Hept
 function TurretGenerator.generateHEPTTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -366,12 +364,12 @@ function TurretGenerator.generateHEPTTurret(rand, dps, tech, material, rarity)
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('hept')
+    result.title = getWeaponName('hept')
 
     return result
 end
 
---Импульсный лазер
+--Pulse laser
 function TurretGenerator.generatePULSELASERTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -400,12 +398,12 @@ function TurretGenerator.generatePULSELASERTurret(rand, dps, tech, material, rar
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('pulselaser')
+    result.title = getWeaponName('pulselaser')
 
     return result
 end
 
---Установка "Богомол"
+--Installation "Mantis"
 function TurretGenerator.generateMANTISTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -419,7 +417,7 @@ function TurretGenerator.generateMANTISTurret(rand, dps, tech, material, rarity)
     local numWeapons = rand:getInt(1, 3)
 
     local weapon = WeaponGenerator.generateMANTIS(rand, dps, tech, material, rarity)
-    --weapon.fireDelay = weapon.fireDelay * numWeapons
+    --weapon.fireDelay = weapon.fireDelay *numWeapons
 
     -- attach weapons to turret
     local positions = {}
@@ -430,7 +428,7 @@ function TurretGenerator.generateMANTISTurret(rand, dps, tech, material, rarity)
         table.insert(positions, vec3(-0.4, 0.3, 0))
     end
 
-    -- attach
+    -- Attach
     for _, position in pairs(positions) do
         weapon.localPosition = position * result.size
         result:addWeapon(weapon)
@@ -445,12 +443,12 @@ function TurretGenerator.generateMANTISTurret(rand, dps, tech, material, rarity)
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('mantis')
+    result.title = getWeaponName('mantis')
 
     return result
 end
 
---Фотонная пушка
+--Photon cannon
 function TurretGenerator.generatePHOTONTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -469,9 +467,9 @@ function TurretGenerator.generatePHOTONTurret(rand, dps, tech, material, rarity)
     -- attach weapons to turret
     TurretGenerator.attachWeapons(rand, result, weapon, numWeapons)
 
-    --local rechargeTime = 12 * rand:getFloat(0.8, 1.2)
-    --local shootingTime = 20 * rand:getFloat(0.8, 1.2)
-	local rechargeTime = 7
+    --local rechargeTime = 12 *rand:getFloat(0.8, 1.2)
+    --local shootingTime = 20 *rand:getFloat(0.8, 1.2)
+    local rechargeTime = 7
     local shootingTime = 3
     TurretGenerator.createBatteryChargeCooling(result, rechargeTime, shootingTime)
 
@@ -480,12 +478,12 @@ function TurretGenerator.generatePHOTONTurret(rand, dps, tech, material, rarity)
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('photoncannon')
+    result.title = getWeaponName('photoncannon')
 
     return result
 end
 
---Гиперкинетическая артиллерия
+--Hyperkinetic artillery
 function TurretGenerator.generateHYPERKINETICTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -513,12 +511,12 @@ function TurretGenerator.generateHYPERKINETICTurret(rand, dps, tech, material, r
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('hyperkinetic')
+    result.title = getWeaponName('hyperkinetic')
 
     return result
 end
 
---Ионный излучатель
+--Ion emitter
 function TurretGenerator.generateSOLARTORPEDOTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -537,7 +535,7 @@ function TurretGenerator.generateSOLARTORPEDOTurret(rand, dps, tech, material, r
     -- attach weapons to turret
     TurretGenerator.attachWeapons(rand, result, weapon, numWeapons)
 
-	local rechargeTime = 6
+    local rechargeTime = 6
     local shootingTime = 5
     TurretGenerator.createBatteryChargeCooling(result, rechargeTime, shootingTime)
 
@@ -546,12 +544,12 @@ function TurretGenerator.generateSOLARTORPEDOTurret(rand, dps, tech, material, r
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('ionemitter')
+    result.title = getWeaponName('ionemitter')
 
     return result
 end
 
---Штурмовая пушка
+--Assault Cannon
 function TurretGenerator.generateASSAULTCANNONTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -569,18 +567,18 @@ function TurretGenerator.generateASSAULTCANNONTurret(rand, dps, tech, material, 
 
     -- attach weapons to turret
     TurretGenerator.attachWeapons(rand, result, weapon, numWeapons)
-	
+
     TurretGenerator.scale(rand, result, WeaponType.ASSAULTCANNON, tech, 0.75)
     TurretGenerator.addSpecialties(rand, result, WeaponType.ASSAULTCANNON)
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('assaultcannon')
+    result.title = getWeaponName('assaultcannon')
 
     return result
 end
 
---Наноремонтная установка
+--Nanorepair unit
 function TurretGenerator.generateNANOREPAIRTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -593,7 +591,7 @@ function TurretGenerator.generateNANOREPAIRTurret(rand, dps, tech, material, rar
     -- generate weapons
     local weapon = WeaponGenerator.generateNANOREPAIR(rand, dps, tech, material, rarity)
 
-	TurretGenerator.attachWeapons(rand, result, weapon, 1)
+    TurretGenerator.attachWeapons(rand, result, weapon, 1)
 
     local rechargeTime = 12 * rand:getFloat(0.8, 1.2)
     local shootingTime = 21 * rand:getFloat(0.8, 1.2)
@@ -604,12 +602,12 @@ function TurretGenerator.generateNANOREPAIRTurret(rand, dps, tech, material, rar
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('nanorepair')
+    result.title = getWeaponName('nanorepair')
 
     return result
 end
 
---Заряжающий луч
+--Charging Beam
 function TurretGenerator.generateCHARGINGBEAMTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -622,7 +620,7 @@ function TurretGenerator.generateCHARGINGBEAMTurret(rand, dps, tech, material, r
     -- generate weapons
     local weapon = WeaponGenerator.generateCHARGINGBEAM(rand, dps, tech, material, rarity)
 
-	TurretGenerator.attachWeapons(rand, result, weapon, 1)
+    TurretGenerator.attachWeapons(rand, result, weapon, 1)
 
     local rechargeTime = 12 * rand:getFloat(0.8, 1.2)
     local shootingTime = 21 * rand:getFloat(0.8, 1.2)
@@ -633,12 +631,12 @@ function TurretGenerator.generateCHARGINGBEAMTurret(rand, dps, tech, material, r
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('chargingbeam')
+    result.title = getWeaponName('chargingbeam')
 
     return result
 end
 
---Гравитационная пушка "Лавина"
+--Gravity gun "Avalanche"
 function TurretGenerator.generateAVALANCHETurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -666,12 +664,12 @@ function TurretGenerator.generateAVALANCHETurret(rand, dps, tech, material, rari
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('avalanche')
+    result.title = getWeaponName('avalanche')
 
     return result
 end
 
---Циклон
+--Cyclone
 function TurretGenerator.generateCYCLONETurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -685,7 +683,7 @@ function TurretGenerator.generateCYCLONETurret(rand, dps, tech, material, rarity
     local numWeapons = rand:getInt(5, 5)
 
     local weapon = WeaponGenerator.generateCYCLONE(rand, dps, tech, material, rarity)
-    --weapon.fireDelay = weapon.fireDelay * numWeapons
+    --weapon.fireDelay = weapon.fireDelay *numWeapons
 
     -- attach weapons to turret
     local positions = {}
@@ -696,7 +694,7 @@ function TurretGenerator.generateCYCLONETurret(rand, dps, tech, material, rarity
         table.insert(positions, vec3(-0.4, 0.3, 0))
     end
 
-    -- attach
+    -- Attach
     for _, position in pairs(positions) do
         weapon.localPosition = position * result.size
         result:addWeapon(weapon)
@@ -711,12 +709,12 @@ function TurretGenerator.generateCYCLONETurret(rand, dps, tech, material, rarity
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('cyclone')
+    result.title = getWeaponName('cyclone')
 
     return result
 end
 
---Плазмонитиевый дезинтегратор
+--Plasmonithium disintegrator
 function TurretGenerator.generatePRDTurret(rand, dps, tech, material, rarity)
     local result = TurretTemplate()
 
@@ -730,7 +728,7 @@ function TurretGenerator.generatePRDTurret(rand, dps, tech, material, rarity)
     local numWeapons = rand:getInt(1, 1)
 
     local weapon = WeaponGenerator.generatePRD(rand, dps, tech, material, rarity)
-    --weapon.fireDelay = weapon.fireDelay * numWeapons
+    --weapon.fireDelay = weapon.fireDelay *numWeapons
 
     -- attach weapons to turret
     local positions = {}
@@ -741,7 +739,7 @@ function TurretGenerator.generatePRDTurret(rand, dps, tech, material, rarity)
         table.insert(positions, vec3(-0.4, 0.3, 0))
     end
 
-    -- attach
+    -- Attach
     for _, position in pairs(positions) do
         weapon.localPosition = position * result.size
         result:addWeapon(weapon)
@@ -756,12 +754,12 @@ function TurretGenerator.generatePRDTurret(rand, dps, tech, material, rarity)
 
     result:updateStaticStats()
 
-	result.title = getWeaponName('prd')
+    result.title = getWeaponName('prd')
 
     return result
 end
 
---Магнитный мемомет
+--Magnetic memo thrower
 function TurretGenerator.generateMAGNETICMORTARTurret(rand, dps, tech, material, rarity, coaxialAllowed)
     local result = TurretTemplate()
 
@@ -790,12 +788,12 @@ function TurretGenerator.generateMAGNETICMORTARTurret(rand, dps, tech, material,
     result.slotType = TurretSlotType.Armed
     result:updateStaticStats()
 
-	result.title = getWeaponName('magneticmortar')
+    result.title = getWeaponName('magneticmortar')
 
     return result
 end
 
---Трансфазный лазер
+--Transphase laser
 function TurretGenerator.generateTRANSPHASICturret(rand, dps, tech, material, rarity, coaxialAllowed)
     local result = TurretTemplate()
 
@@ -819,18 +817,18 @@ function TurretGenerator.generateTRANSPHASICturret(rand, dps, tech, material, ra
     local shootingTime = 15
     TurretGenerator.createBatteryChargeCooling(result, rechargeTime, shootingTime)
     local specialties = TurretGenerator.addSpecialties(rand, result, WeaponType.TRANSPHASIC)
-	
+
 
     result.slotType = TurretSlotType.Armed
-	result.coaxial = false
+    result.coaxial = false
     result:updateStaticStats()
 
-	result.title = getWeaponName('transphasic')
+    result.title = getWeaponName('transphasic')
 
     return result
 end
 
---Зенитный плазмомет
+--Anti-aircraft plasma launcher
 function TurretGenerator.generatePLASMAFLAKturret(rand, dps, tech, material, rarity, coaxialAllowed)
     local result = TurretTemplate()
 
@@ -849,8 +847,8 @@ function TurretGenerator.generatePLASMAFLAKturret(rand, dps, tech, material, rar
     TurretGenerator.attachWeapons(rand, result, weapon, numWeapons)
 
     TurretGenerator.scale(rand, result, WeaponType.PLASMAFLAK, tech, 1.2, coaxialAllowed)
-	
-	local rechargeTime = 2
+
+    local rechargeTime = 2
     local shootingTime = 6
     TurretGenerator.createBatteryChargeCooling(result, rechargeTime, shootingTime)
     local specialties = TurretGenerator.addSpecialties(rand, result, WeaponType.PLASMAFLAK)
@@ -858,12 +856,12 @@ function TurretGenerator.generatePLASMAFLAKturret(rand, dps, tech, material, rar
     result.slotType = TurretSlotType.PointDefense
     result:updateStaticStats()
 
-	result.title = getWeaponName('plasmaflak')
+    result.title = getWeaponName('plasmaflak')
 
     return result
 end
 
---Вызов генератора
+--Calling the generator
 generatorFunction[WeaponType.PULSEGUN] = TurretGenerator.generatePULSEGUNTurret
 generatorFunction[WeaponType.PARTICLEACCELERATOR] = TurretGenerator.generatePARTICLEACCELERATORTurret
 generatorFunction[WeaponType.ASSAULTBLASTER] = TurretGenerator.generateASSAULTBLASTERTurret

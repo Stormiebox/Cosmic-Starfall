@@ -26,81 +26,81 @@ local scriptname = 'macrofieldProjector'
 local subSysDesc = {}
 
 
---Базовые величины активных фаз систем. Используйте как конфиг, отдельный делать лень :)
-ModuleBonusEnergy = 20                   --процент базового усиления регена энки
-ModuleBonusAccum = 130                   --процент базового повышения запаса аккума
-ModuleBonusEnergyRARMP = 4               --процент, бонус за единицу редкости (Редкость распределяется от -1 = серый до 5 = фиол)
-ModuleBonusAccumRARMP = 15               --процент, бонус за единицу редкости
+--Basic values ​​of active phases of systems. Use it as a config, too lazy to make a separate one :)
+ModuleBonusEnergy = 12                   --percentage of base enki regen gain
+ModuleBonusAccum = 80                    --percentage of base increase in battery reserve
+ModuleBonusEnergyRARMP = 2.5             --percentage, bonus per unit of rarity (Rarity is distributed from -1 = gray to 5 = violet)
+ModuleBonusAccumRARMP = 9                --percentage, bonus per unit of rarity
 
-RepairWaveCooldown = 80                  --секунды, кд ремонтной волны
-RepairWaveCooldownRARMP = 3              --секунды, снижение отката за единицу редкости
-RepairWaveOperationTime = 8              --секунды, время работы волны
-RepairWaveHealingAmount = 4000           --единицы корпуса, ремонтируемые за выбранный объем энергии
-RepairWaveEnergyUnit = 1                 --тераджоули, выбранный объем энергии
-RepairWaveSelfBonus = 30                 --проценты, бонусное восстановление по себе
-RepairWaveSelfBonusRARMP = 2             --проценты, бонус к восстановлению за единицу редкости
-RepairWaveEnergyConsumption = 5          --проценты, сжигаемая энергия аккума за секунду
-RepairWaveRange = 28                     --километры, радиус работы волны
+RepairWaveCooldown = 110                 --seconds, repair wave CD
+RepairWaveCooldownRARMP = 3              --seconds, cooldown reduction per rarity unit
+RepairWaveOperationTime = 6              --seconds, wave operating time
+RepairWaveHealingAmount = 2200           --hull units repaired for a selected amount of energy
+RepairWaveEnergyUnit = 1                 --terajoules, selected amount of energy
+RepairWaveSelfBonus = 12                 --interest, bonus recovery on your own
+RepairWaveSelfBonusRARMP = 2             --interest, bonus to restoration per unit of rarity
+RepairWaveEnergyConsumption = 8          --percent, battery energy burned per second
+RepairWaveRange = 28                     --kilometers, wave radius
 
-RenovatingRayCooldown = 15               --секунды, откат модуля
-RenovatingRayHealingAmount = 6000        --единицы корпуса, ремонтируемые за выбранный объем энергии
-RenovatingRayEnergyUnit = 1              --тераджоули, выбранный объем энергии
-RenovatingRayEnergyConsumption = 1       --проценты, сжигаемая энергия аккума за секунду
-RenovatingRayRange = 30                  --километры, радиус работы
-RenovatingRayRangeRARMP = 2              --километры, доп радиус за единицу редкости
-RenovatingRayCanUseOnSelf = false        --работает ли луч по себе
+RenovatingRayCooldown = 28               --seconds, module rollback
+RenovatingRayHealingAmount = 3200        --hull units repaired for a selected amount of energy
+RenovatingRayEnergyUnit = 1              --terajoules, selected amount of energy
+RenovatingRayEnergyConsumption = 2.5     --percent, battery energy burned per second
+RenovatingRayRange = 30                  --kilometers, work radius
+RenovatingRayRangeRARMP = 2              --kilometers, additional radius per unit of rarity
+RenovatingRayCanUseOnSelf = false        --does the beam work on its own?
 
-ShieldBoosterCooldown = 15               --секунды, откат модуля
-ShieldBoosterHealingAmount = 13000       --единицы корпуса, ремонтируемые за выбранный объем энергии
-ShieldBoosterEnergyUnit = 1              --тераджоули, выбранный объем энергии
-ShieldBoosterEnergyConsumption = 1       --проценты, сжигаемая энергия аккума за секунду
-ShieldBoosterRange = 30                  --километры, радиус работ
-ShieldBoosterRangeRARMP = 2              --километры, доп радиус за единицу редкости
-ShieldBoosterCanUseOnSelf = false        --работает ли луч по себе
-ShieldBoosterValueTreshold = 10          --проценты, минимальный объем щита цели для возможности работы
+ShieldBoosterCooldown = 32               --seconds, module rollback
+ShieldBoosterHealingAmount = 7000        --hull units repaired for a selected amount of energy
+ShieldBoosterEnergyUnit = 1              --terajoules, selected amount of energy
+ShieldBoosterEnergyConsumption = 3       --percent, battery energy burned per second
+ShieldBoosterRange = 30                  --kilometers, work radius
+ShieldBoosterRangeRARMP = 2              --kilometers, additional radius per unit of rarity
+ShieldBoosterCanUseOnSelf = false        --does the beam work on its own?
+ShieldBoosterValueTreshold = 10          --percentage, the minimum volume of the target's shield to be able to work
 
-ShieldSynchronizerCooldown = 5           --секунды, откат модуля
-ShieldSynchronizerAmount = 1             --проценты, объем передачи щита
-ShieldSynchronizerRange = 30             --километры, радиус действия модуля
-ShieldSynchronizerValueTreshold = 10     --проценты, минимальный объем щита цели для возможности работы
-ShieldSynchronizerValueTresholdRARMP = 1 --проценты, вычитаемые из ShieldSynchronizerValueTreshold за каждую единицу редкости
+ShieldSynchronizerCooldown = 12          --seconds, module rollback
+ShieldSynchronizerAmount = 0.45          --percentages, shield transfer volume
+ShieldSynchronizerRange = 30             --kilometers, module range
+ShieldSynchronizerValueTreshold = 10     --percentage, the minimum volume of the target's shield to be able to work
+ShieldSynchronizerValueTresholdRARMP = 1 --percentage subtracted from ShieldSynchronizerValueTreshold for each rarity
 
---Динамические величины, изменять вручную нельзя
-local RepairWaveIsReady = 0                --статус готовности модуля, содержит оставшееся время перезарядки модуля
-local RepairWaveIsWorking = 0              --статус активной фазы модуля, содержит оставшееся время работы модуля
-local RepairWaveHealAmount = 0             --объем восполняемого корпуса за тик, автоматически вычисляется
-local RepairWaveEnergyConsumptionCV = 0    --объем затрачиваемой энергии за тик, автоматически вычисляется
-local RepairWaveEntities = {}              --результат сканирования на предмет возможных целей для ремонта
+--Dynamic values, cannot be changed manually
+local RepairWaveIsReady = 0                --module readiness status, contains the remaining module recharge time
+local RepairWaveIsWorking = 0              --module active phase status, contains the remaining operating time of the module
+local RepairWaveHealAmount = 0             --the volume of the refilled hull per tick is automatically calculated
+local RepairWaveEnergyConsumptionCV = 0    --the amount of energy spent per tick is automatically calculated
+local RepairWaveEntities = {}              --scan result for possible targets for repair
 
-local RenovatingRayIsReady = 0             --статус готовности модуля, содержит оставшееся время перезарядки модуля
-local RenovatingRayIsWorking = false       --статус активной фазы модуля
-local RenovatingRayTarget = nil            --цель ремонтного луча
-local RenovatingRayAmount = 0              --объем восполняемого корпуса за тик, автоматически вычисляется
-local RenovatingRayEnergyConsumptionCV = 0 --объем затрачиваемой энергии за тик, автоматически вычисляется
-local RenovatingRayInRange = false         --флаг контроля расстояния
+local RenovatingRayIsReady = 0             --module readiness status, contains the remaining module recharge time
+local RenovatingRayIsWorking = false       --module active phase status
+local RenovatingRayTarget = nil            --repair beam target
+local RenovatingRayAmount = 0              --the volume of the refilled hull per tick is automatically calculated
+local RenovatingRayEnergyConsumptionCV = 0 --the amount of energy spent per tick is automatically calculated
+local RenovatingRayInRange = false         --distance control flag
 
-local ShieldBoosterIsReady = 0             --статус готовности модуля, содержит оставшееся время перезарядки модуля
-local ShieldBoosterIsWorking = false       --статус активной фазы модуля, содержит оставшееся время работы модуля
-local ShieldBoosterTarget = nil            --цель усилителя щита
-local ShieldBoosterHealAmount = 0          --объем восполняемого щита за тик, автоматически вычисляется
-local ShieldBoosterEnergyConsumptionCV = 0 --объем затрачиваемой энергии за тик, автоматически вычисляется
-local ShieldBoosterInRange = false         --флаг контроля расстояния
+local ShieldBoosterIsReady = 0             --module readiness status, contains the remaining module recharge time
+local ShieldBoosterIsWorking = false       --module active phase status, contains the remaining operating time of the module
+local ShieldBoosterTarget = nil            --shield booster target
+local ShieldBoosterHealAmount = 0          --the amount of shield replenished per tick is automatically calculated
+local ShieldBoosterEnergyConsumptionCV = 0 --the amount of energy spent per tick is automatically calculated
+local ShieldBoosterInRange = false         --distance control flag
 
-local ShieldSynchronizerIsReady = 0        --статус готовности модуля, содержит оставшееся время перезарядки модуля
-local ShieldSynchronizerIsWorking = false  --статус активной фазы модуля, содержит оставшееся время работы модуля
-local ShieldSynchronizerTarget = nil       --цель синхронизатора щитов
-local ShieldSynchronizerHealAmount = 0     --объем восполняемого щита за тик, автоматически вычисляется
-local ShieldSynchronizerPercent = 0        --средний процент щитов связанных кораблей, автоматически вычисляется
+local ShieldSynchronizerIsReady = 0        --module readiness status, contains the remaining module recharge time
+local ShieldSynchronizerIsWorking = false  --module active phase status, contains the remaining operating time of the module
+local ShieldSynchronizerTarget = nil       --shield synchronizer target
+local ShieldSynchronizerHealAmount = 0     --the amount of shield replenished per tick is automatically calculated
+local ShieldSynchronizerPercent = 0        --average percentage of shields of connected ships, automatically calculated
 local ShieldSynchronizerInRange = false
 
---Переменные интерфейса
+--Interface Variables
 local progressBars = {}
 
---Переменные графики
-local LaserRR = nil    --переменная ремонтного луча
-local LaserSB = nil    --переменная усилителя щита
-local LaserSS = nil    --переменная сихнронизатора
-local RefrSphere = nil --сферка ремонтной волны
+--Variable graphics
+local LaserRR = nil    --repair beam variable
+local LaserSB = nil    --shield amplifier variable
+local LaserSS = nil    --synchronizer variable
+local RefrSphere = nil --repair wave sphere
 
 -- optimization so that energy requirement doesn't have to be read every frame
 FixedEnergyRequirement = true
@@ -140,9 +140,9 @@ function ConvertToJ(_value, _reverse)
 end
 
 function CalculateRepairAmount(_type)
-	--0 ремонтная волна
-	--Обновляющий луч
-	--Усилитель щита
+	--0 repair wave
+	--Renewal Beam
+	--Shield Booster
 	if _type == 0 then
 		local _energyConsumpt = ConvertToJ(EnergySystem().capacity * (RepairWaveEnergyConsumption * 0.01), true)
 		local _baseHealMultiplier = round(_energyConsumpt * RepairWaveHealingAmount)
@@ -164,7 +164,7 @@ function CalculateRepairAmount(_type)
 		local otherPercent = Shield(ShieldSynchronizerTarget.id).filledPercentage
 		local midPercent = (selfPercent + otherPercent) / 2
 		DebugMsg("MidPercent is " .. tostring(midPercent))
-		--Если свой щит больше, перекачивает 0.2%
+		--If your shield is larger, pumps 0.2%
 		if selfPercent > midPercent + ShieldSynchronizerAmount * 0.01 then
 			return Shield().maximum * (ShieldSynchronizerAmount * 0.01)
 		end
@@ -176,14 +176,14 @@ function CalculateRepairAmount(_type)
 	end
 end
 
---Отображает затраты энки
+--Displays enki costs
 function RWgetHealAmount()
 	local _energyConsumpt = ConvertToJ(EnergySystem().capacity * (RepairWaveEnergyConsumption * 0.01), true)
 	DebugMsg(tostring(_energyConsumpt) .. "тДж - затраты энергии ремонтной волны")
 	local _baseHealMultiplier = round(_energyConsumpt * RepairWaveHealingAmount)
 	DebugMsg(tostring(_baseHealMultiplier) .. " - потенциальный ремонт корпуса")
 	local _baseHealMultiplierSelf = round(_baseHealMultiplier *
-	(1 + (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) / 100))
+		(1 + (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) / 100))
 	DebugMsg(tostring(_baseHealMultiplierSelf) .. " - потенциальный ремонт корпуса себе")
 
 	local _energyConsumptRR = ConvertToJ(EnergySystem().capacity * (RenovatingRayEnergyConsumption * 0.01), true)
@@ -217,7 +217,7 @@ end
 
 function DebugMassLaserDraw(_from, _to)
 	local PlayerCache = { Sector():getPlayers() }
-	if #PlayerCache < 1 then return end -- Потенциально невозможно, но пусть будет.
+	if #PlayerCache < 1 then return end -- Potentially impossible, but so be it.
 	for _, _player in pairs(PlayerCache) do
 		invokeClientFunction(_player, 'DebugLaserDraw', _from, _to)
 	end
@@ -240,7 +240,7 @@ callable(nil, "RestoreEnergy")
 
 function DamageTarget() --for debug
 	local tgtId = Entity().selectedObject
-	--Durability(tgtId).durability = Durability(tgtId).durability - 100000
+	--Durability(tgtId).durability = Durability(tgtId).durability -100000
 	Shield(tgtId).durability = Shield(tgtId).durability - 400000
 end
 
@@ -288,20 +288,20 @@ function update(timeStep)
 end
 
 function updateServer(timePassed)
-	--сегмент ремонтной волны
+	--repair wave segment
 	if RepairWaveIsReady > 0 then
-		RepairWaveIsReady = math.max(0, RepairWaveIsReady - timePassed) --непосредственно сокращение отката
+		RepairWaveIsReady = math.max(0, RepairWaveIsReady - timePassed) --direct reduction of rollback
 		local progress = RepairWaveIsReady / RepairWaveCooldown
 		executeUpdateProgressbar(1, progress)
 	end
 	if RepairWaveIsWorking > 0 then
 		RepairWaveIsWorking = math.max(0, RepairWaveIsWorking - timePassed)
 		RepairWaveOperate()
-		invokeClientFunction(Player(), "onFinishWork", RepairWaveIsWorking, 0) --Ловит момент окончания работы модуля
+		invokeClientFunction(Player(), "onFinishWork", RepairWaveIsWorking, 0) --Catch the moment when the module ends
 	end
-	--сегмент луча
+	--beam segment
 	if RenovatingRayIsReady > 0 and RenovatingRayIsWorking == false then
-		RenovatingRayIsReady = math.max(0, RenovatingRayIsReady - timePassed) --непосредственно сокращение отката
+		RenovatingRayIsReady = math.max(0, RenovatingRayIsReady - timePassed) --direct reduction of rollback
 		local progress = RenovatingRayIsReady / RenovatingRayCooldown
 		executeUpdateProgressbar(2, progress)
 	end
@@ -309,9 +309,9 @@ function updateServer(timePassed)
 		RenovationRayOperate()
 		executeUpdateProgressbar(2, 0, true)
 	end
-	--сегмент усилителя
+	--amplifier segment
 	if ShieldBoosterIsReady > 0 and ShieldBoosterIsWorking == false then
-		ShieldBoosterIsReady = math.max(0, ShieldBoosterIsReady - timePassed) --непосредственно сокращение отката
+		ShieldBoosterIsReady = math.max(0, ShieldBoosterIsReady - timePassed) --direct reduction of rollback
 		local progress = ShieldBoosterIsReady / ShieldBoosterCooldown
 		executeUpdateProgressbar(3, progress)
 	end
@@ -319,9 +319,9 @@ function updateServer(timePassed)
 		ShieldBoosterOperate()
 		executeUpdateProgressbar(3, 0, true)
 	end
-	--сегмент синхронизатора
+	--synchronizer segment
 	if ShieldSynchronizerIsReady > 0 and ShieldSynchronizerIsWorking == false then
-		ShieldSynchronizerIsReady = math.max(0, ShieldSynchronizerIsReady - timePassed) --сокращение отката
+		ShieldSynchronizerIsReady = math.max(0, ShieldSynchronizerIsReady - timePassed) --rollback reduction
 		local progress = ShieldSynchronizerIsReady / ShieldSynchronizerCooldown
 		executeUpdateProgressbar(4, progress)
 	end
@@ -336,7 +336,7 @@ function RepairWaveActivate()
 	if RepairWaveIsReady == 0 then
 		self = Entity()
 
-		--Типа-графика: установка значений и проверка на совпадения, отрисовка сферы
+		--Type-graphics: setting values ​​and checking for matches, drawing a sphere
 		local _type = 'MPrw'
 		local _source = self
 		local _radius = self.radius * 1.15
@@ -348,28 +348,28 @@ function RepairWaveActivate()
 		local _exitResult, _callResult = self:invokeFunction('raycast.lua', 'setSphere', _type, _source, _radius,
 			_ivec2radius, _color, _intensity, _reflectivity, _reflColor)
 
-		--Отсекание, если не сработала отрисовка сферы
+		--Clipping if drawing the sphere does not work
 		if _exitResult > 0 or _callResult > 0 then
 			DebugMsg('RepairWaveActivate eroro: setSphere failure')
 			return
 		end
 
-		--Установка кулдауна
+		--Setting cooldown
 		RepairWaveIsReady = RepairWaveCooldown - RepairWaveCooldownRARMP * _rarity
 
-		--Вычисление объема ремонта
+		--Calculation of repair volume
 		RepairWaveHealAmount = CalculateRepairAmount(0)
 
-		--Вычисление расхода энергии
+		--Energy consumption calculation
 		RepairWaveEnergyConsumptionCV = EnergySystem().capacity * (RepairWaveEnergyConsumption * 0.01)
 
-		--Установка времени работы
+		--Setting the operating time
 		RepairWaveIsWorking = RepairWaveOperationTime
 
-		--Создание иконки эффекта
+		--Creating an effect icon
 		invokeClientFunction(Player(), "updateStatusEffects", 0, true)
 
-		--Выключение луча и усилителя, если они работают
+		--Turn off the beam and amplifier if they are working
 		RenovatingRayTurnToFalse()
 		ShieldBoosterTurnToFalse()
 
@@ -387,7 +387,7 @@ function RepairWaveActivate()
 		}
 		callTechAuraSelf(_aura)
 
-		--Звук
+		--Sound
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 	else
 		invokeClientFunction(Player(), 'UIplaysound', 2)
@@ -396,10 +396,10 @@ end
 
 callable(nil, "RepairWaveActivate")
 
---Выключает графику
+--Turns off graphics
 -- function RepairWaveDeactivate()
 
--- end
+-- End
 
 function RepairWaveOperate()
 	if onServer() then
@@ -420,7 +420,7 @@ function RepairWaveOperate()
 				end
 				Durability(ship.id):healDamage(RepairWaveHealAmount, Entity().id)
 
-				--Аура
+				--Aura
 				local target = ship
 
 				local _aura = {
@@ -441,10 +441,10 @@ function RepairWaveOperate()
 		if Entity() then
 			local selfHealMult = (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) * 0.01 + 1
 			DebugMsg("SelfHealIs: " ..
-			tostring(RepairWaveHealAmount * selfHealMult) .. " where selfMult is " .. tostring(selfHealMult - 1))
+				tostring(RepairWaveHealAmount * selfHealMult) .. " where selfMult is " .. tostring(selfHealMult - 1))
 			Durability(Entity().id):healDamage(RepairWaveHealAmount * selfHealMult, Entity().id)
 		end
-		--Выключает обновляющий луч
+		--Turns off the refresh beam
 		-- RenovatingRayTurnToFalse()
 	end
 end
@@ -458,7 +458,7 @@ function ActivateTransferRW()
 end
 
 function RenovationRayActivate()
-	--Реактивация для выключения работающего луча
+	--Reactivation to turn off a working beam
 	local _shipTGT = Entity().selectedObject
 	local _shipSelf = Entity()
 	local _range = RenovatingRayRange + RenovatingRayRangeRARMP * _rarity
@@ -468,7 +468,7 @@ function RenovationRayActivate()
 		return
 	end
 
-	--Активация луча
+	--Beam activation
 	if RenovatingRayIsReady == 0 and Entity().selectedObject ~= nil and RepairWaveIsWorking == 0 then
 		if not (_shipTGT) or _shipTGT.index == _shipSelf.index then return end
 
@@ -505,24 +505,24 @@ end
 callable(nil, "RenovationRayActivate")
 
 function RenovationRayOperate()
-	--Проверка неактивности во время перезарядки
+	--Checking for inactivity during recharging
 	if RenovatingRayIsWorking == false then return end
 
-	--Проверка цели
+	--Check goals
 	if not (valid(RenovatingRayTarget)) or RenovatingRayTarget.isShip == false then
 		RenovatingRayTurnToFalse()
 		DebugMsg("RenovatingRay: не могу найти цель (отсутствует или погибла)")
 		return
 	end
 
-	--Проверка допустимой дистанции до цели
+	--Checking the permissible distance to the target
 	RenovatingRayInRange = isInRangeV3(RenovatingRayTarget.translationf, Entity().translationf,
 		RepairWaveRange + RenovatingRayRangeRARMP * _rarity)
 
-	--Контроль состояние цели
+	--Monitoring the state of the target
 	local repairNeeded = (Durability(RenovatingRayTarget.id).filledPercentage < 1)
 
-	--Контроль иконок статуса
+	--Status icon control
 	if RenovatingRayInRange then
 		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
 		invokeClientFunction(Player(), "updateStatusEffects", 2, false)
@@ -531,14 +531,14 @@ function RenovationRayOperate()
 		invokeClientFunction(Player(), "updateStatusEffects", 2, true)
 	end
 
-	--Восстановление корпуса
+	--Hull restoration
 	if RenovatingRayInRange and repairNeeded then
 		if EnergySystem().energy >= RenovatingRayEnergyConsumptionCV then
 			SyncEnergyRemove(RenovatingRayEnergyConsumptionCV)
 			Durability(RenovatingRayTarget.id):healDamage(RenovatingRayAmount, Entity().id)
 			DebugMsg("Ship '" .. RenovatingRayTarget.name .. "' healed for " .. tostring(RenovatingRayAmount))
 
-			--Аура
+			--Aura
 			local target = RenovatingRayTarget
 
 			local _aura = {
@@ -571,7 +571,7 @@ function RenovatingRayTurnToFalse()
 		invokeClientFunction(Player(), "updateStatusEffects", 1, false)
 		invokeClientFunction(Player(), "updateStatusEffects", 2, false)
 		invokeClientFunction(Player(), 'UIplaysound', 1)
-		--Сегмент выключения лазеров
+		--Laser off segment
 		DebugMsg('RenovatingRaySendFalse attempt')
 		Entity():invokeFunction('raycast.lua', 'removeLaser', 'MPrrS')
 		if valid(RenovatingRayTarget) then
@@ -589,12 +589,12 @@ function ShieldBoosterActivate()
 	local _shipSelf = Entity()
 	local _range = ShieldBoosterRange + ShieldBoosterRangeRARMP * _rarity
 
-	--Реактивация для выключения работающего луча
+	--Reactivation to turn off a working beam
 	if ShieldBoosterIsWorking then
 		ShieldBoosterTurnToFalse()
 		return
 	end
-	--Активация луча
+	--Beam activation
 	if ShieldBoosterIsReady == 0 and Entity().selectedObject ~= nil and RepairWaveIsWorking == 0 then
 		if not (_shipTGT) or _shipTGT.index == _shipSelf.index then return end
 
@@ -618,9 +618,9 @@ function ShieldBoosterActivate()
 		ShieldBoosterTarget = _shipTGT
 		invokeClientFunction(Player(), "updateStatusEffects", 3, true)
 		invokeClientFunction(Player(), "updateUIbarsToYellow", 2)
-		--invokeClientFunction(Player(),"ShieldBoosterRayGraphics",ShieldBoosterTarget)
+		--Invoke client function(player(),"shield booster ray graphics",shield booster target)
 		RenovatingRayTurnToFalse()
-		--RenovationRayGraphics(RenovatingRayTarget)
+		--Renovation ray graphics(renovating ray target)
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 	else
 		DebugMsg("ShieldBooster activation failure: on cooldown")
@@ -631,24 +631,24 @@ end
 callable(nil, "ShieldBoosterActivate")
 
 function ShieldBoosterOperate()
-	--Проверка неактивности во время перезарядки
+	--Checking for inactivity during recharging
 	if ShieldBoosterIsWorking == false then return end
 
-	--Проверка цели
+	--Check goals
 	if ShieldBoosterTarget == nil or ShieldBoosterTarget.isShip == false or Shield(ShieldBoosterTarget.id).filledPercentage < 0.1 then
 		ShieldBoosterTurnToFalse()
 		DebugMsg("ShieldBooster: не могу найти цель (отсутствует или погибла)")
 		return
 	end
 
-	--Проверка допустимой дистанции до цели
+	--Checking the permissible distance to the target
 	ShieldBoosterInRange = isInRangeV3(ShieldBoosterTarget.translationf, Entity().translationf,
 		ShieldBoosterRange + ShieldBoosterRangeRARMP * _rarity)
 
-	--Контроль состояние цели
+	--Monitoring the state of the target
 	local repairNeeded = (Shield(ShieldBoosterTarget.id).filledPercentage < 1)
 
-	--Контроль иконок статуса
+	--Status icon control
 	if ShieldBoosterInRange then
 		invokeClientFunction(Player(), "updateStatusEffects", 3, true)
 		invokeClientFunction(Player(), "updateStatusEffects", 4, false)
@@ -659,7 +659,7 @@ function ShieldBoosterOperate()
 		invokeClientFunction(Player(), "UniSetLaserWidth", 2, 0)
 	end
 
-	--Восстановление щита
+	--Shield restoration
 	if ShieldBoosterInRange and repairNeeded then
 		if EnergySystem().energy >= ShieldBoosterEnergyConsumptionCV then
 			SyncEnergyRemove(ShieldBoosterEnergyConsumptionCV)
@@ -667,7 +667,7 @@ function ShieldBoosterOperate()
 			DebugMsg("Ship '" .. ShieldBoosterTarget.name .. "' healed for " .. tostring(ShieldBoosterHealAmount))
 			DebugMsg("Percent is: " .. tostring(Shield(ShieldBoosterTarget.id).filledPercentage))
 
-			--Аура
+			--Aura
 			local target = ShieldBoosterTarget
 
 			local _aura = {
@@ -712,12 +712,12 @@ function ShieldSyncActivate()
 	local _shipTGT = Entity().selectedObject
 	local _shipSelf = Entity()
 	local _range = ShieldSynchronizerRange
-	--Реактивация для выключения работающего луча
+	--Reactivation to turn off a working beam
 	if ShieldSynchronizerIsWorking then
 		ShieldSyncTurnToFalse()
 		return
 	end
-	--Активация синхронизатора
+	--Synchronizer activation
 	if ShieldSynchronizerIsReady == 0 and Entity().selectedObject ~= nil then
 		if not (_shipTGT) or _shipTGT.index == _shipSelf.index then return end
 
@@ -748,9 +748,9 @@ end
 callable(nil, "ShieldSyncActivate")
 
 function ShieldSyncOperate()
-	--Проверка неактивности во время перезарядки
+	--Checking for inactivity during recharging
 	if ShieldSynchronizerIsWorking == false then return end
-	--Проверка цели
+	--Check goals
 	if not (valid(ShieldSynchronizerTarget)) then
 		ShieldSyncTurnToFalse()
 		return
@@ -761,10 +761,10 @@ function ShieldSyncOperate()
 		DebugMsg("ShieldSync: не могу найти цель (отсутствует или погибла)")
 		return
 	end
-	--Проверка допустимой дистанции до цели
+	--Checking the permissible distance to the target
 	ShieldSynchronizerInRange = isInRangeV3(ShieldSynchronizerTarget.translationf, Entity().translationf,
 		ShieldBoosterRange + ShieldSynchronizerRange)
-	--Контроль иконок статуса
+	--Status icon control
 	if ShieldSynchronizerInRange then
 		invokeClientFunction(Player(), "updateStatusEffects", 5, true)
 		invokeClientFunction(Player(), "updateStatusEffects", 6, false)
@@ -775,14 +775,14 @@ function ShieldSyncOperate()
 		invokeClientFunction(Player(), "UniSetLaserWidth", 2, 0)
 	end
 
-	--Восстановление щита
+	--Shield restoration
 	if ShieldSynchronizerInRange then
 		local _amount = CalculateRepairAmount(3)
 		local _treshold = (ShieldSynchronizerValueTreshold - ShieldSynchronizerValueTresholdRARMP * _rarity) * 0.01
 		local _myPercent = Shield().filledPercentage < _treshold
 		local _otherPercent = Shield(ShieldSynchronizerTarget.id).filledPercentage < _treshold
 
-		--Аура на цель
+		--Aura on target
 		local target = ShieldSynchronizerTarget
 
 		local _aura = {
@@ -799,7 +799,7 @@ function ShieldSyncOperate()
 		}
 		callTechAuraTarget(_aura, target)
 
-		--Аура на себя
+		--Aura on yourself
 		local _aura = {
 			getSubtechSignature(systemname, 4) .. 'self',
 			0,
@@ -818,7 +818,7 @@ function ShieldSyncOperate()
 			DebugMsg("No shield transfer needed or shields too low")
 			return
 		end
-		--Если возвращаемое значение положительно - щит перемещается от вас к цели, отрицательное - наоборот
+		--If the return value is positive, the shield moves from you to the target, negative -vice versa
 		Shield().durability = Shield().durability - _amount
 		Shield(ShieldSynchronizerTarget.id).durability = Shield(ShieldSynchronizerTarget.id).durability + _amount
 	end
@@ -850,20 +850,20 @@ function onFinishWork(_time, _type)
 			UIplaysound(1)
 		end
 		if _type == 1 then
-			--print("Ремонтная сеть завершила активную фазу")
+			--print("The repair network has completed its active phase")
 			UIplaysound(1)
 		end
 		if _type == 2 then
-			--print("Усилитель щита завершил активную фазу")
+			--print("The shield booster has completed its active phase")
 			UIplaysound(1)
 		end
 		if _type == 3 then
-			--print("Экстренный стабилизатор завершил фазу перегрузки")
+			--print("Emergency stabilizer has completed its overload phase")
 			UIplaysound(1)
 		end
 		updateStatusEffects(_type, false)
 		--print (Durability().filledPercentage)
-		--Durability().invincibility = Durability().invincibility - 0.5
+		--Durability().invincibility = Durability().invincibility -0.5
 	else
 		return
 	end
@@ -886,24 +886,25 @@ end
 function initializeUI()
 	subSysDesc = {
 		string.format(
-		"%s\nConsumes %i%% energy per second, restoring %i hull points to surrounding player-owned allied vessels for each %i TJ of energy consumed (~%i points per second). The repair of your own ship has been increased by %i%%. It does not allow you to use %s and %s while working.\nThe radius of operation of the module is %i km.\nThe working time is %i seconds.\nCooldown - %i s." %
-		_t, getSubtechName(systemname, 1), RepairWaveEnergyConsumption, RepairWaveHealingAmount, RepairWaveEnergyUnit,
+			"%s\nConsumes %i%% energy per second, restoring %i hull points to surrounding player-owned allied vessels for each %i TJ of energy consumed (~%i points per second). The repair of your own ship has been increased by %i%%. It does not allow you to use %s and %s while working.\nThe radius of operation of the module is %i km.\nThe working time is %i seconds.\nCooldown - %i s." %
+			_t, getSubtechName(systemname, 1), RepairWaveEnergyConsumption, RepairWaveHealingAmount, RepairWaveEnergyUnit,
 			CalculateRepairAmount(0), RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity,
 			getSubtechName(systemname, 2), getSubtechName(systemname, 3), RepairWaveRange, RepairWaveOperationTime,
 			RepairWaveCooldown - RepairWaveCooldownRARMP * _rarity),
 		string.format(
-		"%s\nConsumes %i%% energy per second and repairs the selected player-owned target, restoring %i hull points per second for each %i TJ of energy consumed (~%i points per second). Repair continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the operation of the shield booster.\nBeam working range: %i km.\nModule cooldown when changing targets: %i s." %
-		_t, getSubtechName(systemname, 2), RenovatingRayEnergyConsumption, RenovatingRayHealingAmount,
+			"%s\nConsumes %i%% energy per second and repairs the selected player-owned target, restoring %i hull points per second for each %i TJ of energy consumed (~%i points per second). Repair continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the operation of the shield booster.\nBeam working range: %i km.\nModule cooldown when changing targets: %i s." %
+			_t, getSubtechName(systemname, 2), RenovatingRayEnergyConsumption, RenovatingRayHealingAmount,
 			RenovatingRayEnergyUnit, CalculateRepairAmount(1), RenovatingRayRange + RenovatingRayRangeRARMP * _rarity,
 			RenovatingRayCooldown),
 		string.format(
-		"%s\nConsumes %i%% of the energy per second and charges the player-owned target shield, restoring %i points per second for each consumed %i TJ of energy (~%i points per second). Charging continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the work of the renovation ray.\nThe module will not work if the target's shield drops below %i%%\nBeam working range: %i km.\nModule cooldown when changing targets: %i s." %
-		_t, getSubtechName(systemname, 3), ShieldBoosterEnergyConsumption, ShieldBoosterHealingAmount,
+			"%s\nConsumes %i%% of the energy per second and charges the player-owned target shield, restoring %i points per second for each consumed %i TJ of energy (~%i points per second). Charging continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the work of the renovation ray.\nThe module will not work if the target's shield drops below %i%%\nBeam working range: %i km.\nModule cooldown when changing targets: %i s." %
+			_t, getSubtechName(systemname, 3), ShieldBoosterEnergyConsumption, ShieldBoosterHealingAmount,
 			ShieldBoosterEnergyUnit, CalculateRepairAmount(2), ShieldBoosterValueTreshold,
 			ShieldBoosterRange + ShieldBoosterRangeRARMP * _rarity, ShieldBoosterCooldown),
 		string.format(
-		"%s\nConnects the shields of your and the player-owned allied ship selected as the target. Tries to equalize the percentage of shields by siphoning %i%% of the shield per second from one ship to another. It can work in parallel with other modules of this system.\nThe range of the module: %i km.\nCooldown after changing the target: %i sec.\nThe module will not work if shields of one of the ships falls below %i%%" %
-		_t, getSubtechName(systemname, 4), ShieldSynchronizerAmount, ShieldSynchronizerRange, ShieldSynchronizerCooldown,
+			"%s\nConnects the shields of your and the player-owned allied ship selected as the target. Tries to equalize the percentage of shields by siphoning %i%% of the shield per second from one ship to another. It can work in parallel with other modules of this system.\nThe range of the module: %i km.\nCooldown after changing the target: %i sec.\nThe module will not work if shields of one of the ships falls below %i%%" %
+			_t, getSubtechName(systemname, 4), ShieldSynchronizerAmount, ShieldSynchronizerRange,
+			ShieldSynchronizerCooldown,
 			ShieldSynchronizerValueTreshold - ShieldSynchronizerValueTresholdRARMP * _rarity)
 	}
 
@@ -914,28 +915,28 @@ function executeDrawInterface(subSysDesc)
 	local subsys = {}
 
 	local subsys1 = {
-		getSubtechName(systemname, 1), --name
-		getSubtechIcon(systemname, 1), --icon
-		subSysDesc[1],          --desc
-		'RepairWaveActivate',   --command
+		getSubtechName(systemname, 1), --Name
+		getSubtechIcon(systemname, 1), --Icon
+		subSysDesc[1],           --Desc
+		'RepairWaveActivate',    --Command
 	}
 	local subsys2 = {
-		getSubtechName(systemname, 2), --name
-		getSubtechIcon(systemname, 2), --icon
-		subSysDesc[2],          --desc
-		'RenovationRayActivate', --command
+		getSubtechName(systemname, 2), --Name
+		getSubtechIcon(systemname, 2), --Icon
+		subSysDesc[2],           --Desc
+		'RenovationRayActivate', --Command
 	}
 	local subsys3 = {
-		getSubtechName(systemname, 3), --name
-		getSubtechIcon(systemname, 3), --icon
-		subSysDesc[3],          --desc
-		'ShieldBoosterActivate', --command
+		getSubtechName(systemname, 3), --Name
+		getSubtechIcon(systemname, 3), --Icon
+		subSysDesc[3],           --Desc
+		'ShieldBoosterActivate', --Command
 	}
 	local subsys4 = {
-		getSubtechName(systemname, 4), --name
-		getSubtechIcon(systemname, 4), --icon
-		subSysDesc[4],          --desc
-		'ShieldSyncActivate',   --command
+		getSubtechName(systemname, 4), --Name
+		getSubtechIcon(systemname, 4), --Icon
+		subSysDesc[4],           --Desc
+		'ShieldSyncActivate',    --Command
 	}
 	table.insert(subsys, subsys1)
 	table.insert(subsys, subsys2)
@@ -943,9 +944,9 @@ function executeDrawInterface(subSysDesc)
 	table.insert(subsys, subsys4)
 
 	local _table = {
-		scriptname,        --systemScript
-		getTechName(systemname), --systemName
-		getTechIcon(systemname), --systemIcon
+		scriptname,        --System script
+		getTechName(systemname), --System name
+		getTechIcon(systemname), --System icon
 		Entity().id,       --entityID
 		subsys             --subsys
 	}
@@ -972,7 +973,7 @@ function onJumpDeactivate()
 	DebugMsg('onJumpDeactivate')
 	-- if RepairWaveIsWorking>0 then
 
-	-- end
+	-- End
 	if RepairWaveIsWorking > 0 then
 		RepairWaveIsWorking = 0
 		Entity():invokeFunction('raycast.lua', 'RemoveSphere', 'MPrw')
@@ -996,21 +997,21 @@ end
 
 function onInstalled(seed, rarity, permanent)
 	local _eRegen, _eValue = getBonuses(seed, rarity, permanent)
-	--Назначает глобальную переменную, используемую для определения качества модуля
+	--Assigns a global variable used to determine module quality
 	_rarity = rarity.value
-	--Добавляет пассивные бонусы при установке
+	--Adds passive bonuses upon installation
 	addBaseMultiplier(StatsBonuses.GeneratedEnergy, _eRegen)
 	if _debug then print(_eRegen * 100, "% Бонус регена") end
 	addBaseMultiplier(StatsBonuses.EnergyCapacity, _eValue)
 	if _debug then print(_eValue * 100, "% Бонус аккума") end
 
-	--Инициализация хуков
+	--Initializing hooks
 	if onServer() then
 		Entity():registerCallback("onJump", "onJumpDeactivate")
-		--executeDrawInterface()
+		--Execute draw interface()
 	end
 
-	--Инициализация элементов интерфейса
+	--Initializing Interface Elements
 	if onClient() and not (BSwindow) then
 		initializeUI()
 		Player():registerCallback("onStateChanged", "UIshowhide")
@@ -1026,16 +1027,16 @@ function onUninstalled(seed, rarity, permanent)
 	end
 end
 
---Отвечает за различный связанный визуал(иконки на экране, свечение и прочее)
+--Responsible for various related visuals (icons on the screen, glow, etc.)
 function updateStatusEffects(_type, _status)
 	--[[
-	0 - иконка работы ремонтной волны
-	1 - иконка работы обновляющего луча
-	2 - обновляющий луч: вне радиуса
-	3 - усилитель щита: работа
-	4 - усилитель щита: вне радиуса/низкий заряд щита
-	5 - синхронизатор щита: работа
-	6 - синхронизатор щита: вне радиуса/низкий заряд щита
+	0 -repair wave work icon
+	1 -update beam operation icon
+	2 -refresh beam: out of radius
+	3 -shield amplifier: work
+	4 -shield booster: out of radius/low shield charge
+	5 -shield synchronizer: work
+	6 -shield synchronizer: out of radius/low shield charge
 ]]
 	if _type == 0 then
 		if _status then
@@ -1096,7 +1097,7 @@ function updateStatusEffects(_type, _status)
 	end
 end
 
---Отвечает за прогрессбар, процент и цвет полоски
+--Responsible for the progress bar, percentage and strip color
 function updateUIbars(MaxCooldown, CurrentCooldown, index)
 	if progressBars[index] == nil then return end
 	progressBars[index].progress = 1 - CurrentCooldown / MaxCooldown
@@ -1107,16 +1108,16 @@ function updateUIbars(MaxCooldown, CurrentCooldown, index)
 	end
 end
 
---Отвечает за прогрессбар, процент и цвет полоски, вилка для лучей
+--Responsible for the progressbar, percentage and color of the strip, fork for rays
 function updateUIbarsToYellow(index)
 	if progressBars[index] == nil then return end
 	progressBars[index].color = _colorY
 end
 
 function UIplaysound(_type)
-	--0 - activation
-	--1 - deactivation
-	--2 - error
+	--0 -activation
+	--1 -deactivation
+	--2 -error
 	if _type == 0 then
 		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.5)
 		return
@@ -1165,18 +1166,28 @@ function getTooltipLines(seed, rarity, permanent)
 	local bonuses = {}
 	local _eRegen, _eValue = getBonuses(seed, rarity, permanent)
 
-	--Бонусы
+	--Bonuses
 	table.insert(texts,
-		{ ltext = "Generated Energy" % _t, rtext = string.format("+%i%%", round(_eRegen * 100)), icon =
-		"data/textures/icons/electric.png", boosted = permanent })
+		{
+			ltext = "Generated Energy" % _t,
+			rtext = string.format("+%i%%", round(_eRegen * 100)),
+			icon =
+			"data/textures/icons/electric.png",
+			boosted = permanent
+		})
 	table.insert(texts,
-		{ ltext = "Energy Capacity" % _t, rtext = string.format("+%i%%", round(_eValue * 100)), icon =
-		"data/textures/icons/battery-pack-alt.png", boosted = permanent })
+		{
+			ltext = "Energy Capacity" % _t,
+			rtext = string.format("+%i%%", round(_eValue * 100)),
+			icon =
+			"data/textures/icons/battery-pack-alt.png",
+			boosted = permanent
+		})
 
-	--Пустая строка
+	--Empty string
 	table.insert(texts, { ltext = "" })
 
-	--Абилки
+	--Abilki
 	for i = 1, 4 do
 		table.insert(texts,
 			{ ltext = getSubtechName(systemname, i), icon = getSubtechIcon(systemname, i), boosted = permanent })
@@ -1199,14 +1210,24 @@ function getComparableValues(seed, rarity)
 	local bonus = {}
 	if _eRegen ~= 0 then
 		table.insert(base,
-			{ name = "Generated Energy" % _t, key = "generated_energy", value = round(_eRegen * 100), comp =
-			UpgradeComparison.MoreIsBetter })
+			{
+				name = "Generated Energy" % _t,
+				key = "generated_energy",
+				value = round(_eRegen * 100),
+				comp =
+					UpgradeComparison.MoreIsBetter
+			})
 	end
 
 	if charge ~= 0 then
 		table.insert(base,
-			{ name = "Recharge Rate" % _t, key = "recharge_rate", value = round(_eValue * 100), comp = UpgradeComparison
-			.MoreIsBetter })
+			{
+				name = "Recharge Rate" % _t,
+				key = "recharge_rate",
+				value = round(_eValue * 100),
+				comp = UpgradeComparison
+					.MoreIsBetter
+			})
 	end
 
 	return base, bonus

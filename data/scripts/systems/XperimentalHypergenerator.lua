@@ -30,9 +30,9 @@ function DebugMsg(_text)
 end
 
 function UIplaysound(_type)
-	--0 - activation
-	--1 - deactivation
-	--2 - error
+	--0 -activation
+	--1 -deactivation
+	--2 -error
 	local soundPath = '/systems/'
 	if _type == 0 then
 		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.5)
@@ -47,32 +47,32 @@ function UIplaysound(_type)
 		return
 	end
 	return
-	--invokeClientFunction(Player(),'UIplaysound',2)
+	--Invoke client function(player(),'u iplaysound',2)
 end
 
---Базовые величины активных фаз систем.
+--Basic values ​​of active phases of systems.
 
--- EnergyDrain = 40 --проценты, базовая величина удорожания зарядки гипердвигателя, изменяется от 0 до -12 в зависимости от качества модуля (снижается на 2% за уровень качества или -2 за уровень качества, для золотого (5 ур.) при базе в 20 штраф к стоимости зарядки будет составлять 12%, поскольку уровень качества составляет 4, умножается на два и это вычитается из базы, т.е. 20-(4*2)=12)
--- JumpCooldown = 10 --проценты, базовая величина сокращения зарядки ПД, изменяется от -3 до +15 в зависимости от качества (+9 для золотого, что в сумме составляет сокращение перезарядки на 19%)
--- JumpRange = 2 --единицы, дополнительная дальность прыжка. Изменяется от -1 до +5 в зависимости от качества модуля
+-- EnergyDrain = 40 --percentage, the base increase in the cost of charging a hyperdrive, varies from 0 to -12 depending on the quality of the module (reduced by 2% per quality level or -2 per quality level, for gold (level 5) with a base of 20, the penalty to the charging cost will be 12%, since the quality level is 4, multiplied by two and this is subtracted from the base, i.e. 20-(4*2)=12)
+-- JumpCooldown = 10 percent, base amount of PD charge reduction, ranges from -3 to +15 depending on quality (+9 for gold, totaling 19% cooldown reduction)
+-- JumpRange = 2 --units, additional jump range. Changes from -1 to +5 depending on the quality of the module
 
-QuantumShieldHeal = 3                     --проценты, объем щита, восстанавливаемого во время работы за одну секунду
-QuantumWorkingTimer = 20                  --секунды, время работы модуля после активации
-QuantumFirerateSlow = 60                  --проценты, замедление скорострельности во время работы
-QuantumCooldown = 400                     --секунды, время перезарядки системы (дефолт 400)
-QuantumJumpCooldown = 120                 --секунды, время, добавляемое к перезарядке гипердвигателя
+QuantumShieldHeal = 3                     --percentage, the amount of shield restored during operation per second
+QuantumWorkingTimer = 20                  --seconds, module operating time after activation
+QuantumFirerateSlow = 60                  --percentages, slowing down the rate of fire during operation
+QuantumCooldown = 400                     --seconds, system recharge time (default 400)
+QuantumJumpCooldown = 120                 --seconds, time added to hyperdrive cooldown
 
-DestabilizerChargeBoost = 5               --проценты, ускорение зарядки за единицу времени
-DestabilizerChargeDestruction = 2         --проценты, объем корпуса, теряемый во время работы модуля
-DestabilizerChargeDestructionTreshold = 6 --проценты, объем корпуса, при котором дестабилизатор перестает работать
-DestabilizerWorkingTimeBase = 10          --секунды, время работы модуля (изменяется от -1 до +5 в зависимости от качества модуля)
-DestabilizerShieldTreshold = 80           --проценты, объем щита, выше которого модуль не работает
-DestabilizerCooldown = 600                --секунды, время отката модуля (дефолт - 600)
+DestabilizerChargeBoost = 5               --percent, charging acceleration per unit of time
+DestabilizerChargeDestruction = 2         --percent, body volume lost during module operation
+DestabilizerChargeDestructionTreshold = 6 --percentage, body volume at which the destabilizer stops working
+DestabilizerWorkingTimeBase = 10          --seconds, module operating time (varies from -1 to +5 depending on the quality of the module)
+DestabilizerShieldTreshold = 80           --percentage, shield volume above which the module does not work
+DestabilizerCooldown = 600                --seconds, module rollback time (default -600)
 
-FocusedChargeReduction = 40               --проценты, объем сбрасываемого заряда гипердвигателя при активации
-FocusedIncrease = 120                     --проценты, объем увеличение дальности прыжка
-FocusedJumpCooldown = 10                  --секунды, дополнительное время перезарядки после прыжка за каждую единицу дополнительной дальности
-FocusedCooldown = 300                     --секунды, время отката модуля (дефолт - 300)
+FocusedChargeReduction = 40               --percentage, the amount of hyperdrive charge discarded upon activation
+FocusedIncrease = 120                     --percentage, volume increase jump distance
+FocusedJumpCooldown = 10                  --seconds, additional reload time after jumping for each unit of additional range
+FocusedCooldown = 300                     --seconds, module rollback time (default -300)
 
 if _debug then
 	DestabilizerChargeDestruction = 1
@@ -80,29 +80,29 @@ end
 
 -- -1 0 1 2 3 4 5
 -- 0 1 2 3 4 5 6
---Автоматические переменные
+--Automatic Variables
 _rarity = 0
 
-QuantumIsWorking = 0         --статус работы модуля
-QuantumIsReady = 0           --статус готовности модуля
-QuantumHealDelta = 0         --объем восстановления щита в секунду
-QuantumCanRecharge = false   --отвечает за блокировку перезарядки до прыжка
-QuantumDebuffFlag = false    --отвечает за снижение скорострельности
-QuantumStandbyFlag = false   --отвечает за режим ожидания
+QuantumIsWorking = 0         --module operation status
+QuantumIsReady = 0           --module readiness status
+QuantumHealDelta = 0         --amount of shield regeneration per second
+QuantumCanRecharge = false   --is responsible for blocking reloading before jumping
+QuantumDebuffFlag = false    --responsible for reducing the rate of fire
+QuantumStandbyFlag = false   --responsible for standby mode
 
-DestabilizerIsWorking = 0    --статус работы модуля
-DestabilizerIsReady = 0      --статус готовности модуля
-DestabilizerDamageToHull = 0 --наносимый работой урон по корпусу
-DestabilizerSpeedUp = 0      --единицы ускорения перезарядки ПД
+DestabilizerIsWorking = 0    --module operation status
+DestabilizerIsReady = 0      --module readiness status
+DestabilizerDamageToHull = 0 --damage caused by work to the body
+DestabilizerSpeedUp = 0      --PD recharge acceleration units
 
---FocusedIsWorking = 0 --статус работы модуля
-FocusedIsReady = 0              --статус готовности модуля
-FocusedChargeReductionTimer = 0 --значение, до которого откатывается перезарядка (100% - FocusedChargeReduction)
-FocusedBonusRange = 0           --бонус к прыжку
-FocusedCanRecharge = false      --отвечает за блокировку перезарядки до прыжка
-FocusedChargedFlag = false      --отвечает за активность усиления прыжка
+--FocusedIsWorking = 0 --module operation status
+FocusedIsReady = 0              --module readiness status
+FocusedChargeReductionTimer = 0 --value to which cooldown is rolled back (100% -FocusedChargeReduction)
+FocusedBonusRange = 0           --jump bonus
+FocusedCanRecharge = false      --is responsible for blocking reloading before jumping
+FocusedChargedFlag = false      --responsible for jump enhancement activity
 
---Переменные интерфейса
+--Interface Variables
 local progressBars = {}
 local buttons = {}
 local _tooltip = {}
@@ -115,7 +115,7 @@ function xFocusActivate()
 	if FocusedIsReady == 0 and HyperspaceEngine().currentCooldown == 0 then
 		FocusedCanRecharge = false
 		FocusedIsReady = FocusedCooldown
-		--invokeClientFunction(Player(),"updateUIbars",FocusedCooldown,FocusedIsReady,2)
+		--Invoke client function(player(),"update u ibars",focused cooldown,focused is ready,2)
 		executeUpdateProgressbar(3, 1)
 		invokeClientFunction(Player(), "updateStatusEffects", 2, true)
 		if FocusedChargeReduction > 0 and FocusedChargeReduction < 100 then
@@ -160,16 +160,16 @@ function xFocusJump()
 	invokeClientFunction(Player(), "updateStatusEffects", 2, false)
 end
 
---Передает управление основной функцией серверу
+--Transfers control of the main function to the server
 function xQuantumActivateTransfer()
 	invokeServerFunction("xQuantumActivate")
 end
 
---Основная функция активации
+--Main activation function
 function xQuantumActivate()
 	if QuantumIsReady == 0 then
 		QuantumIsReady = QuantumCooldown
-		--invokeClientFunction(Player(),"updateUIbars",QuantumCooldown,QuantumIsReady,0)
+		--Invoke client function(player(),"update u ibars",quantum cooldown,quantum is ready,0)
 		invokeClientFunction(Player(), "updateStatusEffects", 4, true)
 		--QuantumIsWorking = QuantumWorkingTimer
 		QuantumHealDelta = Shield():getMaxDurability(true) / 100 * QuantumShieldHeal
@@ -188,14 +188,14 @@ callable(nil, "xQuantumActivate")
 function xDestabilizerActivate()
 	if DestabilizerIsReady == 0 then
 		DestabilizerIsReady = DestabilizerCooldown
-		--invokeClientFunction(Player(),"updateUIbars",100,1,1)
+		--Invoke client function(player(),"update u ibars",100,1,1)
 		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
 		DestabilizerIsWorking = DestabilizerWorkingTimeBase + _rarity
 		DestabilizerDamageToHull = Durability().maximum / 100 * DestabilizerChargeDestruction
 		DestabilizerSpeedUp = HyperspaceEngine().currentCooldown / HyperspaceEngine().cooldownSpeed / 100 *
-		DestabilizerChargeBoost
+			DestabilizerChargeBoost
 
-		--Аура (зарядка)
+		--Aura (charge)
 		local _aura = {
 			getSubtechSignature(systemname, 2),
 			string.format("+%i%%", DestabilizerChargeBoost),
@@ -210,7 +210,7 @@ function xDestabilizerActivate()
 		}
 		callTechAuraSelf(_aura)
 
-		--Аура (разрушение)
+		--Aura (destruction)
 		local _aura = {
 			getSubtechSignature(systemname, 2) .. 'destruction',
 			string.format("-%i/s", (Durability().maximum / 100 * DestabilizerChargeDestruction)),
@@ -249,7 +249,7 @@ function xDestabilizerActivateTransfer()
 	invokeServerFunction("xDestabilizerActivate")
 end
 
---Ждет начало вычисления гиперпрыжка и выполняет соответствующие действия
+--Waits for the hyperjump calculation to begin and performs the appropriate actions
 function xQuantumTrigger()
 	Entity():unregisterCallback("onJumpRouteCalculationStarted", "xQuantumTrigger")
 
@@ -266,7 +266,7 @@ function xQuantumTrigger()
 	QuantumDebuffFlag = true
 	QuantumStandbyFlag = false
 
-	--Аура на себя
+	--Aura on yourself
 	local _aura = {
 		getSubtechSignature(systemname, 1),
 		string.format("+%i/s", QuantumHealDelta),
@@ -281,12 +281,12 @@ function xQuantumTrigger()
 	}
 	callTechAuraSelf(_aura)
 
-	--Штраф скорострельности
+	--Fire rate penalty
 	Entity():addBaseMultiplier(StatsBonuses.FireRate, -QuantumFirerateSlow / 100)
 	invokeClientFunction(Player(), 'UIplaysound', 0)
 end
 
---Ждет совершение гиперпрыжка для того, чтобы откатить штрафы
+--Waiting to make a hyperjump in order to roll back penalties
 function XQuantumJump()
 	Entity():unregisterCallback("onHyperspaceEntered", "XQuantumJump")
 	if _debug then print("XQuantumJump сработал, снимаю штрафы") end
@@ -301,7 +301,7 @@ function XQuantumJump()
 	invokeClientFunction(Player(), 'UIplaysound', 1)
 end
 
---Добавляет дополнительное время к перезарядке ПД при вызове
+--Adds additional time to PD cooldown when called
 function onJumpFinished(_time)
 	if _debug then print("Прыжок завершен, применяю изменения") end
 	Entity().hyperspaceCooldown = Entity().hyperspaceCooldown + _time
@@ -320,14 +320,14 @@ function update(timeStep)
 end
 
 function updateServer(timePassed)
-	--Сегмент квантовой перегрузки
+	--Quantum Overload Segment
 	if QuantumIsReady > 0 and QuantumCanRecharge then
 		QuantumIsReady = math.max(0, QuantumIsReady - timePassed)
-		--invokeClientFunction(Player(),"updateUIbars",QuantumCooldown,QuantumIsReady,0)
+		--Invoke client function(player(),"update u ibars",quantum cooldown,quantum is ready,0)
 		executeUpdateProgressbar(1, QuantumIsReady / QuantumCooldown)
 	end
 
-	--Standby активация ауры кванта
+	--Standby activation of quantum aura
 	if QuantumStandbyFlag then
 		executeUpdateProgressbar(1, 0, true)
 		local _aura = {
@@ -345,7 +345,7 @@ function updateServer(timePassed)
 		callTechAuraSelf(_aura)
 	end
 
-	--Активация ауры на снижение скорострельности кванта
+	--Activating the aura to reduce the rate of fire of the quantum
 	if QuantumDebuffFlag then
 		local _aura = {
 			getSubtechSignature(systemname, 1) .. 'firerate',
@@ -362,7 +362,7 @@ function updateServer(timePassed)
 		callTechAuraSelf(_aura)
 	end
 
-	--Активация ауры на усиление прыжка
+	--Activating the aura to enhance the jump
 	if FocusedChargedFlag then
 		local _aura = {
 			getSubtechSignature(systemname, 3),
@@ -386,7 +386,7 @@ function updateServer(timePassed)
 			invokeClientFunction(Player(), "updateStatusEffects", 0, false)
 		end
 	end
-	--Сегмент дестабилизатора
+	--Destabilizer segment
 	if DestabilizerIsReady > 0 then
 		DestabilizerIsReady = math.max(0, DestabilizerIsReady - timePassed)
 		executeUpdateProgressbar(2, DestabilizerIsReady / DestabilizerCooldown)
@@ -406,11 +406,11 @@ function updateServer(timePassed)
 			end
 		end
 
-		if DestabilizerIsWorking == 0 then --срабатывает при завершении работы
+		if DestabilizerIsWorking == 0 then --fires when shutdown
 			invokeClientFunction(Player(), "updateStatusEffects", 1, false)
 		end
 	end
-	--Сегмент фокуса
+	--Focus segment
 	if FocusedIsReady > 0 and FocusedCanRecharge then
 		FocusedIsReady = math.max(0, FocusedIsReady - timePassed)
 		executeUpdateProgressbar(3, FocusedIsReady / FocusedCooldown)
@@ -472,7 +472,7 @@ function onUninstalled(seed, rarity, permanent)
 	end
 end
 
---Следующая функция создает кнопку (и пункт в меню корабля), нажав на которую можно открывать интерфейс
+--The following function creates a button (and an item in the ship menu) that can be clicked to open the interface
 function interactionPossible(playerIndex, option)
 	local player = Player()
 	if Entity().index == player.craftIndex then
@@ -483,7 +483,7 @@ function interactionPossible(playerIndex, option)
 end
 
 -- function updateUIbars(_max,_current,index)
--- progressBars[index].progress = 1 - _current / _max
+-- progressBars[index].progress = 1 -_current /_max
 -- if progressBars[index].progress == 1 then
 -- progressBars[index].color = ColorHSV(150, 64, 100)
 -- else
@@ -492,12 +492,12 @@ end
 -- end
 
 function updateStatusEffects(_type, _status)
-	--0 - иконка работы кванта
-	--1 - иконка работы дестабилизатора
-	--2 - иконка работы фокуса
-	--3 - иконка дебаффа кванта
-	--4 - иконка ожидания кванта
-	--5 - иконка некорректной работы дестабилизатора (на удаление)
+	--0 -quantum work icon
+	--1 -destabilizer operation icon
+	--2 -focus work icon
+	--3 -quantum debuff icon
+	--4 -quantum waiting icon
+	--5 -icon of incorrect operation of the destabilizer (to be deleted)
 
 	if _type == 0 then
 		if _status then
@@ -565,17 +565,17 @@ end
 function initializeUI()
 	local subSysDesc = {
 		string.format(
-		"%s\nActivation puts the module into standby mode. As soon as the ship's computer starts calculating the jump route, the module turns on and begins to restore %i%% of the shield charge per second, the duration is limited by %i seconds.\nThe rate of fire of the all weapons will be reduced by %i%% before the jump. Adds %i seconds to the JD recharge time after the jump.\nCooldown - %i seconds, while the recharge begins only after the jump" %
-		_t, getSubtechName(systemname, 1), QuantumShieldHeal, QuantumWorkingTimer, QuantumFirerateSlow,
+			"%s\nActivation puts the module into standby mode. As soon as the ship's computer starts calculating the jump route, the module turns on and begins to restore %i%% of the shield charge per second, the duration is limited by %i seconds.\nThe rate of fire of the all weapons will be reduced by %i%% before the jump. Adds %i seconds to the JD recharge time after the jump.\nCooldown - %i seconds, while the recharge begins only after the jump" %
+			_t, getSubtechName(systemname, 1), QuantumShieldHeal, QuantumWorkingTimer, QuantumFirerateSlow,
 			QuantumJumpCooldown, QuantumCooldown),
 		string.format(
-		"%s\nActivation begins to accelerate the current hyperdrive recharge by %i%% per second, while destroying %i%% of the hull per second.\nThe destabilizer will run idle if the ship's shield charge exceeds %i%%, or the hull drops below %i%% \nThe module functions for %i seconds.\nCooldown - %i seconds" %
-		_t, getSubtechName(systemname, 2), DestabilizerChargeBoost, DestabilizerChargeDestruction,
+			"%s\nActivation begins to accelerate the current hyperdrive recharge by %i%% per second, while destroying %i%% of the hull per second.\nThe destabilizer will run idle if the ship's shield charge exceeds %i%%, or the hull drops below %i%% \nThe module functions for %i seconds.\nCooldown - %i seconds" %
+			_t, getSubtechName(systemname, 2), DestabilizerChargeBoost, DestabilizerChargeDestruction,
 			DestabilizerShieldTreshold, DestabilizerChargeDestructionTreshold, (DestabilizerWorkingTimeBase + _rarity),
 			DestabilizerCooldown),
 		string.format(
-		"%s\nActivation partially resets the hyperdrive charge and increases the maximum jump range by %i%%.\nHyperdrive recharge after a jump increases by %i seconds for each additional unit of range.\nCooldown - %i seconds and is possible only after making a jump.\nThe module can only be activated when the hyperdrive is fully charged" %
-		_t, getSubtechName(systemname, 3), FocusedIncrease, FocusedJumpCooldown, FocusedCooldown),
+			"%s\nActivation partially resets the hyperdrive charge and increases the maximum jump range by %i%%.\nHyperdrive recharge after a jump increases by %i seconds for each additional unit of range.\nCooldown - %i seconds and is possible only after making a jump.\nThe module can only be activated when the hyperdrive is fully charged" %
+			_t, getSubtechName(systemname, 3), FocusedIncrease, FocusedJumpCooldown, FocusedCooldown),
 	}
 
 	invokeServerFunction('executeDrawInterface', subSysDesc)
@@ -585,22 +585,22 @@ function executeDrawInterface(subSysDesc)
 	local subsys = {}
 
 	local subsys1 = {
-		getSubtechName(systemname, 1), --name
-		getSubtechIcon(systemname, 1), --icon
-		subSysDesc[1],          --desc
-		'xQuantumActivate',     --command
+		getSubtechName(systemname, 1), --Name
+		getSubtechIcon(systemname, 1), --Icon
+		subSysDesc[1],           --Desc
+		'xQuantumActivate',      --Command
 	}
 	local subsys2 = {
-		getSubtechName(systemname, 2), --name
-		getSubtechIcon(systemname, 2), --icon
-		subSysDesc[2],          --desc
-		'xDestabilizerActivate', --command
+		getSubtechName(systemname, 2), --Name
+		getSubtechIcon(systemname, 2), --Icon
+		subSysDesc[2],           --Desc
+		'xDestabilizerActivate', --Command
 	}
 	local subsys3 = {
-		getSubtechName(systemname, 3), --name
-		getSubtechIcon(systemname, 3), --icon
-		subSysDesc[3],          --desc
-		'xFocusActivate',       --command
+		getSubtechName(systemname, 3), --Name
+		getSubtechIcon(systemname, 3), --Icon
+		subSysDesc[3],           --Desc
+		'xFocusActivate',        --Command
 	}
 
 	table.insert(subsys, subsys1)
@@ -609,9 +609,9 @@ function executeDrawInterface(subSysDesc)
 
 
 	local _table = {
-		scriptname,        --systemScript
-		getTechName(systemname), --systemName
-		getTechIcon(systemname), --systemIcon
+		scriptname,        --System script
+		getTechName(systemname), --System name
+		getTechIcon(systemname), --System icon
 		Entity().id,       --entityID
 		subsys             --subsys
 	}
@@ -654,7 +654,7 @@ function getName(seed, rarity)
 		_name = "Meow"
 	end
 
-	--return "${prefix} ${reach}${type} MK ${mark} /* ex: Unveiling R-4 Hyperspace Enhancer MK IV*/"%_t % {prefix = prefix, reach = reachStr, type = type, mark = mark}
+	--return "${prefix} ${reach}${type} MK ${mark} /*ex: Unveiling R-4 Hyperspace Enhancer MK IV*/"%_t % {prefix = prefix, reach = reachStr, type = type, mark = mark}
 	return getTechName(systemname) .. ' ' .. _name
 end
 
@@ -678,29 +678,44 @@ function getTooltipLines(seed, rarity, permanent)
 	local texts = {}
 	local bonuses = {}
 
-	--Бонусы
+	--Bonuses
 	table.insert(texts,
-		{ ltext = "Hyperspace Cooldown" % _t, rtext = "-" .. tostring(_cooldown) .. "%", icon =
-		"data/textures/icons/hourglass.png", boosted = permanent })
+		{
+			ltext = "Hyperspace Cooldown" % _t,
+			rtext = "-" .. tostring(_cooldown) .. "%",
+			icon =
+			"data/textures/icons/hourglass.png",
+			boosted = permanent
+		})
 	table.insert(texts,
-		{ ltext = "Hyperspace Charge Energy" % _t, rtext = "+" .. tostring(_eDrain) .. "%", icon =
-		"data/textures/icons/electric.png", boosted = permanent })
+		{
+			ltext = "Hyperspace Charge Energy" % _t,
+			rtext = "+" .. tostring(_eDrain) .. "%",
+			icon =
+			"data/textures/icons/electric.png",
+			boosted = permanent
+		})
 	table.insert(texts,
-		{ ltext = "Jump Range" % _t, rtext = "+" .. tostring(_jump), icon = "data/textures/icons/star-cycle.png", boosted =
-		permanent })
+		{
+			ltext = "Jump Range" % _t,
+			rtext = "+" .. tostring(_jump),
+			icon = "data/textures/icons/star-cycle.png",
+			boosted =
+				permanent
+		})
 
-	--Пустая строка
+	--Empty string
 	table.insert(texts, { ltext = "" })
 
-	--Абилки
+	--Abilki
 	for i = 1, 3 do
 		table.insert(texts,
 			{ ltext = getSubtechName(systemname, i), icon = getSubtechIcon(systemname, i), boosted = permanent })
 	end
 
-	-- table.insert(texts, {ltext = "Квантовая перегрузка"%_t, rtext = "Да", rcolor = ColorRGB(0.3, 1.0, 0.3), icon = "data/textures/icons/SUBSYSJumpCocoon.png", boosted = permanent})
-	-- table.insert(texts, {ltext = "Дестабилизатор пространства"%_t, rtext = "Да", rcolor = ColorRGB(0.3, 1.0, 0.3), icon = "data/textures/icons/SUBSYSDestibilizer.png", boosted = permanent})
-	-- table.insert(texts, {ltext = "Сфокусированный прыжок"%_t, rtext = "Да", rcolor = ColorRGB(0.3, 1.0, 0.3), icon = "data/textures/icons/SUBSYSFocusedJump.png", boosted = permanent})
+	-- table.insert(texts, {ltext = "Quantum Overload"%_t, rtext = "Yes", rcolor = ColorRGB(0.3, 1.0, 0.3), icon = "data/textures/icons/SUBSYSJumpCocoon.png", boosted = permanent})
+	-- table.insert(texts, {ltext = "Space Destabilizer"%_t, rtext = "Yes", rcolor = ColorRGB(0.3, 1.0, 0.3), icon = "data/textures/icons/SUBSYSDestibilizer.png", boosted = permanent})
+	-- table.insert(texts, {ltext = "Focused Jump"%_t, rtext = "Yes", rcolor = ColorRGB(0.3, 1.0, 0.3), icon = "data/textures/icons/SUBSYSFocusedJump.png", boosted = permanent})
 
 	return texts, bonuses
 end
@@ -723,19 +738,19 @@ function getComparableValues(seed, rarity)
 	-- local reach, cdfactor, efactor, radar = getBonuses(seed, rarity, permanent)
 
 	-- if reach ~= 0 then
-	-- table.insert(values, {name = "Jump Range"%_t, key = "jump_range", value = round(reach * 100), comp = UpgradeComparison.MoreIsBetter})
+	-- table.insert(values, {name = "Jump Range"%_t, key = "jump_range", value = round(reach *100), comp = UpgradeComparison.MoreIsBetter})
 	-- end
 
 	-- if radar ~= 0 then
-	-- table.insert(values, {name = "Radar Range"%_t, key = "radar_range", value = round(radar * 100), comp = UpgradeComparison.MoreIsBetter})
+	-- table.insert(values, {name = "Radar Range"%_t, key = "radar_range", value = round(radar *100), comp = UpgradeComparison.MoreIsBetter})
 	-- end
 
 	-- if cdfactor ~= 0 then
-	-- table.insert(values, {name = "Hyperspace Cooldown"%_t, key = "hs_cooldown", value = round(cdfactor * 100), comp = UpgradeComparison.LessIsBetter})
+	-- table.insert(values, {name = "Hyperspace Cooldown"%_t, key = "hs_cooldown", value = round(cdfactor *100), comp = UpgradeComparison.LessIsBetter})
 	-- end
 
 	-- if efactor ~= 0 then
-	-- table.insert(values, {name = "Recharge Energy"%_t, key = "recharge_energy", value = round(efactor * 100), comp = UpgradeComparison.LessIsBetter})
+	-- table.insert(values, {name = "Recharge Energy"%_t, key = "recharge_energy", value = round(efactor *100), comp = UpgradeComparison.LessIsBetter})
 	-- end
 	-- end
 

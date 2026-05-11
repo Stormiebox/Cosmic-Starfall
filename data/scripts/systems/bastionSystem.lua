@@ -69,7 +69,7 @@ function DoMeow()
 end
 
 function CheckForEnemy(me, target)
-	--checkIfTorpedo
+	--Check if torpedo
 	if target.type == EntityType.Torpedo then
 		local SC = Entity(Torpedo(target.index).shootingCraft)
 		local torpedoTarget = Entity(TorpedoAI(target.index).target)
@@ -80,7 +80,7 @@ function CheckForEnemy(me, target)
 		end
 	end
 
-	--checkOthers
+	--Check others
 	if Owner(me):getRelationValue(Owner(target).factionIndex) < -95000 then return true end
 	return false
 end
@@ -127,34 +127,34 @@ local progressBars = {}
 local buttons = {}
 local _tooltip = {}
 
---Базовые величины активных фаз систем.
-local VeilResistance = 25  --проценты, резист щита
-local VeilRepair = 0.1     --проценты, максимальный объем щита, который переводится в ремонт корпуса в секунду
-local VeilFireRate = 25    --проценты, падение скорострельности
-local VeilCooldown = 60    --секунды, кд
-local VeilCooldownR = 2    --секунды, снижение кд за уровень редкости
+--Basic values ​​of active phases of systems.
+local VeilResistance = 16  --percent, shield resist
+local VeilRepair = 0.06    --percentage, the maximum amount of shield that is converted into hull repair per second
+local VeilFireRate = 25    --percentages, rate of fire drop
+local VeilCooldown = 85    --seconds, cd
+local VeilCooldownR = 2    --seconds, cooldown reduction per rarity level
 
-local RecupMaxValue = 25   --проценты, макс накопление в зависимости от щита
-local RecupMaxValueR = 1   --проценты, бонус за уровень редкости
-local RecupMultiplier = 40 --проценты, конверсия полученного урона в заряд
-local RecupLength = 20     --секунды, время работы модуля
-local RecupCooldown = 35   --секунды, откат
+local RecupMaxValue = 25   --interest, max accumulation depending on the shield
+local RecupMaxValueR = 1   --interest, bonus for rarity level
+local RecupMultiplier = 26 --percentages, conversion of damage received into charge
+local RecupLength = 14     --seconds, module operating time
+local RecupCooldown = 55   --seconds, rollback
 
 
-local MultiphaseLength = 30       --секунды, время действия
-local MultiphaseLengthR = 1       --секунды, дополнительная длительность за уровень редкости
-local MultiphaseCooldown = 60     --секунды, откат
-local MultiphaseCooldownR = 1     -- секунды, снижение отката за уровень редкости
-local MultiphaseChargeLength = 25 --секунды, время непрерывной зарядки после активации
+local MultiphaseLength = 20       --seconds, duration
+local MultiphaseLengthR = 1       --seconds, additional duration per rarity level
+local MultiphaseCooldown = 95     --seconds, rollback
+local MultiphaseCooldownR = 1     -- seconds, reduced cooldown per rarity level
+local MultiphaseChargeLength = 25 --seconds, continuous charging time after activation
 
-local PulsarRange = 30            --километры, радиус работы модуля
-local PulsarRangeR = 2            --километры, доп дальность за уровень редкости
-local PulsarLength = 10           --секунды, длительность работы
-local PulsarLengthR = 1           --секунды, дополнительная длительность за единицу редкости
-local PulsarCooldown = 100        --секунды, откат
-local PulsarTreshold = 10         --проценты, ограничение минимального объема щита для работы
+local PulsarRange = 22            --kilometers, module operating radius
+local PulsarRangeR = 2            --kilometers, additional range per rarity level
+local PulsarLength = 7            --seconds, duration of operation
+local PulsarLengthR = 1           --seconds, additional duration per rarity
+local PulsarCooldown = 135        --seconds, rollback
+local PulsarTreshold = 10         --percentage, limitation of the minimum volume of the shield for work
 
---Автоматические переменные
+--Automatic Variables
 local VeilIsReady = 0
 local VeilIsWorking = false
 local VeilRepairAmount = 0
@@ -190,7 +190,7 @@ if _debug then
 	MultiphaseCooldown = 15
 	--MultiphaseLength = 5
 	PulsarCooldown = 16
-	--print("Перманент выключен")
+	--print("Permanent is turned off")
 else
 	PermanentInstallationOnly = true
 end
@@ -210,26 +210,26 @@ function update(timeStep)
 end
 
 function updateServer(timePassed)
-	--Сегмент "Завесы"
+	--Segment "Veils"
 	local _player = Player(callingPlayer)
 	if not (_player) then return end
 	if VeilIsReady > 0 and not (VeilIsWorking) then
-		VeilIsReady = math.max(0, VeilIsReady - timePassed) --непосредственно сокращение отката
+		VeilIsReady = math.max(0, VeilIsReady - timePassed) --direct reduction of rollback
 		executeUpdateProgressbar(1, VeilIsReady / (VeilCooldown - VeilCooldownR * _rarity))
 	end
 	if VeilIsWorking then
 		VeilOperate()
 		executeUpdateProgressbar(1, 0, true)
 	end
-	--Сегмент рекуперации
+	--Recovery segment
 	if RecupIsReady > 0 then
-		RecupIsReady = math.max(0, RecupIsReady - timePassed) --непосредственно сокращение отката
+		RecupIsReady = math.max(0, RecupIsReady - timePassed) --direct reduction of rollback
 		executeUpdateProgressbar(2, RecupIsReady / RecupCooldown)
 	end
 	if RecupIsWorking > 0 then
 		RecupIsWorking = math.max(0, RecupIsWorking - timePassed)
 		RecupOperate()
-		invokeClientFunction(_player, "onFinishWork", RecupIsWorking, 1) --Ловит момент окончания работы модуля
+		invokeClientFunction(_player, "onFinishWork", RecupIsWorking, 1) --Catch the moment when the module ends
 	else
 		--DebugMsg("Attempt to call updateUIrecup")
 		local _value = Entity():getValue("RecupStoredAmount")
@@ -237,47 +237,47 @@ function updateServer(timePassed)
 			executeUpdateSecondary(2, _value / RecupMaximumAmount)
 		end
 	end
-	--Сегмент мультифазника
+	--Multiphase segment
 	if MultiphaseIsReady > 0 then
-		MultiphaseIsReady = math.max(0, MultiphaseIsReady - timePassed) --непосредственно сокращение отката
+		MultiphaseIsReady = math.max(0, MultiphaseIsReady - timePassed) --direct reduction of rollback
 		executeUpdateProgressbar(3, MultiphaseIsReady / (MultiphaseCooldown - MultiphaseCooldownR * _rarity))
 	end
 	if MultiphaseIsWorking > 0 then
 		MultiphaseIsWorking = math.max(0, MultiphaseIsWorking - timePassed)
-		invokeClientFunction(_player, "onFinishWork", MultiphaseIsWorking, 2) --Ловит момент окончания работы модуля
-		--Сбрасывает бонусы при окончании работы
+		invokeClientFunction(_player, "onFinishWork", MultiphaseIsWorking, 2) --Catch the moment when the module ends
+		--Resets bonuses when finishing work
 		if MultiphaseIsWorking == 0 then
 			MultiphaseOperateSetup()
 			DebugMsg("Multiphase: trying to 'MultiphaseOperateSetup'")
 		end
-		--Обрабатывает отключение щита
+		--Handles shield shutdown
 		if Shield().durability == 0 then
 			DebugMsg("serverUpdate_Multiphase: shields down, deactivating")
 			MultiphaseIsWorking = 0
 			MultiphaseOperateSetup()
 		end
-		--Обрабатывает отключение потоковой зарядки
+		--Handles disabling streaming charging
 		if MultiphaseIsWorking < ((MultiphaseLength + MultiphaseLengthR * _rarity) - MultiphaseChargeLength) then
 			MultiphaseStreamingChargeSwitchOff()
 		end
 	end
-	--Сегмент "Протокола"
+	--"Protocol" segment
 	if PulsarIsReady > 0 then
-		PulsarIsReady = math.max(0, PulsarIsReady - timePassed) --непосредственно сокращение отката
+		PulsarIsReady = math.max(0, PulsarIsReady - timePassed) --direct reduction of rollback
 		executeUpdateProgressbar(4, PulsarIsReady / PulsarCooldown)
 	end
 	if PulsarIsWorking > 0 then
 		PulsarIsWorking = math.max(0, PulsarIsWorking - timePassed)
 		PulsarOperate()
-		invokeClientFunction(_player, "onFinishWork", PulsarIsWorking, 3) --Ловит момент окончания работы модуля
+		invokeClientFunction(_player, "onFinishWork", PulsarIsWorking, 3) --Catch the moment when the module ends
 	end
 end
 
 function updateStatusEffects(_type, _status)
-	--0 - иконка работы завесы
-	--1 - иконка работы рекуперации
-	--2 - иконка работы многофазника
-	--3 - иконка работы протокола
+	--0 -curtain operation icon
+	--1 -recovery operation icon
+	--2 -polyphase operation icon
+	--3 -protocol operation icon
 	if _type == 0 then
 		if _status then
 			addShipProblem("BastionVeil", Entity().id, getSubtechName(systemname, 1) .. ' - ' .. getTechInfo('active'),
@@ -298,7 +298,7 @@ function updateStatusEffects(_type, _status)
 	if _type == 2 then
 		if _status then
 			addShipProblem("BastionMultiphase", Entity().id, getSubtechName(systemname, 3) ..
-			' - ' .. getTechInfo('active'), getSubtechIcon(systemname, 3), _colorG, false)
+				' - ' .. getTechInfo('active'), getSubtechIcon(systemname, 3), _colorG, false)
 		else
 			removeShipProblem("BastionMultiphase", Entity().id)
 		end
@@ -332,7 +332,7 @@ function VeilActivate()
 	end
 	if not (VeilIsWorking) and VeilIsReady == 0 then
 		DebugMsg("Veil: activate")
-		--Создание сферки
+		--Creating a sphere
 		local self = Entity()
 
 		local _type = 'BSve'
@@ -346,32 +346,32 @@ function VeilActivate()
 		local _exitResult, _callResult = self:invokeFunction('raycast.lua', 'setSphere', _type, _source, _radius,
 			_ivec2radius, _color, _intensity, _reflectivity, _reflColor)
 
-		--Отсекание, если не сработала отрисовка сферы
+		--Clipping if drawing the sphere does not work
 		if _exitResult > 0 or _callResult > 0 then
 			DebugMsg('VeilActivate eroro: setSphere failure')
 			return
 		end
 
-		--Установка кулдауна
+		--Setting cooldown
 		VeilIsReady = VeilCooldown - VeilCooldownR * _rarity
-		--Вычисление объема ремонта
+		--Calculation of repair volume
 		VeilRepairAmount = getVeilRepairAmount()
-		--Установка флага работы
+		--Setting the work flag
 		VeilIsWorking = true
-		--Создание иконки эффекта
+		--Creating an effect icon
 		invokeClientFunction(Player(), "updateStatusEffects", 0, true)
-		--Включение бонусов
+		--Enabling bonuses
 		VeilOperateSetup()
-		--Проигрывание звука
+		--Playing sound
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 		return
 	else
-		--Отсечка лишнего срабатывания во время кд
+		--Cut off unnecessary triggering during CD
 		if VeilIsReady == 0 then return end
 		DebugMsg("Veil: deactivate")
-		--Выключение модуля
+		--Switching off the module
 		VeilTurnToFalse()
-		--Откат бонусов
+		--Rollback of bonuses
 		VeilOperateSetup()
 		return
 	end
@@ -380,24 +380,24 @@ end
 callable(nil, "VeilActivate")
 
 function VeilOperateSetup()
-	--Установка бонусов при активации
+	--Installing bonuses upon activation
 	if VeilIsWorking then
-		--Установка показателя сопротивления
+		--Setting the Resistance Index
 		if Shield().damageFactor ~= 1 then
 			DebugMsg("Veil - damage factor is not 1 somehow")
 		end
 		Shield().damageFactor = 1 - VeilResistance * 0.01
 		DebugMsg("Veil: current damage factor is " .. tostring(Shield().damageFactor))
-		--Установка скорострельности
+		--Setting the rate of fire
 		Entity():addBaseMultiplier(StatsBonuses.FireRate, -VeilFireRate * 0.01)
 		return
 	end
-	--Отмена бонусов при деактивации
+	--Cancellation of bonuses upon deactivation
 	if not (VeilIsWorking) then
-		--Резист щита
+		--Resist the shield
 		Shield().damageFactor = Shield().damageFactor + VeilResistance * 0.01
 		DebugMsg("Veil: current damage factor after cancel is " .. tostring(Shield().damageFactor))
-		--Скорострельность
+		--Rate of fire
 		Entity():addBaseMultiplier(StatsBonuses.FireRate, VeilFireRate * 0.01)
 		return
 	end
@@ -405,21 +405,21 @@ function VeilOperateSetup()
 end
 
 function VeilOperate()
-	--Отсечка багов
+	--Bug cut-off
 	if Entity() == nil or VeilRepairAmount <= 0 then return end
-	--Отсключение при падении щита
+	--Shutdown when shield falls
 	if not (Shield().isActive) or Shield().durability == 0 then
 		VeilTurnToFalse()
 		VeilOperateSetup()
 		DebugMsg("Veil: shield offline, deactivating")
 		return
 	end
-	--Ремонт корпуса при активном модуле
+	--Case repair with an active module
 	if VeilIsWorking then
 		Durability():healDamage(VeilRepairAmount, Entity().id)
 		DebugMsg("Veil: ship repaired for " .. tostring(VeilRepairAmount))
 
-		--Генерация ауры
+		--Aura generation
 		local _aura = {
 			getSubtechSignature(systemname, 1),
 			string.format("+%i%%", VeilResistance),
@@ -434,7 +434,7 @@ function VeilOperate()
 		}
 		callTechAuraSelf(_aura)
 
-		--Генерация ауры на дебафф
+		--Generation of aura for debuff
 		local _aura = {
 			getSubtechSignature(systemname, 1) .. '2',
 			string.format("-%i%%", VeilFireRate),
@@ -454,7 +454,7 @@ end
 function VeilTurnToFalse()
 	if VeilIsWorking then
 		VeilIsWorking = false
-		--invokeClientFunction(Player(),"VeilGraphics")
+		--Invoke client function(player(),"veil graphics")
 		Entity():invokeFunction('raycast.lua', 'RemoveSphere', 'BSve')
 		invokeClientFunction(Player(), "updateStatusEffects", 0, false)
 		invokeClientFunction(Player(), 'UIplaysound', 1)
@@ -471,28 +471,28 @@ function RecupActivate()
 	if RecupIsReady == 0 and Entity():getValue("RecupStoredAmount") and Shield().durability > 0 then
 		DebugMsg("Recup: activate")
 
-		--Установка кулдауна
+		--Setting cooldown
 		RecupIsReady = RecupCooldown
 
-		--Вычисление объема ремонта
+		--Calculation of repair volume
 		RecupHealAmount = Entity():getValue("RecupStoredAmount") / RecupLength
 		DebugMsg("RecupHealAmount is " .. tostring(RecupHealAmount))
 
-		--Установка флага работы
+		--Setting the work flag
 		RecupIsWorking = RecupLength
 
-		--Создание иконки эффекта
+		--Creating an effect icon
 		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
 
-		--Сброс накопленного заряда
+		--Resetting accumulated charge
 		Entity():setValue("RecupStoredAmount", 0)
 		executeUpdateSecondary(2, 0)
 
-		--Обнуление прогрессбара состояния заряда
+		--Resetting the charge status progressbar
 		invokeClientFunction(Player(), "updateUIrecup", 0, RecupMaximumAmount)
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 
-		--Генерация ауры
+		--Aura generation
 		local _aura = {
 			getSubtechSignature(systemname, 2),
 			string.format("%i/s", RecupHealAmount),
@@ -514,16 +514,16 @@ end
 callable(nil, "RecupActivate")
 
 function RecupOperate()
-	--Отсечка багов
+	--Bug cut-off
 	if Entity() == nil or RecupHealAmount <= 0 then return end
-	--Отсключение при падении щита
+	--Shutdown when shield falls
 	if not (Shield().isActive) or Shield().durability == 0 then
 		DebugMsg("Recup: shield offline, cant work")
 		RecupIsWorking = 0
 		invokeClientFunction(Player(), "onFinishWork", RecupIsWorking, 1)
 		return
 	end
-	--Ремонт щита
+	--Shield repair
 	if RecupIsWorking then
 		Shield():healDamage(RecupHealAmount, Entity().id)
 		DebugMsg("Recup: shield repaired for " .. tostring(RecupHealAmount))
@@ -534,16 +534,16 @@ function RecupInitiation()
 	if onClient() then return end
 	DebugMsg("RecupInitiation!")
 	Entity():registerCallback("onShieldDamaged", "RecupStoreCharge")
-	--Проверка максимального объема
+	--Checking the maximum volume
 	if RecupMaximumAmount == 0 then
 		RecupMaximumAmount = Shield().maximum * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
 		DebugMsg("Current capacitor amount is: " .. tostring(RecupMaximumAmount))
 	end
-	--Проверка наличия кастомки
+	--Checking the presence of custom
 	if Entity():getValue("RecupStoredAmount") == nil then
 		Entity():setValue("RecupStoredAmount", 0)
 	end
-	--Установка заряда
+	--Setting the charge
 	local _value = Entity():getValue("RecupStoredAmount")
 	if _value and Player() then
 		invokeClientFunction(Player(), "updateUIrecup", RecupStoredAmount, RecupMaximumAmount)
@@ -557,16 +557,16 @@ function RecupStoreCharge(_id, _damage, _type, _inflictor)
 
 	DebugMsg("Damage taken: " .. tostring(_damage) .. " of type: " .. tostring(_type))
 	if _type == 1 or _type == 3 or _type == 4 or _debug then
-		--Проверка наличия кастомки
+		--Checking the presence of custom
 		if Entity():getValue("RecupStoredAmount") == nil then
 			Entity():setValue("RecupStoredAmount", 0)
 		end
-		--Проверка максимального объема
+		--Checking the maximum volume
 		if RecupMaximumAmount == 0 then
 			RecupMaximumAmount = Shield().maximum * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
 			DebugMsg("Current capacitor amount is: " .. tostring(RecupMaximumAmount))
 		end
-		--Обновление значения запаса энергии
+		--Updating Energy Reserve Value
 		local _value = Entity():getValue("RecupStoredAmount")
 		_value = math.min(RecupMaximumAmount, _value + _damage * (RecupMultiplier * 0.01))
 		DebugMsg("CurrentDmgStored is " .. tostring(_value) .. " | maximum amount is " .. tostring(RecupMaximumAmount))
@@ -594,7 +594,7 @@ function MultiphaseActivate()
 	if MultiphaseIsReady == 0 then
 		DebugMsg("Multiphase: activate from button")
 
-		--Создание сферки
+		--Creating a sphere
 		local self = Entity()
 
 		local _type = 'BSmp'
@@ -608,23 +608,23 @@ function MultiphaseActivate()
 		local _exitResult, _callResult = self:invokeFunction('raycast.lua', 'setSphere', _type, _source, _radius,
 			_ivec2radius, _color, _intensity, _reflectivity, _reflColor)
 
-		--Отсекание, если не сработала отрисовка сферы
+		--Clipping if drawing the sphere does not work
 		if _exitResult > 0 or _callResult > 0 then
 			DebugMsg('VeilActivate eroro: setSphere failure')
 			return
 		end
 
-		--Установка кулдауна
+		--Setting cooldown
 		MultiphaseIsReady = MultiphaseCooldown - MultiphaseCooldownR * _rarity
-		--Установка флага работы
+		--Setting the work flag
 		MultiphaseIsWorking = MultiphaseLength + MultiphaseLengthR * _rarity
-		--Создание иконки эффекта
+		--Creating an effect icon
 		invokeClientFunction(Player(), "updateStatusEffects", 2, true)
-		--Запуск бонусов
+		--Launch of bonuses
 		MultiphaseOperateSetup()
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 
-		--Генерация ауры (непробиваемость)
+		--Aura generation (impenetrability)
 		local _aura = {
 			getSubtechSignature(systemname, 3),
 			0,
@@ -639,7 +639,7 @@ function MultiphaseActivate()
 		}
 		callTechAuraSelf(_aura)
 
-		--Генерация ауры (сокращение отката)
+		--Aura Generation (Cooldown Reduction)
 		local _aura = {
 			getSubtechSignature(systemname, 3) .. '2',
 			'-95%',
@@ -661,10 +661,10 @@ end
 callable(nil, "MultiphaseActivate")
 
 function MultiphaseOperateSetup()
-	--Установка бонусов при активации
+	--Installing bonuses upon activation
 	if MultiphaseIsWorking > 0 then
 		DebugMsg("Multiphase: activate")
-		--Установка непробиваемого щита
+		--Installation of an impenetrable shield
 		MultiphaseAlreadyImp = Shield().impenetrable
 		if MultiphaseAlreadyImp and _debug then
 			DebugMsg("Multiphase - already impenetrable")
@@ -673,7 +673,7 @@ function MultiphaseOperateSetup()
 			DebugMsg("Multiphase: set up imp status")
 			Shield().impenetrable = true
 		end
-		--Установка времени перед откатом
+		--Setting the time before rollback
 		DebugMsg("MultiphaseOperateSetup| timeUntilRechargeAfterHit: " .. tostring(Shield().timeUntilRechargeAfterHit))
 
 		Entity():setValue("BastionMultiphaseRestoreTimer", Shield().timeUntilRechargeAfterHit)
@@ -681,23 +681,23 @@ function MultiphaseOperateSetup()
 		local _reValue = (Shield().timeUntilRechargeAfterHit) * -1
 		DebugMsg("MultiphaseOperateSetup| _reValue is " .. tostring(_reValue))
 		Entity():addMultiplyableBias(StatsBonuses.ShieldTimeUntilRechargeAfterHit, _reValue)
-		--Entity():addMultiplyableBias(StatsBonuses.ShieldTimeUntilRechargeAfterHit,2)
+		--Entity():add multiplyable bias(stats bonuses.shield time until recharge after hit,2)
 		DebugMsg("MultiphaseOperateSetup| afterTimeUntilRechargeAfterHit: " ..
-		tostring(Shield().timeUntilRechargeAfterHit))
+			tostring(Shield().timeUntilRechargeAfterHit))
 
 		return
 	end
-	--Отмена бонусов при деактивации
+	--Cancellation of bonuses upon deactivation
 	if MultiphaseIsWorking == 0 then
 		DebugMsg("Multiphase: deactivate")
-		--Откат непробиваемого щита
+		--Impenetrable shield rollback
 		if not (MultiphaseAlreadyImp) and Shield().impenetrable then
 			DebugMsg("Multiphase: set up imp status to false")
 			Shield().impenetrable = false
 		end
-		--Сброс графики
+		--Reset graphics
 		MultiphaseTurnToFalse()
-		--invokeClientFunction(Player(),'UIplaysound',1)
+		--Invoke client function(player(),'u iplaysound',1)
 		return
 	end
 	return
@@ -707,7 +707,7 @@ function MultiphaseTurnToFalse()
 	if MultiphaseIsWorking > 0 then
 		MultiphaseIsWorking = 0
 	end
-	--invokeClientFunction(Player(),"MultiphaseGraphics")
+	--Invoke client function(player(),"multiphase graphics")
 	Entity():invokeFunction('raycast.lua', 'RemoveSphere', 'BSmp')
 	invokeClientFunction(Player(), "updateStatusEffects", 2, false)
 	invokeClientFunction(Player(), 'UIplaysound', 1)
@@ -724,7 +724,7 @@ function MultiphaseStreamingChargeSwitchOff()
 	Entity():addMultiplyableBias(StatsBonuses.ShieldTimeUntilRechargeAfterHit, _value)
 	Entity():setValue("BastionMultiphaseRestoreTimer", nil)
 	DebugMsg("MultiphaseStreamingChargeSwitchOff| TimeUntilRechargeAfterHit: " ..
-	tostring(Shield().timeUntilRechargeAfterHit))
+		tostring(Shield().timeUntilRechargeAfterHit))
 end
 
 function ActivateTransferMP()
@@ -738,7 +738,7 @@ function PulsarActivate()
 	-- Shield().durability = Shield().maximum
 	-- end
 
-	--Отсечка активации, если щит ниже ограничения
+	--Activation cutoff if shield is below limit
 	if Shield().durability < PulsarTreshold * 0.01 then
 		invokeClientFunction(Player(), 'UIplaysound', 2)
 		return
@@ -746,14 +746,14 @@ function PulsarActivate()
 	if PulsarIsReady == 0 then
 		DebugMsg("PDS: activate")
 		invokeClientFunction(Player(), 'UIplaysound', 0)
-		--Установка кулдауна
+		--Setting cooldown
 		PulsarIsReady = PulsarCooldown
-		--Установка флага работы
+		--Setting the work flag
 		PulsarIsWorking = PulsarLength + PulsarLengthR * _rarity
-		--Создание иконки эффекта
+		--Creating an effect icon
 		invokeClientFunction(Player(), "updateStatusEffects", 3, true)
 
-		--Генерация ауры
+		--Aura generation
 		local _aura = {
 			getSubtechSignature(systemname, 4),
 			0,
@@ -768,7 +768,7 @@ function PulsarActivate()
 		}
 		callTechAuraSelf(_aura)
 	else
-		--Отсечка лишнего срабатывания во время кд
+		--Cut off unnecessary triggering during CD
 		invokeClientFunction(Player(), 'UIplaysound', 2)
 		if PulsarIsReady == 0 then return end
 	end
@@ -777,7 +777,7 @@ end
 callable(nil, "PulsarActivate")
 
 function PulsarOperate()
-	--Выключение при низком заряде щита
+	--Shutdown when shield charge is low
 	if Shield().durability < PulsarTreshold * 0.01 then
 		DebugMsg('PulsarOperate: shields too low, deactivating!')
 		PulsarIsWorking = 1
@@ -786,15 +786,15 @@ function PulsarOperate()
 	end
 
 	local PlayerCache = { Sector():getPlayers() }
-	if #PlayerCache < 1 then return end -- Потенциально невозможно, но пусть будет.
+	if #PlayerCache < 1 then return end -- Potentially impossible, but so be it.
 	DebugMsg('PulsarOperate: #PlayerCache = ' .. tostring(#PlayerCache))
-	--Выборка потенциальных целей
+	--Sampling of potential targets
 	local potentialTargets = { Sector():getEntitiesByType(EntityType.Torpedo) }
 	if #potentialTargets < 1 then return end
 	DebugMsg('PulsarOperate: #potentialTargets = ' .. tostring(#potentialTargets))
 
 	local targets = {}
-	--Определение позиций целей для передачи и ликвидация торпед
+	--Determining target positions for transfer and elimination of torpedoes
 	for _, _torpedo in pairs(potentialTargets) do
 		if CheckForEnemy(Entity(), _torpedo) and isInRangeV3(Entity().translationf, _torpedo.translationf, PulsarRange + PulsarRangeR * _rarity) then
 			table.insert(targets, _torpedo.translationf)
@@ -807,11 +807,12 @@ function PulsarOperate()
 			if _debug then
 				if not (CheckForEnemy(Entity(), _torpedo)) then DebugMsg('PulsarOperate: torpedo is friendly?') end
 				if not (isInRangeV3(Entity().translationf, _torpedo.translationf, PulsarRange + PulsarRangeR * _rarity)) then
-					DebugMsg('PulsarOperate: torpedo is too far away') end
+					DebugMsg('PulsarOperate: torpedo is too far away')
+				end
 			end
 		end
 	end
-	--Отправка информации для отрисовки эффектов и инициализация отрисовки
+	--Sending information for rendering effects and initializing rendering
 	if #targets > 0 then
 		for _, _player in pairs(PlayerCache) do
 			--DebugMsg('PulsarClearLasersInit: remote call for player "'.._player.name..'": create laser')
@@ -822,14 +823,14 @@ end
 
 callable(nil, 'PulsarOperate')
 
---Отрисовка лазера
+--Laser rendering
 function PulsarGraphics(_entity, _targets)
-	--Отсекание
+	--Cutting off
 	if _entity == nil or Entity() == nil or #_targets < 1 then
 		DebugMsg('PulsarKillTorpedo: target or entity is nil or no targets')
 		return
 	end
-	--Создание лазера
+	--Creation of a laser
 	for _, _point in pairs(_targets) do
 		local _laser = Sector():createLaser(_entity.translationf, _point, _colorR, 1)
 		_laser.collision = false
@@ -844,9 +845,9 @@ end
 ----------------------------------------------------------------------------------------------------------------
 
 function onFinishWork(_time, _type)
-	--0 - рекуперация
-	--1 - мультифазник
-	--3 - протокол/пульсар
+	--0 -recovery
+	--1 -multiphase
+	--3 -protocol/pulsar
 	if _time <= 0 then
 		if _type == 0 then
 			DebugMsg("Рекуперация: конец работы")
@@ -869,20 +870,21 @@ end
 function initializeUI()
 	local subSysDesc = {
 		string.format(
-		"%s\nActivation of the module increases the shield's resistance to all damage by %i%%, hull is restored at a rate of %.1f%% the maximum amount of shield per second (%i/sec), but the rate of fire of all weapons drops by %i%%. Reactivation or loss of the shield turns off the module.\nCooldown - %i seconds." %
-		_t, getSubtechName(systemname, 1), VeilResistance, VeilRepair, getVeilRepairAmount(), VeilFireRate,
+			"%s\nActivation of the module increases the shield's resistance to all damage by %i%%, hull is restored at a rate of %.1f%% the maximum amount of shield per second (%i/sec), but the rate of fire of all weapons drops by %i%%. Reactivation or loss of the shield turns off the module.\nCooldown - %i seconds." %
+			_t, getSubtechName(systemname, 1), VeilResistance, VeilRepair, getVeilRepairAmount(), VeilFireRate,
 			VeilCooldown - VeilCooldownR * _rarity),
 		string.format(
-		"%s\nThe energy, electric and plasma damage received by shield accumulates the charge of the module, limited to %i%% of the maximum amount of shield. The conversion rate is %i%% damage received. Activation of the module consumes the charge and restores the same volume of the shield for %i seconds. The module interrupts operation if the shield is turned off.\nCooldown - %i seconds." %
-		_t, getSubtechName(systemname, 2), RecupMaxValue + RecupMaxValueR * _rarity, RecupMultiplier, RecupLength,
+			"%s\nThe energy, electric and plasma damage received by shield accumulates the charge of the module, limited to %i%% of the maximum amount of shield. The conversion rate is %i%% damage received. Activation of the module consumes the charge and restores the same volume of the shield for %i seconds. The module interrupts operation if the shield is turned off.\nCooldown - %i seconds." %
+			_t, getSubtechName(systemname, 2), RecupMaxValue + RecupMaxValueR * _rarity, RecupMultiplier, RecupLength,
 			RecupCooldown),
 		string.format(
-		"%s\nActivation applies impenetrability shields mode for %i sec., and also significantly reduces the pause of shield recharge after receiving damage.\nCooldown - %i seconds." %
-		_t, getSubtechName(systemname, 3), MultiphaseLength + MultiphaseLengthR * _rarity,
+			"%s\nActivation applies impenetrability shields mode for %i sec., and also significantly reduces the pause of shield recharge after receiving damage.\nCooldown - %i seconds." %
+			_t, getSubtechName(systemname, 3), MultiphaseLength + MultiphaseLengthR * _rarity,
 			MultiphaseCooldown - MultiphaseCooldownR * _rarity),
 		string.format(
-		"%s\nWithin %i s. module will automatically shoot down hostile torpedoes within a radius of %i km if the ship's shield exceeds %i%%.\nCooldown - %i seconds." %
-		_t, getSubtechName(systemname, 4), PulsarLength + PulsarLengthR * _rarity, PulsarRange + PulsarRangeR * _rarity,
+			"%s\nWithin %i s. module will automatically shoot down hostile torpedoes within a radius of %i km if the ship's shield exceeds %i%%.\nCooldown - %i seconds." %
+			_t, getSubtechName(systemname, 4), PulsarLength + PulsarLengthR * _rarity,
+			PulsarRange + PulsarRangeR * _rarity,
 			PulsarTreshold, PulsarCooldown)
 	}
 
@@ -893,28 +895,28 @@ function executeDrawInterface(subSysDesc)
 	local subsys = {}
 
 	local subsys1 = {
-		getSubtechName(systemname, 1), --name
-		getSubtechIcon(systemname, 1), --icon
-		subSysDesc[1],          --desc
-		'VeilActivate',         --command
+		getSubtechName(systemname, 1), --Name
+		getSubtechIcon(systemname, 1), --Icon
+		subSysDesc[1],           --Desc
+		'VeilActivate',          --Command
 	}
 	local subsys2 = {
-		getSubtechName(systemname, 2), --name
-		getSubtechIcon(systemname, 2), --icon
-		subSysDesc[2],          --desc
-		'RecupActivate',        --command
+		getSubtechName(systemname, 2), --Name
+		getSubtechIcon(systemname, 2), --Icon
+		subSysDesc[2],           --Desc
+		'RecupActivate',         --Command
 	}
 	local subsys3 = {
-		getSubtechName(systemname, 3), --name
-		getSubtechIcon(systemname, 3), --icon
-		subSysDesc[3],          --desc
-		'MultiphaseActivate',   --command
+		getSubtechName(systemname, 3), --Name
+		getSubtechIcon(systemname, 3), --Icon
+		subSysDesc[3],           --Desc
+		'MultiphaseActivate',    --Command
 	}
 	local subsys4 = {
-		getSubtechName(systemname, 4), --name
-		getSubtechIcon(systemname, 4), --icon
-		subSysDesc[4],          --desc
-		'PulsarActivate',       --command
+		getSubtechName(systemname, 4), --Name
+		getSubtechIcon(systemname, 4), --Icon
+		subSysDesc[4],           --Desc
+		'PulsarActivate',        --Command
 	}
 	table.insert(subsys, subsys1)
 	table.insert(subsys, subsys2)
@@ -922,9 +924,9 @@ function executeDrawInterface(subSysDesc)
 	table.insert(subsys, subsys4)
 
 	local _table = {
-		scriptname,        --systemScript
-		getTechName(systemname), --systemName
-		getTechIcon(systemname), --systemIcon
+		scriptname,        --System script
+		getTechName(systemname), --System name
+		getTechIcon(systemname), --System icon
 		Entity().id,       --entityID
 		subsys             --subsys
 	}
@@ -959,9 +961,9 @@ function executeDelete()
 end
 
 function UIplaysound(_type)
-	--0 - activation
-	--1 - deactivation
-	--2 - error
+	--0 -activation
+	--1 -deactivation
+	--2 -error
 	if _type == 0 then
 		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.5)
 		return
@@ -996,14 +998,14 @@ end
 function onInstalled(seed, rarity, permanent)
 	local _shield, _regen, _timeFactor = getBonuses(seed, rarity, permanent)
 	if not Entity() then return end
-	--Назначает глобальную переменную, используемую для определения качества модуля
+	--Assigns a global variable used to determine module quality
 	_rarity = rarity.value
-	--Добавляет пассивные бонусы при установке
+	--Adds passive bonuses upon installation
 	addBaseMultiplier(StatsBonuses.ShieldRecharge, _regen / 100)
 	addMultiplier(StatsBonuses.ShieldDurability, 1 - (_shield / 100))
 	addBaseMultiplier(StatsBonuses.ShieldTimeUntilRechargeAfterHit, -(_timeFactor / 100))
 
-	--Инициализация элементов интерфейса
+	--Initializing Interface Elements
 	if onClient() and not (BSwindow) then
 		initializeUI()
 		Player():registerCallback("onStateChanged", "UIshowhide")
@@ -1016,7 +1018,7 @@ function onInstalled(seed, rarity, permanent)
 end
 
 function onUninstalled(seed, rarity, permanent)
-	--Отсекание
+	--Cutting off
 	if not (Shield()) or not (Entity()) then return end
 
 	-- SpawnUtility.resetResistance(Entity())
@@ -1048,21 +1050,36 @@ function getTooltipLines(seed, rarity, permanent)
 	local texts = {}
 	local bonuses = {}
 
-	--Бонусы
+	--Bonuses
 	table.insert(texts,
-		{ ltext = "Shield Durability" % _t, rtext = string.format('-%i%%', _shield), icon =
-		"data/textures/icons/health-normal.png", boosted = permanent })
+		{
+			ltext = "Shield Durability" % _t,
+			rtext = string.format('-%i%%', _shield),
+			icon =
+			"data/textures/icons/health-normal.png",
+			boosted = permanent
+		})
 	table.insert(texts,
-		{ ltext = "Shield Recharge Rate" % _t, rtext = string.format("+%i%%", _regen), icon =
-		"data/textures/icons/shield-charge.png", boosted = permanent })
+		{
+			ltext = "Shield Recharge Rate" % _t,
+			rtext = string.format("+%i%%", _regen),
+			icon =
+			"data/textures/icons/shield-charge.png",
+			boosted = permanent
+		})
 	table.insert(texts,
-		{ ltext = "Time Until Recharge" % _t, rtext = string.format("-%i%%", _timeFactor), icon =
-		"data/textures/icons/recharge-time.png", boosted = permanent })
+		{
+			ltext = "Time Until Recharge" % _t,
+			rtext = string.format("-%i%%", _timeFactor),
+			icon =
+			"data/textures/icons/recharge-time.png",
+			boosted = permanent
+		})
 
-	--Пустая строка
+	--Empty string
 	table.insert(texts, { ltext = "" })
 
-	--Абилки
+	--Abilki
 	for i = 1, 4 do
 		table.insert(texts,
 			{ ltext = getSubtechName(systemname, i), icon = getSubtechIcon(systemname, i), boosted = permanent })

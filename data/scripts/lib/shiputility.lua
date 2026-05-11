@@ -18,11 +18,11 @@ local AttackWeapons =
     WeaponType.LightningGun,
     WeaponType.TeslaGun,
     WeaponType.RailGun,
-	WeaponType.PULSEGUN,
-	WeaponType.PARTICLEACCELERATOR,
-	WeaponType.ASSAULTBLASTER,
-	WeaponType.PHOTON,
-	WeaponType.PRD,
+    WeaponType.PULSEGUN,
+    WeaponType.PARTICLEACCELERATOR,
+    WeaponType.ASSAULTBLASTER,
+    WeaponType.PHOTON,
+    WeaponType.PRD,
 }
 ShipUtility.AttackWeapons = AttackWeapons
 
@@ -32,9 +32,9 @@ local AntiShieldWeapons =
     WeaponType.PulseCannon,
     WeaponType.LightningGun,
     WeaponType.TeslaGun,
-	WeaponType.PRD,
-	WeaponType.ASSAULTBLASTER,
-	WeaponType.MANTIS,
+    WeaponType.PRD,
+    WeaponType.ASSAULTBLASTER,
+    WeaponType.MANTIS,
 }
 ShipUtility.AntiShieldWeapons = AntiShieldWeapons
 
@@ -42,7 +42,7 @@ local AntiHullWeapons =
 {
     WeaponType.Bolter,
     WeaponType.RailGun,
-	WeaponType.PARTICLEACCELERATOR,
+    WeaponType.PARTICLEACCELERATOR,
 }
 ShipUtility.AntiHullWeapons = AntiHullWeapons
 
@@ -50,22 +50,22 @@ local ArtilleryWeapons =
 {
     WeaponType.Cannon,
     WeaponType.RocketLauncher,
-	WeaponType.PHOTON,
-	WeaponType.PRD,
-	WeaponType.MANTIS,
+    WeaponType.PHOTON,
+    WeaponType.PRD,
+    WeaponType.MANTIS,
 }
 ShipUtility.ArtilleryWeapons = ArtilleryWeapons
 
 function ShipUtility.isAllowedForNPC(_value)
-	if _value == WeaponType.SOLARTORPEDO then return false end
-	if _value == WeaponType.AVALANCHE then return false end
-	if _value == WeaponType.CYCLONE then return false end
-	if _value == WeaponType.HYPERKINETIC then return false end
-	return true
+    if _value == WeaponType.SOLARTORPEDO then return false end
+    if _value == WeaponType.AVALANCHE then return false end
+    if _value == WeaponType.CYCLONE then return false end
+    if _value == WeaponType.HYPERKINETIC then return false end
+    return true
 end
 
 function ShipUtility.addSpecializedEquipment(craft, weaponTypes, torpedoTypes, turretfactor, torpedofactor, turretRange)
-	print('addSpecializedEquipment at my side')
+    print('addSpecializedEquipment at my side')
     turretfactor = turretfactor or 1
     torpedofactor = torpedofactor or 0
     weaponTypes = weaponTypes or {}

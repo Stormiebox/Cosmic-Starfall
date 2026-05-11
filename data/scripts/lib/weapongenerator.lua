@@ -1,16 +1,16 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 include('Armory')
---===========================[Ванильные орудия]===========================
+--===========================[Vanilla weapons]==========================================
 
---Пулемет
+--Machine gun
 function WeaponGenerator.generateChaingun(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps * 1.25
+    dps = dps * 1.25
 
     local fireDelay = rand:getFloat(0.07, 0.11)
-    local reach = rand:getFloat(300, 450) + tech*3
+    local reach = rand:getFloat(300, 450) + tech * 3
     local damage = dps * fireDelay
     local speed = rand:getFloat(500, 700) + tech
     local existingTime = reach / speed
@@ -19,8 +19,8 @@ function WeaponGenerator.generateChaingun(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.ChainGun
-    weapon.name = "Chaingun /* Weapon Name*/"%_T
-    weapon.prefix = "Chaingun /* Weapon Prefix*/"%_T
+    weapon.name = "Chaingun /* Weapon Name*/" % _T
+    weapon.prefix = "Chaingun /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/chaingun.png" -- previously minigun.png
     weapon.sound = "chaingun"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.06)
@@ -36,12 +36,12 @@ function WeaponGenerator.generateChaingun(rand, dps, tech, material, rarity)
     weapon.pcolor = ColorHSV(rand:getFloat(10, 60), 0.7, 1)
 
     if rand:test(0.05) then
-        local shots = {2, 2, 2, 2, 2, 3, 4}
+        local shots = { 2, 2, 2, 2, 2, 3, 4 }
         weapon.shotsFired = shots[rand:getInt(1, #shots)]
         weapon.damage = (weapon.damage * 1.5) / weapon.shotsFired
     end
 
-    -- 7.5 % chance for anti matter damage / plasma damage
+    -- 7.5 % chance for anti matter damage /plasma damage
     if rand:test(0.075) then
         WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 1.5, 0.15, 0.2)
     elseif rand:test(0.075) then
@@ -56,12 +56,12 @@ function WeaponGenerator.generateChaingun(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Болтер
+--Bolts
 function WeaponGenerator.generateBolter(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps*1.15
+    dps = dps * 1.15
 
     local fireDelay = rand:getFloat(0.1, 0.2)
     local reach = rand:getFloat(650, 700)
@@ -74,8 +74,8 @@ function WeaponGenerator.generateBolter(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Bolter
-    weapon.name = "Bolter /* Weapon Name*/"%_T
-    weapon.prefix = "Bolter /* Weapon Prefix*/"%_T
+    weapon.name = "Bolter /* Weapon Name*/" % _T
+    weapon.prefix = "Bolter /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/bolter.png" -- previously sentry-gun.png
     weapon.sound = "bolter"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.03)
@@ -95,7 +95,7 @@ function WeaponGenerator.generateBolter(rand, dps, tech, material, rarity)
     weapon.pcolor = color
 
     if rand:test(0.05) then
-        local shots = {2, 2, 2, 2, 2, 3, 4}
+        local shots = { 2, 2, 2, 2, 2, 3, 4 }
         weapon.shotsFired = shots[rand:getInt(1, #shots)]
         weapon.damage = weapon.damage * 1.5 / weapon.shotsFired
     end
@@ -107,7 +107,7 @@ function WeaponGenerator.generateBolter(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Импульсная
+--Pulse
 function WeaponGenerator.generatePulseCannon(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
@@ -116,7 +116,7 @@ function WeaponGenerator.generatePulseCannon(rand, dps, tech, material, rarity)
     dps = dps * 1.05
 
     local fireDelay = rand:getFloat(0.05, 0.2)
-    local reach = rand:getFloat(450, 750) + tech*3
+    local reach = rand:getFloat(450, 750) + tech * 3
     local damage = dps * fireDelay
     local speed = rand:getFloat(700, 800) + tech
     local existingTime = reach / speed
@@ -125,8 +125,8 @@ function WeaponGenerator.generatePulseCannon(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.PulseCannon
-    weapon.name = "Pulse Cannon /* Weapon Name*/"%_T
-    weapon.prefix = "Pulse Cannon /* Weapon Prefix*/"%_T
+    weapon.name = "Pulse Cannon /* Weapon Name*/" % _T
+    weapon.prefix = "Pulse Cannon /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/pulsecannon.png"
     weapon.sound = "pulsecannon"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.04)
@@ -153,13 +153,13 @@ function WeaponGenerator.generatePulseCannon(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Лазер
+--Laser
 function WeaponGenerator.generateLaser(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-	dps = dps * 1.4
-	
+    dps = dps * 1.4
+
     local fireDelay = 0.2 -- always the same with beams, does not really matter
     local reach = rand:getFloat(400, 550)
     local damage = dps * fireDelay * 1.5
@@ -169,8 +169,8 @@ function WeaponGenerator.generateLaser(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.continuousBeam = true
     weapon.appearance = WeaponAppearance.Laser
-    weapon.name = "Laser /* Weapon Name*/"%_T
-    weapon.prefix = "Laser /* Weapon Prefix*/"%_T
+    weapon.name = "Laser /* Weapon Name*/" % _T
+    weapon.prefix = "Laser /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/laser-gun.png" -- previously laser-blast.png
     weapon.sound = "laser"
 
@@ -179,7 +179,7 @@ function WeaponGenerator.generateLaser(rand, dps, tech, material, rarity)
     weapon.damage = damage
     weapon.damageType = DamageType.Energy
     weapon.blength = weapon.reach
-	weapon.blockPenetration = 2
+    weapon.blockPenetration = 2
 
     -- 10 % chance for plasma
     if rand:test(0.1) then
@@ -198,12 +198,12 @@ function WeaponGenerator.generateLaser(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Рельса
+--Rails
 function WeaponGenerator.generateRailGun(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-	dps = dps * 0.85
+    dps = dps * 0.85
 
     local fireDelay = rand:getFloat(1, 2.5)
     local reach = rand:getFloat(850, 1100)
@@ -214,8 +214,8 @@ function WeaponGenerator.generateRailGun(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.continuousBeam = false
     weapon.appearance = WeaponAppearance.RailGun
-    weapon.name = "Railgun /* Weapon Name*/"%_T
-    weapon.prefix = "Railgun /* Weapon Prefix*/"%_T
+    weapon.name = "Railgun /* Weapon Name*/" % _T
+    weapon.prefix = "Railgun /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/rail-gun.png" -- previously beam.png
     weapon.sound = "railgun"
     weapon.accuracy = 0.999 - rand:getFloat(0.05, 0.12)
@@ -237,7 +237,7 @@ function WeaponGenerator.generateRailGun(rand, dps, tech, material, rarity)
     weapon.bauraWidth = 3
     weapon.banimationSpeed = 1
     weapon.banimationAcceleration = -2
-	weapon.shotsFired = 3
+    weapon.shotsFired = 3
 
     if rand:getBool() then
         -- shades of red
@@ -256,12 +256,12 @@ function WeaponGenerator.generateRailGun(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Ракетомет
+--Rocket launcher
 function WeaponGenerator.generateRocketLauncher(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
-	
-	dps = dps * 1.15
+
+    dps = dps * 1.15
 
     local fireDelay = rand:getFloat(0.5, 1.5)
     local reach = rand:getFloat(1300, 1800)
@@ -274,8 +274,8 @@ function WeaponGenerator.generateRocketLauncher(rand, dps, tech, material, rarit
     weapon.appearanceSeed = rand:getInt()
     weapon.seeker = rand:test(1 / 8)
     weapon.appearance = WeaponAppearance.RocketLauncher
-    weapon.name = "Rocket Launcher /* Weapon Name*/"%_T
-    weapon.prefix = "Launcher /* Weapon Prefix*/"%_T
+    weapon.name = "Rocket Launcher /* Weapon Name*/" % _T
+    weapon.prefix = "Launcher /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/rocket-launcher.png" -- previously missile-swarm.png
     weapon.sound = "launcher"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.02)
@@ -298,7 +298,7 @@ function WeaponGenerator.generateRocketLauncher(rand, dps, tech, material, rarit
     weapon.pshape = ProjectileShape.Rocket
 
     if rand:test(0.05) then
-        local shots = {2, 2, 2, 2, 2, 3, 4}
+        local shots = { 2, 2, 2, 2, 2, 3, 4 }
         weapon.shotsFired = shots[rand:getInt(1, #shots)]
         weapon.damage = (weapon.damage * 1.5) / weapon.shotsFired
     end
@@ -312,12 +312,12 @@ function WeaponGenerator.generateRocketLauncher(rand, dps, tech, material, rarit
     return weapon
 end
 
---Пушко
+--Rifle
 function WeaponGenerator.generateCannon(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps*1.1
+    dps = dps * 1.1
 
     local fireDelay = rand:getFloat(1.5, 2.5)
     local reach = rand:getFloat(1100, 1500)
@@ -329,14 +329,14 @@ function WeaponGenerator.generateCannon(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Cannon
-    weapon.name = "Cannon /* Weapon Name*/"%_T
-    weapon.prefix = "Cannon /* Weapon Prefix*/"%_T
+    weapon.name = "Cannon /* Weapon Name*/" % _T
+    weapon.prefix = "Cannon /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/cannon.png" -- previously hypersonic-bolt.png
     weapon.sound = "cannon"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.01)
 
-	weapon.shieldDamageMultiplier = 1.25
-	weapon.hullDamageMultiplier = 1.45
+    weapon.shieldDamageMultiplier = 1.25
+    weapon.hullDamageMultiplier = 1.45
 
     weapon.damage = damage
     weapon.damageType = DamageType.Physical
@@ -346,7 +346,7 @@ function WeaponGenerator.generateCannon(rand, dps, tech, material, rarity)
 
     -- 10 % chance for anti matter damage
     -- if rand:test(0.1) then
-        -- WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 2, 0.15, 0.2)
+    -- WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 2, 0.15, 0.2)
     -- end
 
     weapon.psize = rand:getFloat(0.2, 0.5)
@@ -363,12 +363,12 @@ function WeaponGenerator.generateCannon(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Тесла
+--Tesla
 function WeaponGenerator.generateTeslaGun(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
-	
-	dps = dps*1.25
+
+    dps = dps * 1.25
 
     local fireDelay = 0.2 -- always the same with beams, does not really matter
     local reach = rand:getFloat(250, 350)
@@ -379,8 +379,8 @@ function WeaponGenerator.generateTeslaGun(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.continuousBeam = true
     weapon.appearance = WeaponAppearance.Tesla
-    weapon.name = "Tesla Gun /* Weapon Name*/"%_T
-    weapon.prefix = "Tesla /* Weapon Prefix*/"%_T
+    weapon.name = "Tesla Gun /* Weapon Name*/" % _T
+    weapon.prefix = "Tesla /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/tesla-gun.png" -- previously lightning-frequency.png
     weapon.sound = "tesla"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.06)
@@ -395,10 +395,10 @@ function WeaponGenerator.generateTeslaGun(rand, dps, tech, material, rarity)
 
     -- 100 % chance for electric
     WeaponGenerator.addElectricDamage(weapon)
-	weapon.shieldDamageMultiplier = 1.31
+    weapon.shieldDamageMultiplier = 1.31
     -- 10 % chance for plasma
     -- if rand:test(0.1) then
-        -- WeaponGenerator.addPlasmaDamage(rand, weapon, rarity, 2, 0.15, 0.2)
+    -- WeaponGenerator.addPlasmaDamage(rand, weapon, rarity, 2, 0.15, 0.2)
     -- end
 
     weapon.bouterColor = ColorHSV(hue, 1, rand:getFloat(0.1, 0.3))
@@ -414,12 +414,12 @@ function WeaponGenerator.generateTeslaGun(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Вольт
+--Volt
 function WeaponGenerator.generateLightningGun(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
-	
-	dps = dps * 1.25
+
+    dps = dps * 1.25
 
     local fireDelay = rand:getFloat(2.5, 3)
     local reach = rand:getFloat(950, 1400)
@@ -430,8 +430,8 @@ function WeaponGenerator.generateLightningGun(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.continuousBeam = false
     weapon.appearance = WeaponAppearance.Tesla
-    weapon.name = "Lightning Gun /* Weapon Name*/"%_T
-    weapon.prefix = "Lightning /* Weapon Prefix*/"%_T
+    weapon.name = "Lightning Gun /* Weapon Name*/" % _T
+    weapon.prefix = "Lightning /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/lightning-gun.png" -- previously lightning-branches.png
     weapon.sound = "lightning"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.03)
@@ -469,13 +469,13 @@ function WeaponGenerator.generateLightningGun(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Плазмаган
+--No plasma
 function WeaponGenerator.generatePlasmaGun(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
-	
-	dps = dps * (1.3 + tech*0.02)
-	
+
+    dps = dps * (1.3 + tech * 0.02)
+
     local fireDelay = rand:getFloat(0.15, 0.2)
     local reach = rand:getFloat(550, 800) + tech
     local damage = dps * fireDelay
@@ -486,8 +486,8 @@ function WeaponGenerator.generatePlasmaGun(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.PlasmaGun
-    weapon.name = "Plasma Gun /* Weapon Name*/"%_T
-    weapon.prefix = "Plasma /* Weapon Prefix*/"%_T
+    weapon.name = "Plasma Gun /* Weapon Name*/" % _T
+    weapon.prefix = "Plasma /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/plasma-gun.png" -- previously tesla-turret.png
     weapon.sound = "plasma"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.03)
@@ -513,7 +513,7 @@ function WeaponGenerator.generatePlasmaGun(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Ремонтник
+--Repairer
 function WeaponGenerator.generateRepairBeamEmitter(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
@@ -526,19 +526,19 @@ function WeaponGenerator.generateRepairBeamEmitter(rand, dps, tech, material, ra
     weapon.appearanceSeed = rand:getInt()
     weapon.continuousBeam = true
     weapon.appearance = WeaponAppearance.Repair
-    weapon.name = "Repair Beam /* Weapon Name*/"%_T
-    weapon.prefix = "Repair /* Weapon Prefix*/"%_T
+    weapon.name = "Repair Beam /* Weapon Name*/" % _T
+    weapon.prefix = "Repair /* Weapon Prefix*/" % _T
     weapon.icon = "data/textures/icons/repair-beam.png" -- previously laser-heal.png
     weapon.sound = "repair"
 
     weapon.damageType = DamageType.Energy
     weapon.impactParticles = ImpactParticles.Energy
     if rand:test(0.5) then
-        weapon.shieldRepair = dps * fireDelay * rand:getFloat(0.9, 1.1) * (1.6+tech*0.02)
+        weapon.shieldRepair = dps * fireDelay * rand:getFloat(0.9, 1.1) * (1.6 + tech * 0.02)
         weapon.bouterColor = ColorRGB(0.1, 0.2, 0.4)
         weapon.binnerColor = ColorRGB(0.2, 0.4, 0.9)
     else
-        weapon.hullRepair = dps * fireDelay * rand:getFloat(0.9, 1.1) * (1.6+tech*0.02)
+        weapon.hullRepair = dps * fireDelay * rand:getFloat(0.9, 1.1) * (1.6 + tech * 0.02)
         weapon.bouterColor = ColorARGB(0.5, 0, 0.5, 0)
         weapon.binnerColor = ColorRGB(1, 1, 1)
 
@@ -557,31 +557,31 @@ function WeaponGenerator.generateRepairBeamEmitter(rand, dps, tech, material, ra
     return weapon
 end
 
---===========================[Кастомные орудия]===========================
---Импульсная пушка
+--===========================[Custom weapons]==========================================
+--Pulse Cannon
 function WeaponGenerator.generatePULSEGUN(rand, dps, tech, material, rarity)
-	local weapon = Weapon()
+    local weapon = Weapon()
     weapon:setProjectile()
 
-	--dps = dps * 0.85
-	dps = dps * (1+tech*0.01)
+    --dps = dps *0.85
+    dps = dps * (1 + tech * 0.01)
 
     local fireDelay = rand:getFloat(0.1, 0.2)
-    local reach = rand:getFloat(350, 500) + tech*4
+    local reach = rand:getFloat(350, 500) + tech * 4
     local damage = dps * fireDelay
-    local speed = rand:getFloat(350, 450) + tech*1.5
+    local speed = rand:getFloat(350, 450) + tech * 1.5
     local existingTime = reach / speed
 
     weapon.fireDelay = fireDelay
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.ChainGun
-    weapon.name = getWeaponName('pulsegun').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('pulsegun').." /* Weapon Prefix*/"%_t
-	--weapon.name = "PEWPEW"%_t
+    weapon.name = getWeaponName('pulsegun') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('pulsegun') .. " /* Weapon Prefix*/" % _t
+    --weapon.name = "PEWPEW"%_t
     --weapon.prefix = "PEWPEW"%_t
     --weapon.icon = "data/textures/icons/PULSEGUN.png"
-	weapon.icon = getWeaponPath('pulsegun')
+    weapon.icon = getWeaponPath('pulsegun')
     weapon.sound = "PULSEGUN"
     weapon.accuracy = 0.98
 
@@ -596,7 +596,7 @@ function WeaponGenerator.generatePULSEGUN(rand, dps, tech, material, rarity)
     weapon.pcolor = ColorHSV(16, 97, 84)
 
     if rand:test(0.05) then
-        local shots = {1, 1, 1, 1, 1, 2, 3}
+        local shots = { 1, 1, 1, 1, 1, 2, 3 }
         weapon.shotsFired = shots[rand:getInt(1, #shots)]
         weapon.damage = (weapon.damage * 1.5) / weapon.shotsFired
     end
@@ -607,12 +607,12 @@ function WeaponGenerator.generatePULSEGUN(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Ускоритель частиц
+--Particle accelerator
 function WeaponGenerator.generatePARTICLEACCELERATOR(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps * 0.9
+    dps = dps * 0.9
 
     local fireDelay = rand:getFloat(0.9, 1.3)
     local reach = rand:getFloat(700, 900)
@@ -625,8 +625,8 @@ function WeaponGenerator.generatePARTICLEACCELERATOR(rand, dps, tech, material, 
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Bolter
-    weapon.name = getWeaponName('particleaccelerator').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('particleaccelerator').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('particleaccelerator') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('particleaccelerator') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('particleaccelerator') -- previously sentry-gun.png
     weapon.sound = "PARTICLEACCELERATOR"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.02)
@@ -636,7 +636,7 @@ function WeaponGenerator.generatePARTICLEACCELERATOR(rand, dps, tech, material, 
     weapon.impactParticles = ImpactParticles.Physical
     weapon.impactSound = 1
 
-     -- 100 % chance for anti matter damage
+    -- 100 % chance for anti matter damage
     if rand:test(1) then
         WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 1.5, 0.15, 0.2)
     end
@@ -647,7 +647,7 @@ function WeaponGenerator.generatePARTICLEACCELERATOR(rand, dps, tech, material, 
     weapon.pcolor = ColorHSV(150, 64, 100)
 
     if rand:test(0.05) then
-        local shots = {1, 1, 1, 1, 2, 3, 4}
+        local shots = { 1, 1, 1, 1, 2, 3, 4 }
         weapon.shotsFired = shots[rand:getInt(1, #shots)]
         weapon.damage = weapon.damage * 1.5 / weapon.shotsFired
     end
@@ -659,12 +659,12 @@ function WeaponGenerator.generatePARTICLEACCELERATOR(rand, dps, tech, material, 
     return weapon
 end
 
---Фотонный бластер
+--Photon blaster
 function WeaponGenerator.generateASSAULTBLASTER(rand, dps, tech, material, rarity)
-   local weapon = Weapon()
+    local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps * 1.5
+    dps = dps * 1.5
 
     local fireDelay = rand:getFloat(0.2, 0.4)
     local reach = rand:getFloat(500, 780)
@@ -676,8 +676,8 @@ function WeaponGenerator.generateASSAULTBLASTER(rand, dps, tech, material, rarit
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.ChainGun
-    weapon.name = getWeaponName('assaultblaster').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('assaultblaster').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('assaultblaster') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('assaultblaster') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('assaultblaster')
     weapon.sound = "ASSAULTBLASTER"
     weapon.accuracy = 1
@@ -691,48 +691,48 @@ function WeaponGenerator.generateASSAULTBLASTER(rand, dps, tech, material, rarit
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
     weapon.pcolor = ColorHSV(240, 0, 100)
-	
-	weapon.shieldDamageMultiplier = 1 + tech*0.01
-	
-	
+
+    weapon.shieldDamageMultiplier = 1 + tech * 0.01
+
+
 
     if rand:test(0.05) then
-        local shots = {1, 1, 1, 1, 1, 2, 2}
+        local shots = { 1, 1, 1, 1, 1, 2, 2 }
         weapon.shotsFired = shots[rand:getInt(1, #shots)]
         weapon.damage = (weapon.damage * 1.5) / weapon.shotsFired
     end
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
     weapon.recoil = weapon.damage * 1
-	weapon.explosionRadius = math.sqrt(weapon.damage * 3)
+    weapon.explosionRadius = math.sqrt(weapon.damage * 3)
 
     return weapon
 end
 
---Вихревая пушка
+--Vortex Cannon
 function WeaponGenerator.generateHEPT(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps * (1.5 + tech*0.01)
+    dps = dps * (1.5 + tech * 0.01)
 
     local fireDelay = rand:getFloat(0.4, 0.6)
     local reach = rand:getFloat(600, 850) + tech
     local damage = dps * fireDelay
-    local speed = rand:getFloat(320, 420) + tech*0.5
+    local speed = rand:getFloat(320, 420) + tech * 0.5
     local existingTime = reach / speed
 
     weapon.fireDelay = fireDelay
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.PlasmaGun
-    weapon.name = getWeaponName('hept').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('hept').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('hept') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('hept') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('hept')
     weapon.sound = "HEPT"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.02)
-	weapon.hullDamageMultiplier = 1.20
-	weapon.shieldDamageMultiplier = 2.1
+    weapon.hullDamageMultiplier = 1.20
+    weapon.shieldDamageMultiplier = 2.1
 
     weapon.damage = damage
     weapon.damageType = DamageType.Plasma
@@ -744,7 +744,7 @@ function WeaponGenerator.generateHEPT(rand, dps, tech, material, rarity)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
     --weapon.pcolor = ColorHSV(114, 82, 29)
-	weapon.pcolor = ColorHSV(0, 100, 100)
+    weapon.pcolor = ColorHSV(0, 100, 100)
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -753,12 +753,12 @@ function WeaponGenerator.generateHEPT(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Импульсный лазер
+--Pulse laser
 function WeaponGenerator.generatePULSELASER(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps
+    dps = dps
 
     local fireDelay = rand:getFloat(0.05, 0.1)
     local reach = rand:getFloat(400, 500)
@@ -770,8 +770,8 @@ function WeaponGenerator.generatePULSELASER(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.PlasmaGun
-    weapon.name = getWeaponName('pulselaser').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('pulselaser').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('pulselaser') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('pulselaser') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('pulselaser')
     weapon.sound = "PULSELASER"
     weapon.accuracy = 0.97 - rand:getFloat(0, 0.03)
@@ -780,13 +780,13 @@ function WeaponGenerator.generatePULSELASER(rand, dps, tech, material, rarity)
     weapon.damageType = DamageType.Energy
     weapon.impactParticles = ImpactParticles.Energy
     weapon.impactSound = 1
-	--weapon.pshape = ProjectileShape.Plasma
+    --weapon.pshape = ProjectileShape.Plasma
 
     weapon.psize = rand:getFloat(0.2, 0.3)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
     weapon.pcolor = ColorHSV(60, 94, 78)
-	weapon.shotsFired = 2
+    weapon.shotsFired = 2
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -795,12 +795,12 @@ function WeaponGenerator.generatePULSELASER(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Установка "Богомол"
+--Installation "Mantis"
 function WeaponGenerator.generateMANTIS(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
-	
-	dps = dps * 1.7
+
+    dps = dps * 1.7
 
     local fireDelay = 4
     local reach = rand:getFloat(2000, 2800)
@@ -813,8 +813,8 @@ function WeaponGenerator.generateMANTIS(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.seeker = true
     weapon.appearance = WeaponAppearance.RocketLauncher
-    weapon.name = getWeaponName('mantis').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('mantis').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('mantis') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('mantis') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('mantis')
     weapon.sound = "MANTIS"
     weapon.accuracy = 0.6 - rand:getFloat(0, 0.02)
@@ -835,7 +835,7 @@ function WeaponGenerator.generateMANTIS(rand, dps, tech, material, rarity)
     weapon.pvelocity = speed
     weapon.pcolor = ColorHSV(180, 6, 100)
     weapon.pshape = ProjectileShape.Rocket
-	weapon.shotsFired = 4
+    weapon.shotsFired = 4
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -846,27 +846,27 @@ function WeaponGenerator.generateMANTIS(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Фотонная пушка
+--Photon cannon
 function WeaponGenerator.generatePHOTON(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps * 2
+    dps = dps * 2
 
     --local fireDelay = rand:getFloat(1.4, 2.2)
-	local fireDelay = 1
+    local fireDelay = 1
     local reach = rand:getFloat(900, 1000)
     local damage = dps * fireDelay
     local speed = rand:getFloat(500, 650)
     local existingTime = reach / speed
 
     weapon.fireDelay = fireDelay
-	weapon.fireRate = 1.5
+    weapon.fireRate = 1.5
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Cannon
-    weapon.name = getWeaponName('photoncannon').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('photoncannon').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('photoncannon') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('photoncannon') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('photoncannon')
     weapon.sound = "PHOTON"
     weapon.accuracy = 1 - rand:getFloat(0.07, 0.14)
@@ -878,12 +878,12 @@ function WeaponGenerator.generatePHOTON(rand, dps, tech, material, rarity)
     weapon.impactExplosion = true
 
     weapon.psize = 1.5
-	weapon.pshape = ProjectileShape.Rocket
-	weapon.shotsFired = 1
+    weapon.pshape = ProjectileShape.Rocket
+    weapon.shotsFired = 1
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
     weapon.pcolor = ColorHSV(240, 0, 100)
-	
+
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -894,12 +894,12 @@ function WeaponGenerator.generatePHOTON(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Гиперкинетическая артиллерия
+--Hyperkinetic artillery
 function WeaponGenerator.generateHYPERKINETIC(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-	dps = dps * 1.6
+    dps = dps * 1.6
 
     local fireDelay = 6
     local reach = rand:getFloat(1400, 2000)
@@ -910,8 +910,8 @@ function WeaponGenerator.generateHYPERKINETIC(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.continuousBeam = false
     weapon.appearance = WeaponAppearance.RailGun
-    weapon.name = getWeaponName('hyperkinetic').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('hyperkinetic').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('hyperkinetic') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('hyperkinetic') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('hyperkinetic')
     weapon.sound = "HYPERKINETIC"
     weapon.accuracy = 0.999 - rand:getFloat(0, 0.01)
@@ -948,12 +948,12 @@ function WeaponGenerator.generateHYPERKINETIC(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Наноремонтная установка
+--Nanorepair unit
 function WeaponGenerator.generateNANOREPAIR(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-	dps = dps * 1.35
+    dps = dps * 1.35
 
     local fireDelay = 0.2 -- always the same with beams, does not really matter
     local reach = rand:getFloat(100, 150)
@@ -963,8 +963,8 @@ function WeaponGenerator.generateNANOREPAIR(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.continuousBeam = true
     weapon.appearance = WeaponAppearance.Repair
-    weapon.name = getWeaponName('nanorepair').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('nanorepair').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('nanorepair') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('nanorepair') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('nanorepair')
     weapon.sound = "NANOREPAIR"
 
@@ -988,12 +988,12 @@ function WeaponGenerator.generateNANOREPAIR(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Заряжающий луч
+--Charging Beam
 function WeaponGenerator.generateCHARGINGBEAM(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-	dps = dps * 1.75
+    dps = dps * 1.75
 
     local fireDelay = 0.2 -- always the same with beams, does not really matter
     local reach = rand:getFloat(100, 150)
@@ -1003,8 +1003,8 @@ function WeaponGenerator.generateCHARGINGBEAM(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.continuousBeam = true
     weapon.appearance = WeaponAppearance.Repair
-    weapon.name = getWeaponName('chargingbeam').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('chargingbeam').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('chargingbeam') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('chargingbeam') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('chargingbeam')
     weapon.sound = "RECHARGERAY"
 
@@ -1028,13 +1028,13 @@ function WeaponGenerator.generateCHARGINGBEAM(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Трансфазный лазер
+--Transphase laser
 function WeaponGenerator.generateTRANSPHASIC(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-	dps = dps * 2
-	
+    dps = dps * 2
+
     local fireDelay = 0.2 -- always the same with beams, does not really matter
     local reach = rand:getFloat(780, 920)
     local damage = dps * fireDelay * 1.5
@@ -1044,8 +1044,8 @@ function WeaponGenerator.generateTRANSPHASIC(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.continuousBeam = true
     weapon.appearance = WeaponAppearance.Laser
-    weapon.name = getWeaponName('transphasic').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('transphasic').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('transphasic') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('transphasic') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('transphasic')
     weapon.sound = "TRANSPHASIC"
 
@@ -1054,7 +1054,7 @@ function WeaponGenerator.generateTRANSPHASIC(rand, dps, tech, material, rarity)
     weapon.damage = damage
     weapon.damageType = DamageType.Energy
     weapon.blength = weapon.reach
-	weapon.blockPenetration = 2
+    weapon.blockPenetration = 2
 
     -- 10 % chance for plasma
     if rand:test(0.1) then
@@ -1062,7 +1062,7 @@ function WeaponGenerator.generateTRANSPHASIC(rand, dps, tech, material, rarity)
     end
 
     weapon.bouterColor = ColorHSV(60, 94, 78)
-	weapon.binnerColor = ColorHSV(rand:getFloat(180, 260), rand:getFloat(0.1, 0.5), 1)
+    weapon.binnerColor = ColorHSV(rand:getFloat(180, 260), rand:getFloat(0.1, 0.5), 1)
     weapon.bshape = BeamShape.Straight
     weapon.bwidth = 1.5
     weapon.bauraWidth = 3
@@ -1073,12 +1073,12 @@ function WeaponGenerator.generateTRANSPHASIC(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Штурмовая пушка
+--Assault Cannon
 function WeaponGenerator.generateASSAULTCANNON(rand, dps, tech, material, rarity)
-	local weapon = Weapon()
+    local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps * 1.2
+    dps = dps * 1.2
 
     local fireDelay = rand:getFloat(0.7, 1.1)
     local reach = rand:getFloat(300, 450)
@@ -1090,8 +1090,8 @@ function WeaponGenerator.generateASSAULTCANNON(rand, dps, tech, material, rarity
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.ChainGun
-    weapon.name = getWeaponName('assaultcannon').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('assaultcannon').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('assaultcannon') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('assaultcannon') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('assaultcannon')
     weapon.sound = "ASSAULTCANNON"
     weapon.accuracy = 0.8
@@ -1100,7 +1100,7 @@ function WeaponGenerator.generateASSAULTCANNON(rand, dps, tech, material, rarity
     weapon.damageType = DamageType.Physical
     weapon.impactParticles = ImpactParticles.Physical
     weapon.impactSound = 1
-	weapon.pshape = ProjectileShape.Plasma
+    weapon.pshape = ProjectileShape.Plasma
 
     weapon.psize = rand:getFloat(0.7, 1.1)
     weapon.pmaximumTime = existingTime
@@ -1108,7 +1108,7 @@ function WeaponGenerator.generateASSAULTCANNON(rand, dps, tech, material, rarity
     weapon.pcolor = ColorHSV(34, 100, 86)
 
     if rand:test(0.05) then
-        local shots = {1}
+        local shots = { 1 }
         weapon.shotsFired = shots[rand:getInt(1, #shots)]
         weapon.damage = (weapon.damage * 1.5) / weapon.shotsFired
     end
@@ -1119,12 +1119,12 @@ function WeaponGenerator.generateASSAULTCANNON(rand, dps, tech, material, rarity
     return weapon
 end
 
---Плазмонитиевый дезинтегратор
+--Plasmonithium disintegrator
 function WeaponGenerator.generatePRD(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-	dps = dps*1.5
+    dps = dps * 1.5
 
     local fireDelay = rand:getFloat(1.4, 1.8)
     local reach = rand:getFloat(600, 750)
@@ -1135,8 +1135,8 @@ function WeaponGenerator.generatePRD(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.continuousBeam = false
     weapon.appearance = WeaponAppearance.RailGun
-    weapon.name = getWeaponName('prd').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('prd').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('prd') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('prd') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('prd')
     weapon.sound = "PRD"
     weapon.accuracy = 1 - rand:getFloat(0, 0.03)
@@ -1146,8 +1146,8 @@ function WeaponGenerator.generatePRD(rand, dps, tech, material, rarity)
     weapon.impactParticles = ImpactParticles.Energy
     weapon.impactSound = 1
     weapon.blockPenetration = 2
-	
-	weapon.shieldDamageMultiplier = 2.8
+
+    weapon.shieldDamageMultiplier = 2.8
 
     weapon.blength = weapon.reach
     weapon.bshape = BeamShape.Straight
@@ -1156,7 +1156,7 @@ function WeaponGenerator.generatePRD(rand, dps, tech, material, rarity)
     weapon.banimationSpeed = 1
     weapon.banimationAcceleration = -2
 
-	weapon.bouterColor = ColorHSV(150, 64, 100)
+    weapon.bouterColor = ColorHSV(150, 64, 100)
     weapon.binnerColor = ColorHSV(240, 0, 100)
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
@@ -1166,12 +1166,12 @@ function WeaponGenerator.generatePRD(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Лавина
+--Avalanche
 function WeaponGenerator.generateAVALANCHE(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
-	
-	dps = dps * 2.3
+
+    dps = dps * 2.3
 
     local fireDelay = 10
     local reach = rand:getFloat(700, 745)
@@ -1184,8 +1184,8 @@ function WeaponGenerator.generateAVALANCHE(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.seeker = true
     weapon.appearance = WeaponAppearance.RocketLauncher
-    weapon.name = getWeaponName('avalanche').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('avalanche').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('avalanche') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('avalanche') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('avalanche')
     weapon.sound = "AVALANCHE"
     weapon.accuracy = 0.6 - rand:getFloat(0, 0.02)
@@ -1195,18 +1195,18 @@ function WeaponGenerator.generateAVALANCHE(rand, dps, tech, material, rarity)
     weapon.impactParticles = ImpactParticles.Physical
     weapon.impactSound = 1
     weapon.impactExplosion = true
-	WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 2, 0.15, 0.2)
-	
-	--weapon.bouterColor = ColorHSV(150, 64, 100)
-	--weapon.binnerColor = ColorHSV(240, 0, 100)
-	weapon.pcolor = ColorHSV(39, 100, 100)
-	
+    WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 2, 0.15, 0.2)
+
+    --weapon.bouterColor = ColorHSV(150, 64, 100)
+    --weapon.binnerColor = ColorHSV(240, 0, 100)
+    weapon.pcolor = ColorHSV(39, 100, 100)
+
     weapon.psize = 0.7
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
     --_colorC = ColorHSV(264, 60, 100)
     weapon.pshape = ProjectileShape.Plasma
-	weapon.shotsFired = 2
+    weapon.shotsFired = 2
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -1217,12 +1217,12 @@ function WeaponGenerator.generateAVALANCHE(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Циклон
+--Cyclone
 function WeaponGenerator.generateCYCLONE(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
-	
-	--dps = dps * 1.9
+
+    --dps = dps *1.9
 
     local fireDelay = 3
     local reach = rand:getFloat(1700, 1900)
@@ -1235,8 +1235,8 @@ function WeaponGenerator.generateCYCLONE(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.seeker = true
     weapon.appearance = WeaponAppearance.RocketLauncher
-    weapon.name = getWeaponName('cyclone').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('cyclone').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('cyclone') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('cyclone') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('cyclone')
     weapon.sound = "CYCLONE"
     weapon.accuracy = 0.6 - rand:getFloat(0, 0.02)
@@ -1246,15 +1246,15 @@ function WeaponGenerator.generateCYCLONE(rand, dps, tech, material, rarity)
     weapon.impactParticles = ImpactParticles.Explosion
     weapon.impactSound = 1
     weapon.impactExplosion = true
-	WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 2, 0.15, 0.2)
-	weapon.hullDamageMultiplier = 1.35
+    WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 2, 0.15, 0.2)
+    weapon.hullDamageMultiplier = 1.35
 
     weapon.psize = rand:getFloat(0.2, 0.2)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
     weapon.pcolor = ColorHSV(240, 0, 100)
     weapon.pshape = ProjectileShape.Rocket
-	weapon.shotsFired = 5
+    weapon.shotsFired = 5
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -1265,12 +1265,12 @@ function WeaponGenerator.generateCYCLONE(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Магнитный миномет
+--Magnetic mortar
 function WeaponGenerator.generateMagneticmortar(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-	dps = dps * 1.75
+    dps = dps * 1.75
 
     local fireDelay = rand:getFloat(2.8, 3.2)
     local reach = rand:getFloat(700, 850)
@@ -1282,18 +1282,18 @@ function WeaponGenerator.generateMagneticmortar(rand, dps, tech, material, rarit
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Cannon
-    weapon.name = getWeaponName('magneticmortar').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('magneticmortar').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('magneticmortar') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('magneticmortar') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('magneticmortar')
     weapon.sound = "MAGNETICMORTAR"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.01)
 
     weapon.damage = damage
     weapon.damageType = DamageType.AntiMatter
-	
-	weapon.hullDamageMultiplier = 1.65
-	weapon.shieldDamageMultiplier = 1.25
-	
+
+    weapon.hullDamageMultiplier = 1.65
+    weapon.shieldDamageMultiplier = 1.25
+
     weapon.impactParticles = ImpactParticles.Explosion
     weapon.impactSound = 1
     weapon.impactExplosion = true
@@ -1312,27 +1312,27 @@ function WeaponGenerator.generateMagneticmortar(rand, dps, tech, material, rarit
     return weapon
 end
 
---Ионный излучатель
+--Ion emitter
 function WeaponGenerator.generateSOLARTORPEDO(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-	--dps = dps * 1.2
+    --dps = dps *1.2
 
     --local fireDelay = rand:getFloat(1.4, 2.2)
-	local fireDelay = 1
+    local fireDelay = 1
     local reach = rand:getFloat(800, 900)
     local damage = dps * fireDelay
     local speed = rand:getFloat(450, 550)
     local existingTime = reach / speed
 
     weapon.fireDelay = fireDelay
-	weapon.fireRate = 0.9
+    weapon.fireRate = 0.9
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Cannon
-    weapon.name = getWeaponName('ionemitter').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('ionemitter').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('ionemitter') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('ionemitter') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('ionemitter')
     weapon.sound = "IONEMITTER"
     weapon.accuracy = 1 - rand:getFloat(0.02, 0.08)
@@ -1344,14 +1344,14 @@ function WeaponGenerator.generateSOLARTORPEDO(rand, dps, tech, material, rarity)
     weapon.impactExplosion = true
 
     weapon.psize = 1.8
-	weapon.pshape = ProjectileShape.Rocket
-	weapon.shotsFired = 1
+    weapon.pshape = ProjectileShape.Rocket
+    weapon.shotsFired = 1
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
     weapon.pcolor = ColorHSV(180, 66, 100)
-	
-	weapon.shieldDamageMultiplier = tech * 0.03 + 2.1
-	
+
+    weapon.shieldDamageMultiplier = tech * 0.03 + 2.1
+
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -1380,8 +1380,8 @@ function WeaponGenerator.generatePLASMAFLAK(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.AntiFighter
-    weapon.name = getWeaponName('plasmaflak').." /* Weapon Name*/"%_t
-    weapon.prefix = getWeaponName('plasmaflak').." /* Weapon Prefix*/"%_t
+    weapon.name = getWeaponName('plasmaflak') .. " /* Weapon Name*/" % _t
+    weapon.prefix = getWeaponName('plasmaflak') .. " /* Weapon Prefix*/" % _t
     weapon.icon = getWeaponPath('plasmaflak')
     weapon.sound = "PLASMAFLAK"
     weapon.accuracy = 0.99 - rand:getFloat(0.09, 0.13)
@@ -1393,7 +1393,7 @@ function WeaponGenerator.generatePLASMAFLAK(rand, dps, tech, material, rarity)
     weapon.deathExplosion = true
     weapon.timedDeath = true
     weapon.explosionRadius = 20
-	weapon.shotsFired = 2
+    weapon.shotsFired = 2
 
     weapon.psize = rand:getFloat(0.3, 0.3)
     weapon.pmaximumTime = existingTime
@@ -1407,24 +1407,24 @@ function WeaponGenerator.generatePLASMAFLAK(rand, dps, tech, material, rarity)
     return weapon
 end
 
---Вызов генераторов
-generatorFunction[WeaponType.PULSEGUN]= WeaponGenerator.generatePULSEGUN
-generatorFunction[WeaponType.PARTICLEACCELERATOR]= WeaponGenerator.generatePARTICLEACCELERATOR
-generatorFunction[WeaponType.ASSAULTBLASTER]= WeaponGenerator.generateASSAULTBLASTER
-generatorFunction[WeaponType.HEPT]= WeaponGenerator.generateHEPT
-generatorFunction[WeaponType.PULSELASER]= WeaponGenerator.generatePULSELASER
-generatorFunction[WeaponType.MANTIS]= WeaponGenerator.generateMANTIS
-generatorFunction[WeaponType.PHOTON]= WeaponGenerator.generatePHOTON
-generatorFunction[WeaponType.HYPERKINETIC]= WeaponGenerator.generateHYPERKINETIC
+--Calling generators
+generatorFunction[WeaponType.PULSEGUN] = WeaponGenerator.generatePULSEGUN
+generatorFunction[WeaponType.PARTICLEACCELERATOR] = WeaponGenerator.generatePARTICLEACCELERATOR
+generatorFunction[WeaponType.ASSAULTBLASTER] = WeaponGenerator.generateASSAULTBLASTER
+generatorFunction[WeaponType.HEPT] = WeaponGenerator.generateHEPT
+generatorFunction[WeaponType.PULSELASER] = WeaponGenerator.generatePULSELASER
+generatorFunction[WeaponType.MANTIS] = WeaponGenerator.generateMANTIS
+generatorFunction[WeaponType.PHOTON] = WeaponGenerator.generatePHOTON
+generatorFunction[WeaponType.HYPERKINETIC] = WeaponGenerator.generateHYPERKINETIC
 
-generatorFunction[WeaponType.NANOREPAIR]= WeaponGenerator.generateNANOREPAIR
-generatorFunction[WeaponType.CHARGINGBEAM]= WeaponGenerator.generateCHARGINGBEAM
+generatorFunction[WeaponType.NANOREPAIR] = WeaponGenerator.generateNANOREPAIR
+generatorFunction[WeaponType.CHARGINGBEAM] = WeaponGenerator.generateCHARGINGBEAM
 
-generatorFunction[WeaponType.SOLARTORPEDO]= WeaponGenerator.generateSOLARTORPEDO
-generatorFunction[WeaponType.ASSAULTCANNON]= WeaponGenerator.generateASSAULTCANNON
-generatorFunction[WeaponType.AVALANCHE]= WeaponGenerator.generateAVALANCHE
-generatorFunction[WeaponType.CYCLONE]= WeaponGenerator.generateCYCLONE
-generatorFunction[WeaponType.PRD]= WeaponGenerator.generatePRD
-generatorFunction[WeaponType.MAGNETICMORTAR]= WeaponGenerator.generateMagneticmortar
-generatorFunction[WeaponType.TRANSPHASIC]= WeaponGenerator.generateTRANSPHASIC
-generatorFunction[WeaponType.PLASMAFLAK]= WeaponGenerator.generatePLASMAFLAK
+generatorFunction[WeaponType.SOLARTORPEDO] = WeaponGenerator.generateSOLARTORPEDO
+generatorFunction[WeaponType.ASSAULTCANNON] = WeaponGenerator.generateASSAULTCANNON
+generatorFunction[WeaponType.AVALANCHE] = WeaponGenerator.generateAVALANCHE
+generatorFunction[WeaponType.CYCLONE] = WeaponGenerator.generateCYCLONE
+generatorFunction[WeaponType.PRD] = WeaponGenerator.generatePRD
+generatorFunction[WeaponType.MAGNETICMORTAR] = WeaponGenerator.generateMagneticmortar
+generatorFunction[WeaponType.TRANSPHASIC] = WeaponGenerator.generateTRANSPHASIC
+generatorFunction[WeaponType.PLASMAFLAK] = WeaponGenerator.generatePLASMAFLAK

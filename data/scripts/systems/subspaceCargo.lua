@@ -5,12 +5,13 @@ include("basesystem")
 include("utility")
 include("randomext")
 include("Tech")
+include("cosmicstarfalllib")
 
 -- optimization so that energy requirement doesn't have to be read every frame
 FixedEnergyRequirement = true
 local systemname = 'subspacecargo'
 
---Назначает рабочий бонус только в процентах (все остальные функции, вызывающие эту, также изменены для получения только одного аргумента)
+--Assigns a work bonus as a percentage only (all other functions that call this are also changed to receive only one argument)
 function getBonuses(seed, rarity, permanent)
     math.randomseed(seed)
 
@@ -30,7 +31,7 @@ function onInstalled(seed, rarity, permanent)
     local _cargo, _energy, _shield = getBonuses(seed, rarity, permanent)
 
     addBaseMultiplier(StatsBonuses.CargoHold, _cargo)
-    addBaseMultiplier(StatsBonuses.GeneratedEnergy, _energy) --снижает реген энергии
+    addBaseMultiplier(StatsBonuses.GeneratedEnergy, _energy) --reduces energy regen
     addMultiplier(StatsBonuses.ShieldDurability, 1 + _shield)
 end
 
@@ -39,13 +40,6 @@ function onUninstalled(seed, rarity, permanent)
 end
 
 function getName(seed, rarity)
-    local perc, energy, shield = getBonuses(seed, rarity, true)
-
-    local post = ""
-    if perc > 0 then
-        post = " SC" -- not translated on purpose
-    end
-
     local mk = rarity.value + 2
     return getTechName(systemname) .. " Mk-" .. tostring(mk)
 end
@@ -61,7 +55,7 @@ end
 
 function getPrice(seed, rarity)
     local perc, energy, shield = getBonuses(seed, rarity)
-    local price = perc * energy * shield * 125 * 50000 * 1.7 --Довольно кривая ценогенерация
+    local price = perc * energy * shield * 125 * 50000 * 1.7 --Quite crooked pricing
     return price * 2.5 ^ rarity.value
 end
 
@@ -73,18 +67,38 @@ function getTooltipLines(seed, rarity, permanent)
 
     if perc ~= 0 then
         table.insert(texts,
-            { ltext = "Cargo Hold (relative)" % _t, rtext = string.format("%+i%%", round(perc * 100)), icon =
-            "data/textures/icons/crate.png", boosted = permanent })
+            {
+                ltext = "Cargo Hold (relative)" % _t,
+                rtext = string.format("%+i%%", round(perc * 100)),
+                icon =
+                "data/textures/icons/crate.png",
+                boosted = permanent
+            })
         table.insert(texts,
-            { ltext = "Generated Energy" % _t, rtext = string.format("%+i%%", round(energy * 100)), icon =
-            "data/textures/icons/electric.png", boosted = permanent })
+            {
+                ltext = "Generated Energy" % _t,
+                rtext = string.format("%+i%%", round(energy * 100)),
+                icon =
+                "data/textures/icons/electric.png",
+                boosted = permanent
+            })
         table.insert(texts,
-            { ltext = "Shield Durability" % _t, rtext = string.format("%+i%%", round(shield * 100)), icon =
-            "data/textures/icons/health-normal.png", boosted = permanent })
+            {
+                ltext = "Shield Durability" % _t,
+                rtext = string.format("%+i%%", round(shield * 100)),
+                icon =
+                "data/textures/icons/health-normal.png",
+                boosted = permanent
+            })
 
         table.insert(bonuses,
-            { ltext = "Cargo Hold (relative)" % _t, rtext = string.format("%+i%%", round(basePerc * 0.4 * 100)), icon =
-            "data/textures/icons/crate.png", boosted = permanent })
+            {
+                ltext = "Cargo Hold (relative)" % _t,
+                rtext = string.format("%+i%%", round(basePerc * 0.4 * 100)),
+                icon =
+                "data/textures/icons/crate.png",
+                boosted = permanent
+            })
     end
     return texts, bonuses
 end
@@ -102,10 +116,10 @@ function getComparableValues(seed, rarity)
     local base = {}
     local bonus = {}
     -- if perc ~= 0 then
-    -- table.insert(base, {name = "Грузовой отсек"%_t, key = "cargo_hold_relative", value = round(perc * 100), comp = UpgradeComparison.MoreIsBetter})
-    -- table.insert(bonus, {name = "Грузовой отсек"%_t, key = "cargo_hold_relative", value = round(perc * 0.5 * 100), comp = UpgradeComparison.MoreIsBetter})
-    -- table.insert(bonus, {name = "Объем щитов"%_t, key = "cargo_hold_relative", value = round(shield * 0.5 * 100), comp = UpgradeComparison.MoreIsBetter})
-    -- table.insert(base, {name = "Мощность реактора"%_t, key = "cargo_hold_relative", value = round(energy * 100), comp = UpgradeComparison.MoreIsBetter})
+    -- table.insert(base, {name = "Грузовой отсек"%_t, key = "cargo_hold_relative", value = round(perc *100), comp = UpgradeComparison.MoreIsBetter})
+    -- table.insert(bonus, {name = "Грузовой отсек"%_t, key = "cargo_hold_relative", value = round(perc *0.5 *100), comp = UpgradeComparison.MoreIsBetter})
+    -- table.insert(bonus, {name = "Объем щитов"%_t, key = "cargo_hold_relative", value = round(shield *0.5 *100), comp = UpgradeComparison.MoreIsBetter})
+    -- table.insert(base, {name = "Мощность реактора"%_t, key = "cargo_hold_relative", value = round(energy *100), comp = UpgradeComparison.MoreIsBetter})
     -- end
 
     return base, bonus

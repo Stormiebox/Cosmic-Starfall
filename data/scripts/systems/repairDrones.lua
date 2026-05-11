@@ -8,7 +8,7 @@ include("tooltipmaker")
 include("Tech")
 include("cosmicstarfalllib")
 
---include('callable')
+--Include('callable')
 
 local _debug = false
 local _prototype = true
@@ -18,48 +18,48 @@ local systemname = 'repairdrones'
 local scriptname = 'repairDrones'
 --local isMultiplied = false
 
---Базовые величины активных фаз систем. Используйте как конфиг, отдельный делать лень :)
-ModuleBonusDurability = 6         --проценты, бонус корпуса при установке (автоматически изменяется от -3 до +15 в зависимости от уровня модуля)
+--Basic values ​​of active phases of systems. Use it as a config, too lazy to make a separate one :)
+ModuleBonusDurability = 6         --percent, hull bonus upon installation (automatically changes from -3 to +15 depending on the module level)
 
-NanobotsCooldown = 300            --секунды, время отката (дефолт - 300)
-NanobotsOperationTime = 20        -- секунды, время работы (дефолт - 20)
-NanobotsHealingTreshhold = 50     --проценты, объем корпуса, выше которого не ремонтирует
-NanobotsHealingAmount = 20        --проценты, объем ремонта корпуса за все время действия (дефолт - 20)
-NanobotsCooldownPerWarp = 50      --секунды, сокращение перезарядки за варп
+NanobotsCooldown = 300            --seconds, rollback time (default -300)
+NanobotsOperationTime = 20        -- seconds, operating time (default -20)
+NanobotsHealingTreshhold = 50     --percentage, the volume of the case, above which it does not repair
+NanobotsHealingAmount = 20        --interest, volume of hull repairs for the entire period of validity (default -20)
+NanobotsCooldownPerWarp = 50      --seconds, cooldown reduction per warp
 
-RepairnetworkCooldown = 250       --секунды, время отката
-RepairnetworkOperationTime = 120  -- секунды, время работы
-RepairnetworkHealingAmount = 30   --проценты, объем ремонта за все время действия
-RepairnetworkCooldownPerWarp = 50 --секунды, сокращение перезарядки за варп
+RepairnetworkCooldown = 250       --seconds, rollback time
+RepairnetworkOperationTime = 120  -- seconds, operating time
+RepairnetworkHealingAmount = 30   --interest, amount of repairs for the entire period of validity
+RepairnetworkCooldownPerWarp = 50 --seconds, cooldown reduction per warp
 
-EmergencyCooldown = 800           --секунды, время отката
-EmergencyOperationTime = 20       -- секунды, время работы режима готовности
-EmergencyBoosterTime = 20         --секунды, время работы перегрузки ремонта
-EmergencyBoosterAmount = 3        --единицы, во столько раз усиливается пассивная регенерация на время работы перегрузки ремонта
-EmergencyActivationTreshhold = 5  --проценты, прочность корпуса, ниже которой срабатывает активация
-EmergencyHealingAmount = 10       --проценты, объем мгновенного ремонта
-EmergencyCooldownPerWarp = 0      --секунды, сокращение перезарядки за варп
+EmergencyCooldown = 800           --seconds, rollback time
+EmergencyOperationTime = 20       -- seconds, standby time
+EmergencyBoosterTime = 20         --seconds, repair overload operating time
+EmergencyBoosterAmount = 3        --units, the passive regeneration is increased so many times for the duration of the repair overload
+EmergencyActivationTreshhold = 5  --percentage, hull strength, below which activation is triggered
+EmergencyHealingAmount = 10       --interest, amount of instant repairs
+EmergencyCooldownPerWarp = 0      --seconds, cooldown reduction per warp
 
---Величины пассивного эффекта систем
-local PassiveRepairTreshhold = 10 --проценты. Объем корпуса, выше которого пассивный ремонт не работает (изменяется автоматически на значение от -2 до 10, в зависимости от уровня устанавливаемого модуля)
-PassiveRepairAmount = 0.2         --проценты, объем ремонтируемого корпуса за секунду (дефолт - 0.2%)
+--The magnitude of the passive effect of systems
+local PassiveRepairTreshhold = 10 --interest. Case volume above which passive repair does not work (changes automatically to a value from -2 to 10, depending on the level of the installed module)
+PassiveRepairAmount = 0.2         --percent, volume of repaired case per second (default -0.2%)
 
---Динамические величины активных фаз систем. Изменение вручную повлечет поломки разной степени тяжести активных систем и всего модуля
+--Dynamic quantities of active phases of systems. Changing manually will result in breakdowns of varying degrees of severity of active systems and the entire module
 
-local NanobotsIsReady = 0            --статус готовности модуля, содержит оставшееся время перезарядки модуля
-local NanobotsIsWorking = 0          --статус активной фазы модуля, содержит оставшееся время работы модуля
-local NanobotsHealingSpeed = 0       --автоматически вычисляемый объем ремонта за единицу времени
+local NanobotsIsReady = 0            --module readiness status, contains the remaining module recharge time
+local NanobotsIsWorking = 0          --module active phase status, contains the remaining operating time of the module
+local NanobotsHealingSpeed = 0       --automatically calculated amount of repair per unit of time
 
-local RepairnetworkIsReady = 0       --статус готовности модуля
-local RepairnetworkIsWorking = 0     --статус активной фазы модуля
-local RepairnetworkHealingSpeed = 0  --автоматически вычисляемый объем ремонта за единицу времени
+local RepairnetworkIsReady = 0       --module readiness status
+local RepairnetworkIsWorking = 0     --module active phase status
+local RepairnetworkHealingSpeed = 0  --automatically calculated amount of repair per unit of time
 
-local EmergencyIsReady = 0           --статус готовности модуля
-local EmergencyOverloadIsWorking = 0 --статус фазы перегрузки модуля
-local EmergencyIsWorking = 0         --статус активной фазы модуля
-local EmergencyHeal = 0              --автоматически вычисляемый объем ремонта
+local EmergencyIsReady = 0           --module readiness status
+local EmergencyOverloadIsWorking = 0 --module overload phase status
+local EmergencyIsWorking = 0         --module active phase status
+local EmergencyHeal = 0              --automatically calculated repair volume
 
---Переменные интерфейса
+--Interface Variables
 local progressBars = {}
 
 -- optimization so that energy requirement doesn't have to be read every frame
@@ -78,9 +78,9 @@ function DebugMsg(_text)
 end
 
 function UIplaysound(_type)
-	--0 - activation
-	--1 - deactivation
-	--2 - error
+	--0 -activation
+	--1 -deactivation
+	--2 -error
 	local soundPath = '/systems/'
 	if _type == 0 then
 		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.5)
@@ -95,10 +95,10 @@ function UIplaysound(_type)
 		return
 	end
 	return
-	--invokeClientFunction(Player(),'UIplaysound',2)
+	--Invoke client function(player(),'u iplaysound',2)
 end
 
---Заставляет основную функцию-обработчик (ниже) обращаться к серверу раз в секунду для выполнения активных фаз
+--Causes the main handler function (below) to contact the server once per second to perform active phases
 function getUpdateInterval()
 	return 1
 end
@@ -107,17 +107,17 @@ function update(timeStep)
 	if onClient() and updateSW and RDwindow then
 		invokeServerFunction("UIsyncPosition", RDwindow.position)
 		if Entity().selectedObject then
-			--DebugMsg(tostring(Entity().selectedObject.name))
+			--Debug msg(tostring(entity().selected object.name))
 		end
 	end
 end
 
---Основная функция-обработчик работы всех модулей, завязанная на API игры
+--The main function is the handler for all modules, tied to the game API
 function updateServer(timePassed)
-	--сегмент пассивного эффекта
+	--passive effect segment
 	if Durability().filledPercentage < (PassiveRepairTreshhold / 100) then
 		Entity().durability = Entity().durability + (Durability().maximum / 100 * PassiveRepairAmount)
-		--Аура на себя
+		--Aura on yourself
 		local _aura = {
 			'selfrepairpassiveaura',
 			string.format("+%i/s", math.floor(Durability().maximum / 100 * PassiveRepairAmount)),
@@ -132,33 +132,33 @@ function updateServer(timePassed)
 		}
 		callTechAuraSelf(_aura)
 	end
-	--сегмент наноботов
+	--nanobot segment
 	if NanobotsIsReady > 0 then
-		NanobotsIsReady = math.max(0, NanobotsIsReady - timePassed) --непосредственно сокращение отката
+		NanobotsIsReady = math.max(0, NanobotsIsReady - timePassed) --direct reduction of rollback
 		executeUpdateProgressbar(1, NanobotsIsReady / NanobotsCooldown)
-		--invokeClientFunction(Player(),"updateUIbars",NanobotsCooldown,NanobotsIsReady,0)
+		--Invoke client function(player(),"update u ibars",nanobots cooldown,nanobots is ready,0)
 	end
 	if NanobotsIsWorking > 0 then
 		NanobotsIsWorking = NanobotsIsWorking - timePassed
-		if Durability().filledPercentage < (NanobotsHealingTreshhold / 100) then --Не работает, если прочность корпуса выше капа
+		if Durability().filledPercentage < (NanobotsHealingTreshhold / 100) then --Doesn't work if body strength is above cap
 			Entity().durability = Entity().durability + NanobotsHealingSpeed
 		end
-		invokeClientFunction(Player(), "onFinishWork", NanobotsIsWorking, 0) --Ловит момент окончания работы модуля
+		invokeClientFunction(Player(), "onFinishWork", NanobotsIsWorking, 0) --Catch the moment when the module ends
 	end
-	--сегмент ремонтной сети
+	--repair network segment
 	if RepairnetworkIsReady > 0 then
-		RepairnetworkIsReady = math.max(0, RepairnetworkIsReady - timePassed) --непосредственно сокращение отката
+		RepairnetworkIsReady = math.max(0, RepairnetworkIsReady - timePassed) --direct reduction of rollback
 		executeUpdateProgressbar(2, RepairnetworkIsReady / RepairnetworkCooldown)
-		--invokeClientFunction(Player(),"updateUIbars",RepairnetworkCooldown,RepairnetworkIsReady,1)
+		--Invoke client function(player(),"update u ibars",repairnetwork cooldown,repairnetwork is ready,1)
 	end
 	if RepairnetworkIsWorking > 0 then
 		RepairnetworkIsWorking = RepairnetworkIsWorking - timePassed
 		Entity().durability = Entity().durability + RepairnetworkHealingSpeed
-		invokeClientFunction(Player(), "onFinishWork", RepairnetworkIsWorking, 1) --Ловит момент окончания работы модуля
+		invokeClientFunction(Player(), "onFinishWork", RepairnetworkIsWorking, 1) --Catch the moment when the module ends
 	end
-	--сегмент экстренного стабилизатора
+	--emergency stabilizer segment
 	if EmergencyIsReady > 0 then
-		EmergencyIsReady = math.max(0, EmergencyIsReady - timePassed) --непосредственно сокращение отката
+		EmergencyIsReady = math.max(0, EmergencyIsReady - timePassed) --direct reduction of rollback
 		--invokeClientFunction(Player(),"updateUIbars",EmergencyCooldown,EmergencyIsReady,2)
 	end
 	if EmergencyIsWorking > 0 then
@@ -175,7 +175,7 @@ function updateServer(timePassed)
 	else
 		executeUpdateProgressbar(3, EmergencyIsReady / EmergencyCooldown)
 	end
-	--подсегмент для перегрузки
+	--subsegment for overload
 	if EmergencyOverloadIsWorking > 0 then
 		EmergencyOverloadIsWorking = math.max(0, EmergencyOverloadIsWorking - timePassed)
 		invokeClientFunction(Player(), "onFinishWork", EmergencyOverloadIsWorking, 3)
@@ -189,15 +189,15 @@ end
 
 function NanobotsActivate()
 	if NanobotsIsReady == 0 then
-		NanobotsIsReady = NanobotsCooldown                                                            --запускает откат
+		NanobotsIsReady = NanobotsCooldown                       --starts rollback
 		NanobotsHealingSpeed = (Durability().maximum / 100 * NanobotsHealingAmount) /
-		NanobotsOperationTime                                                                         --назначает объем ремонта за единицу времени (1 сек)
+			NanobotsOperationTime                                --assigns the amount of repair per unit of time (1 sec)
 		NanobotsIsWorking =
-		NanobotsOperationTime                                                                         --назначаем время работы, вместе с тем говорим обработчику, что модуль запущен
-		invokeClientFunction(Player(), "updateStatusEffects", 0, true)                                --Включает иконку на верхней панели игрока
+			NanobotsOperationTime                                --we set a working time and at the same time tell the handler that the module is running
+		invokeClientFunction(Player(), "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 
-		--Аура на себя
+		--Aura on yourself
 		local _aura = {
 			getSubtechSignature(systemname, 1),
 			string.format("+%i/s", math.floor(NanobotsHealingSpeed)),
@@ -224,12 +224,12 @@ function RepairNetworkActivate()
 	if RepairnetworkIsReady == 0 then
 		RepairnetworkIsReady = RepairnetworkCooldown
 		RepairnetworkHealingSpeed = (Durability().maximum / 100 * RepairnetworkHealingAmount) /
-		RepairnetworkOperationTime
+			RepairnetworkOperationTime
 		RepairnetworkIsWorking = RepairnetworkOperationTime
 		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 
-		--Аура на себя
+		--Aura on yourself
 		local _aura = {
 			getSubtechSignature(systemname, 2),
 			string.format("+%i/s", math.floor(RepairnetworkHealingSpeed)),
@@ -258,7 +258,7 @@ function EmergencyActivate()
 		invokeClientFunction(Player(), "updateStatusEffects", 2, true)
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 
-		--Аура на себя
+		--Aura on yourself
 		local _aura = {
 			getSubtechSignature(systemname, 3),
 			0,
@@ -279,13 +279,13 @@ end
 
 callable(nil, "EmergencyActivate")
 
---включается при срабатывании экстренного стабилизатора в его активной фазе
+--turns on when the emergency stabilizer is triggered in its active phase
 function EmergencyOverloadActivate()
 	EmergencyOverloadIsWorking = EmergencyBoosterTime
 	PassiveRepairAmount = PassiveRepairAmount * EmergencyBoosterAmount
 	invokeClientFunction(Player(), "updateStatusEffects", 3, true)
 	invokeClientFunction(Player(), 'UIplaysound', 0)
-	--Аура на себя
+	--Aura on yourself
 	local _aura = {
 		getSubtechSignature(systemname, 3) .. 'activate',
 		string.format("+%i%%", (EmergencyBoosterAmount - 1) * 100),
@@ -299,11 +299,11 @@ function EmergencyOverloadActivate()
 		true
 	}
 	callTechAuraSelf(_aura)
-	--Сброс предыдущей ауры
+	--Reset previous aura
 	callTechAuraInterruptSelf(getSubtechSignature(systemname, 3))
 end
 
---Запускает основные функции активных эффектов в режиме "сервер", чтобы переменные корректно работали в updateServer
+--Runs the main functions of active effects in "server" mode so that variables work correctly in updateServer
 function NanobotsActivateTransfer()
 	invokeServerFunction("NanobotsActivate")
 end
@@ -316,7 +316,7 @@ function EmergencyActivateTransfer()
 	invokeServerFunction("EmergencyActivate")
 end
 
---Функция вызывается до onInstalled, поэтому здесь тоже нужно добавлять rarity.value для отображения корректного значения в описании модуля
+--The function is called before onInstalled, so here you also need to add rarity.value to display the correct value in the module description
 function getBonuses(seed, rarity, permanent)
 	math.randomseed(seed)
 
@@ -338,28 +338,28 @@ function onInstalled(seed, rarity, permanent)
 
 	Entity():registerCallback("onHullHit", "onHitReact")
 
-	--изменяет лимит пассивно восстанавливаемого корпуса в зависимости от текущего уровня модуля (от -1 до +5)
+	--changes the limit of passively restored hull depending on the current module level (from -1 to +5)
 	PassiveRepairTreshhold = PassiveRepairTreshhold + rarity.value * 2
 	if _debug then print(PassiveRepairTreshhold, "% Лимит ремонта от качества") end
 
-	--Изменяет бонус корпуса в зависимости от текущего уровня модуля (от -1 до +5)
+	--Changes the hull bonus depending on the current module level (from -1 to +5)
 	ModuleBonusDurability = ModuleBonusDurability + rarity.value * 3
 	if _debug then print(ModuleBonusDurability, "% Бонус корпуса") end
 
-	--Проверяет существование кастомной переменной на корабле и если ее нет - создает
+	--Checks the existence of a custom variable on the ship and if it does not exist, creates it
 	if _cv == nil then
 		Entity():setValue("isRepairDrones", false)
 		if _debug then print("isRepairDrones успешно создана") end
 	end
 
-	--Проверяет, нет ли подобного бонуса уже. Необходимо для того, чтобы при старте игры бонус не накладывался повторно (при старте игры функция onInstalled срабатывает автоматически для всех сущностей, где модуль уже установлен)
+	--Checks to see if a similar bonus already exists. It is necessary so that when the game starts, the bonus is not applied again (when the game starts, the onInstalled function is triggered automatically for all entities where the module is already installed)
 	if _cv == 0 or _cv == false then
 		Entity():setValue("isRepairDrones", true)
 		Durability().maxDurabilityFactor = (Durability().maxDurabilityFactor + ModuleBonusDurability / 100)
 		if _debug then print("Корпус успешно увеличен при установке модуля") end
 	end
 
-	--Инициализация элементов интерфейса
+	--Initializing Interface Elements
 	if onClient() and not (RDwindow) then
 		initializeUI()
 		-- Player():registerCallback("onStateChanged", "UIshowhide")
@@ -387,15 +387,16 @@ function initializeUI()
 
 	local subSysDesc = {
 		string.format(
-		"%s\nActivating the system will repair %i%% of the ship's hull in %i seconds.\nCooldown - %i seconds.\nThe module cannot repair hull above %i%%" %
-		_t, getSubtechName(systemname, 1), NanobotsHealingAmount, NanobotsOperationTime, NanobotsCooldown,
+			"%s\nActivating the system will repair %i%% of the ship's hull in %i seconds.\nCooldown - %i seconds.\nThe module cannot repair hull above %i%%" %
+			_t, getSubtechName(systemname, 1), NanobotsHealingAmount, NanobotsOperationTime, NanobotsCooldown,
 			NanobotsHealingTreshhold),
 		string.format(
-		"%s\nActivation repairs %.2f%% hull per second for %i seconds.\nTaking damage or healing from repair weapons on the hull while the module is running interrupts repairs and reduces the remaining cooldown time by %i%%.\nCooldown - %i seconds" %
-		_t, getSubtechName(systemname, 2), _repairMatrixCalc, RepairnetworkOperationTime, 60, RepairnetworkCooldown),
+			"%s\nActivation repairs %.2f%% hull per second for %i seconds.\nTaking damage or healing from repair weapons on the hull while the module is running interrupts repairs and reduces the remaining cooldown time by %i%%.\nCooldown - %i seconds" %
+			_t, getSubtechName(systemname, 2), _repairMatrixCalc, RepairnetworkOperationTime, 60, RepairnetworkCooldown),
 		string.format(
-		"%s\nActivating the module puts it in standby mode for %i second. If during this time the ship's hull falls below %i%%, the module is triggered, restoring it by %i%%, after which it increases the automatic repair by %i%% for %i seconds.\nCooldown - %i seconds" %
-		_t, getSubtechName(systemname, 3), EmergencyOperationTime, EmergencyActivationTreshhold, EmergencyHealingAmount,
+			"%s\nActivating the module puts it in standby mode for %i second. If during this time the ship's hull falls below %i%%, the module is triggered, restoring it by %i%%, after which it increases the automatic repair by %i%% for %i seconds.\nCooldown - %i seconds" %
+			_t, getSubtechName(systemname, 3), EmergencyOperationTime, EmergencyActivationTreshhold,
+			EmergencyHealingAmount,
 			EmergencyBoosterTime, _emergencyPercent, EmergencyCooldown),
 	}
 
@@ -406,22 +407,22 @@ function executeDrawInterface(subSysDesc)
 	local subsys = {}
 
 	local subsys1 = {
-		getSubtechName(systemname, 1), --name
-		getSubtechIcon(systemname, 1), --icon
-		subSysDesc[1],          --desc
-		'NanobotsActivate',     --command
+		getSubtechName(systemname, 1), --Name
+		getSubtechIcon(systemname, 1), --Icon
+		subSysDesc[1],           --Desc
+		'NanobotsActivate',      --Command
 	}
 	local subsys2 = {
-		getSubtechName(systemname, 2), --name
-		getSubtechIcon(systemname, 2), --icon
-		subSysDesc[2],          --desc
-		'RepairNetworkActivate', --command
+		getSubtechName(systemname, 2), --Name
+		getSubtechIcon(systemname, 2), --Icon
+		subSysDesc[2],           --Desc
+		'RepairNetworkActivate', --Command
 	}
 	local subsys3 = {
-		getSubtechName(systemname, 3), --name
-		getSubtechIcon(systemname, 3), --icon
-		subSysDesc[3],          --desc
-		'EmergencyActivate',    --command
+		getSubtechName(systemname, 3), --Name
+		getSubtechIcon(systemname, 3), --Icon
+		subSysDesc[3],           --Desc
+		'EmergencyActivate',     --Command
 	}
 
 	table.insert(subsys, subsys1)
@@ -430,9 +431,9 @@ function executeDrawInterface(subSysDesc)
 
 
 	local _table = {
-		scriptname,        --systemScript
-		getTechName(systemname), --systemName
-		getTechIcon(systemname), --systemIcon
+		scriptname,        --System script
+		getTechName(systemname), --System name
+		getTechIcon(systemname), --System icon
 		Entity().id,       --entityID
 		subsys             --subsys
 	}
@@ -456,13 +457,13 @@ function executeDelete()
 	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDelete', scriptname, entity)
 end
 
---Отвечает за различный связанный визуал(иконки на экране, свечение и прочее)
+--Responsible for various related visuals (icons on the screen, glow, etc.)
 function updateStatusEffects(_type, _status)
 	--[[
-	0 - иконка работы наноботов
-	1 - иконка работы ремонтной сети
-	2 - иконка активной фазы экстренного стабилизатора
-	3 - иконка перегрузки ремонта экстренного стабилизатора
+	0 -nanobot work icon
+	1 -repair network operation icon
+	2 -icon of the active phase of the emergency stabilizer
+	3 -emergency stabilizer repair overload icon
 ]]
 	if _type == 0 then
 		if _status then
@@ -500,40 +501,40 @@ function updateStatusEffects(_type, _status)
 	end
 end
 
---Цепляет ивент конца активной фазы модуля для одноразовых действий для наноботов
--- 0 - наноботы
--- 1 - ремонтная сеть
--- 2 - экстренный ремонт
--- 3 - перегрузка ремонтных систем
+--Catch the event of the end of the active phase of the module for one-time actions for nanobots
+-- 0 -nanobots
+-- 1 -repair network
+-- 2 -emergency repair
+-- 3 -overload of repair systems
 function onFinishWork(_time, _type)
 	if _time <= 0 then
 		if _type == 0 then
-			--print("Наноботы завершили активную фазу")
+			--print("Nanobots have completed the active phase")
 			updateStatusEffects(_type, false)
 			UIplaysound(1)
 		end
 		if _type == 1 then
-			--print("Ремонтная сеть завершила активную фазу")
+			--print("The repair network has completed its active phase")
 			updateStatusEffects(_type, false)
 			UIplaysound(1)
 		end
 		if _type == 2 then
-			--print("Экстренный стабилизатор завершил активную фазу")
+			--print("Emergency stabilizer has completed its active phase")
 			updateStatusEffects(_type, false)
 			UIplaysound(1)
 		end
 		if _type == 3 then
-			--print("Экстренный стабилизатор завершил фазу перегрузки")
+			--print("Emergency stabilizer has completed its overload phase")
 			updateStatusEffects(_type, false)
 		end
 		--print (Durability().filledPercentage)
-		--Durability().invincibility = Durability().invincibility - 0.5
+		--Durability().invincibility = Durability().invincibility -0.5
 	else
 		return
 	end
 end
 
-function onHitReact() --Нужна для корректного завершения работы ремонтной сети при получении урона в корпус
+function onHitReact() --Needed for correct completion of the repair network when receiving damage to the hull
 	if RepairnetworkIsWorking > 0 then
 		if _debug then print("Работа ремонтной сети прервана") end
 		RepairnetworkIsWorking = 0
@@ -570,21 +571,36 @@ function getTooltipLines(seed, rarity, permanent)
 	local _h, _r = getBonuses(seed, rarity, permanent)
 	--local _baseH, baseEnergy, baseShield = getBonuses(seed, rarity, false)
 
-	--Бонусы
+	--Bonuses
 	table.insert(texts,
-		{ ltext = "Hull Durability" % _t, rtext = string.format("%+2i%%", round(_h)), icon =
-		"data/textures/icons/staDurability.png", boosted = permanent })
+		{
+			ltext = "Hull Durability" % _t,
+			rtext = string.format("%+2i%%", round(_h)),
+			icon =
+			"data/textures/icons/staDurability.png",
+			boosted = permanent
+		})
 	table.insert(texts,
-		{ ltext = "Auto-repair treshold" % _t, rtext = string.format("%2i%%", round(_r)), icon =
-		"data/textures/icons/staRepair.png", boosted = permanent })
+		{
+			ltext = "Auto-repair treshold" % _t,
+			rtext = string.format("%2i%%", round(_r)),
+			icon =
+			"data/textures/icons/staRepair.png",
+			boosted = permanent
+		})
 	table.insert(texts,
-		{ ltext = "Auto-repair value" % _t, rtext = string.format("%.1f%%", PassiveRepairAmount), icon =
-		"data/textures/icons/staRepair.png", boosted = permanent })
+		{
+			ltext = "Auto-repair value" % _t,
+			rtext = string.format("%.1f%%", PassiveRepairAmount),
+			icon =
+			"data/textures/icons/staRepair.png",
+			boosted = permanent
+		})
 
-	--Пустая строка
+	--Empty string
 	table.insert(texts, { ltext = "" })
 
-	--Абилки
+	--Abilki
 	for i = 1, 3 do
 		table.insert(texts,
 			{ ltext = getSubtechName(systemname, i), icon = getSubtechIcon(systemname, i), boosted = permanent })
@@ -600,15 +616,15 @@ function getDescriptionLines(seed, rarity, permanent)
 	}
 end
 
-function getComparableValues(seed, rarity) --Не понимаю, нафига это нужно
+function getComparableValues(seed, rarity) --I don’t understand why this is needed
 	local _h, _r = getBonuses(seed, rarity, permanent)
 
 	local base = {}
 	local bonus = {}
 	-- if _h ~= 0 then
-	-- table.insert(base, {name = "Дополнительная прочность корпуса"%_t, key = "addhull_relative", value = round(_h * 100), comp = UpgradeComparison.MoreIsBetter})
-	-- table.insert(base, {name = "Лимит автоматического ремонта"%_t, key = "autorepairTreshhold_relative", value = round(_r * 100), comp = UpgradeComparison.MoreIsBetter})
-	-- table.insert(base, {name = "Скорость автоматического ремонта"%_t, key = "autorepair_relative", value = PassiveRepairAmount, comp = UpgradeComparison.MoreIsBetter})
+	-- table.insert(base, {name = "Additional Hull Strength"%_t, key = "addhull_relative", value = round(_h *100), comp = UpgradeComparison.MoreIsBetter})
+	-- table.insert(base, {name = "Auto repair limit"%_t, key = "autorepairTreshhold_relative", value = round(_r *100), comp = UpgradeComparison.MoreIsBetter})
+	-- table.insert(base, {name = "Auto repair rate"%_t, key = "autorepair_relative", value = PassiveRepairAmount, comp = UpgradeComparison.MoreIsBetter})
 	-- end
 
 	return base, bonus
