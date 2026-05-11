@@ -1,5 +1,29 @@
 # Cosmic Starfall
 
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
+## License & Credits
+
+**Cosmic Starfall** is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+
+*Cosmic Starfall is a ground-up rework, modernization, and continuation of the original "Starfall" mod. Full credit and respect are given to the original creator, **Neltharaku**, for the foundational concept and legacy design. All new code and implementation are copyright (c) 2026 Stormiebox.*
+
+**Under this license, you are free to:**
+
+* **Share** — copy and redistribute the material in any medium or format.
+* **Adapt** — remix, transform, and build upon the material.
+
+**Under the following terms:**
+
+* **Attribution** — You must give appropriate credit to Stormiebox and Neltharaku, provide a link to the license, and indicate if changes were made.
+* **NonCommercial** — You may not use the material for commercial purposes (e.g., no monetization, selling, or locking behind paywalls).
+
+*(See the `LICENSE.md` file for the full legal text.)*
+
+---
+
+## Overview
+
 Cosmic Starfall is a **work-in-progress Avorion revamp** based on the original mod:
 https://steamcommunity.com/sharedfiles/filedetails/?id=2977686775
 
