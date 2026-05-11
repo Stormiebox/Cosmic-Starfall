@@ -6,7 +6,7 @@
 
 **Cosmic Starfall** is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
 
-*Cosmic Starfall is a ground-up rework, modernization, and continuation of the original "Starfall" mod. Full credit and respect are given to the original creator, **Neltharaku**, for the foundational concept and legacy design. All new code and implementation are copyright (c) 2026 Stormiebox.*
+*Cosmic Starfall is a ground-up rework, modernization, and continuation of the original "Starfall" mod. Full credit and respect are given to the original creator, **Neltharaku**, for the foundational concept and legacy design. All new code and implementation are copyright (c) 2026 Stormbox.*
 
 **Under this license, you are free to:**
 
@@ -15,7 +15,7 @@
 
 **Under the following terms:**
 
-* **Attribution** — You must give appropriate credit to Stormiebox and Neltharaku, provide a link to the license, and indicate if changes were made.
+* **Attribution** — You must give appropriate credit to Stormbox and Neltharaku, provide a link to the license, and indicate if changes were made.
 * **NonCommercial** — You may not use the material for commercial purposes (e.g., no monetization, selling, or locking behind paywalls).
 
 *(See the `LICENSE.md` file for the full legal text.)*
