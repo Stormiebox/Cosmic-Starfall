@@ -5,10 +5,10 @@ local _orange = ColorHSV(30, 0.8, 0.9)
 
 local locLines = {}
 locLines['weaponclass'] = "Weapon class" % _t
-locLines['weaponclass_light'] = "light" % _t
-locLines['weaponclass_heavy'] = "heavy" % _t
-locLines['weaponclass_mc'] = "main caliber" % _t
-locLines['weaponclass_standart'] = "standart" % _t
+locLines['weaponclass_light'] = "Light" % _t
+locLines['weaponclass_heavy'] = "Heavy" % _t
+locLines['weaponclass_mc'] = "Main Caliber" % _t
+locLines['weaponclass_Standard'] = "Standard" % _t
 locLines['accuracy'] = "Accuracy" % _t
 locLines['projspeed'] = "Projectile speed" % _t
 locLines['instant'] = "Instant" % _t
@@ -262,12 +262,12 @@ function fillWeaponTooltipDataN(obj, tooltip, other, objectType, tooltipType)
 
     if isTurretLight(obj) then
         wType = locLines['weaponclass_light']
-        wColor = getTypeColor('light')
+        wColor = getTypeColor('Light')
     end
 
     if isTurretHeavy(obj) then
         wType = locLines['weaponclass_heavy']
-        wColor = getTypeColor('heavy')
+        wColor = getTypeColor('Heavy')
     end
 
     if isTurretMC(obj) then
@@ -277,7 +277,7 @@ function fillWeaponTooltipDataN(obj, tooltip, other, objectType, tooltipType)
 
     --Creates color and text type
     if not (wType) and not (wColor) then
-        line.rtext = locLines['weaponclass_standart']
+        line.rtext = locLines['weaponclass_Standard']
     else
         line.rtext = wType
         line.rcolor = wColor

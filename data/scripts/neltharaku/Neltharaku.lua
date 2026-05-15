@@ -119,7 +119,7 @@ end
 
 ------------------------------------------[Windows]----------------------------------------------------------------
 --Creates a standard window
-function Neltharaku.CreateStandartWindow(_name, _unit, _widthMult, _heightMult)
+function Neltharaku.CreateStandardWindow(_name, _unit, _widthMult, _heightMult)
 	local res = getResolution()
 	local frameV2 = vec2(_unit * _widthMult, _unit * _heightMult)
 	local size = vec2(frameV2.x + _unit, frameV2.y + _unit * 3)

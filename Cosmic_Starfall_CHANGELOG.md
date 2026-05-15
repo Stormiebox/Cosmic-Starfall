@@ -92,6 +92,14 @@ A new bridge/helper library was added to centralize compatibility behavior and o
 - Improves UI/config robustness.
 - Rebuild flow now correctly references intended entity arguments.
 
+### 4) Replaced weapon class names
+- Fixed grammar on weapon class names such as: Light, Heavy, etc.
+- Cleaned up inconsistent code related to weapon class names.
+
+### 5) Updated Starfall UI Information
+- Overhauled and renamed many of old Starfall UI information.
+- Updated information and changelog info.
+
 ---
 
 ## Balance Revamp (Anti-OP Pass)

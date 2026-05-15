@@ -318,10 +318,10 @@ entities['combatgroupgeneral'] = {
 			'data/textures/icons/FederationSC.png', -- Content. Text or path to the image.
 		},
 		{
-			'desc',                                                                                                                                                                                -- Item type
-			1.8,                                                                                                                                                                                   -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.8, -- Height (nil for iconname/mainlabel)
 			"A special interface called by the corresponding button on the screen allows you to perform group management (player invitation, player kick, leader transfer) without using chat commands" %
-			_t,                                                                                                                                                                                    -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                  -- Item type
@@ -330,8 +330,8 @@ entities['combatgroupgeneral'] = {
 			"'Collapse' button" % _t     -- Content for icon info
 		},
 		{
-			'desc',                                                                                      -- Item type
-			1,                                                                                           -- Height (nil for iconname/mainlabel)
+			'desc',                                                                                        -- Item type
+			1,                                                                                             -- Height (nil for iconname/mainlabel)
 			"Minimizes the window, leaving the 'expand' button on its place, allowing you to expand it later" % _t, -- Content. Text or path to the image.
 		},
 		-- {
@@ -352,8 +352,8 @@ entities['combatgroupgeneral'] = {
 			"'Switch to adding' button" % _t -- Content for icon info
 		},
 		{
-			'desc',                                                             -- Item type
-			1,                                                                  -- Height (nil for iconname/mainlabel)
+			'desc',                                                               -- Item type
+			1,                                                                    -- Height (nil for iconname/mainlabel)
 			"Opens a window with a list of online players who are not in your group" % _t, -- Content. Text or path to the image.
 		},
 		-- {
@@ -381,20 +381,20 @@ entities['combatgroupmanage'] = {
 			'data/textures/icons/uiPlayer.png', -- Content. Text or path to the image.
 		},
 		{
-			'desc',                                                                                                                                                                              -- Item type
-			1,                                                                                                                                                                                   -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1, -- Height (nil for iconname/mainlabel)
 			"This window contains a list of all the players in the group, and also allows you to transfer leadership and kick players (including yourself). Unavailable functions will not be active" %
-			_t,                                                                                                                                                                                  -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo', -- Item type
-			nil,       -- Height (nil for iconname/mainlabel)
+			nil,        -- Height (nil for iconname/mainlabel)
 			locIcons['player'], -- Content. Text or path to the image.
 			'Player status' % _t -- Content for icon info
 		},
 		{
-			'desc',                                                                                         -- Item type
-			1.2,                                                                                            -- Height (nil for iconname/mainlabel)
+			'desc',                                                                                           -- Item type
+			1.2,                                                                                              -- Height (nil for iconname/mainlabel)
 			"Indicates the status of the player (offline, online, leader) and allows you to transfer the leader" % _t, -- Content. Text or path to the image.
 		},
 		{
@@ -404,19 +404,19 @@ entities['combatgroupmanage'] = {
 			"'Kick' button" % _t   -- Content for icon info
 		},
 		{
-			'desc',                                                                                   -- Item type
-			1.2,                                                                                      -- Height (nil for iconname/mainlabel)
+			'desc',                                                                                     -- Item type
+			1.2,                                                                                        -- Height (nil for iconname/mainlabel)
 			"Allows you to kick the player (available only to the leader). You can't kick players offline" % _t, -- Content. Text or path to the image.
 		},
 		{
-			'iconinfo', -- Item type
-			nil,       -- Height (nil for iconname/mainlabel)
+			'iconinfo',  -- Item type
+			nil,         -- Height (nil for iconname/mainlabel)
 			locIcons['cancel'], -- Content. Text or path to the image.
 			"'Leave' button" % _t -- Content for icon info
 		},
 		{
-			'desc',                    -- Item type
-			1.2,                       -- Height (nil for iconname/mainlabel)
+			'desc',                      -- Item type
+			1.2,                         -- Height (nil for iconname/mainlabel)
 			"Allows you to leave the group" % _t, -- Content. Text or path to the image.
 		},
 	},
@@ -432,10 +432,10 @@ entities['combatgroupinvite'] = {
 			'data/textures/icons/uiPlus.png', -- Content. Text or path to the image.
 		},
 		{
-			'desc',                                                                                                                                                                                                                                                                                                                                                                                                                            -- Item type
-			1.6,                                                                                                                                                                                                                                                                                                                                                                                                                               -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.6, -- Height (nil for iconname/mainlabel)
 			"This window displays online players who are not in the same group as the current player. Being the leader of the group (or not being in the group), you can invite the specified player, in which case the button will change to a confirmation one and become inactive. The specified player will receive an alert with that allows him to instantly accept/decline the invitation.\n The button is inactive if you are not a leader" %
-			_t,                                                                                                                                                                                                                                                                                                                                                                                                                                -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 	},
 }
@@ -450,10 +450,10 @@ entities['auracoreinfo'] = {
 			'data/textures/icons/acid-fog.png', -- Content. Text or path to the image.
 		},
 		{
-			'desc',                                                                                                                                                                                                             -- Item type
-			1.3,                                                                                                                                                                                                                -- Height (nil for iconname/mainlabel)
-			"An interface element that is initially hidden. As soon as the effects of modules / environment from the Starfall mod begin to act on the ship, information about this effect will appear near the vanilla status icons" %
-			_t,                                                                                                                                                                                                                 -- Content. Text or path to the image.
+			'desc', -- Item type
+			1.3, -- Height (nil for iconname/mainlabel)
+			"An interface element that is initially hidden. As soon as the effects of modules / environment from the Cosmic Starfall mod begin to act on the ship, information about this effect will appear near the vanilla status icons" %
+			_t, -- Content. Text or path to the image.
 		},
 	},
 }
@@ -469,8 +469,8 @@ entities['asiinfo'] = {
 			'data/textures/icons/ui/ui_circutry.png', -- Content. Text or path to the image.
 		},
 		{
-			'desc',                                                                              -- Item type
-			1.3,                                                                                 -- Height (nil for iconname/mainlabel)
+			'desc',                                                                                -- Item type
+			1.3,                                                                                   -- Height (nil for iconname/mainlabel)
 			"Customizable interface that provides access to the active systems installed on the ship" % _t, -- Content. Text or path to the image.
 		},
 		{
@@ -480,10 +480,10 @@ entities['asiinfo'] = {
 			"Frame switcher" % _t              -- Content for icon info
 		},
 		{
-			'desc',                                                                                                               -- Item type
-			1.4,                                                                                                                  -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.4, -- Height (nil for iconname/mainlabel)
 			"Allows you to include a frame on each system panel to improve visibility. The frame color is similar to the system color" %
-			_t,                                                                                                                   -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                           -- Item type
@@ -492,10 +492,10 @@ entities['asiinfo'] = {
 			"Movement switcher" % _t              -- Content for icon info
 		},
 		{
-			'desc',                                                                                                                                                                                                 -- Item type
-			1.5,                                                                                                                                                                                                    -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.5, -- Height (nil for iconname/mainlabel)
 			"Allows you to unlock elements with which you can move panels around the screen. To do this, click on them and, holding the left mouse button pressed (the element will turn green), specify a new location" %
-			_t,                                                                                                                                                                                                     -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                          -- Item type
@@ -504,8 +504,8 @@ entities['asiinfo'] = {
 			"Main icon switcher" % _t            -- Content for icon info
 		},
 		{
-			'desc',                                                                   -- Item type
-			1.2,                                                                      -- Height (nil for iconname/mainlabel)
+			'desc',                                                                     -- Item type
+			1.2,                                                                        -- Height (nil for iconname/mainlabel)
 			"Allows you to enable and disable the display of the module icon on its panel" % _t, -- Content. Text or path to the image.
 		},
 		{
@@ -515,10 +515,10 @@ entities['asiinfo'] = {
 			"Color switcher" % _t          -- Content for icon info
 		},
 		{
-			'desc',                                                                                                                          -- Item type
-			1.4,                                                                                                                             -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.4, -- Height (nil for iconname/mainlabel)
 			"Opens the color selection panel for the progress bars. Clicking on the button next to each bar resets the color to the original one" %
-			_t,                                                                                                                              -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                     -- Item type
@@ -527,10 +527,10 @@ entities['asiinfo'] = {
 			"Reset to Default" % _t         -- Content for icon info
 		},
 		{
-			'desc',                                                                                                     -- Item type
-			1.3,                                                                                                        -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.3, -- Height (nil for iconname/mainlabel)
 			"Resets all panel settings to the original ones. After activation, you need to click on the confirmation button" %
-			_t,                                                                                                         -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 	},
 }

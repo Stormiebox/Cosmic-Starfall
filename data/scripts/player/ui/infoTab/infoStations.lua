@@ -21,7 +21,7 @@ local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
 local locNames = {}
-locNames['starfallgeneral'] = 'Starfall - general' % _t
+locNames['starfallgeneral'] = 'Cosmic Starfall - General' % _t
 
 local order = {
 	--name,ID,IDupdate
@@ -385,22 +385,22 @@ entities['megacomplex'] = {
 			"'Production' tab" % _t -- Content for icon info
 		},
 		{
-			'desc',                                                                                                                                                                                                                -- Item type
-			1.8,                                                                                                                                                                                                                   -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.8, -- Height (nil for iconname/mainlabel)
 			"The first tab (production) displays all stations that produce resources and transfer them to the complex. Each line represents a station and all its production streams (including the ratio of active production to off)" %
-			_t,                                                                                                                                                                                                                    -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
-			'iconinfo',             -- Item type
-			nil,                    -- Height (nil for iconname/mainlabel)
+			'iconinfo',               -- Item type
+			nil,                      -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxexpand'), -- Content. Text or path to the image.
 			'Detailed Information button' % _t -- Content for icon info
 		},
 		{
-			'desc',                                                                                                                                                                                                                                                                 -- Item type
-			1.8,                                                                                                                                                                                                                                                                    -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.8, -- Height (nil for iconname/mainlabel)
 			"Expands an additional window in which all the production streams of the station are listed in detail. They can be turned on and off at your discretion. By disabling the stream, you will prohibit the megacomplex from taking a specific resource from a specific station" %
-			_t,                                                                                                                                                                                                                                                                     -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',            -- Item type
@@ -409,34 +409,34 @@ entities['megacomplex'] = {
 			"'Consumption' tab" % _t -- Content for icon info
 		},
 		{
-			'desc',                                                                                                                                                                                                                                                                                                           -- Item type
-			1.8,                                                                                                                                                                                                                                                                                                              -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.8, -- Height (nil for iconname/mainlabel)
 			"Displays all stations that need resources to work. Additionally displays the capabilities of the megacomplex to supply the station with resources produced by other docked stations. Here you can completely disable the supply of resources to the station by using the shutdown button to the right border of line" %
-			_t,                                                                                                                                                                                                                                                                                                               -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
-			'iconinfo',             -- Item type
-			nil,                    -- Height (nil for iconname/mainlabel)
+			'iconinfo',              -- Item type
+			nil,                     -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxexpand'), -- Content. Text or path to the image.
 			'Consumption Details button' % _t -- Content for icon info
 		},
 		{
-			'desc',                                                                                                                                                                                                                                                                      -- Item type
-			1.8,                                                                                                                                                                                                                                                                         -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.8, -- Height (nil for iconname/mainlabel)
 			"Expands an additional window in which all the consumption streams of the station are listed in detail. They can be turned on and off at your discretion. By disabling the stream, you will prohibit the megacomplex from transferring a specific resource to a specific station" %
-			_t,                                                                                                                                                                                                                                                                          -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
-			'iconinfo',               -- Item type
-			nil,                      -- Height (nil for iconname/mainlabel)
+			'iconinfo',                 -- Item type
+			nil,                        -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxstorage'), -- Content. Text or path to the image.
 			"'Storage and utilization' tab" % _t -- Content for icon info
 		},
 		{
-			'desc',                                                                                                                                                                                                                                                   -- Item type
-			1.8,                                                                                                                                                                                                                                                      -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.8, -- Height (nil for iconname/mainlabel)
 			"This tab lists all the resources produced/consumed by the stations in one way or another. Here you can set a limit for a specific resource, check the consumption/production streams associated with the resource, and activate a special 'utilization' mode" %
-			_t,                                                                                                                                                                                                                                                       -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',               -- Item type
@@ -445,10 +445,10 @@ entities['megacomplex'] = {
 			"'Utilization' Mode" % _t -- Content for icon info
 		},
 		{
-			'desc',                                                                                                                                                                                                                                                                                                                                                        -- Item type
-			1.8,                                                                                                                                                                                                                                                                                                                                                           -- Height (nil for iconname/mainlabel)
+			'desc', -- Item type
+			1.8, -- Height (nil for iconname/mainlabel)
 			"Experimental modification of the request from the stations: the complex will take this resource from them in the usual manner, but as soon as the stock on the complex reaches the limit, it will begin to completely remove this product from the warehouse of the manufacturing stations, thereby not allowing it to accumulate and stop the production process" %
-			_t,                                                                                                                                                                                                                                                                                                                                                            -- Content. Text or path to the image.
+			_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',             -- Item type
@@ -457,8 +457,8 @@ entities['megacomplex'] = {
 			"'Export' tab" % _t     -- Content for icon info
 		},
 		{
-			'desc',                                         -- Item type
-			1,                                              -- Height (nil for iconname/mainlabel)
+			'desc',                                           -- Item type
+			1,                                                -- Height (nil for iconname/mainlabel)
 			"The functionality of this tab is under development" % _t, -- Content. Text or path to the image.
 		},
 		{
@@ -468,8 +468,8 @@ entities['megacomplex'] = {
 			"'Settings' tab" % _t     -- Content for icon info
 		},
 		{
-			'desc',                                                                               -- Item type
-			1,                                                                                    -- Height (nil for iconname/mainlabel)
+			'desc',                                                                                 -- Item type
+			1,                                                                                      -- Height (nil for iconname/mainlabel)
 			"Allows you to forcibly initiate some procedures if their automatic initialization failed" % _t, -- Content. Text or path to the image.
 		},
 	},

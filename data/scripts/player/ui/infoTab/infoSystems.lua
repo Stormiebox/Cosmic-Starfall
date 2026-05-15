@@ -21,8 +21,8 @@ local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
 local locNames = {}
-locNames['interactive'] = 'Starfall - interactive' % _t
-locNames['noninteractive'] = 'Starfall - passive' % _t
+locNames['interactive'] = 'Cosmic Starfall - Interactive' % _t
+locNames['noninteractive'] = 'Cosmic Starfall - Passive' % _t
 
 local order = {
 	--name,ID,IDupdate
@@ -332,9 +332,9 @@ entities['bastionSystem'] = {
 	},
 	--Passive bonuses/penalties
 	{
-		{ "data/textures/icons/health-normal.png", "Shield Durability" % _t,  '- (rand(27,31) - R * 2)%' },
+		{ "data/textures/icons/health-normal.png", "Shield Durability" % _t,    '- (rand(27,31) - R * 2)%' },
 		{ "data/textures/icons/shield-charge.png", "Shield Recharge Rate" % _t, '+ (rand(14,19) + R * 3)%' },
-		{ "data/textures/icons/recharge-time.png", "Time Until Recharge" % _t, '- (rand(19,21) + R * 2)%' },
+		{ "data/textures/icons/recharge-time.png", "Time Until Recharge" % _t,  '- (rand(19,21) + R * 2)%' },
 	},
 	--Active Effects
 	{
@@ -394,7 +394,7 @@ entities['macrofieldProjector'] = {
 	--Passive bonuses/penalties
 	{
 		{ 'data/textures/icons/electric.png',         "Generated Energy" % _t, '+ 20 + R * 4 %' },
-		{ "data/textures/icons/battery-pack-alt.png", "Energy Capacity" % _t, '+ 130 + R * 15 %' },
+		{ "data/textures/icons/battery-pack-alt.png", "Energy Capacity" % _t,  '+ 130 + R * 15 %' },
 	},
 	--Active Effects
 	{
@@ -404,8 +404,8 @@ entities['macrofieldProjector'] = {
 			getSubtechName('macrofieldprojector', 1),
 
 			string.format(
-			"Activating the module burns the ship's energy very quickly, restoring the hull to all allied ships of the players. This effect also works on the ship itself, restoring the increased volume of the hull to it. Wave activation disables %s and %s" %
-			_t, getSubtechName('macrofieldprojector', 2), getSubtechName('macrofieldprojector', 3)),
+				"Activating the module burns the ship's energy very quickly, restoring the hull to all allied ships of the players. This effect also works on the ship itself, restoring the increased volume of the hull to it. Wave activation disables %s and %s" %
+				_t, getSubtechName('macrofieldprojector', 2), getSubtechName('macrofieldprojector', 3)),
 
 			1 -- description window height modifier from standard
 		},
@@ -455,9 +455,9 @@ entities['repairDrones'] = {
 	},
 	--Passive bonuses/penalties
 	{
-		{ 'data/textures/icons/staDurability.png', "Hull Durability" % _t,    '+ (6 + R * 3)%' },
+		{ 'data/textures/icons/staDurability.png', "Hull Durability" % _t,      '+ (6 + R * 3)%' },
 		{ "data/textures/icons/staRepair.png",     "Auto-repair treshold" % _t, '+ (10 + R * 2)%' },
-		{ "data/textures/icons/staRepair.png",     "Auto-repair value" % _t,  '0.2% / s.' },
+		{ "data/textures/icons/staRepair.png",     "Auto-repair value" % _t,    '0.2% / s.' },
 	},
 	--Active Effects
 	{
@@ -507,9 +507,9 @@ entities['XperimentalHypergenerator'] = {
 	},
 	--Passive bonuses/penalties
 	{
-		{ "data/textures/icons/hourglass.png",  "Hyperspace Cooldown" % _t,    '+ (rand(8,12) + R * 3)%' },
+		{ "data/textures/icons/hourglass.png",  "Hyperspace Cooldown" % _t,      '+ (rand(8,12) + R * 3)%' },
 		{ "data/textures/icons/electric.png",   "Hyperspace Charge Energy" % _t, '+ (rand(37,43) - R * 2)%' },
-		{ "data/textures/icons/star-cycle.png", "Jump Range" % _t,             '- (rand(1,3) + R)%' },
+		{ "data/textures/icons/star-cycle.png", "Jump Range" % _t,               '- (rand(1,3) + R)%' },
 	},
 	--Active Effects
 	{
@@ -559,7 +559,7 @@ entities['pulseTractorBeamGenerator'] = {
 	--Passive bonuses/penalties
 	{
 		{ "data/textures/icons/SYSpReactor3.png", "Number of pulses" % _t, '+ ((R+2) * 4)' },
-		{ "data/textures/icons/SYSpReactor3.png", "Range" % _t,          '+ 200' },
+		{ "data/textures/icons/SYSpReactor3.png", "Range" % _t,            '+ 200' },
 	},
 	--Active Effects
 	{
@@ -589,8 +589,8 @@ entities['subspaceCargo'] = {
 	--Passive bonuses/penalties
 	{
 		{ 'data/textures/icons/crate.png',         "Cargo Hold (relative)" % _t, '+ (rand(31,35) + R * 4)%' },
-		{ "data/textures/icons/electric.png",      "Generated Energy" % _t,    '- (rand(14,18) - R)%' },
-		{ "data/textures/icons/health-normal.png", "Shield Durability" % _t,   '- (rand(11,15) - R)%' },
+		{ "data/textures/icons/electric.png",      "Generated Energy" % _t,      '- (rand(14,18) - R)%' },
+		{ "data/textures/icons/health-normal.png", "Shield Durability" % _t,     '- (rand(11,15) - R)%' },
 	},
 	--Active Effects
 	nil,

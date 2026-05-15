@@ -380,7 +380,7 @@ msgstr "Чейнджлог"
 # ============================================================================================================
 
 #: .data/scripts/player/ui/infoTab/.infoWeapons.lua
-msgid "Starfall - standart weapons"
+msgid "Starfall - Standard weapons"
 msgstr "Starfall - стандартные орудия"
 
 #: .data/scripts/player/ui/infoTab/.infoWeapons.lua
@@ -396,7 +396,7 @@ msgid "Starfall - main caliber weapons"
 msgstr "Starfall - орудия главного калибра"
 
 #: .data/scripts/player/ui/infoTab/.infoWeapons.lua
-msgid "Vanilla - standart"
+msgid "Vanilla - Standard"
 msgstr "Ванилла - стандартные"
 
 #: .data/scripts/player/ui/infoTab/.infoWeapons.lua
@@ -488,7 +488,7 @@ msgid "no"
 msgstr "нет"
 
 #: .data/scripts/player/ui/infoTab/.infoWeapons.lua
-msgid "standart"
+msgid "Standard"
 msgstr "стандартное"
 
 #: .data/scripts/player/ui/infoTab/.infoWeapons.lua
@@ -1092,8 +1092,8 @@ msgstr "Класс оружия - тяжелое"
 msgid "Weapons of this class cannot be used in the production of fighters"
 msgstr "Орудия этого класса нельзя использовать при производстве истребителей"
 
-#: wpnclasses standart
-msgid "Weapon class - standart"
+#: wpnclasses Standard
+msgid "Weapon class - Standard"
 msgstr "Класс оружия - стандартное"
 
 #: wpnclasses heavy desc

@@ -54,7 +54,7 @@ function gI.Operated()
 	if Entity().index == _thisVeryPlayer.craftIndex then
 		return true
 	end
-	
+
 	return false
 end
 local isOperated = gI.Operated
@@ -93,7 +93,7 @@ function gI.initialize()
 		-- Player():registerCallback('onGroupChanged','UltraMeow')
 		-- Player():registerCallback('onGroupLeaderChanged','UltraMeow2')
 	-- end
-	
+
 	-- _thisVeryPlayer = Player()
 	-- _myName = 'groupInterface('..Entity().name..'): '
 	-- Debug('initialization')
@@ -131,7 +131,7 @@ function gI.interactionPossible(playerIndex, option)
 end
 
 function gI.initUI()
-	_window,_frame = Neltharaku.CreateStandartWindow('Боевая группа',rUnit,12,8)
+	_window,_frame = Neltharaku.CreateStandardWindow('Боевая группа',rUnit,12,8)
 	ScriptUI():registerWindow(_window, "Боевая группа"%_t)
 	--gI.groupRender()
 	local _rect = Rect(5,5,20,20)
@@ -158,10 +158,10 @@ function gI.groupRender()
 
 	_frame:clear()
 	_UItable = {}
-	
+
 	if _party then
 		local _leaderIndex = _party.leader
-		
+
 		Debug('SIZEOF: '..tostring(_party.size))
 		_players = {_party:getPlayers()}
 
@@ -173,11 +173,11 @@ function gI.groupRender()
 			local isOffline = not(isOnline(_rows))
 			local isLeader = false
 			local isSelf = false
-			
+
 			if _rows == _leaderIndex then
 				isLeader = true
 			end
-			
+
 			if Faction().index == _rows then
 				isSelf = true
 			end
@@ -188,14 +188,14 @@ function gI.groupRender()
 			--LEADER
 			local _icon = _frame:createRoundButton(rects[1],_iconPic,'TransferLeader')
 				if isOffline or not(isLeader) then _icon.active = false end
-				
+
 			--NAME
 			local _name = _frame:createTextField(rects[2],_thisPlayer.name)
 				_name.fontSize = 12
-				if isOffline then 
-					_name.fontColor = ColorHSV(0, 0, 100) 
+				if isOffline then
+					_name.fontColor = ColorHSV(0, 0, 100)
 				end
-			
+
 			--STATE
 			local _stateText = 'Online'
 			local _stateColor = ColorHSV(150, 64, 100)
@@ -204,8 +204,8 @@ function gI.groupRender()
 				_state.fontColor = _stateColor
 			if isOffline then
 				_state:hide()
-			end	
-			
+			end
+
 			--KICK
 			local _kick = _frame:createRoundButton(rects[4],_kickIcon,'TransferLeave')
 			if isOffline or not(isSelf) then _kick.active = false end
@@ -225,7 +225,7 @@ end
 function gI.TransferLeader(_button)
 	local _index = gI.getElementIndex(_button,_UItable,1)
 	local _player = Faction(_UItable[_index][5])
-	
+
 	local _chosenName = _player.name
 	invokeServerFunction('serverApplyCommand','/leader',_chosenName)
 end
@@ -343,8 +343,8 @@ function gI.debugGetPlayers(_group)
 			end
 			TSR(_playersInGroup,'_playersInGroup')
 		end
-		
-		
+
+
 		--Записывает имена всех игроков на сервере, кто онлайн
 		local _playersOnline = {Server():getOnlinePlayers()}
 		--TSR(_playersOnline,'_playersOnline')
@@ -352,7 +352,7 @@ function gI.debugGetPlayers(_group)
 			table.insert(_onlineNames,_rows.name)
 		end
 		TSR(_onlineNames,'_onlineNames')
-		
+
 		--Сравнивает имена в группе и онлайн, чтобы найти тех, кто онлайн и не в группе
 		if _playersInGroup then
 			for _,_rows in pairs(_onlineNames) do
@@ -376,30 +376,30 @@ callable(gI,'debugGetPlayers')
 
 function gI.renderAddInterface(_table)
 	local _frame = nil
-	
+
 	if _addPlayerWindow then
 		_addPlayerWindow:hide()
 		_addPlayerWindow = nil
 		_frame = nil
 	end
-	
-	_addPlayerWindow,_frame = Neltharaku.CreateStandartWindow('Игроки онлайн',rUnit,12,(#_table)/3 + 1)
-	
+
+	_addPlayerWindow,_frame = Neltharaku.CreateStandardWindow('Игроки онлайн',rUnit,12,(#_table)/3 + 1)
+
 	--генерация линий
 	local _paddingY = rPaddingY
 	local _buttonsTable = {}
 	for i=1,(#_table)/3 + 1 do
 		local _elements = {3.5,3.5,3.5}
 		local _rects = Neltharaku.UIrowAutoplace(_elements,rUnit,rPaddingX,_paddingY)
-		
+
 		_paddingY = _paddingY + rPaddingY + rUnit
-		
+
 		for _,_rows in pairs(_rects) do
 			local _button = _frame:createButton(_rows,'','onAddPlayerPress')
 			table.insert(_buttonsTable,_button)
 		end
 	end
-	
+
 	--Обработка созданных кнопочеГ
 	for _index,_rows in pairs(_buttonsTable) do
 		if _table[_index] then
@@ -408,9 +408,9 @@ function gI.renderAddInterface(_table)
 			_rows:hide()
 		end
 	end
-	
+
 	_addPlayerWindow:show()
-	
+
 end
 
 function gI.onAddPlayerPress(_button)
@@ -418,14 +418,14 @@ function gI.onAddPlayerPress(_button)
 	Debug('onAddPlayerPress command sent with name: '.._name)
 	_button.active = false
 	invokeServerFunction('serverApplyCommand','/invite',_name)
-	Player():invokeFunction('alertCore','entityGroupInviteBroadcast',_name) 
+	Player():invokeFunction('alertCore','entityGroupInviteBroadcast',_name)
 end
 
 -- function gI.getPlayerIdByName(_name)
 	-- if onServer() then
 		-- local _foundFullID = nil
 		-- local _result = nil
-	
+
 		-- local _playersList = {Server():getPlayers()}
 		-- for _,_rows in pairs(_playersList) do
 			-- local _foundName = _rows.name
@@ -434,9 +434,9 @@ end
 				-- _foundFullID = _foundID
 			-- end
 		-- end
-		
+
 		-- if _foundFullID then
-			
+
 		-- end
 	-- end
 -- end

@@ -19,12 +19,12 @@ local dF = Neltharaku.debugFrame
 local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
-local classST = 'Starfall - standart weapons' % _t
-local classLI = 'Starfall - light weapons' % _t
-local classHE = 'Starfall - heavy weapons' % _t
-local classMC = 'Starfall - main caliber weapons' % _t
-local classVST = 'Vanilla - standart' % _t
-local classVHE = 'Vanilla - heavy' % _t
+local classST = 'Cosmic Starfall - Standard Weapons' % _t
+local classLI = 'Cosmic Starfall - Light Weapons' % _t
+local classHE = 'Cosmic Starfall - Heavy Weapons' % _t
+local classMC = 'Cosmic Starfall - Main Caliber Weapons' % _t
+local classVST = 'Vanilla - Standard' % _t
+local classVHE = 'Vanilla - Heavy' % _t
 
 local order = {
 	--name,ID,IDupdate
@@ -306,18 +306,18 @@ function infoWeapons.SetMain(wpnType, baseContainer, rUnit)
 	name.fontSize = rUnit * 0.4
 
 	--Weapon class
-	local wpnClass = 'standart' % _t
-	local classColor = getTypeColor('standart')
+	local wpnClass = 'Standard' % _t
+	local classColor = getTypeColor('Standard')
 	if checkLightPath(wpnIcon) then
-		wpnClass = 'light' % _t
-		classColor = getTypeColor('light')
+		wpnClass = 'Light' % _t
+		classColor = getTypeColor('Light')
 	end
 	if checkHeavyPath(wpnIcon) then
-		wpnClass = 'heavy' % _t
-		classColor = getTypeColor('heavy')
+		wpnClass = 'Heavy' % _t
+		classColor = getTypeColor('Heavy')
 	end
 	if checkMCPath(wpnIcon) then
-		wpnClass = 'main caliber' % _t
+		wpnClass = 'Main Caliber' % _t
 		classColor = getTypeColor('MC')
 	end
 
@@ -550,13 +550,13 @@ entities['cannon'] = {
 	--Name
 	'Cannon' % _t,
 	--Range
-	'Большая',
+	rangeType['h'],
 	--Accuracy
-	'Хорошая',
+	accuracyType['h'],
 	--Rate of fire
-	'Низкая',
+	fireRateType['l'],
 	--Damage type
-	'Физический',
+	damageType['phys'],
 	--Description
 	'A gun with a huge alpha damage, capable of destroying smaller ships with a couple of volleys, but it overheats very quickly and cools down for a long time' %
 	_t,
@@ -679,7 +679,7 @@ entities['lightinggun'] = {
 	{
 		descDetails['classToHeavy'],
 		descDetails['bonusdamageincrease'] .. '25%',
-		'Скорострельность значительно снижена (урон остается прежним)' % _t,
+		'Rate of fire significantly reduced (damage remains unchanged)' % _t,
 		descDetails['accemblyDamageByParts'] .. descDetails['inc'],
 		descDetails['morepartsDamage'],
 		'In production: one of the parts now gives a rate of fire' % _t,
@@ -707,7 +707,7 @@ entities['tesla'] = {
 		descDetails['bonusToShields'] .. '30%',
 		descDetails['morepartsDamage'],
 		descDetails['lesspartsRange'],
-		'При производстве: одна из деталей теперь дает дополнительный урон по щитам' % _t,
+		'During production: one of the parts now provides additional shield damage' % _t,
 		descDetails['cannotRecieveDamageTypeOf'] .. damageType['plasma'],
 	},
 }
@@ -1006,9 +1006,9 @@ entities['ionemitter'] = {
 	--Accuracy
 	accuracyType['m'],
 	--Rate of fire
-	'Ниже среднего',
-	--Damage type
 	fireRateType['l'],
+	--Damage type
+	damageType['elec'],
 	--Description
 	'A modified version of a photon cannon designed to destroy enemy shields. The electric type of damage allows you to inflict decent damage even to the hull when hitting tech blocks' %
 	_t,

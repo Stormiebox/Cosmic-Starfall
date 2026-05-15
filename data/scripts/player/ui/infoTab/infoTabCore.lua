@@ -65,7 +65,7 @@ local TSR = Neltharaku.TableSelfReport
 if onClient() then
 	function iT.initialize()
 		--Home tab
-		ITtab = PlayerWindow():createTab('Starfall info', iconStarfall, 'Starfall info')
+		ITtab = PlayerWindow():createTab('Cosmic Starfall Info' % _t, iconStarfall, 'Cosmic Starfall Information' % _t)
 
 		--Inner container
 		local _k = 0.03

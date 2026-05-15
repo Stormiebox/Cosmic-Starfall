@@ -26,8 +26,7 @@ local TSR = Neltharaku.TableSelfReport
 local order = {
 	--name,ID,IDupdate
 	--Active
-	{ 'Update log', '0.3', 0.3 },
-	{ 'Update log', '0.2', 0.2 },
+	{ 'Cosmic Starfall Revamp', 'Starfall-Revamp', 1.0 },
 }
 
 local entities = {}
@@ -295,15 +294,13 @@ end
 
 -------------------------------[DATA: LINES]--------------------------------------------
 local updateLines = {}
-updateLines['0.2'] = {
-	string.format("%s: radius of the projectile explosion animation has been reduced", getWeaponName('magneticmortar')),
-	string.format("%s: range of hearing of the shot sound has been raised by 50%%", getWeaponName('assaultcannon')),
-	"Aura core: a new interface element that displays the effects currently active on the ship, their strength and duration",
-}
-updateLines['0.3'] = {
-	"Combatgroup: full rework. Now works much better",
-	"Slightly changed the colors of weapon classes and auras (auraCore)",
-	"New interface: activeSystemInterface(aSI). Replaces the previous non-centralized interface of active systems, adding options for additional settings and some graphical changes",
+updateLines['Starfall-Revamp'] = {
+	"Complete overhaul of the Starfall codebase and related systems for improved performance, stability, and maintainability.",
+	"Refactored core mechanics and subsystems to align with modern coding standards and best practices.",
+	"Balanced gameplay elements and mechanics based on player feedback and data analysis for a more engaging experience.",
+	"Fixed various bugs and issues reported by the community to enhance overall game stability and user experience.",
+	"Fixed weapon class names and descriptions to be more accurate and informative.",
+	"Added Cosmic Vault as requirement for Cosmic Starfall.",
 }
 
 function infoChangelog.transformToSingleLine(_table)
@@ -320,9 +317,9 @@ end
 
 --Types: desc,picture,iconinfo,mainlabel
 
-entities['0.2'] = {
+entities['Starfall-Revamp'] = {
 	--Name
-	'Update 0.2',
+	'Cosmic Starfall Revamp', --Name of the stType
 	--Content
 	{
 		{
@@ -331,26 +328,9 @@ entities['0.2'] = {
 			'data/textures/icons/clipboard-arrow-down.png', -- Content. Text or path to the image.
 		},
 		{
-			'desc',                                -- Item type
-			8,                                     -- Height (nil for iconname/mainlabel)
-			self.transformToSingleLine(updateLines['0.2']), -- Content. Text or path to the image.
-		},
-	},
-}
-entities['0.3'] = {
-	--Name
-	'Update 0.3',
-	--Content
-	{
-		{
-			'mainlabel',                           -- Item type
-			nil,                                   -- Height (nil for iconname/mainlabel)
-			'data/textures/icons/clipboard-arrow-down.png', -- Content. Text or path to the image.
-		},
-		{
-			'desc',                                -- Item type
-			8,                                     -- Height (nil for iconname/mainlabel)
-			self.transformToSingleLine(updateLines['0.3']), -- Content. Text or path to the image.
+			'desc',                                            -- Item type
+			8,                                                 -- Height (nil for iconname/mainlabel)
+			self.transformToSingleLine(updateLines['Starfall-Revamp']), -- Content. Text or path to the image.
 		},
 	},
 }

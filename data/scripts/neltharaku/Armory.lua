@@ -4,7 +4,7 @@ include('ColorLib')
 local weaponIcons = {}
 
 local armoryColors = {}
-armoryColors['standart'] = ColorHSV(240, 0, 100)
+armoryColors['Standard'] = ColorHSV(240, 0, 100)
 armoryColors['update'] = getColor('infotabs_updated')
 armoryColors['light'] = getColor('weaponclass_light')
 armoryColors['heavy'] = getColor('weaponclass_heavy')
@@ -167,7 +167,7 @@ function getTypeColorByWeapon(path)
 	if checkLightPath(path) then return armoryColors['light'] end
 	if checkHeavyPath(path) then return armoryColors['heavy'] end
 	if checkMCPath(path) then return armoryColors['MC'] end
-	return armoryColors['standart']
+	return armoryColors['Standard']
 end
 
 --=======================[External calls]=======================
@@ -273,7 +273,7 @@ end
 
 --Called to provide the title/type color resp. type of weapon
 function getTypeColor(_type)
-	if not (_type) then return armoryColors['standart'] end
+	if not (_type) then return armoryColors['Standard'] end
 
 	Debug('getTypeColor attempt with argument: ' .. _type)
 	if armoryColors[_type] then
@@ -281,6 +281,6 @@ function getTypeColor(_type)
 		return armoryColors[_type]
 	else
 		Debug('getTypeColor: failure')
-		return armoryColors['standart']
+		return armoryColors['Standard']
 	end
 end
