@@ -201,6 +201,52 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 
 ---
 
+## Additional Fixes (Latest Integration Cycle)
+
+### 6) `data/scripts/lib/cosmicstarfalllib.lua` (owner-resolution hardening)
+#### Fixes
+- Hardened owner resolution to avoid direct unsafe dereference of `Owner.index`.
+- Added guarded owner-index extraction flow with safe fallbacks.
+- Added robust descriptor generation behavior for owner routing helpers.
+
+#### Root issue addressed
+- Repeated runtime error pattern:
+  - `Property not found or not readable: Owner.index`
+  - stack traces in owner helper chain:
+    - `getOwnerDescriptor` -> `getOwnerIndex` -> `invokeOwnerFunctionIfOnline`
+
+#### Effect
+- Eliminates repeated owner-descriptor index crashes from invalid/unreadable owner contexts.
+- Reduces high-frequency stacktrace spam in update/UI paths.
+
+---
+
+### 7) `data/scripts/systems/XperimentalHypergenerator.lua`
+#### Fixes
+- Added owner-availability guards before owner-routed UI invoke/update/delete calls:
+  - `executeDrawInterface`
+  - `executeUpdateProgressbar`
+  - `executeDelete`
+
+#### Effect
+- Prevents owner-routed calls when entity owner context is unavailable.
+- Avoids cascading crashes from stale/missing owner handles.
+
+---
+
+### 8) `data/scripts/systems/repairDrones.lua`
+#### Fixes
+- Added owner-availability guards before owner-routed UI invoke/update/delete calls:
+  - `executeDrawInterface`
+  - `executeUpdateProgressbar`
+  - `executeDelete`
+
+#### Effect
+- Prevents repeated updateServer/UI invoke faults tied to missing owner index context.
+- Stabilizes runtime behavior in prolonged sessions where entity ownership state can transiently change.
+
+---
+
 ## Summary
 
 This Cosmic Starfall revamp differs from the original baseline by being:
@@ -210,4 +256,4 @@ This Cosmic Starfall revamp differs from the original baseline by being:
 - **more compatible with Cosmic ecosystem extension patterns**,
 - and **better prepared for modern Avorion stress-testing cycles**.
 
-Further iteration should be done through runtime telemetry and controlled playtest windows, but this code state is a significantly safer and more maintainable foundation than the prior snapshot.
+The latest owner-resolution hardening pass further improves script safety in modern Avorion server/client lifecycle conditions and removes known recurring stacktrace patterns tied to owner descriptor access.

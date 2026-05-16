@@ -92,8 +92,14 @@ Provides helper/bridge behavior for optional ecosystem integration patterns with
 - safe fallback when external helper context is missing
 - centralized owner-routing/helper access patterns to reduce duplication
 
+### Latest hardening in this layer
+A focused crash-fix pass hardened owner resolution for modern Avorion runtime contexts:
+- owner descriptor creation now uses guarded access patterns instead of unsafe direct dereference assumptions.
+- owner-index routing is protected against unavailable/unreadable owner state.
+- owner-routed invoke helpers now fail safely when owner context is not valid.
+
 ### Why it matters
-Enables smoother interoperability with broader Cosmic-series workflows while preserving standalone safety.
+Enables smoother interoperability with broader Cosmic-series workflows while preserving standalone safety and avoiding repeated owner-context stack traces.
 
 ---
 
@@ -210,6 +216,24 @@ It does **not** require hard coupling to external modules for core operation in 
 3. Validate behavior of high-impact systems in your current load order.
 4. If using larger stacks, test dedicated server lifecycle scenarios.
 5. Use changelog tables to understand expected post-rebalance values.
+
+---
+
+## Known Stability Improvements (Latest Cycle)
+
+The latest integration/fix cycle specifically addressed recurring owner-context crashes affecting:
+- `data/scripts/systems/XperimentalHypergenerator.lua`
+- `data/scripts/systems/repairDrones.lua`
+
+### What was changed
+- Added owner-availability guards before owner-routed UI invoke/update/delete helper calls.
+- Hardened owner descriptor/index extraction in `cosmicstarfalllib.lua`.
+
+### Practical outcome
+- Eliminated repeated stacktrace pattern tied to:
+  - `Property not found or not readable: Owner.index`
+- Reduced high-frequency update/UI error spam in affected systems.
+- Improved resilience under dynamic ownership/lifecycle edge cases in long sessions.
 
 ---
 

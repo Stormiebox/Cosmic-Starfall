@@ -46,18 +46,61 @@ function CosmicStarfallLib.getConfig()
     return {}
 end
 
+local function resolveOwner(entity)
+    if not entity then return nil end
+    local ok, owner = pcall(Owner, entity)
+    if not ok or not owner then return nil end
+    return owner
+end
+
+local function resolveOwnerIndex(entity, owner)
+    if entity then
+        local okFactionIndex, factionIndex = pcall(function() return entity.factionIndex end)
+        if okFactionIndex and factionIndex ~= nil then
+            return factionIndex
+        end
+    end
+
+    if owner then
+        local okIndex, ownerIndex = pcall(function() return owner.index end)
+        if okIndex and ownerIndex ~= nil then
+            return ownerIndex
+        end
+    end
+
+    return nil
+end
+
 function CosmicStarfallLib.getOwnerDescriptor(entity)
     if not entity then return nil end
 
-    local owner = Owner(entity)
-    if not owner then return nil end
+    local owner = resolveOwner(entity)
+    local ownerIndex = resolveOwnerIndex(entity, owner)
+    if ownerIndex == nil then return nil end
+
+    local ownerName = nil
+    local isPlayer = false
+    local isAlliance = false
+    local isAIFaction = false
+
+    if owner then
+        local okName, vName = pcall(function() return owner.name end)
+        local okIsPlayer, vIsPlayer = pcall(function() return owner.isPlayer end)
+        local okIsAlliance, vIsAlliance = pcall(function() return owner.isAlliance end)
+        local okIsAIFaction, vIsAIFaction = pcall(function() return owner.isAIFaction end)
+
+        if okName then ownerName = vName end
+        if okIsPlayer and vIsPlayer ~= nil then isPlayer = vIsPlayer end
+        if okIsAlliance and vIsAlliance ~= nil then isAlliance = vIsAlliance end
+        if okIsAIFaction and vIsAIFaction ~= nil then isAIFaction = vIsAIFaction end
+    end
 
     return {
-        index = owner.index,
-        name = owner.name or safeName(entity),
-        isPlayer = owner.isPlayer or false,
-        isAlliance = owner.isAlliance or false,
-        isAIFaction = owner.isAIFaction or false
+        index = ownerIndex,
+        name = ownerName or safeName(entity),
+        isPlayer = isPlayer,
+        isAlliance = isAlliance,
+        isAIFaction = isAIFaction
     }
 end
 

@@ -582,6 +582,10 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
+	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
+		return
+	end
+
 	local subsys = {}
 
 	local subsys1 = {
@@ -621,6 +625,10 @@ end
 callable(nil, 'executeDrawInterface')
 
 function executeUpdateProgressbar(_index, _progress, _isStandby)
+	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
+		return
+	end
+
 	local entity = Entity().id
 
 	if not (_isStandby) then _isStandby = false end
@@ -629,6 +637,10 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 end
 
 function executeDelete()
+	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
+		return
+	end
+
 	local entity = Entity().id
 	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDelete', scriptname, entity)
 end
