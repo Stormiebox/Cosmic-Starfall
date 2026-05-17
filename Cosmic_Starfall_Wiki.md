@@ -1,247 +1,198 @@
 # Cosmic Starfall - Detailed Features
 
-This page contains the full, detailed documentation for **Cosmic Starfall**, a modernization and continuation of the original Starfall concept for current Avorion-era mod stacks.
+Welcome to the **Cosmic Starfall** official wiki! This page contains the full, detailed documentation for the mod, a modernization and continuation of the original **Starfall** concept for current Avorion-era mod stacks.
 
-Cosmic Starfall is focused on:
-- preserving high-tech identity and flavor,
-- reducing legacy overpowered behavior,
-- hardening scripts for reliability,
-- and improving compatibility with the broader Cosmic ecosystem.
+**Cosmic Starfall is focused on:**
+- Preserving high-tech identity and flavor.
+- Reducing legacy overpowered behavior.
+- Hardening scripts for reliability.
+- Improving compatibility with the broader Cosmic ecosystem.
+
+---
+
+## Table of Contents
+- Mod Identity & Heritage
+- Architecture Direction
+- Full Feature Breakdown
+  - 1) Major Balance Revamp (Anti-OP Strategy)
+  - 2) Reliability & QA Hardening Pass
+  - 3) Compatibility Helper Layer (Ecosystem Bridge)
+  - 4) Deep-Dive Script Corrections & Hygiene
+- Ecosystem & Server Considerations
+- Installation & Troubleshooting
+- Development Status
 
 ---
 
 ## Mod Identity & Heritage
+**Cosmic Starfall** is a ground-up continuation and rework of the original Starfall concept.
 
-Cosmic Starfall is a ground-up continuation/rework of the original Starfall concept.
-
-### Guiding philosophy
+**Guiding Philosophy:**
 1. Keep the fantasy.
 2. Remove unhealthy dominance loops.
 3. Improve lifecycle safety and maintainability.
 4. Prepare for long-session and larger-stack reliability.
 
----
-
 ## Architecture Direction
-
-The mod combines three pillars:
-
-1. **Balance pass** on high-impact systems.
-2. **QA hardening** in risky script paths.
-3. **Compatibility scaffolding** via helper bridge patterns.
+The mod combines three core pillars:
+1. **Balance Pass** on high-impact systems.
+2. **QA Hardening** in risky script paths.
+3. **Compatibility Scaffolding** via helper bridge patterns.
 
 ---
 
 ## Full Feature Breakdown
 
-## 1) Major Balance Revamp (Anti-OP Strategy)
+### 1) Major Balance Revamp (Anti-OP Strategy)
+<details>
+<summary><b>Click to expand details</b></summary>
 
-### Target systems
+**Target Systems:**
 - `data/scripts/systems/bastionSystem.lua`
 - `data/scripts/systems/macrofieldProjector.lua`
 - `data/scripts/systems/pulseTractorBeamGenerator.lua`
 
-### Intent
+**Intent:**
 Reduce runaway power spikes while preserving each system’s gameplay identity.
 
-### High-level outcomes
-- lower passive sustain ceilings
-- longer cooldown commitment windows
-- reduced burst-heal/shield spike throughput
-- more meaningful energy/cost tradeoffs
-- reduced persistent control-zone pressure
+**High-Level Outcomes:**
+- Lower passive sustain ceilings.
+- Longer cooldown commitment windows.
+- Reduced burst-heal and shield spike throughput.
+- More meaningful energy and cost tradeoffs.
+- Reduced persistent control-zone pressure.
 
-### Gameplay impact
-- fewer “always best” loadout outcomes
-- better strategic timing requirements
-- improved balance headroom for long campaigns
+**Gameplay Impact:**
+- Fewer “always best” loadout outcomes.
+- Better strategic timing requirements.
+- Improved balance headroom for long campaigns.
 
----
+*For full numeric old-vs-new value tables and rationale, please refer to the `Cosmic_Starfall_CHANGELOG.md` file.*
+</details>
 
-## 2) Reliability & QA Hardening Pass
+### 2) Reliability & QA Hardening Pass
+<details>
+<summary><b>Click to expand details</b></summary>
 
-### Key scripts hardened
+**Key Scripts Hardened:**
 - `data/scripts/systems/subspaceCargo.lua`
 - `data/scripts/systems/overpoweredCore.lua`
 - `data/scripts/complexCraft/complexCore.lua`
 
-### Typical hardening categories
-- nil/type guard corrections
-- ownership/identifier safety fixes
-- lifecycle-safe callback behavior
-- safer numeric parsing/clamping in UI-adjacent logic
-- typo/path consistency corrections in rebuild flows
+**Typical Hardening Categories:**
+- Nil and type guard corrections.
+- Ownership and identifier safety fixes.
+- Lifecycle-safe callback behavior.
+- Safer numeric parsing and clamping in UI-adjacent logic.
+- Typo and path consistency corrections in rebuild flows.
 
-### Gameplay/ops impact
-- reduced risk of avoidable runtime errors
-- cleaner behavior in client/server lifecycle edge cases
-- improved maintainability for future iteration
+**Gameplay & Ops Impact:**
+- Reduced risk of avoidable runtime errors.
+- Cleaner behavior in client/server lifecycle edge cases.
+- Improved maintainability for future iteration.
+</details>
 
----
+### 3) Compatibility Helper Layer (Ecosystem Bridge)
+<details>
+<summary><b>Click to expand details</b></summary>
 
-## 3) Compatibility Helper Layer (Ecosystem Bridge)
+**Added Library:** `data/scripts/lib/cosmicstarfalllib.lua`
 
-### Added library
-- `data/scripts/lib/cosmicstarfalllib.lua`
+**What it does:**
+Provides helper and bridge behavior for optional ecosystem integration patterns without forcing hard runtime failures if external helpers are absent.
 
-### What it does
-Provides helper/bridge behavior for optional ecosystem integration patterns without forcing hard runtime failure if external helpers are absent.
+**Design Style:**
+- Optional loading patterns (guarded `include` / `pcall` style where applicable).
+- Safe fallback when external helper context is missing.
+- Centralized owner-routing and helper access patterns to reduce code duplication.
 
-### Design style
-- optional loading patterns (guarded include/pcall style where applicable)
-- safe fallback when external helper context is missing
-- centralized owner-routing/helper access patterns to reduce duplication
-
-### Latest hardening in this layer
+**Latest Hardening in this Layer:**
 A focused crash-fix pass hardened owner resolution for modern Avorion runtime contexts:
-- owner descriptor creation now uses guarded access patterns instead of unsafe direct dereference assumptions.
-- owner-index routing is protected against unavailable/unreadable owner state.
-- owner-routed invoke helpers now fail safely when owner context is not valid.
+- Owner descriptor creation now uses guarded access patterns instead of unsafe direct dereference assumptions.
+- Owner-index routing is protected against unavailable or unreadable owner states.
+- Owner-routed `invoke` helpers now fail safely when the owner context is not valid.
 
-### Why it matters
+**Why it matters:**
 Enables smoother interoperability with broader Cosmic-series workflows while preserving standalone safety and avoiding repeated owner-context stack traces.
+</details>
 
----
+### 4) Deep-Dive Script Corrections & Hygiene
+<details>
+<summary><b>Click to expand detailed script fixes</b></summary>
 
-## 4) Subspace Cargo Corrections
+#### Subspace Cargo Corrections
+- **File:** `data/scripts/systems/subspaceCargo.lua`
+- **Fixes:** Deterministic naming mark-level logic cleanup, dead/unused naming path cleanup, and bridge include alignment with the compatibility helper strategy.
+- **Impact:** More stable subsystem naming and cleaner script path readability.
 
-### File
-- `data/scripts/systems/subspaceCargo.lua`
+#### Overpowered Core Lifecycle Safety Improvements
+- **File:** `data/scripts/systems/overpoweredCore.lua`
+- **Fixes:** Ownership checks shifted toward safer index/owner-robust logic, side-appropriate callback behavior, and uninstall/state persistence logic adjusted to avoid invalid side assumptions.
+- **Impact:** Lower ownership mismatch risk and better client/server correctness.
 
-### Notable corrections
-- deterministic naming mark-level logic cleanup
-- dead/unused naming path cleanup
-- bridge include alignment with compatibility helper strategy
+#### Complex Craft Core Robustness Fixes
+- **File:** `data/scripts/complexCraft/complexCore.lua`
+- **Fixes:** Nil-before-compare guard ordering improvements, safer `tonumber` parsing and clamping in cargo/UI paths, corrected identifier reference mismatches in rebuild paths, and debug print/lint issue corrections.
+- **Impact:** Better operational safety in complex craft management and rebuild flows.
 
-### Impact
-More stable subsystem naming and cleaner script path readability.
-
----
-
-## 5) Overpowered Core Lifecycle Safety Improvements
-
-### File
-- `data/scripts/systems/overpoweredCore.lua`
-
-### Notable corrections
-- ownership checks shifted toward safer index/owner-robust logic
-- side-appropriate callback behavior
-- uninstall/state persistence logic adjusted to avoid invalid side assumptions
-
-### Impact
-Lower ownership mismatch risk and better client/server correctness.
-
----
-
-## 6) Complex Craft Core Robustness Fixes
-
-### File
-- `data/scripts/complexCraft/complexCore.lua`
-
-### Notable corrections
-- nil-before-compare guard ordering improvements
-- safer tonumber parsing and clamping in cargo/UI path
-- corrected identifier reference mismatches in rebuild path
-- debug print/lint issue corrections
-
-### Impact
-Better operational safety in complex craft management/rebuild flows.
-
----
-
-## 7) Maintainability-Oriented Refactor Hygiene
-
-### What this means in practice
-- reduced fragile patterns in touched areas
-- clearer code intent in high-risk regions
-- better future patchability for subsequent balancing passes
-
-### Impact
-Faster/safer iteration cycles as runtime telemetry informs future tuning.
-
----
-
-## Detailed Balance Notes (Summary)
-
-For full numeric old-vs-new value tables and rationale, see:
-- `Cosmic_Starfall_CHANGELOG.md`
-
-That changelog includes detailed parameter-level changes for:
-- Bastion
-- Macrofield Projector
-- Pulse Tractor Beam Generator
-
----
-
-## Compatibility Position in Cosmic Series
-
-Cosmic Starfall aims to:
-- run as a standalone module,
-- and participate in broader Cosmic ecosystem conventions where optional helper bridges are present.
-
-It does **not** require hard coupling to external modules for core operation in its current direction.
-
----
-
-## Multiplayer / Server Considerations
-
-- Additional runtime validation in dedicated server conditions is still recommended.
-- Long-session soak testing remains part of ongoing stabilization.
-- In mixed stacks, monitor logs for lifecycle edge cases and ensure consistent load order.
-
----
-
-## Performance & Safety Notes
-
-- Safety/correctness improvements were prioritized in high-risk scripts.
-- Balance adjustments intentionally reduce extreme uptime loops that can destabilize encounters and progression pacing.
-- Further performance/balance tuning should be telemetry-guided.
-
----
-
-## Installation
-
-1. Place folder in:
-   - Windows: `%AppData%\Avorion\mods\`
-   - Linux: `~/.avorion/mods/`
-2. Enable Cosmic Starfall in **Settings -> Mods**.
-3. Restart Avorion when prompted.
-
----
-
-## Troubleshooting Checklist
-
-1. Confirm mod enabled in Avorion settings.
-2. Review client/server logs for script errors after startup.
-3. Validate behavior of high-impact systems in your current load order.
-4. If using larger stacks, test dedicated server lifecycle scenarios.
-5. Use changelog tables to understand expected post-rebalance values.
-
----
-
-## Known Stability Improvements (Latest Cycle)
-
-The latest integration/fix cycle specifically addressed recurring owner-context crashes affecting:
+#### Known Stability Improvements (Latest Cycle)
+Specifically addressed recurring owner-context crashes affecting:
 - `data/scripts/systems/XperimentalHypergenerator.lua`
 - `data/scripts/systems/repairDrones.lua`
 
-### What was changed
-- Added owner-availability guards before owner-routed UI invoke/update/delete helper calls.
-- Hardened owner descriptor/index extraction in `cosmicstarfalllib.lua`.
+**What Changed:** Added owner-availability guards before owner-routed UI invoke/update/delete helper calls. Hardened owner descriptor/index extraction in `cosmicstarfalllib.lua`.
+**Practical Outcome:** Eliminated repeated stacktrace patterns tied to `Property not found or not readable: Owner.index`, reduced high-frequency update/UI error spam, and improved resilience under dynamic ownership/lifecycle edge cases in long sessions.
 
-### Practical outcome
-- Eliminated repeated stacktrace pattern tied to:
-  - `Property not found or not readable: Owner.index`
-- Reduced high-frequency update/UI error spam in affected systems.
-- Improved resilience under dynamic ownership/lifecycle edge cases in long sessions.
+#### Maintainability-Oriented Refactor Hygiene
+Reduced fragile patterns in touched areas, clearer code intent in high-risk regions, and better future patchability for subsequent balancing passes. This allows for faster and safer iteration cycles as runtime telemetry informs future tuning.
+</details>
+
+---
+
+## Ecosystem & Server Considerations
+
+### Compatibility Position in Cosmic Series
+**Cosmic Starfall** aims to:
+- Run smoothly as a standalone module.
+- Participate in broader Cosmic ecosystem conventions where optional helper bridges are present.
+
+It does **not** require hard coupling to external modules for core operation in its current direction.
+
+### Multiplayer / Server Considerations
+- Additional runtime validation in dedicated server conditions is still recommended.
+- Long-session soak testing remains part of ongoing stabilization.
+- In mixed mod stacks, monitor logs for lifecycle edge cases and ensure consistent load order.
+
+### Performance & Safety Notes
+- Safety and correctness improvements were prioritized in high-risk scripts.
+- Balance adjustments intentionally reduce extreme uptime loops that can destabilize encounters and progression pacing.
+- Further performance and balance tuning should be telemetry-guided.
+
+---
+
+## Installation & Troubleshooting
+
+### Installation
+1. Place the folder in:
+   - **Windows:** `%AppData%\Avorion\mods\`
+   - **Linux:** `~/.avorion/mods/`
+2. Enable **Cosmic Starfall** in **Settings -> Mods**.
+3. Restart Avorion when prompted.
+
+### Troubleshooting Checklist
+- [ ] Confirm the mod is enabled in the Avorion settings.
+- [ ] Review client/server logs for script errors after startup.
+- [ ] Validate the behavior of high-impact systems in your current load order.
+- [ ] If using larger mod stacks, test dedicated server lifecycle scenarios.
+- [ ] Use the changelog tables (`Cosmic_Starfall_CHANGELOG.md`) to understand expected post-rebalance values.
 
 ---
 
 ## Development Status
 
-Cosmic Starfall is active WIP with ongoing runtime validation and balancing.
+Cosmic Starfall is currently an **active WIP** with ongoing runtime validation and balancing.
 
-Current state priorities:
-- strategic balance over extreme dominance,
-- script safety and reliability,
-- compatibility-minded evolution for broader Cosmic ecosystem use.
+**Current State Priorities:**
+- Strategic balance over extreme dominance.
+- Script safety and reliability.
+- Compatibility-minded evolution for broader Cosmic ecosystem use.
