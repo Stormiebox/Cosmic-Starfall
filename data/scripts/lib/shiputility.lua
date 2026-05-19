@@ -1,60 +1,27 @@
-local DefenseWeapons =
-{
-    WeaponType.PointDefenseChainGun,
-    WeaponType.PointDefenseLaser,
-    WeaponType.AntiFighter,
-}
-ShipUtility.DefenseWeapons = DefenseWeapons
+-- Safely append Starfall weapons to the global AI selection pools
+if ShipUtility.AttackWeapons then
+    table.insert(ShipUtility.AttackWeapons, WeaponType.PULSEGUN)
+    table.insert(ShipUtility.AttackWeapons, WeaponType.PARTICLEACCELERATOR)
+    table.insert(ShipUtility.AttackWeapons, WeaponType.ASSAULTBLASTER)
+    table.insert(ShipUtility.AttackWeapons, WeaponType.PHOTON)
+    table.insert(ShipUtility.AttackWeapons, WeaponType.PRD)
+end
 
-local AttackWeapons =
-{
-    WeaponType.ChainGun,
-    WeaponType.Bolter,
-    WeaponType.PlasmaGun,
-    WeaponType.Laser,
-    WeaponType.PulseCannon,
-    WeaponType.Cannon,
-    WeaponType.RocketLauncher,
-    WeaponType.LightningGun,
-    WeaponType.TeslaGun,
-    WeaponType.RailGun,
-    WeaponType.PULSEGUN,
-    WeaponType.PARTICLEACCELERATOR,
-    WeaponType.ASSAULTBLASTER,
-    WeaponType.PHOTON,
-    WeaponType.PRD,
-}
-ShipUtility.AttackWeapons = AttackWeapons
+if ShipUtility.AntiShieldWeapons then
+    table.insert(ShipUtility.AntiShieldWeapons, WeaponType.PRD)
+    table.insert(ShipUtility.AntiShieldWeapons, WeaponType.ASSAULTBLASTER)
+    table.insert(ShipUtility.AntiShieldWeapons, WeaponType.MANTIS)
+end
 
-local AntiShieldWeapons =
-{
-    WeaponType.PlasmaGun,
-    WeaponType.PulseCannon,
-    WeaponType.LightningGun,
-    WeaponType.TeslaGun,
-    WeaponType.PRD,
-    WeaponType.ASSAULTBLASTER,
-    WeaponType.MANTIS,
-}
-ShipUtility.AntiShieldWeapons = AntiShieldWeapons
+if ShipUtility.AntiHullWeapons then
+    table.insert(ShipUtility.AntiHullWeapons, WeaponType.PARTICLEACCELERATOR)
+end
 
-local AntiHullWeapons =
-{
-    WeaponType.Bolter,
-    WeaponType.RailGun,
-    WeaponType.PARTICLEACCELERATOR,
-}
-ShipUtility.AntiHullWeapons = AntiHullWeapons
-
-local ArtilleryWeapons =
-{
-    WeaponType.Cannon,
-    WeaponType.RocketLauncher,
-    WeaponType.PHOTON,
-    WeaponType.PRD,
-    WeaponType.MANTIS,
-}
-ShipUtility.ArtilleryWeapons = ArtilleryWeapons
+if ShipUtility.ArtilleryWeapons then
+    table.insert(ShipUtility.ArtilleryWeapons, WeaponType.PHOTON)
+    table.insert(ShipUtility.ArtilleryWeapons, WeaponType.PRD)
+    table.insert(ShipUtility.ArtilleryWeapons, WeaponType.MANTIS)
+end
 
 function ShipUtility.isAllowedForNPC(_value)
     if _value == WeaponType.SOLARTORPEDO then return false end
@@ -64,84 +31,19 @@ function ShipUtility.isAllowedForNPC(_value)
     return true
 end
 
+local old_addSpecializedEquipment = ShipUtility.addSpecializedEquipment
 function ShipUtility.addSpecializedEquipment(craft, weaponTypes, torpedoTypes, turretfactor, torpedofactor, turretRange)
-    print('addSpecializedEquipment at my side')
-    turretfactor = turretfactor or 1
-    torpedofactor = torpedofactor or 0
-    weaponTypes = weaponTypes or {}
-    torpedoTypes = torpedoTypes or {}
+    local finalWeaponTypes = weaponTypes
 
-    local faction = Faction(craft.factionIndex)
-    local x, y
-
-    -- let the torpedo and turret generator seeds be based on the home sector of a faction
-    -- this makes sure that factions always have the same kinds of weapons
-    if faction then
-        x, y = faction:getHomeSectorCoordinates()
-    else
-        x, y = Sector():getCoordinates()
-    end
-
-    local seed = SectorSeed(x, y)
-
-    if #weaponTypes > 0 and turretfactor > 0 then
-        local turrets = Balancing_GetEnemySectorTurrets(Sector():getCoordinates()) * turretfactor + 2
-
-        -- select a weapon out of the weapon types that can be used in this sector
-        local weaponProbabilities = Balancing_GetWeaponProbability(x, y)
-        local tmp = weaponTypes
-        weaponTypes = {}
-
-        for _, type in pairs(tmp) do
-            if weaponProbabilities[type] and weaponProbabilities[type] > 0 and ShipUtility.isAllowedForNPC(type) then
-                table.insert(weaponTypes, type)
+    -- Filter out Super-Weapons from the AI's selection pool before generating
+    if weaponTypes then
+        finalWeaponTypes = {}
+        for _, wType in pairs(weaponTypes) do
+            if ShipUtility.isAllowedForNPC(wType) then
+                table.insert(finalWeaponTypes, wType)
             end
-        end
-
-        local weaponType = randomEntry(random(), weaponTypes)
-
-        -- equip turrets
-        local generator = SectorTurretGenerator(seed)
-        generator.maxRarity = Rarity(RarityType.Rare)
-        generator.coaxialAllowed = false
-
-        local rarity = nil
-        if weaponType == WeaponType.PointDefenseChainGun then
-            rarity = ShipUtility.getPDCRarity()
-        end
-
-        if weaponType then
-            local turret = generator:generate(x, y, 0, rarity, weaponType)
-
-            if turretRange then
-                turret:setRange(turretRange)
-            end
-
-            ShipUtility.addTurretsToCraft(craft, turret, turrets)
         end
     end
 
-    if #torpedoTypes > 0 and torpedofactor > 0 then
-        local torpedoes = Balancing_GetEnemySectorTurrets(Sector():getCoordinates()) * torpedofactor + 1
-
-        -- select a torpedo out of the torpedo types that can be used in this sector
-        local generator = TorpedoGenerator(seed)
-        local torpedoProbabilities = generator:getWarheadProbability(x, y)
-        local tmp = torpedoTypes
-        torpedoTypes = {}
-
-        for _, type in pairs(tmp) do
-            if torpedoProbabilities[type] and torpedoProbabilities[type] > 0 then
-                table.insert(torpedoTypes, type)
-            end
-        end
-
-        if #torpedoTypes > 0 then
-            local torpedoType = randomEntry(random(), torpedoTypes)
-
-            -- equip torpedoes
-            local torpedo = generator:generate(x, y, 0, nil, torpedoType, nil)
-            ShipUtility.addTorpedoesToCraft(craft, torpedo, torpedoes)
-        end
-    end
+    return old_addSpecializedEquipment(craft, finalWeaponTypes, torpedoTypes, turretfactor, torpedofactor, turretRange)
 end

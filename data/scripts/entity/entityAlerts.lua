@@ -22,7 +22,8 @@ function eA.DebugMsg(_text)
 		print(_text)
 	end
 end
-local Debug =  eA.DebugMsg
+
+local Debug = eA.DebugMsg
 --local toIcon = Neltharaku.convertToIconPath
 
 function eA.getUpdateInterval()
@@ -34,8 +35,8 @@ function eA.update(timeStep)
 		_initSystem = false
 		eA.initSystem()
 	end
-	
-	if not(Player()) or not(Entity()) or Entity().index~=Player().craftIndex then
+
+	if not (Player()) or not (Entity()) or Entity().index ~= Player().craftIndex then
 		_opByPlayer = false
 		return
 	else
@@ -48,16 +49,19 @@ function eA.initSystem()
 		--Player():registerCallback('onShipChanged','testShipChanged')
 	end
 	if onServer() then
-		Entity():registerCallback('onTurretDestroyed','alertTurretDamage')
+		Entity():registerCallback('onTurretDestroyed', 'alertTurretDamage')
 	end
 end
 
 function eA.alertTurretDamage()
 	if onServer() then
-		invokeClientFunction(Player(),'onTurretDamage')
+		local entity = Entity()
+		if entity.playerOwned then
+			invokeClientFunction(Player(entity.factionIndex), 'alertTurretDamage')
+		end
 	else
-		Player():invokeFunction('alertCore','entityTurretDestroyed')
+		Player():invokeFunction('alertCore', 'entityTurretDestroyed')
 	end
 end
 
-
+callable(eA, 'alertTurretDamage')

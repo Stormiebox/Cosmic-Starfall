@@ -16,8 +16,9 @@ Welcome to the **Cosmic Starfall** official wiki! This page contains the full, d
 - Full Feature Breakdown
   - 1) Major Balance Revamp (Anti-OP Strategy)
   - 2) Reliability & QA Hardening Pass
-  - 3) Compatibility Helper Layer (Ecosystem Bridge)
-  - 4) Deep-Dive Script Corrections & Hygiene
+  - 3) Security & Anti-Exploit Overhaul
+  - 4) Compatibility Helper Layer (Ecosystem Bridge)
+  - 5) Deep-Dive Script Corrections & Hygiene
 - Ecosystem & Server Considerations
 - Installation & Troubleshooting
 - Development Status
@@ -92,7 +93,21 @@ Reduce runaway power spikes while preserving each system’s gameplay identity.
 - Improved maintainability for future iteration.
 </details>
 
-### 3) Compatibility Helper Layer (Ecosystem Bridge)
+### 3) Security & Anti-Exploit Overhaul
+<details>
+<summary><b>Click to expand details</b></summary>
+
+**Key Security Patches:**
+- `mainCaliber.lua`: Converted from client-authoritative to server-authoritative logic to prevent penalty-bypass and buff-spoofing exploits.
+- `activeSysInterface.lua`: Hardened script execution to prevent "Puppeteer" exploits (malicious clients remotely running arbitrary code on unowned entities).
+- `complexCoreV2.lua`: Patched the Megacomplex "Steal Anything" exploit allowing clients to siphon cargo from undocked/unowned ships.
+- `Aquaflow.lua`: Neutralized Arbitrary Code Execution (ACE) vulnerabilities associated with unsafe file parsing.
+
+**Impact:**
+- Mod mechanics are fully secured for public dedicated multiplayer servers, ensuring a safe, exploit-free environment.
+</details>
+
+### 4) Compatibility Helper Layer (Ecosystem Bridge)
 <details>
 <summary><b>Click to expand details</b></summary>
 
@@ -116,7 +131,7 @@ A focused crash-fix pass hardened owner resolution for modern Avorion runtime co
 Enables smoother interoperability with broader Cosmic-series workflows while preserving standalone safety and avoiding repeated owner-context stack traces.
 </details>
 
-### 4) Deep-Dive Script Corrections & Hygiene
+### 5) Deep-Dive Script Corrections & Hygiene
 <details>
 <summary><b>Click to expand detailed script fixes</b></summary>
 
@@ -134,6 +149,16 @@ Enables smoother interoperability with broader Cosmic-series workflows while pre
 - **File:** `data/scripts/complexCraft/complexCore.lua`
 - **Fixes:** Nil-before-compare guard ordering improvements, safer `tonumber` parsing and clamping in cargo/UI paths, corrected identifier reference mismatches in rebuild paths, and debug print/lint issue corrections.
 - **Impact:** Better operational safety in complex craft management and rebuild flows.
+
+#### Engine Overwrite & Hook Cleanup
+- **Files:** `weapongenerator.lua`, `turretingredients.lua`, `turretgenerator.lua`, `shiputility.lua`, `tooltipmaker.lua`
+- **Fixes:** Eliminated destructive hard-overwrites of vanilla game code. Original vanilla weapon generation, AI logic, and UI tooltips are no longer replaced. Instead, Starfall's weapon buffs, custom constraints, and UI additions are dynamically applied using non-invasive hooks (`local old_function = ...`).
+- **Impact:** Cosmic Starfall is now 100% compliant with the modern Avorion ecosystem, seamlessly sharing engine space with mods like Cosmic Overhaul without breaking recipes or stats.
+
+#### UI & Group Crash Fixes
+- **Files:** `entityAlerts.lua`, `combatGroup.lua`, `combatGroupV2.lua`
+- **Fixes:** Eliminated guaranteed server crashes linked to UI alerts trying to blindly call `Player()` from server-entity contexts. Added safety checks for `nil` returns when kicking or inviting logged-off players.
+- **Impact:** Seamless, crash-free UI rendering and group mechanics.
 
 #### Known Stability Improvements (Latest Cycle)
 Specifically addressed recurring owner-context crashes affecting:

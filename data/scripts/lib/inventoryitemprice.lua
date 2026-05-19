@@ -1,10 +1,3 @@
-
---vanilla weapons
-valueWeights[WeaponType.Laser] = 0.7
-valueWeights[WeaponType.Cannon] = 0.5
-valueWeights[WeaponType.RailGun] = 0.7
-valueWeights[WeaponType.RepairBeam] = 1.1
-
 -- mod weapons
 valueWeights[WeaponType.PULSEGUN] = 0.09
 valueWeights[WeaponType.ASSAULTCANNON] = 0.1

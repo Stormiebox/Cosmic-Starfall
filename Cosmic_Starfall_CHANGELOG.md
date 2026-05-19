@@ -247,6 +247,82 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 
 ---
 
+### 9) `data/scripts/lib/weapongenerator.lua`, `turretingredients.lua`, `turretgenerator.lua`
+
+#### Fixes
+
+- **Removed destructive hard-overwrites:** Original mod completely replaced vanilla weapon generation, turret factory recipes, and specialties.
+- Converted vanilla weapon buffs (dps multipliers, elemental damage injections) into safe hooks (`local old_generateChaingun = WeaponGenerator.generateChaingun`).
+
+#### Effect
+
+- Mod is now 100% compatible with Cosmic Overhaul and other mods that touch vanilla weapon economy and balance.
+
+---
+
+### 10) `data/scripts/lib/shiputility.lua`, `tooltipmaker.lua`
+
+#### Fixes
+
+- Refactored `shiputility.lua` to safely append weapons using `table.insert` instead of completely overwriting AI weapon arrays. AI super-weapon generation filtering is safely hooked.
+- Completely removed the 400-line vanilla overwrite in `tooltipmaker.lua` and replaced it with a non-invasive hook that strictly appends Starfall's UI tooltips.
+
+#### Effect
+
+- Prevents other mods' custom UI from being obliterated, and natively supports future Avorion engine updates.
+
+---
+
+### 11) `data/scripts/neltharaku/Aquaflow.lua`
+
+#### Fixes
+
+- Stubbed out the entire file due to a massive Arbitrary Code Execution (ACE) security vulnerability (use of `loadstring` on raw files) and dedicated server crashes involving blind `Player()` calls.
+
+#### Effect
+
+- Safely neutralizes the security threat while preventing crash loops in the abandoned developer UI panels.
+
+---
+
+### 12) `data/scripts/complexCraft/complexCoreV2.lua`
+
+#### Fixes
+
+- **Security:** Patched a severe exploit where malicious clients could transfer cargo from any entity in the sector regardless of ownership or docking status.
+- **Stability:** Moved client-authoritative `invokeClientFunction` logic to `updateClient` to prevent guaranteed server crashes.
+- Fixed array skipping bug in table iteration loops.
+
+#### Effect
+
+- Megacomplex operations are now fully secure, stable, and server-safe.
+
+---
+
+### 13) `data/scripts/entity/mainCaliber.lua`, `activeSysInterface.lua`
+
+#### Fixes
+
+- **`mainCaliber.lua`:** Shifted entirely to server-authoritative logic. Prevents an exploit where clients could spoof their weapon count and turn the fire-rate penalty into a massive buff. Removed unoptimized frame-by-frame UI loops.
+- **`activeSysInterface.lua`:** Fixed "Puppeteer" exploit allowing clients to force any script/command execution on unowned entities across the sector.
+
+#### Effect
+
+- Highly secure, exploit-proof active systems and super-weapon penalty mechanics.
+
+---
+
+### 14) `data/scripts/entity/entityAlerts.lua`, `combatGroup.lua`, `combatGroupV2.lua`
+
+#### Fixes
+
+- Fixed `entityAlerts.lua` hard stack trace when `Player()` was blindly invoked on the server.
+- Fixed disconnect crashes in the combat group scripts where `Galaxy():findPlayer()` returned `nil` when kicking/inviting a logged-out player.
+
+#### Effect
+
+- Crash-free UI group operations.
+
 ## Summary
 
 This Cosmic Starfall revamp differs from the original baseline by being:

@@ -30,7 +30,7 @@ locLines['settings_button_reset'] = "Resetting megacomplex data and settings" % 
 
 locLines['production_tooltip_namestation'] = "Name of the associated station" % _t
 locLines['production_tooltip_streams'] = "Active production streams / Maximum number of streams of the current station" %
-_t
+	_t
 locLines['production_tooltip_expand'] = "Switch to Detailed mode" % _t
 locLines['production_tooltip_switch'] = "Shutdown/activation of all production streams" % _t
 locLines['production_tooltip_switchbut_off'] = "All production streams are turned off" % _t
@@ -51,8 +51,8 @@ locLines['storage_label_limit'] = "Limit " % _t
 locLines['storage_tooltip_goodname'] = "\nGoods name" % _t
 locLines['storage_tooltip_goodamount'] = "The number of resources in the megacomplex cargo at the moment" % _t
 locLines['storage_tooltip_todelete'] =
-"On/off utilization mode.\n In this mode, the complex will try to accumulate this product from the stations indefinitely, while all goods over the storage limit will be deleted from stations" %
-_t
+	"On/off utilization mode.\n In this mode, the complex will try to accumulate this product from the stations indefinitely, while all goods over the storage limit will be deleted from stations" %
+	_t
 locLines['storage_tooltip_goodlimit'] = "Limitation on the amount of this product in the cargo of the megacomplex" % _t
 locLines['storage_tooltip_production'] = "Number of stations producing this product" % _t
 locLines['storage_tooltip_consumption'] = "Number of stations consuming this product" % _t
@@ -130,10 +130,11 @@ function MX.TSRbase(_value)
 end
 
 function MX.compareID(_id1, _id2)
-	if Entity(_id1).index == Entity(_id2).index then
+	local e1 = Entity(_id1)
+	local e2 = Entity(_id2)
+	if e1 and e2 and e1.index == e2.index then
 		return true
 	end
-
 	return false
 end
 
@@ -230,7 +231,12 @@ function MX.updateServer(timePassed)
 		--MX.restore(values)
 	end
 	--Mx.restore(values)
-	invokeClientFunction(Player(callingPlayer), 'operate')
+end
+
+function MX.updateClient(timePassed)
+	if Player().craftIndex == Entity().index then
+		MX.operate()
+	end
 end
 
 ---------------------------------------------------------------------------------
@@ -365,7 +371,8 @@ end
 
 function MX.refreshMainTables(_analysisResult)
 	--preliminary run to detect inactive (missing) segments and remove them from the table
-	for _index, _prod in pairs(tableProduction) do
+	for _index = #tableProduction, 1, -1 do
+		local _prod = tableProduction[_index]
 		local _entity = Entity(_prod[1])
 		if valid(_entity) then
 			if not (_entity.dockingParent == Entity().id) then
@@ -380,7 +387,8 @@ function MX.refreshMainTables(_analysisResult)
 	end
 	--MX.DebugMsg('refreshProductionTable: refreshed')
 
-	for _index, _prod in pairs(tableConsumption) do
+	for _index = #tableConsumption, 1, -1 do
+		local _prod = tableConsumption[_index]
 		local _entity = Entity(_prod[1])
 		if valid(_entity) then
 			if not (_entity.dockingParent == Entity().id) then
@@ -602,7 +610,7 @@ function MX.renderStorageLine()
 		if MX.isGoodUniq(_goodsTable, _rows[1]) then
 			table.remove(tableStorage, _index)
 			MX.DebugMsg('Good removed from table (wasnt presented in prod/cons tables): ' ..
-			getGoodAttribute(_rows[1], 'name'))
+				getGoodAttribute(_rows[1], 'name'))
 		end
 	end
 
@@ -1008,7 +1016,7 @@ function MX.generateProdWindow(_stindex)
 		local _iconButtonR = 'data/textures/icons/MCXoff.png'
 
 		local _goodsOnStation = locLines['linegenerator_label_stationscargo'] ..
-		tostring(CargoBay(_station.id):getNumCargos(_good))
+			tostring(CargoBay(_station.id):getNumCargos(_good))
 		local _isActive = _table[3][_index]
 
 		--Coordinates
@@ -1090,7 +1098,7 @@ function MX.generateConsWindow(_stindex)
 		local _iconButtonR = 'data/textures/icons/MCXoff.png'
 
 		local _goodsOnStation = locLines['linegenerator_label_stationscargo'] ..
-		tostring(CargoBay(_station.id):getNumCargos(_good))
+			tostring(CargoBay(_station.id):getNumCargos(_good))
 		local _isActive = _table[3][_index]
 
 		--Coordinates
@@ -1144,7 +1152,7 @@ function MX.generatedWindowsUpdate()
 			local _stindex = _row[5]
 			--volume of goods
 			local _goodsOnStation = locLines['linegenerator_label_stationscargo'] ..
-			tostring(CargoBay(_row[4]):getNumCargos(_good))
+				tostring(CargoBay(_row[4]):getNumCargos(_good))
 			--icon status
 			local _status = nil
 			if _tempStateIsProd then
@@ -1427,6 +1435,17 @@ function MX.ServerSendResourses(_table)
 	local _delete = _table[5]
 	local _isRequestCorrect = true
 
+	--Security Patch: Ensure transfers only happen between the complex and docked entities
+	local myId = Entity().id
+	if _from ~= myId and _to ~= myId then
+		return
+	end
+	local otherId = (_from == myId) and _to or _from
+	local otherEntity = Entity(otherId)
+	if not otherEntity or otherEntity.dockingParent ~= myId then
+		return
+	end
+
 	--Validation of values
 	if _amount <= 0 and not (_delete) then
 		MX.DebugMsg('ServerSendResourses error: incorrect _amount(' .. tostring(_amount) .. ')')
@@ -1441,7 +1460,7 @@ function MX.ServerSendResourses(_table)
 	local _resourseAvailable = CargoBay(_from):getNumCargos(_good)
 	if _resourseAvailable < _amount then
 		MX.DebugMsg('ServerSendResourses error: not enough goods(' ..
-		getGoodAttribute(_good, 'name') .. ', station: ' .. Entity(_from).name .. ') for transfer')
+			getGoodAttribute(_good, 'name') .. ', station: ' .. Entity(_from).name .. ') for transfer')
 		_isRequestCorrect = false
 	end
 	--Checking available space
