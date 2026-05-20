@@ -19,12 +19,12 @@ local dF = Neltharaku.debugFrame
 local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
-local classST = 'Cosmic Starfall - Standard Weapons' % _t
-local classLI = 'Cosmic Starfall - Light Weapons' % _t
-local classHE = 'Cosmic Starfall - Heavy Weapons' % _t
-local classMC = 'Cosmic Starfall - Main Caliber Weapons' % _t
-local classVST = 'Vanilla - Standard' % _t
-local classVHE = 'Vanilla - Heavy' % _t
+local classST = 'Cosmic Starfall - Standard Weapons'%_t
+local classLI = 'Cosmic Starfall - Light Weapons'%_t
+local classHE = 'Cosmic Starfall - Heavy Weapons'%_t
+local classMC = 'Cosmic Starfall - Main Caliber Weapons'%_t
+local classVST = 'Vanilla - Standard'%_t
+local classVHE = 'Vanilla - Heavy'%_t
 
 local order = {
 	--name,ID,IDupdate
@@ -85,73 +85,73 @@ icons['distance'] = 'data/textures/icons/adopt.png'
 icons['firerate'] = 'data/textures/icons/bullets.png'
 
 local rangeType = {}
-rangeType['s'] = 'small' % _t
-rangeType['s-m'] = 'small to medium' % _t
-rangeType['m'] = 'medium' % _t
-rangeType['m-h'] = 'medium to high' % _t
-rangeType['h'] = 'high' % _t
-rangeType['h+'] = 'very high' % _t
-rangeType['h++'] = 'extremely high' % _t
+rangeType['s'] = 'small'%_t
+rangeType['s-m'] = 'small to medium'%_t
+rangeType['m'] = 'medium'%_t
+rangeType['m-h'] = 'medium to high'%_t
+rangeType['h'] = 'high'%_t
+rangeType['h+'] = 'very high'%_t
+rangeType['h++'] = 'extremely high'%_t
 
 local accuracyType = {}
-accuracyType['l'] = 'poor' % _t
-accuracyType['m'] = 'medium' % _t
-accuracyType['h'] = 'good' % _t
-accuracyType['ho'] = 'homing' % _t
-accuracyType['m-ho'] = 'medium to homing' % _t
-accuracyType['va'] = 'very accurate' % _t
+accuracyType['l'] = 'poor'%_t
+accuracyType['m'] = 'medium'%_t
+accuracyType['h'] = 'good'%_t
+accuracyType['ho'] = 'homing'%_t
+accuracyType['m-ho'] = 'medium to homing'%_t
+accuracyType['va'] = 'very accurate'%_t
 
 local fireRateType = {}
-fireRateType['ul'] = 'ultra low' % _t
-fireRateType['l'] = 'low' % _t
-fireRateType['m'] = 'medium' % _t
-fireRateType['m-h'] = 'medium to high' % _t
-fireRateType['h'] = 'high' % _t
-fireRateType['h+'] = 'very high' % _t
+fireRateType['ul'] = 'ultra low'%_t
+fireRateType['l'] = 'low'%_t
+fireRateType['m'] = 'medium'%_t
+fireRateType['m-h'] = 'medium to high'%_t
+fireRateType['h'] = 'high'%_t
+fireRateType['h+'] = 'very high'%_t
 
 local damageType = {}
-damageType['phys'] = 'physical' % _t
-damageType['am'] = 'anti-matter' % _t
-damageType['elec'] = 'electric' % _t
-damageType['plasma'] = 'plasma' % _t
-damageType['ener'] = 'energy' % _t
-damageType['part'] = 'particles' % _t
-damageType['no'] = 'no' % _t
+damageType['phys'] = 'physical'%_t
+damageType['am'] = 'anti-matter'%_t
+damageType['elec'] = 'electric'%_t
+damageType['plasma'] = 'plasma'%_t
+damageType['ener'] = 'energy'%_t
+damageType['part'] = 'particles'%_t
+damageType['no'] = 'no'%_t
 
 local descDetails = {}
-descDetails['inc'] = 'increased' % _t
-descDetails['dec'] = 'decreased' % _t
+descDetails['inc'] = 'increased'%_t
+descDetails['dec'] = 'decreased'%_t
 
-descDetails['bonusdamageincrease'] = 'Base damage increased by ' % _t
-descDetails['bonusrangeincrease'] = 'Base range increased by ' % _t
-descDetails['bonusrangedecrease'] = 'Base range decreased by ' % _t
-descDetails['bonusToHull'] = 'Base damage to hull increased by ' % _t
-descDetails['bonusToShields'] = 'Base damage to shields increased by ' % _t
-descDetails['bonusRepair'] = 'Base repair amount increased by ' % _t
+descDetails['bonusdamageincrease'] = 'Base damage increased by '%_t
+descDetails['bonusrangeincrease'] = 'Base range increased by '%_t
+descDetails['bonusrangedecrease'] = 'Base range decreased by '%_t
+descDetails['bonusToHull'] = 'Base damage to hull increased by '%_t
+descDetails['bonusToShields'] = 'Base damage to shields increased by '%_t
+descDetails['bonusRepair'] = 'Base repair amount increased by '%_t
 
-descDetails['accemblyDamageByParts'] = 'When assembling, damage bonus from parts ' % _t
-descDetails['accemblyFirerateByParts'] = 'When assembling, rate of fire bonus from parts ' % _t
-descDetails['accemblyRangeByParts'] = 'When assembling, range bonus from parts ' % _t
+descDetails['accemblyDamageByParts'] = 'When assembling, damage bonus from parts '%_t
+descDetails['accemblyFirerateByParts'] = 'When assembling, rate of fire bonus from parts '%_t
+descDetails['accemblyRangeByParts'] = 'When assembling, range bonus from parts '%_t
 
-descDetails['newpartDamageToHull'] = 'When assembling, a new part that adds a bonus damage to the hull' % _t
-descDetails['newpartDamageToShield'] = 'When assembling, a new part that adds a bonus damage to the shields' % _t
-descDetails['newpartProjSpeed'] = 'When assembling, a new part that adds a bonus speed to the projectile' % _t
-descDetails['newpartBattery'] = 'When assembling, a new part that adds a bonus to battery/overheating' % _t
+descDetails['newpartDamageToHull'] = 'When assembling, a new part that adds a bonus damage to the hull'%_t
+descDetails['newpartDamageToShield'] = 'When assembling, a new part that adds a bonus damage to the shields'%_t
+descDetails['newpartProjSpeed'] = 'When assembling, a new part that adds a bonus speed to the projectile'%_t
+descDetails['newpartBattery'] = 'When assembling, a new part that adds a bonus to battery/overheating'%_t
 
-descDetails['techleveltoprojspeed'] = 'Base projectile speed will increase with the tech level' % _t
-descDetails['techleveltorange'] = 'Base firing range will increase with the tech level' % _t
-descDetails['techleveltodamage'] = 'Base damage will increase with the tech level' % _t
-descDetails['techleveltorepair'] = 'Base repair rate will increase with the tech level' % _t
+descDetails['techleveltoprojspeed'] = 'Base projectile speed will increase with the tech level'%_t
+descDetails['techleveltorange'] = 'Base firing range will increase with the tech level'%_t
+descDetails['techleveltodamage'] = 'Base damage will increase with the tech level'%_t
+descDetails['techleveltorepair'] = 'Base repair rate will increase with the tech level'%_t
 
-descDetails['morepartsDamage'] = 'More parts to damage bonus' % _t
-descDetails['morepartsRange'] = 'More parts to range bonus' % _t
-descDetails['morepartsBattery'] = 'More parts to battery/overheat bonus' % _t
+descDetails['morepartsDamage'] = 'More parts to damage bonus'%_t
+descDetails['morepartsRange'] = 'More parts to range bonus'%_t
+descDetails['morepartsBattery'] = 'More parts to battery/overheat bonus'%_t
 
-descDetails['lesspartsRange'] = 'Less parts to range bonus' % _t
+descDetails['lesspartsRange'] = 'Less parts to range bonus'%_t
 
-descDetails['classToHeavy'] = "Weapon class changed to 'Heavy'" % _t
-descDetails['cannotRecieveDamageTypeOf'] = 'Cannot take the following type of damage: ' % _t
-descDetails['costDecreased'] = 'Cost decreased' % _t
+descDetails['classToHeavy'] = "Weapon class changed to 'Heavy'"%_t
+descDetails['cannotRecieveDamageTypeOf'] = 'Cannot take the following type of damage: '%_t
+descDetails['costDecreased'] = 'Cost decreased'%_t
 
 local self = infoWeapons
 local stIcon = 'data/textures/icons/ASSAULTBLASTER.png'
@@ -306,49 +306,49 @@ function infoWeapons.SetMain(wpnType, baseContainer, rUnit)
 	name.fontSize = rUnit * 0.4
 
 	--Weapon class
-	local wpnClass = 'Standard' % _t
+	local wpnClass = 'Standard'%_t
 	local classColor = getTypeColor('Standard')
 	if checkLightPath(wpnIcon) then
-		wpnClass = 'Light' % _t
+		wpnClass = 'Light'%_t
 		classColor = getTypeColor('Light')
 	end
 	if checkHeavyPath(wpnIcon) then
-		wpnClass = 'Heavy' % _t
+		wpnClass = 'Heavy'%_t
 		classColor = getTypeColor('Heavy')
 	end
 	if checkMCPath(wpnIcon) then
-		wpnClass = 'Main Caliber' % _t
+		wpnClass = 'Main Caliber'%_t
 		classColor = getTypeColor('MC')
 	end
 
 	local _icon, _label, _value = self.InfoLineCreator(0, rUnit, infoContainer)
 	_icon.picture = icons['class']
-	_label.text = 'Weapon class' % _t
+	_label.text = 'Weapon class'%_t
 	_value.text = wpnClass
 	_value.fontColor = classColor
 
 	--Damage type
 	_icon, _label, _value = self.InfoLineCreator(1, rUnit, infoContainer)
 	_icon.picture = icons['dtype']
-	_label.text = 'Damage type' % _t
+	_label.text = 'Damage type'%_t
 	_value.text = wpnDamagetype
 
 	--Range
 	_icon, _label, _value = self.InfoLineCreator(2, rUnit, infoContainer)
 	_icon.picture = icons['distance']
-	_label.text = 'Fire range' % _t
+	_label.text = 'Fire range'%_t
 	_value.text = wpnDistance
 
 	--Accuracy
 	_icon, _label, _value = self.InfoLineCreator(3, rUnit, infoContainer)
 	_icon.picture = icons['accuracy']
-	_label.text = 'Accuracy' % _t
+	_label.text = 'Accuracy'%_t
 	_value.text = wpnAccuracy
 
 	--Rate of fire + Y coordinate
 	_icon, _label, _value, _yPos = self.InfoLineCreator(4, rUnit, infoContainer)
 	_icon.picture = icons['firerate']
-	_label.text = 'Fire rate' % _t
+	_label.text = 'Fire rate'%_t
 	_value.text = wpnFirerate
 
 	--Description
@@ -442,7 +442,7 @@ entities['chaingun'] = {
 	--Icon
 	"data/textures/icons/chaingun.png",
 	--Name
-	'Chaingun' % _t,
+	'Chaingun'%_t,
 	--Range
 	rangeType['s-m'],
 	--Accuracy
@@ -452,7 +452,7 @@ entities['chaingun'] = {
 	--Damage type
 	damageType['phys'],
 	--Description
-	'The simplest low and medium range combat weapon' % _t,
+	'The simplest low and medium range combat weapon'%_t,
 	--Changes
 	{
 		descDetails['bonusdamageincrease'] .. '25%',
@@ -468,7 +468,7 @@ entities['laser'] = {
 	--Icon
 	"data/textures/icons/laser-gun.png",
 	--Name
-	'Laser' % _t,
+	'Laser'%_t,
 	--Range
 	rangeType['m'],
 	--Accuracy
@@ -484,7 +484,7 @@ entities['laser'] = {
 	{
 		descDetails['bonusdamageincrease'] .. '40%',
 		descDetails['bonusrangedecrease'] .. '10-30%',
-		'Pierce up to two blocks (railgun mechanics)' % _t,
+		'Pierce up to two blocks (railgun mechanics)'%_t,
 		descDetails['accemblyDamageByParts'] .. descDetails['inc'],
 		descDetails['accemblyRangeByParts'] .. descDetails['inc'],
 		descDetails['newpartDamageToShield'],
@@ -495,7 +495,7 @@ entities['plasmagun'] = {
 	--Icon
 	"data/textures/icons/plasma-gun.png",
 	--Name
-	'Plasma cannon' % _t,
+	'Plasma cannon'%_t,
 	--Range
 	rangeType['s-m'],
 	--Accuracy
@@ -505,7 +505,7 @@ entities['plasmagun'] = {
 	--Damage type
 	damageType['plasma'],
 	--Description
-	'A powerful and rapid-fire low-range weapon that causes huge damage to enemy shields' % _t,
+	'A powerful and rapid-fire low-range weapon that causes huge damage to enemy shields'%_t,
 	--Changes
 	{
 		descDetails['bonusdamageincrease'] .. '30%',
@@ -523,7 +523,7 @@ entities['launcher'] = {
 	--Icon
 	"data/textures/icons/rocket-launcher.png",
 	--Name
-	'Rocket launcher' % _t,
+	'Rocket launcher'%_t,
 	--Range
 	rangeType['h'],
 	--Accuracy
@@ -533,12 +533,12 @@ entities['launcher'] = {
 	--Damage type
 	damageType['phys'],
 	--Description
-	'A long-range siege weapon. During assembly at the station, the projectiles can be homing' % _t,
+	'A long-range siege weapon. During assembly at the station, the projectiles can be homing'%_t,
 	--Changes
 	{
 		descDetails['classToHeavy'],
 		descDetails['bonusdamageincrease'] .. '15%',
-		'When assembling: Fuel now adds damage, not range' % _t,
+		'When assembling: Fuel now adds damage, not range'%_t,
 		descDetails['newpartProjSpeed'],
 		descDetails['newpartDamageToHull'],
 	},
@@ -548,7 +548,7 @@ entities['cannon'] = {
 	--Icon
 	"data/textures/icons/cannon.png",
 	--Name
-	'Cannon' % _t,
+	'Cannon'%_t,
 	--Range
 	rangeType['h'],
 	--Accuracy
@@ -579,7 +579,7 @@ entities['railgun'] = {
 	--Icon
 	"data/textures/icons/rail-gun.png",
 	--Name
-	'Railgun' % _t,
+	'Railgun'%_t,
 	--Range
 	rangeType['s-m'],
 	--Accuracy
@@ -594,13 +594,13 @@ entities['railgun'] = {
 	--Changes
 	{
 		descDetails['classToHeavy'],
-		'The minimum penetration is reduced by 1, the maximum by 40%' % _t,
-		'Base damage reduced by 15%' % _t,
-		'Significantly reduced accuracy' % _t,
+		'The minimum penetration is reduced by 1, the maximum by 40%'%_t,
+		'Base damage reduced by 15%'%_t,
+		'Significantly reduced accuracy'%_t,
 		descDetails['bonusrangedecrease'] .. '25%',
-		'When assembling, the electromagnet now adds damage to shields, not range' % _t,
-		'Weapon specializations for range and accuracy are disabled' % _t,
-		'Now the gun makes three simultaneous shots, thereby increasing the potential damage three times' % _t,
+		'When assembling, the electromagnet now adds damage to shields, not range'%_t,
+		'Weapon specializations for range and accuracy are disabled'%_t,
+		'Now the gun makes three simultaneous shots, thereby increasing the potential damage three times'%_t,
 		descDetails['costDecreased'],
 	},
 }
@@ -609,7 +609,7 @@ entities['repairbeam'] = {
 	--Icon
 	"data/textures/icons/repair-beam.png",
 	--Name
-	'Repair laser' % _t,
+	'Repair laser'%_t,
 	--Range
 	rangeType['m'],
 	--Accuracy
@@ -625,7 +625,7 @@ entities['repairbeam'] = {
 	{
 		descDetails['bonusRepair'] .. '60%',
 		descDetails['techleveltorepair'],
-		'During assembly: you can invest more parts to hull repair value, their effect is enhanced' % _t,
+		'During assembly: you can invest more parts to hull repair value, their effect is enhanced'%_t,
 		'During assembly: you can invest more parts to shield repair value, their effect is enhanced (higher than for the hull)' %
 		_t,
 		descDetails['newpartBattery'],
@@ -637,7 +637,7 @@ entities['bolter'] = {
 	--Icon
 	"data/textures/icons/bolter.png",
 	--Name
-	'Bolter' % _t,
+	'Bolter'%_t,
 	--Range
 	rangeType['s-m'],
 	--Accuracy
@@ -647,12 +647,12 @@ entities['bolter'] = {
 	--Damage type
 	damageType['am'],
 	--Description
-	"Low- and medium-range weapon that allow you to quickly destroy the enemy's hull" % _t,
+	"Low- and medium-range weapon that allow you to quickly destroy the enemy's hull"%_t,
 	--Changes
 	{
 		descDetails['bonusdamageincrease'] .. '15%',
 		descDetails['techleveltoprojspeed'],
-		'The threshold of the minimum rate of fire (in case of random assignment) has been increased' % _t,
+		'The threshold of the minimum rate of fire (in case of random assignment) has been increased'%_t,
 		descDetails['accemblyFirerateByParts'],
 		descDetails['morepartsDamage'],
 		descDetails['newpartProjSpeed'],
@@ -664,7 +664,7 @@ entities['lightinggun'] = {
 	--Icon
 	"data/textures/icons/lightning-gun.png",
 	--Name
-	'Lightning Gun' % _t,
+	'Lightning Gun'%_t,
 	--Range
 	rangeType['h'],
 	--Accuracy
@@ -674,15 +674,15 @@ entities['lightinggun'] = {
 	--Damage type
 	damageType['elec'] .. '/' .. damageType['plasma'],
 	--Description
-	'A long-range weapon capable of effectively destroying enemy shields' % _t,
+	'A long-range weapon capable of effectively destroying enemy shields'%_t,
 	--Changes
 	{
 		descDetails['classToHeavy'],
 		descDetails['bonusdamageincrease'] .. '25%',
-		'Rate of fire significantly reduced (damage remains unchanged)' % _t,
+		'Rate of fire significantly reduced (damage remains unchanged)'%_t,
 		descDetails['accemblyDamageByParts'] .. descDetails['inc'],
 		descDetails['morepartsDamage'],
-		'In production: one of the parts now gives a rate of fire' % _t,
+		'In production: one of the parts now gives a rate of fire'%_t,
 		descDetails['newpartBattery'],
 	},
 }
@@ -691,7 +691,7 @@ entities['tesla'] = {
 	--Icon
 	"data/textures/icons/tesla-gun.png",
 	--Name
-	'Tesla Gun' % _t,
+	'Tesla Gun'%_t,
 	--Range
 	rangeType['s'],
 	--Accuracy
@@ -701,13 +701,13 @@ entities['tesla'] = {
 	--Damage type
 	damageType['elec'],
 	--Description
-	'A high-precision low-range weapon that destroys enemy shields and technical blocks' % _t,
+	'A high-precision low-range weapon that destroys enemy shields and technical blocks'%_t,
 	--Changes
 	{
 		descDetails['bonusToShields'] .. '30%',
 		descDetails['morepartsDamage'],
 		descDetails['lesspartsRange'],
-		'During production: one of the parts now provides additional shield damage' % _t,
+		'During production: one of the parts now provides additional shield damage'%_t,
 		descDetails['cannotRecieveDamageTypeOf'] .. damageType['plasma'],
 	},
 }
@@ -716,7 +716,7 @@ entities['pulsecannon'] = {
 	--Icon
 	"data/textures/icons/pulsecannon.png",
 	--Name
-	'Pulse Cannon' % _t,
+	'Pulse Cannon'%_t,
 	--Range
 	rangeType['s'],
 	--Accuracy
@@ -726,10 +726,10 @@ entities['pulsecannon'] = {
 	--Damage type
 	damageType['phys'] .. '/' .. damageType['am'],
 	--Description
-	'A rapid-fire low-range weapon that partially ignores enemy shields' % _t,
+	'A rapid-fire low-range weapon that partially ignores enemy shields'%_t,
 	--Changes
 	{
-		'Removed vanilla damage penalty (25%), added 5% damage bonus' % _t,
+		'Removed vanilla damage penalty (25%), added 5% damage bonus'%_t,
 		descDetails['techleveltorange'],
 		descDetails['techleveltoprojspeed'],
 		descDetails['accemblyFirerateByParts'],
@@ -758,7 +758,7 @@ entities['pulsegun'] = {
 	_t,
 	--Changes
 	{
-		'Inherits the mechanics of firing a machine gun, deals a little less damage, but shoots further' % _t,
+		'Inherits the mechanics of firing a machine gun, deals a little less damage, but shoots further'%_t,
 		descDetails['techleveltorange'],
 		descDetails['techleveltoprojspeed'],
 		descDetails['techleveltodamage'],
@@ -806,8 +806,8 @@ entities['assaultblaster'] = {
 	_t,
 	--Changes
 	{
-		'Inherits the mechanics of firing a pulse cannon, deals more damage, the type of damage is changed' % _t,
-		'It has a basic additional damage to the shield, this bonus is increased by parts on the assembly' % _t,
+		'Inherits the mechanics of firing a pulse cannon, deals more damage, the type of damage is changed'%_t,
+		'It has a basic additional damage to the shield, this bonus is increased by parts on the assembly'%_t,
 	},
 }
 
@@ -829,8 +829,8 @@ entities['hept'] = {
 	_t,
 	--Changes
 	{
-		'The gun is well suited for installation on automatic batteries of heavy vessels' % _t,
-		'Basic damage bonuses on the shield and body are increased by parts during assembly' % _t,
+		'The gun is well suited for installation on automatic batteries of heavy vessels'%_t,
+		'Basic damage bonuses on the shield and body are increased by parts during assembly'%_t,
 	},
 }
 
@@ -852,8 +852,8 @@ entities['pulselaser'] = {
 	_t,
 	--Changes
 	{
-		"Reduces the fighter's firing radius by 25%" % _t,
-		'Provides a large bonus to the compactness of the fighter, speed and a small one to maneuverability' % _t,
+		"Reduces the fighter's firing radius by 25%"%_t,
+		'Provides a large bonus to the compactness of the fighter, speed and a small one to maneuverability'%_t,
 	},
 }
 
@@ -871,10 +871,10 @@ entities['assaultcannon'] = {
 	--Damage type
 	damageType['phys'],
 	--Description
-	'A powerful all-purpose gun designed for installation on fighter jets. Very high projectile speed' % _t,
+	'A powerful all-purpose gun designed for installation on fighter jets. Very high projectile speed'%_t,
 	--Changes
 	{
-		"Increases the fighter's firing radius by 25%" % _t,
+		"Increases the fighter's firing radius by 25%"%_t,
 		'Provides a major bonus to the compactness of the fighter and maneuverability, as well as a small one to its strength' %
 		_t,
 	},
@@ -898,8 +898,8 @@ entities['magneticmortar'] = {
 	_t,
 	--Changes
 	{
-		"Increases the fighter's firing radius by 175%" % _t,
-		'Provides an average bonus to the maneuverability and speed of the fighter' % _t,
+		"Increases the fighter's firing radius by 175%"%_t,
+		'Provides an average bonus to the maneuverability and speed of the fighter'%_t,
 	},
 }
 
@@ -917,12 +917,12 @@ entities['chargingbeam'] = {
 	--Damage type
 	damageType['no'],
 	--Description
-	'Shield-restoring emitter designed for installation on fighter jets' % _t,
+	'Shield-restoring emitter designed for installation on fighter jets'%_t,
 	--Changes
 	{
-		'Repairs shields only' % _t,
-		"Increases the fighter's firing radius by 15%" % _t,
-		'Provides a large bonus to the compactness of the fighter, and a small one to the speed' % _t,
+		'Repairs shields only'%_t,
+		"Increases the fighter's firing radius by 15%"%_t,
+		'Provides a large bonus to the compactness of the fighter, and a small one to the speed'%_t,
 	},
 }
 
@@ -940,12 +940,12 @@ entities['nanorepair'] = {
 	--Damage type
 	damageType['no'],
 	--Description
-	'Repair gun designed for installation on fighter jets. Repairs hull only' % _t,
+	'Repair gun designed for installation on fighter jets. Repairs hull only'%_t,
 	--Changes
 	{
-		'Available from the very beginning of the game' % _t,
-		"Increases the fighter's firing radius by 15%" % _t,
-		'Provides a large bonus to the compactness of the fighter, and a small one to the speed' % _t,
+		'Available from the very beginning of the game'%_t,
+		"Increases the fighter's firing radius by 15%"%_t,
+		'Provides a large bonus to the compactness of the fighter, and a small one to the speed'%_t,
 	},
 }
 
@@ -967,8 +967,8 @@ entities['mantis'] = {
 	_t,
 	--Changes
 	{
-		'The gun has a large alpha damage, but its rate of fire is significantly reduced' % _t,
-		'Projectiles always homing' % _t,
+		'The gun has a large alpha damage, but its rate of fire is significantly reduced'%_t,
+		'Projectiles always homing'%_t,
 	},
 }
 
@@ -992,7 +992,7 @@ entities['photoncannon'] = {
 	{
 		'Created on the basis of a cannon. Damage, explosion and firing radius are lower, projectile velocity and rate of fire are higher' %
 		_t,
-		'Receives significant bonuses when assembling at the station' % _t,
+		'Receives significant bonuses when assembling at the station'%_t,
 	},
 }
 
@@ -1016,7 +1016,7 @@ entities['ionemitter'] = {
 	{
 		'Created on the basis of a photon cannon. The damage inflicted is significantly reduced, the projectile flies slower and the radius is smaller' %
 		_t,
-		'It has a large base bonus damage to shields, during production this bonus increases noticeably' % _t,
+		'It has a large base bonus damage to shields, during production this bonus increases noticeably'%_t,
 	},
 }
 
@@ -1038,7 +1038,7 @@ entities['prd'] = {
 	_t,
 	--Changes
 	{
-		'It has a basic bonus to shield damage, inheriting the features of the plasma damage type' % _t,
+		'It has a basic bonus to shield damage, inheriting the features of the plasma damage type'%_t,
 	},
 }
 
@@ -1060,8 +1060,8 @@ entities['plasmaflak'] = {
 	_t,
 	--Changes
 	{
-		'High rate of fire and firing two projectiles allow you to create an effective barrage' % _t,
-		'Unlike other anti-aircraft guns, it has a battery and consumes it when firing' % _t,
+		'High rate of fire and firing two projectiles allow you to create an effective barrage'%_t,
+		'Unlike other anti-aircraft guns, it has a battery and consumes it when firing'%_t,
 	},
 }
 
@@ -1084,8 +1084,8 @@ entities['hyperkinetic'] = {
 	_t,
 	--Changes
 	{
-		'It has very low damage to shields and to targets with armor' % _t,
-		'Weapon reveals the maximum potential during assembly at the station' % _t,
+		'It has very low damage to shields and to targets with armor'%_t,
+		'Weapon reveals the maximum potential during assembly at the station'%_t,
 		"Weapons of the 'main caliber' class impose a permanent penalty to the rate of fire if more than two units are installed" %
 		_t,
 	},
@@ -1109,12 +1109,12 @@ entities['avalanche'] = {
 	_t,
 	--Changes
 	{
-		'Weapon reveals the maximum potential during assembly at the station' % _t,
-		'Very bad versus mobile targets' % _t,
-		'Does massive damage' % _t,
+		'Weapon reveals the maximum potential during assembly at the station'%_t,
+		'Very bad versus mobile targets'%_t,
+		'Does massive damage'%_t,
 		"Weapons of the 'main caliber' class impose a permanent penalty to the rate of fire if more than two units are installed" %
 		_t,
-		'No overheat' % _t,
+		'No overheat'%_t,
 	},
 }
 
@@ -1136,9 +1136,9 @@ entities['cyclone'] = {
 	_t,
 	--Changes
 	{
-		'Weapon reveals the maximum potential during assembly at the station' % _t,
-		'An excellent weapon for the targeted destruction of important targets' % _t,
-		'Does a lot of damage, but cools down for a very long time' % _t,
+		'Weapon reveals the maximum potential during assembly at the station'%_t,
+		'An excellent weapon for the targeted destruction of important targets'%_t,
+		'Does a lot of damage, but cools down for a very long time'%_t,
 		"Weapons of the 'main caliber' class impose a permanent penalty to the rate of fire if more than two units are installed" %
 		_t,
 	},
@@ -1162,8 +1162,8 @@ entities['transphasic'] = {
 	_t,
 	--Changes
 	{
-		'Weapon reveals the maximum potential during assembly at the station' % _t,
-		'A universal tool in its class' % _t,
+		'Weapon reveals the maximum potential during assembly at the station'%_t,
+		'A universal tool in its class'%_t,
 		"Weapons of the 'main caliber' class impose a permanent penalty to the rate of fire if more than two units are installed" %
 		_t,
 	},

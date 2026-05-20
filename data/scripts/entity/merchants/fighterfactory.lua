@@ -225,13 +225,13 @@ function FighterFactory.createFighter(type, plan, turretIndex, sizePoints, durab
         local turret = buyer:getInventory():find(turretIndex)
         if turret then
             if isTurretHeavy(turret, nil) then
-                player:sendChatMessage("Fighter Factory" % _t, ChatMessageType.Error,
-                    "Heavy weapons cannot be installed on fighters." % _t)
+                player:sendChatMessage("Fighter Factory"%_t, ChatMessageType.Error,
+                    "Heavy weapons cannot be installed on fighters."%_t)
                 return 0
             end
             if isTurretMC(turret, nil) then
-                player:sendChatMessage("Fighter Factory" % _t, ChatMessageType.Error,
-                    "Main caliber guns cannot be installed on fighters!" % _t)
+                player:sendChatMessage("Fighter Factory"%_t, ChatMessageType.Error,
+                    "Main caliber guns cannot be installed on fighters!"%_t)
                 return 0
             end
 

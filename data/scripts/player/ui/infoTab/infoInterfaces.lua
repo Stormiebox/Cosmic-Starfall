@@ -20,9 +20,9 @@ local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
 local locNames = {}
-locNames['combatgroup'] = 'Combat group' % _t
-locNames['auracore'] = 'Active effects' % _t
-locNames['asi'] = 'Active System Interface' % _t
+locNames['combatgroup'] = 'Combat group'%_t
+locNames['auracore'] = 'Active effects'%_t
+locNames['asi'] = 'Active System Interface'%_t
 
 local locIcons = {}
 locIcons['player'] = 'data/textures/icons/ui/ui_playerOnline.png'
@@ -309,7 +309,7 @@ end
 
 entities['combatgroupgeneral'] = {
 	--Name
-	'General info' % _t,
+	'General info'%_t,
 	--Content
 	{
 		{
@@ -327,12 +327,12 @@ entities['combatgroupgeneral'] = {
 			'iconinfo',                  -- Item type
 			nil,                         -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/uiCollapse.png', -- Content. Text or path to the image.
-			"'Collapse' button" % _t     -- Content for icon info
+			"'Collapse' button"%_t     -- Content for icon info
 		},
 		{
 			'desc',                                                                                        -- Item type
 			1,                                                                                             -- Height (nil for iconname/mainlabel)
-			"Minimizes the window, leaving the 'expand' button on its place, allowing you to expand it later" % _t, -- Content. Text or path to the image.
+			"Minimizes the window, leaving the 'expand' button on its place, allowing you to expand it later"%_t, -- Content. Text or path to the image.
 		},
 		-- {
 		-- 'iconinfo', --Element type
@@ -349,12 +349,12 @@ entities['combatgroupgeneral'] = {
 			'iconinfo',              -- Item type
 			nil,                     -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/uiPlus.png', -- Content. Text or path to the image.
-			"'Switch to adding' button" % _t -- Content for icon info
+			"'Switch to adding' button"%_t -- Content for icon info
 		},
 		{
 			'desc',                                                               -- Item type
 			1,                                                                    -- Height (nil for iconname/mainlabel)
-			"Opens a window with a list of online players who are not in your group" % _t, -- Content. Text or path to the image.
+			"Opens a window with a list of online players who are not in your group"%_t, -- Content. Text or path to the image.
 		},
 		-- {
 		-- 'iconinfo', --Element type
@@ -372,7 +372,7 @@ entities['combatgroupgeneral'] = {
 }
 entities['combatgroupmanage'] = {
 	--Name
-	'Group Control Panel' % _t,
+	'Group Control Panel'%_t,
 	--Content
 	{
 		{
@@ -390,40 +390,40 @@ entities['combatgroupmanage'] = {
 			'iconinfo', -- Item type
 			nil,        -- Height (nil for iconname/mainlabel)
 			locIcons['player'], -- Content. Text or path to the image.
-			'Player status' % _t -- Content for icon info
+			'Player status'%_t -- Content for icon info
 		},
 		{
 			'desc',                                                                                           -- Item type
 			1.2,                                                                                              -- Height (nil for iconname/mainlabel)
-			"Indicates the status of the player (offline, online, leader) and allows you to transfer the leader" % _t, -- Content. Text or path to the image.
+			"Indicates the status of the player (offline, online, leader) and allows you to transfer the leader"%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',            -- Item type
 			nil,                   -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/kick.png', -- Content. Text or path to the image.
-			"'Kick' button" % _t   -- Content for icon info
+			"'Kick' button"%_t   -- Content for icon info
 		},
 		{
 			'desc',                                                                                     -- Item type
 			1.2,                                                                                        -- Height (nil for iconname/mainlabel)
-			"Allows you to kick the player (available only to the leader). You can't kick players offline" % _t, -- Content. Text or path to the image.
+			"Allows you to kick the player (available only to the leader). You can't kick players offline"%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',  -- Item type
 			nil,         -- Height (nil for iconname/mainlabel)
 			locIcons['cancel'], -- Content. Text or path to the image.
-			"'Leave' button" % _t -- Content for icon info
+			"'Leave' button"%_t -- Content for icon info
 		},
 		{
 			'desc',                      -- Item type
 			1.2,                         -- Height (nil for iconname/mainlabel)
-			"Allows you to leave the group" % _t, -- Content. Text or path to the image.
+			"Allows you to leave the group"%_t, -- Content. Text or path to the image.
 		},
 	},
 }
 entities['combatgroupinvite'] = {
 	--Name
-	'Player Invitation Panel' % _t,
+	'Player Invitation Panel'%_t,
 	--Content
 	{
 		{
@@ -441,7 +441,7 @@ entities['combatgroupinvite'] = {
 }
 entities['auracoreinfo'] = {
 	--Name
-	'Active effects' % _t,
+	'Active effects'%_t,
 	--Content
 	{
 		{
@@ -460,7 +460,7 @@ entities['auracoreinfo'] = {
 
 entities['asiinfo'] = {
 	--Name
-	'Active System Interface' % _t,
+	'Active System Interface'%_t,
 	--Content
 	{
 		{
@@ -471,13 +471,13 @@ entities['asiinfo'] = {
 		{
 			'desc',                                                                                -- Item type
 			1.3,                                                                                   -- Height (nil for iconname/mainlabel)
-			"Customizable interface that provides access to the active systems installed on the ship" % _t, -- Content. Text or path to the image.
+			"Customizable interface that provides access to the active systems installed on the ship"%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                        -- Item type
 			nil,                               -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/ui/ui_framesfull.png', -- Content. Text or path to the image.
-			"Frame switcher" % _t              -- Content for icon info
+			"Frame switcher"%_t              -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -489,7 +489,7 @@ entities['asiinfo'] = {
 			'iconinfo',                           -- Item type
 			nil,                                  -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/ui/ui_moveinterface.png', -- Content. Text or path to the image.
-			"Movement switcher" % _t              -- Content for icon info
+			"Movement switcher"%_t              -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -501,18 +501,18 @@ entities['asiinfo'] = {
 			'iconinfo',                          -- Item type
 			nil,                                 -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/ui/ui_hideMainIcon.png', -- Content. Text or path to the image.
-			"Main icon switcher" % _t            -- Content for icon info
+			"Main icon switcher"%_t            -- Content for icon info
 		},
 		{
 			'desc',                                                                     -- Item type
 			1.2,                                                                        -- Height (nil for iconname/mainlabel)
-			"Allows you to enable and disable the display of the module icon on its panel" % _t, -- Content. Text or path to the image.
+			"Allows you to enable and disable the display of the module icon on its panel"%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                    -- Item type
 			nil,                           -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/ui/ui_colors.png', -- Content. Text or path to the image.
-			"Color switcher" % _t          -- Content for icon info
+			"Color switcher"%_t          -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -524,7 +524,7 @@ entities['asiinfo'] = {
 			'iconinfo',                     -- Item type
 			nil,                            -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/ui/ui_default.png', -- Content. Text or path to the image.
-			"Reset to Default" % _t         -- Content for icon info
+			"Reset to Default"%_t         -- Content for icon info
 		},
 		{
 			'desc', -- Item type

@@ -22,11 +22,11 @@ local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
 local locNames = {}
-locNames['weaponsnew'] = 'Weapons - New' % _t
-locNames['weaponsvanilla'] = 'Weapons - Vanilla Changes' % _t
-locNames['systemsnew'] = 'Systems - New' % _t
-locNames['stationssnew'] = 'Stations - New' % _t
-locNames['uinew'] = 'Interfaces - New' % _t
+locNames['weaponsnew'] = 'Weapons - New'%_t
+locNames['weaponsvanilla'] = 'Weapons - Vanilla Changes'%_t
+locNames['systemsnew'] = 'Systems - New'%_t
+locNames['stationssnew'] = 'Stations - New'%_t
+locNames['uinew'] = 'Interfaces - New'%_t
 
 local order = {
 	--Name,id,i dupdate
@@ -312,7 +312,7 @@ end
 
 entities['weaponclasses'] = {
 	--Name
-	'Weapon class ' % _t,
+	'Weapon class '%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -332,7 +332,7 @@ entities['weaponclasses'] = {
 			'iconinfo',                          -- Item type
 			nil,                                 -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/weapon/wpnCyclone2.png', -- Content. Text or path to the image.
-			'Weapon class - Main Caliber' % _t   -- Content for icon info
+			'Weapon class - Main Caliber'%_t   -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -344,7 +344,7 @@ entities['weaponclasses'] = {
 			'iconinfo',                                -- Item type
 			nil,                                       -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/weapon/wpnMagneticmortar.png', -- Content. Text or path to the image.
-			'Weapon class - Light' % _t                -- Content for icon info
+			'Weapon class - Light'%_t                -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -356,30 +356,30 @@ entities['weaponclasses'] = {
 			'iconinfo',                            -- Item type
 			nil,                                   -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/weapon/wpnIonEmitter.png', -- Content. Text or path to the image.
-			'Weapon class - Heavy' % _t            -- Content for icon info
+			'Weapon class - Heavy'%_t            -- Content for icon info
 		},
 		{
 			'desc',                                                           -- Item type
 			0.6,                                                              -- Height (nil for iconname/mainlabel)
-			'Weapons of this class cannot be used in the production of fighters' % _t, -- Content. Text or path to the image.
+			'Weapons of this class cannot be used in the production of fighters'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                     -- Item type
 			nil,                            -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/weapon/wpnPrd.png', -- Content. Text or path to the image.
-			'Weapon class - Standard' % _t  -- Content for icon info
+			'Weapon class - Standard'%_t  -- Content for icon info
 		},
 		{
 			'desc',                                          -- Item type
 			0.6,                                             -- Height (nil for iconname/mainlabel)
-			'Conventional weapons using standard Avorion rules' % _t, -- Content. Text or path to the image.
+			'Conventional weapons using standard Avorion rules'%_t, -- Content. Text or path to the image.
 		},
 	},
 }
 
 entities['weaponnew'] = {
 	--Name
-	'New weapons' % _t,
+	'New weapons'%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -392,7 +392,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                                                              -- Item type
 			1.1,                                                                                                 -- Height (nil for iconname/mainlabel)
-			"17 new weapons have been added to the game. You can find out more about each one in the tab 'Weapons'" % _t, -- Content. Text or path to the image.
+			"17 new weapons have been added to the game. You can find out more about each one in the tab 'Weapons'"%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',       -- Item type
@@ -403,7 +403,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                                    -- Item type
 			1,                                                                         -- Height (nil for iconname/mainlabel)
-			'Class: Standard. Rapid-fire low- and medium range weapon. does not overheat' % _t, -- Content. Text or path to the image.
+			'Class: Standard. Rapid-fire low- and medium range weapon. does not overheat'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                  -- Item type
@@ -414,7 +414,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                            -- Item type
 			1,                                                 -- Height (nil for iconname/mainlabel)
-			'Class: Standard. Light accurate medium-range weapon' % _t, -- Content. Text or path to the image.
+			'Class: Standard. Light accurate medium-range weapon'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',             -- Item type
@@ -425,7 +425,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                                               -- Item type
 			1.4,                                                                                  -- Height (nil for iconname/mainlabel)
-			'Class: Standard. Medium-range rapid-fire weapon that deals increased damage to shields' % _t, -- Content. Text or path to the image.
+			'Class: Standard. Medium-range rapid-fire weapon that deals increased damage to shields'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',   -- Item type
@@ -436,7 +436,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                              -- Item type
 			1.4,                                                 -- Height (nil for iconname/mainlabel)
-			'Class: Standard. Universal medium-range plasma cannon' % _t, -- Content. Text or path to the image.
+			'Class: Standard. Universal medium-range plasma cannon'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',     -- Item type
@@ -447,7 +447,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                                          -- Item type
 			1.4,                                                                             -- Height (nil for iconname/mainlabel)
-			'Class: Standard. Long-range homing weapon designed to deal against mobile targets' % _t, -- Content. Text or path to the image.
+			'Class: Standard. Long-range homing weapon designed to deal against mobile targets'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',  -- Item type
@@ -458,7 +458,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                                 -- Item type
 			1.4,                                                                    -- Height (nil for iconname/mainlabel)
-			'Class: Standard. Powerful, but not very accurate rail-type plasma weapon' % _t, -- Content. Text or path to the image.
+			'Class: Standard. Powerful, but not very accurate rail-type plasma weapon'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',         -- Item type
@@ -469,7 +469,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                             -- Item type
 			1.4,                                                -- Height (nil for iconname/mainlabel)
-			'Class: Defensive. Rapid-fire weapon against fighters' % _t, -- Content. Text or path to the image.
+			'Class: Defensive. Rapid-fire weapon against fighters'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',         -- Item type
@@ -480,7 +480,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                                  -- Item type
 			1.4,                                                                     -- Height (nil for iconname/mainlabel)
-			'Class: Light. A rapid-firing light low-range weapon designed for fighters' % _t, -- Content. Text or path to the image.
+			'Class: Light. A rapid-firing light low-range weapon designed for fighters'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',            -- Item type
@@ -491,7 +491,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                                                            -- Item type
 			1.4,                                                                                               -- Height (nil for iconname/mainlabel)
-			'Class: Light. A versatile powerful, but not very accurate medium-range weapon designed for fighters' % _t, -- Content. Text or path to the image.
+			'Class: Light. A versatile powerful, but not very accurate medium-range weapon designed for fighters'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',             -- Item type
@@ -502,7 +502,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                      -- Item type
 			1.4,                                                         -- Height (nil for iconname/mainlabel)
-			'Class: Light. A long-range siege weapon designed for fighters' % _t, -- Content. Text or path to the image.
+			'Class: Light. A long-range siege weapon designed for fighters'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',         -- Item type
@@ -513,7 +513,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                         -- Item type
 			1.4,                                                            -- Height (nil for iconname/mainlabel)
-			'Class: Light. Beam weapon for hull repair, designed for fighters' % _t, -- Content. Text or path to the image.
+			'Class: Light. Beam weapon for hull repair, designed for fighters'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',           -- Item type
@@ -524,7 +524,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                              -- Item type
 			1.4,                                                                 -- Height (nil for iconname/mainlabel)
-			'Class: Light. A beam gun for repairing shields, designed for fighters' % _t, -- Content. Text or path to the image.
+			'Class: Light. A beam gun for repairing shields, designed for fighters'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',           -- Item type
@@ -535,7 +535,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                       -- Item type
 			1.4,                                                          -- Height (nil for iconname/mainlabel)
-			'Class: Heavy. A powerful siege weapon designed for heavy ships' % _t, -- Content. Text or path to the image.
+			'Class: Heavy. A powerful siege weapon designed for heavy ships'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',         -- Item type
@@ -546,7 +546,7 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                                                              -- Item type
 			1.4,                                                                                                 -- Height (nil for iconname/mainlabel)
-			'Class: Heavy. A powerful siege weapon designed for heavy ships. Deals serious damage to enemy shields' % _t, -- Content. Text or path to the image.
+			'Class: Heavy. A powerful siege weapon designed for heavy ships. Deals serious damage to enemy shields'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',           -- Item type
@@ -593,14 +593,14 @@ entities['weaponnew'] = {
 		{
 			'desc',                                                                                   -- Item type
 			1.4,                                                                                      -- Height (nil for iconname/mainlabel)
-			'Class: Main Caliber. A universal laser heavy weapon that deals good damage at medium range' % _t, -- Content. Text or path to the image.
+			'Class: Main Caliber. A universal laser heavy weapon that deals good damage at medium range'%_t, -- Content. Text or path to the image.
 		},
 	},
 }
 
 entities['weaponrebalance'] = {
 	--Name
-	'Vanilla weapons changes' % _t,
+	'Vanilla weapons changes'%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -620,7 +620,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',                -- Item type
 			nil,                       -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/chaingun.png", -- Content. Text or path to the image.
-			'Chaingun' % _t            -- Content for icon info
+			'Chaingun'%_t            -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -632,7 +632,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',                 -- Item type
 			nil,                        -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/laser-gun.png", -- Content. Text or path to the image.
-			'Laser' % _t                -- Content for icon info
+			'Laser'%_t                -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -644,7 +644,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',                  -- Item type
 			nil,                         -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/plasma-gun.png", -- Content. Text or path to the image.
-			'Plasma Gun' % _t            -- Content for icon info
+			'Plasma Gun'%_t            -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -656,7 +656,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',                       -- Item type
 			nil,                              -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/rocket-launcher.png", -- Content. Text or path to the image.
-			'Rocket Launcher' % _t            -- Content for icon info
+			'Rocket Launcher'%_t            -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -668,7 +668,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',              -- Item type
 			nil,                     -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/cannon.png", -- Content. Text or path to the image.
-			'Cannon' % _t            -- Content for icon info
+			'Cannon'%_t            -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -680,7 +680,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',                -- Item type
 			nil,                       -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/rail-gun.png", -- Content. Text or path to the image.
-			'Railgun' % _t             -- Content for icon info
+			'Railgun'%_t             -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -692,7 +692,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',                   -- Item type
 			nil,                          -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/repair-beam.png", -- Content. Text or path to the image.
-			'Repair Laser' % _t           -- Content for icon info
+			'Repair Laser'%_t           -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -704,7 +704,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',              -- Item type
 			nil,                     -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/bolter.png", -- Content. Text or path to the image.
-			'Bolter' % _t            -- Content for icon info
+			'Bolter'%_t            -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -716,7 +716,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',                     -- Item type
 			nil,                            -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/lightning-gun.png", -- Content. Text or path to the image.
-			'Lightning Gun' % _t            -- Content for icon info
+			'Lightning Gun'%_t            -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -728,7 +728,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',                 -- Item type
 			nil,                        -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/tesla-gun.png", -- Content. Text or path to the image.
-			'Tesla Gun' % _t            -- Content for icon info
+			'Tesla Gun'%_t            -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -740,7 +740,7 @@ entities['weaponrebalance'] = {
 			'iconinfo',                   -- Item type
 			nil,                          -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/pulsecannon.png", -- Content. Text or path to the image.
-			'Pulse Cannon' % _t           -- Content for icon info
+			'Pulse Cannon'%_t           -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -753,7 +753,7 @@ entities['weaponrebalance'] = {
 
 entities['systemnew'] = {
 	--Name
-	'New systems' % _t,
+	'New systems'%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -826,7 +826,7 @@ entities['systemnew'] = {
 		{
 			'desc',                                                                            -- Item type
 			2,                                                                                 -- Height (nil for iconname/mainlabel)
-			'Allows you to temporarily accelerate the radius of the tractor beam to large values' % _t, -- Content. Text or path to the image.
+			'Allows you to temporarily accelerate the radius of the tractor beam to large values'%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                        -- Item type
@@ -845,7 +845,7 @@ entities['systemnew'] = {
 
 entities['stationnew'] = {
 	--Name
-	'New stations' % _t,
+	'New stations'%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -858,7 +858,7 @@ entities['stationnew'] = {
 		{
 			'desc',                                                                         -- Item type
 			1.3,                                                                            -- Height (nil for iconname/mainlabel)
-			"New stations added by modification. For more information, see the 'stations' tab" % _t, -- Content. Text or path to the image.
+			"New stations added by modification. For more information, see the 'stations' tab"%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',                      -- Item type
@@ -877,7 +877,7 @@ entities['stationnew'] = {
 
 entities['alertsystem'] = {
 	--Name
-	'Alert system' % _t,
+	'Alert system'%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -898,7 +898,7 @@ entities['alertsystem'] = {
 
 entities['combatgroup'] = {
 	--Name
-	'Combat group' % _t,
+	'Combat group'%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -919,7 +919,7 @@ entities['combatgroup'] = {
 
 entities['asi'] = {
 	--Name
-	'Active System Interface' % _t,
+	'Active System Interface'%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -932,14 +932,14 @@ entities['asi'] = {
 		{
 			'desc',                                                                                -- Item type
 			1.3,                                                                                   -- Height (nil for iconname/mainlabel)
-			"Customizable interface that provides access to the active systems installed on the ship" % _t, -- Content. Text or path to the image.
+			"Customizable interface that provides access to the active systems installed on the ship"%_t, -- Content. Text or path to the image.
 		},
 	},
 }
 
 entities['auracore'] = {
 	--Name
-	'Active effects' % _t,
+	'Active effects'%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -952,7 +952,7 @@ entities['auracore'] = {
 		{
 			'desc',                                                                                  -- Item type
 			1.3,                                                                                     -- Height (nil for iconname/mainlabel)
-			"An interface that displays active effects from the Cosmic Starfall mod affecting the ship" % _t, -- Content. Text or path to the image.
+			"An interface that displays active effects from the Cosmic Starfall mod affecting the ship"%_t, -- Content. Text or path to the image.
 		},
 	},
 }

@@ -311,7 +311,7 @@ function getTooltipLines(seed, rarity, permanent)
 
 	table.insert(texts,
 		{
-			ltext = "Генерация энергии" % _t,
+			ltext = "Генерация энергии"%_t,
 			rtext = string.format("%+2i%%", round(_eRegen * 100)),
 			icon =
 			"data/textures/icons/electric.png",
@@ -319,7 +319,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Объем аккумулятора" % _t,
+			ltext = "Объем аккумулятора"%_t,
 			rtext = string.format("%+2i%%", round(_eValue * 100)),
 			icon =
 			"data/textures/icons/battery-pack-alt.png",
@@ -328,7 +328,7 @@ function getTooltipLines(seed, rarity, permanent)
 
 	table.insert(texts,
 		{
-			ltext = "Ремонтная волна" % _t,
+			ltext = "Ремонтная волна"%_t,
 			rtext = "Да",
 			rcolor = ColorRGB(0.3, 1.0, 0.3),
 			icon =
@@ -337,7 +337,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Обновляющий луч" % _t,
+			ltext = "Обновляющий луч"%_t,
 			rtext = "Да",
 			rcolor = ColorRGB(0.3, 1.0, 0.3),
 			icon =
@@ -346,7 +346,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Усилитель щита" % _t,
+			ltext = "Усилитель щита"%_t,
 			rtext = "Да",
 			rcolor = ColorRGB(0.3, 1.0, 0.3),
 			icon =
@@ -355,7 +355,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Синхронизатор щитов" % _t,
+			ltext = "Синхронизатор щитов"%_t,
 			rtext = "Да",
 			rcolor = ColorRGB(0.3, 1.0, 0.3),
 			icon =
@@ -368,7 +368,7 @@ end
 function getDescriptionLines(seed, rarity, permanent)
 	return
 	{
-		{ ltext = "Never ask a wyvern: 'why'" % _t, lcolor = ColorRGB(1, 0.5, 0.5) }
+		{ ltext = "Never ask a wyvern: 'why'"%_t, lcolor = ColorRGB(1, 0.5, 0.5) }
 	}
 end
 
@@ -380,7 +380,7 @@ function getComparableValues(seed, rarity)
 	if _eRegen ~= 0 then
 		table.insert(base,
 			{
-				name = "Generated Energy" % _t,
+				name = "Generated Energy"%_t,
 				key = "generated_energy",
 				value = round(_eRegen * 100),
 				comp =
@@ -391,7 +391,7 @@ function getComparableValues(seed, rarity)
 	if charge ~= 0 then
 		table.insert(base,
 			{
-				name = "Recharge Rate" % _t,
+				name = "Recharge Rate"%_t,
 				key = "recharge_rate",
 				value = round(_eValue * 100),
 				comp = UpgradeComparison

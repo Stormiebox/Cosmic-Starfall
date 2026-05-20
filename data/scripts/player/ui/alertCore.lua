@@ -11,9 +11,9 @@ aC = {}
 local _initSystem = true
 
 local locLines = {}
-locLines['group_invite'] = "Invitation to a group" % _t
-locLines['group_kick'] = "You were kicked from the group" % _t
-locLines['weapon_turretdead'] = "Your turret is destroyed!" % _t
+locLines['group_invite'] = "Invitation to a group"%_t
+locLines['group_kick'] = "You were kicked from the group"%_t
+locLines['weapon_turretdead'] = "Your turret is destroyed!"%_t
 
 local _alertWindows = {}
 --1 window

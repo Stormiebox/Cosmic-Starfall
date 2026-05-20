@@ -3,13 +3,13 @@ package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 include('Armory')
 
 local locLines = {}
-locLines['weaponclass'] = "Weapon class" % _t
-locLines['weaponclass_light'] = "Light" % _t
-locLines['weaponclass_heavy'] = "Heavy" % _t
-locLines['weaponclass_mc'] = "Main Caliber" % _t
-locLines['weaponclass_Standard'] = "Standard" % _t
-locLines['projspeed'] = "Projectile speed" % _t
-locLines['instant'] = "Instant" % _t
+locLines['weaponclass'] = "Weapon class"%_t
+locLines['weaponclass_light'] = "Light"%_t
+locLines['weaponclass_heavy'] = "Heavy"%_t
+locLines['weaponclass_mc'] = "Main Caliber"%_t
+locLines['weaponclass_Standard'] = "Standard"%_t
+locLines['projspeed'] = "Projectile speed"%_t
+locLines['instant'] = "Instant"%_t
 
 local old_makeTurretTooltip = makeTurretTooltip
 function makeTurretTooltip(turret, other, tooltipType)

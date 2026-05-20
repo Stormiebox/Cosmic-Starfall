@@ -68,7 +68,7 @@ function getTooltipLines(seed, rarity, permanent)
     if perc ~= 0 then
         table.insert(texts,
             {
-                ltext = "Cargo Hold (relative)" % _t,
+                ltext = "Cargo Hold (relative)"%_t,
                 rtext = string.format("%+i%%", round(perc * 100)),
                 icon =
                 "data/textures/icons/crate.png",
@@ -76,7 +76,7 @@ function getTooltipLines(seed, rarity, permanent)
             })
         table.insert(texts,
             {
-                ltext = "Generated Energy" % _t,
+                ltext = "Generated Energy"%_t,
                 rtext = string.format("%+i%%", round(energy * 100)),
                 icon =
                 "data/textures/icons/electric.png",
@@ -84,7 +84,7 @@ function getTooltipLines(seed, rarity, permanent)
             })
         table.insert(texts,
             {
-                ltext = "Shield Durability" % _t,
+                ltext = "Shield Durability"%_t,
                 rtext = string.format("%+i%%", round(shield * 100)),
                 icon =
                 "data/textures/icons/health-normal.png",
@@ -93,7 +93,7 @@ function getTooltipLines(seed, rarity, permanent)
 
         table.insert(bonuses,
             {
-                ltext = "Cargo Hold (relative)" % _t,
+                ltext = "Cargo Hold (relative)"%_t,
                 rtext = string.format("%+i%%", round(basePerc * 0.4 * 100)),
                 icon =
                 "data/textures/icons/crate.png",

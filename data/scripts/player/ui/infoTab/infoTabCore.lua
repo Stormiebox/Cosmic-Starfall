@@ -40,14 +40,14 @@ local mainTabsInfo = {}
 --desc
 --updateKey
 --isActive
-mainTabsInfo['general'] = { 'data/textures/icons/notAleader.png', 'List of changes' % _t, 1, true }
-mainTabsInfo['weapons'] = { 'data/textures/icons/turret.png', 'List of weapons' % _t, 1, true }
-mainTabsInfo['systems'] = { 'data/textures/icons/circuitry.png', 'List of systems' % _t, 1, true }
-mainTabsInfo['stations'] = { 'data/textures/icons/station.png', 'List of stations' % _t, 1, true }
-mainTabsInfo['interceptors'] = { 'data/textures/icons/fighter.png', 'Fighters/drones' % _t, 1, false }
-mainTabsInfo['interfaces'] = { 'data/textures/icons/checkbox-tree.png', 'Interfaces' % _t, 1, true }
-mainTabsInfo['alertsystem'] = { 'data/textures/icons/hazard-sign.png', 'Alert system' % _t, 1, true }
-mainTabsInfo['changelog'] = { 'data/textures/icons/clipboard-arrow-down.png', 'Changelog' % _t, 1, true }
+mainTabsInfo['general'] = { 'data/textures/icons/notAleader.png', 'List of changes'%_t, 1, true }
+mainTabsInfo['weapons'] = { 'data/textures/icons/turret.png', 'List of weapons'%_t, 1, true }
+mainTabsInfo['systems'] = { 'data/textures/icons/circuitry.png', 'List of systems'%_t, 1, true }
+mainTabsInfo['stations'] = { 'data/textures/icons/station.png', 'List of stations'%_t, 1, true }
+mainTabsInfo['interceptors'] = { 'data/textures/icons/fighter.png', 'Fighters/drones'%_t, 1, false }
+mainTabsInfo['interfaces'] = { 'data/textures/icons/checkbox-tree.png', 'Interfaces'%_t, 1, true }
+mainTabsInfo['alertsystem'] = { 'data/textures/icons/hazard-sign.png', 'Alert system'%_t, 1, true }
+mainTabsInfo['changelog'] = { 'data/textures/icons/clipboard-arrow-down.png', 'Changelog'%_t, 1, true }
 
 local LVsplitter = nil
 
@@ -65,7 +65,7 @@ local TSR = Neltharaku.TableSelfReport
 if onClient() then
 	function iT.initialize()
 		--Home tab
-		ITtab = PlayerWindow():createTab('Cosmic Starfall Info' % _t, iconStarfall, 'Cosmic Starfall Information' % _t)
+		ITtab = PlayerWindow():createTab('Cosmic Starfall Info'%_t, iconStarfall, 'Cosmic Starfall Information'%_t)
 
 		--Inner container
 		local _k = 0.03

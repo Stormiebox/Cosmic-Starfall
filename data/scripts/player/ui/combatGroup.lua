@@ -29,14 +29,14 @@ local cGwindow = nil
 local cGframe = nil
 
 local locLines = {}
-locLines['button_tooltip_expand'] = "Expand combat group window" % _t
-locLines['button_tooltip_collapse'] = "Collapse window" % _t
-locLines['button_tooltip_refresh'] = "Refresh window" % _t
-locLines['button_tooltip_settoinvite'] = "Switch to the mode of adding players" % _t
-locLines['button_tooltip_settogroup'] = "Switch to the current group display mode" % _t
-locLines['button_label_online'] = "Online" % _t
+locLines['button_tooltip_expand'] = "Expand combat group window"%_t
+locLines['button_tooltip_collapse'] = "Collapse window"%_t
+locLines['button_tooltip_refresh'] = "Refresh window"%_t
+locLines['button_tooltip_settoinvite'] = "Switch to the mode of adding players"%_t
+locLines['button_tooltip_settogroup'] = "Switch to the current group display mode"%_t
+locLines['button_label_online'] = "Online"%_t
 
-locLines['window_name'] = "Combat group" % _t
+locLines['window_name'] = "Combat group"%_t
 
 local windowName = locLines['window_name']
 local mainWindow = {}

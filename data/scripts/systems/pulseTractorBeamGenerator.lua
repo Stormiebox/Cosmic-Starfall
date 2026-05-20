@@ -340,7 +340,7 @@ function getTooltipLines(seed, rarity, permanent)
 
 	table.insert(texts,
 		{
-			ltext = "Number of pulses" % _t,
+			ltext = "Number of pulses"%_t,
 			rtext = tostring(_pulses),
 			icon = getSubtechIcon(systemname, 1),
 			boosted =
@@ -348,7 +348,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Range" % _t,
+			ltext = "Range"%_t,
 			rtext = (tostring(_rangeMin * 10) .. "-" .. tostring(_rangeMax * 10)),
 			icon =
 				getSubtechIcon(systemname, 1),
@@ -372,7 +372,7 @@ end
 function getDescriptionLines(seed, rarity, permanent)
 	return
 	{
-		{ ltext = "An experimental reactor operating on the principle of a temporary increase of the effect" % _t, lcolor = ColorRGB(1, 0.5, 0.5) }
+		{ ltext = "An experimental reactor operating on the principle of a temporary increase of the effect"%_t, lcolor = ColorRGB(1, 0.5, 0.5) }
 	}
 end
 

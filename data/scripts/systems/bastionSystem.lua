@@ -1069,7 +1069,7 @@ function getTooltipLines(seed, rarity, permanent)
 	--Bonuses
 	table.insert(texts,
 		{
-			ltext = "Shield Durability" % _t,
+			ltext = "Shield Durability"%_t,
 			rtext = string.format('-%i%%', _shield),
 			icon =
 			"data/textures/icons/health-normal.png",
@@ -1077,7 +1077,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Shield Recharge Rate" % _t,
+			ltext = "Shield Recharge Rate"%_t,
 			rtext = string.format("+%i%%", _regen),
 			icon =
 			"data/textures/icons/shield-charge.png",
@@ -1085,7 +1085,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Time Until Recharge" % _t,
+			ltext = "Time Until Recharge"%_t,
 			rtext = string.format("-%i%%", _timeFactor),
 			icon =
 			"data/textures/icons/recharge-time.png",

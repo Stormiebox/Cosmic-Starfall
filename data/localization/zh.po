@@ -1,197 +1,197 @@
 # ==========data/scripts/complexCraft/complexCore.lua ==========
 #: data/scripts/complexCraft/complexCore.lua:
 msgid "Mega complex management"
-msgstr "Управление мегакомплексом"
+msgstr "巨型综合工厂管理"
 
 
 # ==========data/scripts/complexCraft/complexCoreV2.lua ==========
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Megacomplex interface"
-msgstr "Интерфейс мегакомплекса"
+msgstr "巨型综合工厂界面"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Configuring import"
-msgstr "Настройка импорта"
+msgstr "配置导入"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Configuring export"
-msgstr "Настройка экспорта"
+msgstr "配置导出"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Configuring storage and utilization"
-msgstr "Настройка хранения и утилизации"
+msgstr "配置存储和利用"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Configuring external export"
-msgstr "Настройка внешнего экспорта"
+msgstr "配置外部导出"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Megacomplex Settings"
-msgstr "Настройки мегакомплекса"
+msgstr "巨型综合工厂设置"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Starting the analysis procedure (updating the list of stations)"
-msgstr "Запуск процедуры анализа (обновление списка станций)"
+msgstr "开始分析程序（更新空间站列表）"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Forced update"
-msgstr "Принудительное обновление"
+msgstr "强制更新"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Resetting megacomplex data and settings"
-msgstr "Сброс данных и настроек мегакомплекса"
+msgstr "重置巨型综合工厂数据和设置"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Name of the associated station"
-msgstr "Название связанной станции"
+msgstr "关联空间站的名称"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Switch to Detailed mode"
-msgstr "Переключиться в подробный режим"
+msgstr "切换到详细模式"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Shutdown/activation of all production streams"
-msgstr "Отключение/активация всех производственных потоков"
+msgstr "关闭/激活所有生产流"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "All production streams are turned off"
-msgstr "Все производственные потоки отключены"
+msgstr "所有生产流已关闭"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Production streams are partially functioning"
-msgstr "Производственные потоки частично функционируют"
+msgstr "生产流部分运行"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Production streams are functioning"
-msgstr "Производственные потоки функционируют"
+msgstr "生产流正常运行"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Provided: "
-msgstr "Обеспечено: "
+msgstr "已提供： "
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Export streams"
-msgstr "Экспортные потоки"
+msgstr "导出流"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "All export streams are turned off"
-msgstr "Все экспортные потоки отключены"
+msgstr "所有导出流已关闭"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Export streams are partially functioning"
-msgstr "Экспортные потоки частично функционируют"
+msgstr "导出流部分运行"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Export streams are functioning"
-msgstr "Экспортные потоки функционируют"
+msgstr "导出流正常运行"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "In cargo: "
-msgstr "В трюме: "
+msgstr "货舱内： "
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Productions: "
-msgstr "Производства: "
+msgstr "生产中： "
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Export: "
-msgstr "Экспорт: "
+msgstr "导出： "
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Limit "
-msgstr "Лимит "
+msgstr "上限 "
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "\nGoods name"
-msgstr "\nНазвание товара"
+msgstr "\n货物名称"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "The number of resources in the megacomplex cargo at the moment"
-msgstr "Количество ресурсов в трюме мегакомплекса на данный момент"
+msgstr "目前巨型综合工厂货舱中的资源数量"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Limitation on the amount of this product in the cargo of the megacomplex"
-msgstr "Ограничение на количество данного товара в трюме мегакомплекса"
+msgstr "巨型综合工厂货舱中此产品的数量限制"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Number of stations producing this product"
-msgstr "Количество станций, производящих этот товар"
+msgstr "生产此产品的空间站数量"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Number of stations consuming this product"
-msgstr "Количество станций, потребляющих этот товар"
+msgstr "消耗此产品的空间站数量"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Enter here a new value for the storage limit of this product"
-msgstr "Введите здесь новое значение лимита хранения этого товара"
+msgstr "在此处输入此产品的新存储上限值"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Station cargo: "
-msgstr "Трюм станции: "
+msgstr "空间站货舱： "
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Product name"
-msgstr "Название товара"
+msgstr "产品名称"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Stock of goods in the station cargo"
-msgstr "Запас товаров в трюме станции"
+msgstr "空间站货舱中的货物库存"
 
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Disable/enable this stream"
-msgstr "Отключить/включить этот поток"
+msgstr "禁用/启用此流"
 
 
 # ==========data/scripts/entity/activeSysInterface.lua ==========
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Switch frames on/off"
-msgstr "Включить/выключить рамки"
+msgstr "打开/关闭框架"
 
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Enable/disable window move mode"
-msgstr "Включить/выключить режим перемещения окна"
+msgstr "启用/禁用窗口移动模式"
 
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Switch system icon on/off"
-msgstr "Включить/выключить иконку системы"
+msgstr "打开/关闭系统图标"
 
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Change progressbar colors"
-msgstr "Изменить цвета индикатора выполнения"
+msgstr "更改进度条颜色"
 
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Reset settings to default"
-msgstr "Сбросить настройки по умолчанию"
+msgstr "将设置重置为默认值"
 
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Open/close 'active system interface' settings"
-msgstr "Открыть/закрыть настройки 'интерфейса активных систем'"
+msgstr "打开/关闭“活动系统界面”设置"
 
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Set 'ready' color"
-msgstr "Установить цвет 'готовности'"
+msgstr "设置“就绪”颜色"
 
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Set 'standby' color"
-msgstr "Установить цвет 'ожидания'"
+msgstr "设置“待机”颜色"
 
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Set 'cooldown' color"
-msgstr "Установить цвет 'перезарядки'"
+msgstr "设置“冷却”颜色"
 
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Set 'recharge' color"
-msgstr "Установить цвет 'восстановления'"
+msgstr "设置“充能”颜色"
 
 
 # ==========data/scripts/entity/combatGroup.lua ==========
@@ -200,117 +200,117 @@ msgstr "Установить цвет 'восстановления'"
 #: data/scripts/player/ui/combatGroup.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "Expand combat group window"
-msgstr "Развернуть окно боевой группы"
+msgstr "展开战斗群窗口"
 
 #: data/scripts/entity/combatGroup.lua:
 #: data/scripts/entity/combatGroupV2.lua:
 #: data/scripts/player/ui/combatGroup.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "Collapse window"
-msgstr "Свернуть окно"
+msgstr "折叠窗口"
 
 #: data/scripts/entity/combatGroup.lua:
 #: data/scripts/entity/combatGroupV2.lua:
 #: data/scripts/player/ui/combatGroup.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "Refresh window"
-msgstr "Обновить окно"
+msgstr "刷新窗口"
 
 #: data/scripts/entity/combatGroup.lua:
 #: data/scripts/player/ui/combatGroup.lua:
 msgid "Switch to the mode of adding players"
-msgstr "Перейти в режим добавления игроков"
+msgstr "切换到添加玩家的模式"
 
 #: data/scripts/entity/combatGroup.lua:
 #: data/scripts/player/ui/combatGroup.lua:
 msgid "Switch to the current group display mode"
-msgstr "Перейти в режим отображения текущей группы"
+msgstr "切换到当前群组显示模式"
 
 #: data/scripts/entity/combatGroup.lua:
 #: data/scripts/entity/combatGroupV2.lua:
 #: data/scripts/player/ui/combatGroup.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "Combat group"
-msgstr "Боевая группа"
+msgstr "战斗群"
 
 
 # ==========data/scripts/entity/combatGroupV2.lua ==========
 #: data/scripts/entity/combatGroupV2.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "Collapse invitation window"
-msgstr "Свернуть окно приглашения"
+msgstr "折叠邀请窗口"
 
 #: data/scripts/entity/combatGroupV2.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "Open invitation window"
-msgstr "Открыть окно приглашения"
+msgstr "打开邀请窗口"
 
 #: data/scripts/entity/combatGroupV2.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "You are invited to the group!"
-msgstr "Вас пригласили в группу!"
+msgstr "您被邀请加入群组！"
 
 #: data/scripts/entity/combatGroupV2.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "Cannot find players to invite"
-msgstr "Невозможно найти игроков для приглашения"
+msgstr "找不到要邀请的玩家"
 
 #: data/scripts/entity/combatGroupV2.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "Leave the group"
-msgstr "Покинуть группу"
+msgstr "离开群组"
 
 #: data/scripts/entity/combatGroupV2.lua:
 #: data/scripts/player/ui/combatGroupV2.lua:
 msgid "Transfer leader"
-msgstr "Передать лидерство"
+msgstr "转移队长"
 
 
 # ==========data/scripts/entity/merchants/fighterfactory.lua ==========
 #: data/scripts/entity/merchants/fighterfactory.lua:
 msgid "Heavy weapons cannot be installed on fighters."
-msgstr "Тяжелое оружие не может быть установлено на истребители."
+msgstr "重型武器不能安装在战机上。"
 
 #: data/scripts/entity/merchants/fighterfactory.lua:
 msgid "Main caliber guns cannot be installed on fighters!"
-msgstr "Орудия главного калибра не могут быть установлены на истребители!"
+msgstr "主口径火炮不能安装在战机上！"
 
 
 # ==========data/scripts/entity/stationfounder.lua ==========
 #: data/scripts/entity/stationfounder.lua:
 #: data/scripts/neltharaku/Stations.lua:
 msgid "Megacomplex"
-msgstr "Мегакомплекс"
+msgstr "巨型综合工厂"
 
 #: data/scripts/entity/stationfounder.lua:
 msgid "Distributes goods between docked stations for efficient production chains"
-msgstr "Распределяет товары между пристыкованными станциями для эффективных производственных цепочек"
+msgstr "在停靠的空间站之间分配货物以实现高效的生产链"
 
 
 # ==========data/scripts/lib/tooltipmaker.lua ==========
 #: data/scripts/lib/tooltipmaker.lua:
 msgid "Weapon class"
-msgstr "Класс оружия"
+msgstr "武器类别"
 
 #: data/scripts/lib/tooltipmaker.lua:
 msgid "Light"
-msgstr "Легкое"
+msgstr "轻型"
 
 #: data/scripts/lib/tooltipmaker.lua:
 msgid "Heavy"
-msgstr "Тяжелое"
+msgstr "重型"
 
 #: data/scripts/lib/tooltipmaker.lua:
 msgid "Main Caliber"
-msgstr "Главный калибр"
+msgstr "主口径"
 
 #: data/scripts/lib/tooltipmaker.lua:
 msgid "Projectile speed"
-msgstr "Скорость снаряда"
+msgstr "弹丸速度"
 
 #: data/scripts/lib/tooltipmaker.lua:
 msgid "Instant"
-msgstr "Мгновенная"
+msgstr "瞬间"
 
 
 # ==========data/scripts/lib/weapongenerator.lua ==========
@@ -326,7 +326,7 @@ msgstr ""
 
 #: data/scripts/lib/weapongenerator.lua:
 msgid "PEWPEW"
-msgstr "ПИУ-ПИУ"
+msgstr "PEWPEW"
 
 
 # ==========data/scripts/lib/weapontype.lua ==========
@@ -338,81 +338,81 @@ msgstr ""
 #: data/scripts/lib/weapontype.lua:
 msgctxt "Weapon Type"
 msgid "Graviton anchor"
-msgstr "Гравитонный якорь"
+msgstr "重力子锚"
 
 
 # ==========data/scripts/neltharaku/Armory.lua ==========
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Pulse Gun"
-msgstr "Импульсное орудие"
+msgstr "脉冲枪"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Particle Accelerator"
-msgstr "Ускоритель частиц"
+msgstr "粒子加速器"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Photon Blaster"
-msgstr "Фотонный бластер"
+msgstr "光子冲击波"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Vortex Cannon"
-msgstr "Вихревая пушка"
+msgstr "涡流炮"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Pulse Laser"
-msgstr "Импульсный лазер"
+msgstr "脉冲激光"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Assault Cannon"
-msgstr "Штурмовая пушка"
+msgstr "突击炮"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Magnetic Mortar"
-msgstr "Магнитная мортира"
+msgstr "磁性迫击炮"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Charging Beam"
-msgstr "Заряжающийся луч"
+msgstr "充能光束"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Nano Repair Beam"
-msgstr "Нано-ремонтный луч"
+msgstr "纳米修复光束"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "'Mantis' launcher"
-msgstr "Пусковая установка 'Богомол'"
+msgstr "“螳螂”发射器"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Photon Cannon"
-msgstr "Фотонная пушка"
+msgstr "光子炮"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Ion Emitter"
-msgstr "Ионный излучатель"
+msgstr "离子发射器"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Plasma Beam Disintegrator"
-msgstr "Плазменно-лучевой дезинтегратор"
+msgstr "等离子光束分解器"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Plasma Flak Cannon"
-msgstr "Плазменная зенитная пушка"
+msgstr "等离子高射炮"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Hyperkinetic Artillery"
-msgstr "Гиперкинетическая артиллерия"
+msgstr "超动能火炮"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "'Avalanche' Gravity Cannon"
-msgstr "Гравитационная пушка 'Лавина'"
+msgstr "“雪崩”重力炮"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "'Cyclone' Missile Battery"
-msgstr "Ракетная батарея 'Циклон'"
+msgstr "“旋风”导弹排"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Transphasic Laser"
-msgstr "Трансфазный лазер"
+msgstr "超相位激光"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid ""
@@ -424,169 +424,169 @@ msgstr ""
 # ==========data/scripts/neltharaku/Tech.lua ==========
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Bastion system"
-msgstr "Система 'Бастион'"
+msgstr "堡垒系统"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "'Veil' system"
-msgstr "Система 'Завеса'"
+msgstr "“面纱”系统"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Energy recuperation system"
-msgstr "Система рекуперации энергии"
+msgstr "能量回收系统"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Multiphase shield"
-msgstr "Многофазный щит"
+msgstr "多相护盾"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Reflection Protocol"
-msgstr "Протокол отражения"
+msgstr "反射协议"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Macrofield projector"
-msgstr "Проектор макрополя"
+msgstr "宏场投影仪"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Repair wave"
-msgstr "Ремонтная волна"
+msgstr "修复波"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Renovation ray"
-msgstr "Обновляющий луч"
+msgstr "翻新射线"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Shield booster"
-msgstr "Усилитель щита"
+msgstr "护盾增强器"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Shield synchronizer"
-msgstr "Синхронизатор щитов"
+msgstr "护盾同步器"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Pulse tractor beam generator"
-msgstr "Импульсный генератор притягивающего луча"
+msgstr "脉冲牵引光束发生器"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Repair system"
-msgstr "Ремонтная система"
+msgstr "修复系统"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Polarizing nanobots"
-msgstr "Поляризующие наноботы"
+msgstr "极化纳米机器人"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Repair matrix"
-msgstr "Ремонтная матрица"
+msgstr "修复矩阵"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Emergency stabilization"
-msgstr "Экстренная стабилизация"
+msgstr "紧急稳定"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "X-perimental Hypergenerator"
-msgstr "Х-периментальный гипергенератор"
+msgstr "X-实验型超空间发生器"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Quantum overdrive"
-msgstr "Квантовый овердрайв"
+msgstr "量子超载"
 
 #: data/scripts/neltharaku/Tech.lua:
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Space Destabilizer"
-msgstr "Дестабилизатор пространства"
+msgstr "空间不稳定器"
 
 #: data/scripts/neltharaku/Tech.lua:
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Focused Jump"
-msgstr "Сфокусированный прыжок"
+msgstr "聚焦跳跃"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "Subspace cargo system"
-msgstr "Подпространственная грузовая система"
+msgstr "子空间货运系统"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "weapons fire rate"
-msgstr "скорострельность оружия"
+msgstr "武器射速"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "impenetrable shields"
-msgstr "непробиваемые щиты"
+msgstr "坚不可摧的护盾"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "shield cooldown after hit"
-msgstr "задержка восстановления щита после попадания"
+msgstr "护盾受击后冷却"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "torpedo defence"
-msgstr "противоторпедная защита"
+msgstr "鱼雷防御"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "hull repairing"
-msgstr "восстановление корпуса"
+msgstr "船体修复"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "hull destruction"
-msgstr "разрушение корпуса"
+msgstr "船体破坏"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "shield recharging"
-msgstr "восстановление щита"
+msgstr "护盾充能"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "shields are synchronized"
-msgstr "щиты синхронизированы"
+msgstr "护盾已同步"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "tractor beam range increased"
-msgstr "дальность притягивающего луча увеличена"
+msgstr "牵引光束范围增加"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "emergency system standby"
-msgstr "ожидание экстренной системы"
+msgstr "紧急系统待机"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid " standby"
-msgstr " ожидание"
+msgstr " 待机"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "auto repair speed"
-msgstr "скорость авторемонта"
+msgstr "自动修复速度"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "jump range increased"
-msgstr "дальность прыжка увеличена"
+msgstr "跳跃范围增加"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "hyperdrive charge"
-msgstr "заряд гипердвигателя"
+msgstr "超空间驱动器充能"
 
 #: data/scripts/neltharaku/Tech.lua:
 msgid "passive repair speed"
-msgstr "скорость пассивного ремонта"
+msgstr "被动修复速度"
 
 
 # ==========data/scripts/player/ui/alertCore.lua ==========
 #: data/scripts/player/ui/alertCore.lua:
 msgid "Invitation to a group"
-msgstr "Приглашение в группу"
+msgstr "群组邀请"
 
 #: data/scripts/player/ui/alertCore.lua:
 msgid "You were kicked from the group"
-msgstr "Вас исключили из группы"
+msgstr "您被踢出了群组"
 
 #: data/scripts/player/ui/alertCore.lua:
 msgid "Your turret is destroyed!"
-msgstr "Ваша турель уничтожена!"
+msgstr "您的炮塔被摧毁了！"
 
 
 # ==========data/scripts/player/ui/auraCore.lua ==========
 #: data/scripts/player/ui/auraCore.lua:
 msgid "Active effects"
-msgstr "Активные эффекты"
+msgstr "主动效果"
 
 #: data/scripts/player/ui/auraCore.lua:
 msgid "s"
-msgstr "с"
+msgstr "s"
 
 
 # ==========data/scripts/player/ui/combatGroup.lua ==========
@@ -596,179 +596,179 @@ msgstr "с"
 # ==========data/scripts/player/ui/infoTab/infoGeneral.lua ==========
 #: data/scripts/player/ui/infoTab/infoGeneral.lua:
 msgid "17 new weapons have been added to the game. You can find out more about each one in the tab 'Weapons'"
-msgstr "В игру добавлено 17 новых видов оружия. Подробнее о каждом можно узнать во вкладке 'Оружие'"
+msgstr "游戏添加了17种新武器。您可以在“武器”标签中了解有关每种武器的更多信息"
 
 #: data/scripts/player/ui/infoTab/infoGeneral.lua:
 msgid "New stations added by modification. For more information, see the 'stations' tab"
-msgstr "Новые станции, добавленные модификацией. Для получения дополнительной информации см. вкладку 'Станции'"
+msgstr "修改添加了新空间站。有关更多信息，请参见“空间站”标签"
 
 #: data/scripts/player/ui/infoTab/infoGeneral.lua:
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Customizable interface that provides access to the active systems installed on the ship"
-msgstr "Настраиваемый интерфейс, предоставляющий доступ к активным системам, установленным на корабле"
+msgstr "提供访问飞船上安装的活动系统的可定制界面"
 
 #: data/scripts/player/ui/infoTab/infoGeneral.lua:
 msgid "An interface that displays active effects from the Cosmic Starfall mod affecting the ship"
-msgstr "Интерфейс, отображающий активные эффекты мода Cosmic Starfall, воздействующие на корабль"
+msgstr "显示影响飞船的Cosmic Starfall模组活动效果的界面"
 
 
 # ==========data/scripts/player/ui/infoTab/infoInterfaces.lua ==========
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "'Collapse' button"
-msgstr "Кнопка 'Свернуть'"
+msgstr "“折叠”按钮"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Minimizes the window, leaving the 'expand' button on its place, allowing you to expand it later"
-msgstr "Сворачивает окно, оставляя на его месте кнопку 'развернуть', что позволяет развернуть его позже"
+msgstr "最小化窗口，在原位留下“展开”按钮，允许您稍后将其展开"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "'Update' button"
-msgstr "Кнопка 'Обновить'"
+msgstr "“更新”按钮"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Updates information in the active window"
-msgstr "Обновляет информацию в активном окне"
+msgstr "更新活动窗口中的信息"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "'Switch to adding' button"
-msgstr "Кнопка 'Перейти к добавлению'"
+msgstr "“切换到添加”按钮"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Opens a window with a list of online players who are not in your group"
-msgstr "Открывает окно со списком онлайн-игроков, которые не состоят в вашей группе"
+msgstr "打开一个包含不在您群组中的在线玩家列表的窗口"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "'Switch to Group Management' button"
-msgstr "Кнопка 'Перейти к управлению группой'"
+msgstr "“切换到群组管理”按钮"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Switches the main window to group management mode. Unavailable if you are not a group leader"
-msgstr "Переключает главное окно в режим управления группой. Недоступно, если вы не являетесь лидером группы"
+msgstr "将主窗口切换到群组管理模式。如果您不是队长，则不可用"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Indicates the status of the player (offline, online, leader) and allows you to transfer the leader"
-msgstr "Показывает статус игрока (офлайн, онлайн, лидер) и позволяет передать лидерство"
+msgstr "指示玩家状态（离线、在线、队长）并允许您移交队长"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "'Kick' button"
-msgstr "Кнопка 'Исключить'"
+msgstr "“踢出”按钮"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Allows you to kick the player (available only to the leader). You can't kick players offline"
-msgstr "Позволяет исключить игрока (доступно только лидеру). Нельзя исключать офлайн-игроков"
+msgstr "允许您踢出玩家（仅队长可用）。您不能踢出离线玩家"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "'Leave' button"
-msgstr "Кнопка 'Покинуть'"
+msgstr "“离开”按钮"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Allows you to leave the group"
-msgstr "Позволяет вам покинуть группу"
+msgstr "允许您离开群组"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Frame switcher"
-msgstr "Переключатель рамок"
+msgstr "框架切换器"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Movement switcher"
-msgstr "Переключатель перемещения"
+msgstr "移动切换器"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Main icon switcher"
-msgstr "Переключатель главной иконки"
+msgstr "主图标切换器"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Allows you to enable and disable the display of the module icon on its panel"
-msgstr "Позволяет включать и отключать отображение иконки модуля на его панели"
+msgstr "允许您启用和禁用模块图标在其面板上的显示"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Color switcher"
-msgstr "Переключатель цвета"
+msgstr "颜色切换器"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Reset to Default"
-msgstr "Сбросить по умолчанию"
+msgstr "重置为默认"
 
 
 # ==========data/scripts/player/ui/infoTab/infoStations.lua ==========
 #: data/scripts/player/ui/infoTab/infoStations.lua:
 msgid "'Production' tab"
-msgstr "Вкладка 'Производство'"
+msgstr "“生产”标签"
 
 #: data/scripts/player/ui/infoTab/infoStations.lua:
 msgid "'Consumption' tab"
-msgstr "Вкладка 'Потребление'"
+msgstr "“消耗”标签"
 
 #: data/scripts/player/ui/infoTab/infoStations.lua:
 msgid "'Storage and utilization' tab"
-msgstr "Вкладка 'Хранение и утилизация'"
+msgstr "“存储和利用”标签"
 
 #: data/scripts/player/ui/infoTab/infoStations.lua:
 msgid "'Utilization' Mode"
-msgstr "Режим 'Утилизация'"
+msgstr "“利用”模式"
 
 #: data/scripts/player/ui/infoTab/infoStations.lua:
 msgid "'Export' tab"
-msgstr "Вкладка 'Экспорт'"
+msgstr "“导出”标签"
 
 #: data/scripts/player/ui/infoTab/infoStations.lua:
 msgid "The functionality of this tab is under development"
-msgstr "Функционал этой вкладки находится в разработке"
+msgstr "此标签的功能正在开发中"
 
 #: data/scripts/player/ui/infoTab/infoStations.lua:
 msgid "'Settings' tab"
-msgstr "Вкладка 'Настройки'"
+msgstr "“设置”标签"
 
 #: data/scripts/player/ui/infoTab/infoStations.lua:
 msgid "Allows you to forcibly initiate some procedures if their automatic initialization failed"
-msgstr "Позволяет принудительно запустить некоторые процедуры, если их автоматическая инициализация не удалась"
+msgstr "如果某些程序的自动初始化失败，允许您强制启动它们"
 
 
 # ==========data/scripts/player/ui/infoTab/infoSystems.lua ==========
 #: data/scripts/player/ui/infoTab/infoSystems.lua:
 #: data/scripts/systems/repairDrones.lua:
 msgid "Auto-repair treshold"
-msgstr "Порог авторемонта"
+msgstr "自动修复阈值"
 
 #: data/scripts/player/ui/infoTab/infoSystems.lua:
 #: data/scripts/systems/repairDrones.lua:
 msgid "Auto-repair value"
-msgstr "Значение авторемонта"
+msgstr "自动修复值"
 
 #: data/scripts/player/ui/infoTab/infoSystems.lua:
 #: data/scripts/systems/pulseTractorBeamGenerator.lua:
 msgid "Number of pulses"
-msgstr "Количество импульсов"
+msgstr "脉冲数量"
 
 #: data/scripts/player/ui/infoTab/infoSystems.lua:
 msgid "Using rift technology creates a stable subspace storage"
-msgstr "Использование технологии разломов создает стабильное подпространственное хранилище"
+msgstr "使用裂谷技术创建一个稳定的子空间存储"
 
 
 # ==========data/scripts/player/ui/infoTab/infoWeapons.lua ==========
 #: data/scripts/player/ui/infoTab/infoWeapons.lua:
 msgid "Weapon class changed to 'Heavy'"
-msgstr "Класс оружия изменен на 'Тяжелое'"
+msgstr "武器类别更改为“重型”"
 
 #: data/scripts/player/ui/infoTab/infoWeapons.lua:
 msgid "Low- and medium-range weapon that allow you to quickly destroy the enemy's hull"
-msgstr "Оружие малой и средней дальности, позволяющее быстро уничтожить корпус противника"
+msgstr "使您能够快速摧毁敌人船体的中短程武器"
 
 #: data/scripts/player/ui/infoTab/infoWeapons.lua:
 msgid "Reduces the fighter's firing radius by 25%"
-msgstr "Уменьшает радиус стрельбы истребителя на 25%"
+msgstr "使战机的开火半径减少25%"
 
 #: data/scripts/player/ui/infoTab/infoWeapons.lua:
 msgid "Increases the fighter's firing radius by 25%"
-msgstr "Увеличивает радиус стрельбы истребителя на 25%"
+msgstr "使战机的开火半径增加25%"
 
 #: data/scripts/player/ui/infoTab/infoWeapons.lua:
 msgid "Increases the fighter's firing radius by 175%"
-msgstr "Увеличивает радиус стрельбы истребителя на 175%"
+msgstr "使战机的开火半径增加175%"
 
 #: data/scripts/player/ui/infoTab/infoWeapons.lua:
 msgid "Increases the fighter's firing radius by 15%"
-msgstr "Увеличивает радиус стрельбы истребителя на 15%"
+msgstr "使战机的开火半径增加15%"
 
 
 # ==========data/scripts/player/ui/interfaces/activeSysInterface.lua ==========
@@ -776,31 +776,31 @@ msgstr "Увеличивает радиус стрельбы истребите�
 # ==========data/scripts/systems/XperimentalHypergenerator.lua ==========
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Omega"
-msgstr "Омега"
+msgstr "欧米伽"
 
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Zeta"
-msgstr "Дзета"
+msgstr "泽塔"
 
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Epsilon"
-msgstr "Эпсилон"
+msgstr "伊普西龙"
 
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Delta"
-msgstr "Дельта"
+msgstr "德尔塔"
 
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Beta"
-msgstr "Бета"
+msgstr "贝塔"
 
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Alpha"
-msgstr "Альфа"
+msgstr "阿尔法"
 
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Quantum Overload"
-msgstr "Квантовая перегрузка"
+msgstr "量子过载"
 
 
 # ==========data/scripts/systems/bastionSystem.lua ==========
@@ -810,70 +810,70 @@ msgstr "Квантовая перегрузка"
 # ==========data/scripts/systems/overpoweredCore.lua ==========
 #: data/scripts/systems/overpoweredCore.lua:
 msgid "Генерация энергии"
-msgstr "Генерация энергии"
+msgstr "能量生成"
 
 #: data/scripts/systems/overpoweredCore.lua:
 msgid "Объем аккумулятора"
-msgstr "Объем аккумулятора"
+msgstr "电池容量"
 
 #: data/scripts/systems/overpoweredCore.lua:
 msgid "Ремонтная волна"
-msgstr "Ремонтная волна"
+msgstr "修复波"
 
 #: data/scripts/systems/overpoweredCore.lua:
 msgid "Обновляющий луч"
-msgstr "Обновляющий луч"
+msgstr "翻新射线"
 
 #: data/scripts/systems/overpoweredCore.lua:
 msgid "Усилитель щита"
-msgstr "Усилитель щита"
+msgstr "护盾增强器"
 
 #: data/scripts/systems/overpoweredCore.lua:
 msgid "Синхронизатор щитов"
-msgstr "Синхронизатор щитов"
+msgstr "护盾同步器"
 
 #: data/scripts/systems/overpoweredCore.lua:
 msgid "Never ask a wyvern: 'why'"
-msgstr "Никогда не спрашивай виверну: 'почему'"
+msgstr "永远不要问飞龙：“为什么”"
 
 
 # ==========data/scripts/systems/pulseTractorBeamGenerator.lua ==========
 #: data/scripts/systems/pulseTractorBeamGenerator.lua:
 msgid "%s\nActivates a pulse generator that increases the range of the tractor beam by %i km every two seconds for the duration of its operation.\nRecharge %i seconds"
-msgstr "%s\nАктивирует генератор импульсов, увеличивающий дальность притягивающего луча на %i км каждые две секунды во время своей работы.\nПерезарядка %i секунд"
+msgstr "%s\n激活一个脉冲发生器，在运行期间每两秒使牵引光束的范围增加 %i km。\n冷却 %i 秒"
 
 #: data/scripts/systems/pulseTractorBeamGenerator.lua:
 msgid "An experimental reactor operating on the principle of a temporary increase of the effect"
-msgstr "Экспериментальный реактор, работающий по принципу временного усиления эффекта"
+msgstr "基于暂时增加效果原理运行的实验反应堆"
 
 
 # ==========data/scripts/systems/repairDrones.lua ==========
 #: data/scripts/systems/repairDrones.lua:
 msgid "Additional armor plates equipped with integrated repair systems"
-msgstr "Дополнительные бронеплиты, оснащенные встроенными ремонтными системами"
+msgstr "配备了集成修复系统的附加装甲板"
 
 #: data/scripts/systems/repairDrones.lua:
 msgid "Additional Hull Strength"
-msgstr "Дополнительная прочность корпуса"
+msgstr "附加船体强度"
 
 #: data/scripts/systems/repairDrones.lua:
 msgid "Auto repair limit"
-msgstr "Лимит авторемонта"
+msgstr "自动修复上限"
 
 #: data/scripts/systems/repairDrones.lua:
 msgid "Auto repair rate"
-msgstr "Скорость авторемонта"
+msgstr "自动修复速率"
 
 
 # ==========data/scripts/systems/subspaceCargo.lua ==========
 #: data/scripts/systems/subspaceCargo.lua:
 msgid "Грузовой отсек"
-msgstr "Грузовой отсек"
+msgstr "货舱"
 
 #: data/scripts/systems/subspaceCargo.lua:
 msgid "Объем щитов"
-msgstr "Объем щитов"
+msgstr "护盾容量"
 
 #: data/scripts/systems/subspaceCargo.lua:
 msgid "Мощность реактора"
-msgstr "Мощность реактора"
+msgstr "反应堆功率"

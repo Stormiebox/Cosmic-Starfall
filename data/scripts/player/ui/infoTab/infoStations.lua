@@ -21,7 +21,7 @@ local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
 local locNames = {}
-locNames['starfallgeneral'] = 'Cosmic Starfall - General' % _t
+locNames['starfallgeneral'] = 'Cosmic Starfall - General'%_t
 
 local order = {
 	--name,ID,IDupdate
@@ -382,7 +382,7 @@ entities['megacomplex'] = {
 			'iconinfo',             -- Item type
 			nil,                    -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxoutput'), -- Content. Text or path to the image.
-			"'Production' tab" % _t -- Content for icon info
+			"'Production' tab"%_t -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -394,7 +394,7 @@ entities['megacomplex'] = {
 			'iconinfo',               -- Item type
 			nil,                      -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxexpand'), -- Content. Text or path to the image.
-			'Detailed Information button' % _t -- Content for icon info
+			'Detailed Information button'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -406,7 +406,7 @@ entities['megacomplex'] = {
 			'iconinfo',            -- Item type
 			nil,                   -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxinput'), -- Content. Text or path to the image.
-			"'Consumption' tab" % _t -- Content for icon info
+			"'Consumption' tab"%_t -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -418,7 +418,7 @@ entities['megacomplex'] = {
 			'iconinfo',              -- Item type
 			nil,                     -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxexpand'), -- Content. Text or path to the image.
-			'Consumption Details button' % _t -- Content for icon info
+			'Consumption Details button'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -430,7 +430,7 @@ entities['megacomplex'] = {
 			'iconinfo',                 -- Item type
 			nil,                        -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxstorage'), -- Content. Text or path to the image.
-			"'Storage and utilization' tab" % _t -- Content for icon info
+			"'Storage and utilization' tab"%_t -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -442,7 +442,7 @@ entities['megacomplex'] = {
 			'iconinfo',               -- Item type
 			nil,                      -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxtodelete'), -- Content. Text or path to the image.
-			"'Utilization' Mode" % _t -- Content for icon info
+			"'Utilization' Mode"%_t -- Content for icon info
 		},
 		{
 			'desc', -- Item type
@@ -454,23 +454,23 @@ entities['megacomplex'] = {
 			'iconinfo',             -- Item type
 			nil,                    -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxexport'), -- Content. Text or path to the image.
-			"'Export' tab" % _t     -- Content for icon info
+			"'Export' tab"%_t     -- Content for icon info
 		},
 		{
 			'desc',                                           -- Item type
 			1,                                                -- Height (nil for iconname/mainlabel)
-			"The functionality of this tab is under development" % _t, -- Content. Text or path to the image.
+			"The functionality of this tab is under development"%_t, -- Content. Text or path to the image.
 		},
 		{
 			'iconinfo',               -- Item type
 			nil,                      -- Height (nil for iconname/mainlabel)
 			getInnerStationIcon('mxsettings'), -- Content. Text or path to the image.
-			"'Settings' tab" % _t     -- Content for icon info
+			"'Settings' tab"%_t     -- Content for icon info
 		},
 		{
 			'desc',                                                                                 -- Item type
 			1,                                                                                      -- Height (nil for iconname/mainlabel)
-			"Allows you to forcibly initiate some procedures if their automatic initialization failed" % _t, -- Content. Text or path to the image.
+			"Allows you to forcibly initiate some procedures if their automatic initialization failed"%_t, -- Content. Text or path to the image.
 		},
 	},
 }

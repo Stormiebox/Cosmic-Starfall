@@ -9,17 +9,17 @@ include('Neltharaku')
 activeSysInterface = {}
 
 local locLines = {}
-locLines['switchframes'] = "Switch frames on/off" % _t
-locLines['movewindows'] = "Enable/disable window move mode" % _t
-locLines['hideMainIcon'] = "Switch system icon on/off" % _t
-locLines['pickcolors'] = "Change progressbar colors" % _t
-locLines['default'] = "Reset settings to default" % _t
-locLines['maintooltip'] = "Open/close 'active system interface' settings" % _t
+locLines['switchframes'] = "Switch frames on/off"%_t
+locLines['movewindows'] = "Enable/disable window move mode"%_t
+locLines['hideMainIcon'] = "Switch system icon on/off"%_t
+locLines['pickcolors'] = "Change progressbar colors"%_t
+locLines['default'] = "Reset settings to default"%_t
+locLines['maintooltip'] = "Open/close 'active system interface' settings"%_t
 
-locLines['frameready'] = "Set 'ready' color" % _t
-locLines['framestandby'] = "Set 'standby' color" % _t
-locLines['framecooldown'] = "Set 'cooldown' color" % _t
-locLines['framerecharge'] = "Set 'recharge' color" % _t
+locLines['frameready'] = "Set 'ready' color"%_t
+locLines['framestandby'] = "Set 'standby' color"%_t
+locLines['framecooldown'] = "Set 'cooldown' color"%_t
+locLines['framerecharge'] = "Set 'recharge' color"%_t
 local locIcons = {}
 locIcons['system'] = 'data/textures/icons/ui/ui_circutry.png'
 locIcons['framesfull'] = 'data/textures/icons/ui/ui_framesfull.png'

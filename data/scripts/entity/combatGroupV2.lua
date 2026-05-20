@@ -27,18 +27,18 @@ locIcons['mail'] = 'data/textures/icons/ui/ui_mail.png'
 
 
 local locLines = {}
-locLines['button_tooltip_expand'] = "Expand combat group window" % _t
-locLines['button_tooltip_collapse'] = "Collapse window" % _t
-locLines['button_tooltip_refresh'] = "Refresh window" % _t
+locLines['button_tooltip_expand'] = "Expand combat group window"%_t
+locLines['button_tooltip_collapse'] = "Collapse window"%_t
+locLines['button_tooltip_refresh'] = "Refresh window"%_t
 
-locLines['button_tooltip_collapseLeft'] = "Collapse invitation window" % _t
-locLines['button_tooltip_openadd'] = "Open invitation window" % _t
-locLines['label_caption_invited'] = "You are invited to the group!" % _t
-locLines['label_caption_noplayers'] = "Cannot find players to invite" % _t
-locLines['button_tooltip_leave'] = "Leave the group" % _t
+locLines['button_tooltip_collapseLeft'] = "Collapse invitation window"%_t
+locLines['button_tooltip_openadd'] = "Open invitation window"%_t
+locLines['label_caption_invited'] = "You are invited to the group!"%_t
+locLines['label_caption_noplayers'] = "Cannot find players to invite"%_t
+locLines['button_tooltip_leave'] = "Leave the group"%_t
 --locLines['button_tooltip_transferleader'] = "Transfer leader"%_t
 
-locLines['window_name'] = "Combat group" % _t
+locLines['window_name'] = "Combat group"%_t
 
 local UIE = {}
 

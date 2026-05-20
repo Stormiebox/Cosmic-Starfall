@@ -3,39 +3,39 @@ local techNames = {}
 
 --Active
 techNames['bastionsystem'] = {
-	"Bastion system" % _t,         --Name
-	"'Veil' system" % _t,          --module name 1
-	"Energy recuperation system" % _t, --module name 2
-	"Multiphase shield" % _t,      --module name 3
-	"Reflection Protocol" % _t,    --module name 4
+	"Bastion system"%_t,         --Name
+	"'Veil' system"%_t,          --module name 1
+	"Energy recuperation system"%_t, --module name 2
+	"Multiphase shield"%_t,      --module name 3
+	"Reflection Protocol"%_t,    --module name 4
 }
 techNames['macrofieldprojector'] = {
-	"Macrofield projector" % _t, --Name
-	"Repair wave" % _t,      --module name 1
-	"Renovation ray" % _t,   --module name 2
-	"Shield booster" % _t,   --module name 3
-	"Shield synchronizer" % _t, --module name 4
+	"Macrofield projector"%_t, --Name
+	"Repair wave"%_t,      --module name 1
+	"Renovation ray"%_t,   --module name 2
+	"Shield booster"%_t,   --module name 3
+	"Shield synchronizer"%_t, --module name 4
 }
 techNames['pulsetractorbeamgenerator'] = {
-	"Pulse tractor beam generator" % _t, --Name
-	"Pulse tractor beam generator" % _t, --module name 1
+	"Pulse tractor beam generator"%_t, --Name
+	"Pulse tractor beam generator"%_t, --module name 1
 }
 techNames['repairdrones'] = {
-	"Repair system" % _t,       --Name
-	"Polarizing nanobots" % _t, --module name 1
-	"Repair matrix" % _t,       --module name 2
-	"Emergency stabilization" % _t, --module name 3
+	"Repair system"%_t,       --Name
+	"Polarizing nanobots"%_t, --module name 1
+	"Repair matrix"%_t,       --module name 2
+	"Emergency stabilization"%_t, --module name 3
 }
 techNames['xperimentalhypergenerator'] = {
-	"X-perimental Hypergenerator" % _t, --Name
-	"Quantum overdrive" % _t,       --module name 1
-	"Space Destabilizer" % _t,      --module name 2
-	"Focused Jump" % _t,            --module name 3
+	"X-perimental Hypergenerator"%_t, --Name
+	"Quantum overdrive"%_t,       --module name 1
+	"Space Destabilizer"%_t,      --module name 2
+	"Focused Jump"%_t,            --module name 3
 }
 
 -- Passive
 techNames['subspacecargo'] = {
-	"Subspace cargo system" % _t, --Name
+	"Subspace cargo system"%_t, --Name
 }
 
 local techASIname = { --Used to automatically determine the number of required slots in the aSI system. Requires exact scriptname
@@ -47,13 +47,13 @@ local techASIname = { --Used to automatically determine the number of required s
 }
 
 local techLocInfo = {}
-techLocInfo['active'] = 'system active' % _t
-techLocInfo['inactive'] = 'system inactive' % _t
-techLocInfo['fireratereduced'] = 'rate of fire is reduced' % _t
-techLocInfo['shieldsrepairing'] = 'recharging shields' % _t
-techLocInfo['outofrange'] = 'out of range' % _t
-techLocInfo['outofrangeorshieldslow'] = 'out of range or shields low' % _t
-techLocInfo['readystate'] = 'ready state' % _t
+techLocInfo['active'] = 'system active'%_t
+techLocInfo['inactive'] = 'system inactive'%_t
+techLocInfo['fireratereduced'] = 'rate of fire is reduced'%_t
+techLocInfo['shieldsrepairing'] = 'recharging shields'%_t
+techLocInfo['outofrange'] = 'out of range'%_t
+techLocInfo['outofrangeorshieldslow'] = 'out of range or shields low'%_t
+techLocInfo['readystate'] = 'ready state'%_t
 
 local techIcons = {}
 --Active
@@ -94,17 +94,17 @@ techIcons['subspacecargo'] = {
 
 local techDesc = {}
 techDesc['bastionsystem'] =
-'Replaces the standard shield generator with a new one with advanced functionality but less power' % _t
+'Replaces the standard shield generator with a new one with advanced functionality but less power'%_t
 techDesc['macrofieldprojector'] =
-'A massive system that provides the ability to repair allied ships right on the battlefield' % _t
+'A massive system that provides the ability to repair allied ships right on the battlefield'%_t
 techDesc['pulsetractorbeamgenerator'] =
-'A massive system that provides the ability to repair allied ships right on the battlefield' % _t
+'A massive system that provides the ability to repair allied ships right on the battlefield'%_t
 techDesc['repairdrones'] = 'A massive system that provides the ability to repair allied ships right on the battlefield' %
 _t
 techDesc['xperimentalhypergenerator'] = 'A modified jump generator capable of distort space using Xotan technologies' %
 _t
 --Passive
-techDesc['subspacecargo'] = 'Creates a stable pocket subspace dimension based on rift technologies' % _t
+techDesc['subspacecargo'] = 'Creates a stable pocket subspace dimension based on rift technologies'%_t
 
 local techSignatures = {}
 techSignatures['bastionsystem'] = {
@@ -134,21 +134,21 @@ techSignatures['xperimentalhypergenerator'] = {
 }
 
 local techEffectAuraDesc = {}
-techEffectAuraDesc['shieldresist'] = 'shield resistance' % _t
-techEffectAuraDesc['firerate'] = "weapons fire rate" % _t
-techEffectAuraDesc['impenetrableshield'] = "impenetrable shields" % _t
-techEffectAuraDesc['timebeforeshieldcharge'] = "shield cooldown after hit" % _t
-techEffectAuraDesc['torpedodefence'] = "torpedo defence" % _t
-techEffectAuraDesc['hullrepair'] = "hull repairing" % _t
-techEffectAuraDesc['hulldamage'] = "hull destruction" % _t
-techEffectAuraDesc['shieldrepair'] = "shield recharging" % _t
-techEffectAuraDesc['shieldsync'] = "shields are synchronized" % _t
-techEffectAuraDesc['tractorrange'] = "tractor beam range increased" % _t
-techEffectAuraDesc['emergencystandby'] = "emergency system standby" % _t
-techEffectAuraDesc['systemstandby'] = " standby" % _t
-techEffectAuraDesc['passiverepairoverclock'] = "auto repair speed" % _t
-techEffectAuraDesc['jumprangeincreased'] = "jump range increased" % _t
-techEffectAuraDesc['jumpdrivecharging'] = "hyperdrive charge" % _t
+techEffectAuraDesc['shieldresist'] = 'shield resistance'%_t
+techEffectAuraDesc['firerate'] = "weapons fire rate"%_t
+techEffectAuraDesc['impenetrableshield'] = "impenetrable shields"%_t
+techEffectAuraDesc['timebeforeshieldcharge'] = "shield cooldown after hit"%_t
+techEffectAuraDesc['torpedodefence'] = "torpedo defence"%_t
+techEffectAuraDesc['hullrepair'] = "hull repairing"%_t
+techEffectAuraDesc['hulldamage'] = "hull destruction"%_t
+techEffectAuraDesc['shieldrepair'] = "shield recharging"%_t
+techEffectAuraDesc['shieldsync'] = "shields are synchronized"%_t
+techEffectAuraDesc['tractorrange'] = "tractor beam range increased"%_t
+techEffectAuraDesc['emergencystandby'] = "emergency system standby"%_t
+techEffectAuraDesc['systemstandby'] = " standby"%_t
+techEffectAuraDesc['passiverepairoverclock'] = "auto repair speed"%_t
+techEffectAuraDesc['jumprangeincreased'] = "jump range increased"%_t
+techEffectAuraDesc['jumpdrivecharging'] = "hyperdrive charge"%_t
 --techEffectAuraDesc['passiverepairoverclock'] = "passive repair speed"%_t
 
 local _debug = false

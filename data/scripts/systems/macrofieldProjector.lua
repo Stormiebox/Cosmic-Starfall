@@ -1181,7 +1181,7 @@ function getTooltipLines(seed, rarity, permanent)
 	--Bonuses
 	table.insert(texts,
 		{
-			ltext = "Generated Energy" % _t,
+			ltext = "Generated Energy"%_t,
 			rtext = string.format("+%i%%", round(_eRegen * 100)),
 			icon =
 			"data/textures/icons/electric.png",
@@ -1189,7 +1189,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Energy Capacity" % _t,
+			ltext = "Energy Capacity"%_t,
 			rtext = string.format("+%i%%", round(_eValue * 100)),
 			icon =
 			"data/textures/icons/battery-pack-alt.png",
@@ -1223,7 +1223,7 @@ function getComparableValues(seed, rarity)
 	if _eRegen ~= 0 then
 		table.insert(base,
 			{
-				name = "Generated Energy" % _t,
+				name = "Generated Energy"%_t,
 				key = "generated_energy",
 				value = round(_eRegen * 100),
 				comp =
@@ -1234,7 +1234,7 @@ function getComparableValues(seed, rarity)
 	if charge ~= 0 then
 		table.insert(base,
 			{
-				name = "Recharge Rate" % _t,
+				name = "Recharge Rate"%_t,
 				key = "recharge_rate",
 				value = round(_eValue * 100),
 				comp = UpgradeComparison

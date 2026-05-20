@@ -20,8 +20,8 @@ local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
 local locNames = {}
-locNames['CG alerts'] = 'Combat group alerts' % _t
-locNames['WPN alerts'] = 'Weapon alerts' % _t
+locNames['CG alerts'] = 'Combat group alerts'%_t
+locNames['WPN alerts'] = 'Weapon alerts'%_t
 
 local order = {
 	--name,ID,IDupdate
@@ -300,7 +300,7 @@ end
 --Types: desc,picture,iconinfo,mainlabel
 entities['weapons'] = {
 	--Name
-	'The turret is destroyed' % _t,
+	'The turret is destroyed'%_t,
 	--belongs to:
 	nil,
 	--Content
@@ -313,7 +313,7 @@ entities['weapons'] = {
 		{
 			'desc',                                                              -- Item type
 			0.9,                                                                 -- Height (nil for iconname/mainlabel)
-			'Non-interactive - triggered when the enemy destroys one of your turrets' % _t, -- Content. Text or path to the image.
+			'Non-interactive - triggered when the enemy destroys one of your turrets'%_t, -- Content. Text or path to the image.
 		},
 	},
 }

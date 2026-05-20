@@ -586,7 +586,7 @@ function getTooltipLines(seed, rarity, permanent)
 	--Bonuses
 	table.insert(texts,
 		{
-			ltext = "Hull Durability" % _t,
+			ltext = "Hull Durability"%_t,
 			rtext = string.format("%+2i%%", round(_h)),
 			icon =
 			"data/textures/icons/staDurability.png",
@@ -594,7 +594,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Auto-repair treshold" % _t,
+			ltext = "Auto-repair treshold"%_t,
 			rtext = string.format("%2i%%", round(_r)),
 			icon =
 			"data/textures/icons/staRepair.png",
@@ -602,7 +602,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Auto-repair value" % _t,
+			ltext = "Auto-repair value"%_t,
 			rtext = string.format("%.1f%%", PassiveRepairAmount),
 			icon =
 			"data/textures/icons/staRepair.png",
@@ -624,7 +624,7 @@ end
 function getDescriptionLines(seed, rarity, permanent)
 	return
 	{
-		{ ltext = "Additional armor plates equipped with integrated repair systems" % _t, lcolor = ColorRGB(1, 0.5, 0.5) }
+		{ ltext = "Additional armor plates equipped with integrated repair systems"%_t, lcolor = ColorRGB(1, 0.5, 0.5) }
 	}
 end
 

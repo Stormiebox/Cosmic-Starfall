@@ -144,8 +144,8 @@ function WeaponGenerator.generatePULSEGUN(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.ChainGun
-    weapon.name = getWeaponName('pulsegun') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('pulsegun') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('pulsegun') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('pulsegun') .. " /* Weapon Prefix*/"%_t
     --weapon.name = "PEWPEW"%_t
     --weapon.prefix = "PEWPEW"%_t
     --weapon.icon = "data/textures/icons/PULSEGUN.png"
@@ -193,8 +193,8 @@ function WeaponGenerator.generatePARTICLEACCELERATOR(rand, dps, tech, material, 
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Bolter
-    weapon.name = getWeaponName('particleaccelerator') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('particleaccelerator') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('particleaccelerator') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('particleaccelerator') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('particleaccelerator') -- previously sentry-gun.png
     weapon.sound = "PARTICLEACCELERATOR"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.02)
@@ -244,8 +244,8 @@ function WeaponGenerator.generateASSAULTBLASTER(rand, dps, tech, material, rarit
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.ChainGun
-    weapon.name = getWeaponName('assaultblaster') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('assaultblaster') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('assaultblaster') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('assaultblaster') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('assaultblaster')
     weapon.sound = "ASSAULTBLASTER"
     weapon.accuracy = 1
@@ -294,8 +294,8 @@ function WeaponGenerator.generateHEPT(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.PlasmaGun
-    weapon.name = getWeaponName('hept') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('hept') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('hept') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('hept') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('hept')
     weapon.sound = "HEPT"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.02)
@@ -338,8 +338,8 @@ function WeaponGenerator.generatePULSELASER(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.PlasmaGun
-    weapon.name = getWeaponName('pulselaser') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('pulselaser') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('pulselaser') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('pulselaser') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('pulselaser')
     weapon.sound = "PULSELASER"
     weapon.accuracy = 0.97 - rand:getFloat(0, 0.03)
@@ -381,8 +381,8 @@ function WeaponGenerator.generateMANTIS(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.seeker = true
     weapon.appearance = WeaponAppearance.RocketLauncher
-    weapon.name = getWeaponName('mantis') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('mantis') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('mantis') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('mantis') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('mantis')
     weapon.sound = "MANTIS"
     weapon.accuracy = 0.6 - rand:getFloat(0, 0.02)
@@ -433,8 +433,8 @@ function WeaponGenerator.generatePHOTON(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Cannon
-    weapon.name = getWeaponName('photoncannon') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('photoncannon') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('photoncannon') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('photoncannon') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('photoncannon')
     weapon.sound = "PHOTON"
     weapon.accuracy = 1 - rand:getFloat(0.07, 0.14)
@@ -478,8 +478,8 @@ function WeaponGenerator.generateHYPERKINETIC(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.continuousBeam = false
     weapon.appearance = WeaponAppearance.RailGun
-    weapon.name = getWeaponName('hyperkinetic') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('hyperkinetic') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('hyperkinetic') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('hyperkinetic') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('hyperkinetic')
     weapon.sound = "HYPERKINETIC"
     weapon.accuracy = 0.999 - rand:getFloat(0, 0.01)
@@ -531,8 +531,8 @@ function WeaponGenerator.generateNANOREPAIR(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.continuousBeam = true
     weapon.appearance = WeaponAppearance.Repair
-    weapon.name = getWeaponName('nanorepair') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('nanorepair') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('nanorepair') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('nanorepair') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('nanorepair')
     weapon.sound = "NANOREPAIR"
 
@@ -571,8 +571,8 @@ function WeaponGenerator.generateCHARGINGBEAM(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.continuousBeam = true
     weapon.appearance = WeaponAppearance.Repair
-    weapon.name = getWeaponName('chargingbeam') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('chargingbeam') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('chargingbeam') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('chargingbeam') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('chargingbeam')
     weapon.sound = "RECHARGERAY"
 
@@ -612,8 +612,8 @@ function WeaponGenerator.generateTRANSPHASIC(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.continuousBeam = true
     weapon.appearance = WeaponAppearance.Laser
-    weapon.name = getWeaponName('transphasic') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('transphasic') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('transphasic') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('transphasic') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('transphasic')
     weapon.sound = "TRANSPHASIC"
 
@@ -658,8 +658,8 @@ function WeaponGenerator.generateASSAULTCANNON(rand, dps, tech, material, rarity
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.ChainGun
-    weapon.name = getWeaponName('assaultcannon') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('assaultcannon') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('assaultcannon') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('assaultcannon') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('assaultcannon')
     weapon.sound = "ASSAULTCANNON"
     weapon.accuracy = 0.8
@@ -703,8 +703,8 @@ function WeaponGenerator.generatePRD(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.continuousBeam = false
     weapon.appearance = WeaponAppearance.RailGun
-    weapon.name = getWeaponName('prd') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('prd') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('prd') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('prd') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('prd')
     weapon.sound = "PRD"
     weapon.accuracy = 1 - rand:getFloat(0, 0.03)
@@ -752,8 +752,8 @@ function WeaponGenerator.generateAVALANCHE(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.seeker = true
     weapon.appearance = WeaponAppearance.RocketLauncher
-    weapon.name = getWeaponName('avalanche') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('avalanche') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('avalanche') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('avalanche') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('avalanche')
     weapon.sound = "AVALANCHE"
     weapon.accuracy = 0.6 - rand:getFloat(0, 0.02)
@@ -803,8 +803,8 @@ function WeaponGenerator.generateCYCLONE(rand, dps, tech, material, rarity)
     weapon.appearanceSeed = rand:getInt()
     weapon.seeker = true
     weapon.appearance = WeaponAppearance.RocketLauncher
-    weapon.name = getWeaponName('cyclone') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('cyclone') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('cyclone') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('cyclone') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('cyclone')
     weapon.sound = "CYCLONE"
     weapon.accuracy = 0.6 - rand:getFloat(0, 0.02)
@@ -850,8 +850,8 @@ function WeaponGenerator.generateMagneticmortar(rand, dps, tech, material, rarit
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Cannon
-    weapon.name = getWeaponName('magneticmortar') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('magneticmortar') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('magneticmortar') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('magneticmortar') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('magneticmortar')
     weapon.sound = "MAGNETICMORTAR"
     weapon.accuracy = 0.99 - rand:getFloat(0, 0.01)
@@ -899,8 +899,8 @@ function WeaponGenerator.generateSOLARTORPEDO(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.Cannon
-    weapon.name = getWeaponName('ionemitter') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('ionemitter') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('ionemitter') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('ionemitter') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('ionemitter')
     weapon.sound = "IONEMITTER"
     weapon.accuracy = 1 - rand:getFloat(0.02, 0.08)
@@ -948,8 +948,8 @@ function WeaponGenerator.generatePLASMAFLAK(rand, dps, tech, material, rarity)
     weapon.reach = reach
     weapon.appearanceSeed = rand:getInt()
     weapon.appearance = WeaponAppearance.AntiFighter
-    weapon.name = getWeaponName('plasmaflak') .. " /* Weapon Name*/" % _t
-    weapon.prefix = getWeaponName('plasmaflak') .. " /* Weapon Prefix*/" % _t
+    weapon.name = getWeaponName('plasmaflak') .. " /* Weapon Name*/"%_t
+    weapon.prefix = getWeaponName('plasmaflak') .. " /* Weapon Prefix*/"%_t
     weapon.icon = getWeaponPath('plasmaflak')
     weapon.sound = "PLASMAFLAK"
     weapon.accuracy = 0.99 - rand:getFloat(0.09, 0.13)

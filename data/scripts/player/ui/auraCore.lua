@@ -26,7 +26,7 @@ local sf = string.format
 
 
 local locLines = {}
-locLines['activeauras'] = "Active effects" % _t
+locLines['activeauras'] = "Active effects"%_t
 --locLines['sec'] = "s"%_t
 
 local activeAuras = {}
@@ -215,7 +215,7 @@ function auraCore.DrawAuraLine(_table, posY)
 
 
 	--string generation
-	local textLine = string.format("%s%s%s%s", effectSTR, effectNAME % _t, sourceName, effectLNG)
+	local textLine = string.format("%s%s%s%s", effectSTR, effectNAME%_t, sourceName, effectLNG)
 
 	--Icon
 	local iconAnchor = vec2(xPad, yPad)

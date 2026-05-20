@@ -7,7 +7,7 @@ function StationDebug(_text)
 end
 
 local stationNames = {}
-stationNames['mx'] = "Megacomplex" % _t --Name
+stationNames['mx'] = "Megacomplex"%_t --Name
 
 local stationIcons = {}
 stationIcons['mx'] = 'data/textures/icons/MCXmegaComplex.png'

@@ -225,7 +225,7 @@ function Megacomplex.initUI()
 	local frameV2 = vec2(370, 270) --the second point for the rect scroller of the first two tabs
 
 	MCXwindow = ScriptUI():createWindow(Rect(res * 0.5 - size * 0.5, res * 0.5 + size * 0.5))
-	ScriptUI():registerWindow(MCXwindow, "Mega complex management" % _t)
+	ScriptUI():registerWindow(MCXwindow, "Mega complex management"%_t)
 	MCXwindow.caption = "Mega complex management"
 	MCXwindow.showCloseButton = true
 	MCXwindow.moveable = true

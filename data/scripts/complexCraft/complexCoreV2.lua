@@ -17,51 +17,51 @@ local _secureSwitch = true --Despite the weird name, it just disables (false) th
 local restoredValue = nil
 
 local locLines = {}
-locLines['window_label'] = "Megacomplex interface" % _t
-locLines['tabprod_label'] = "Configuring import" % _t
-locLines['tabcons_label'] = "Configuring export" % _t
-locLines['tabstorage_label'] = "Configuring storage and utilization" % _t
-locLines['tabexport_label'] = "Configuring external export" % _t
-locLines['tabsettings_label'] = "Megacomplex Settings" % _t
+locLines['window_label'] = "Megacomplex interface"%_t
+locLines['tabprod_label'] = "Configuring import"%_t
+locLines['tabcons_label'] = "Configuring export"%_t
+locLines['tabstorage_label'] = "Configuring storage and utilization"%_t
+locLines['tabexport_label'] = "Configuring external export"%_t
+locLines['tabsettings_label'] = "Megacomplex Settings"%_t
 
-locLines['settings_button_analysis'] = "Starting the analysis procedure (updating the list of stations)" % _t
-locLines['settings_button_forcerefresh'] = "Forced update" % _t
-locLines['settings_button_reset'] = "Resetting megacomplex data and settings" % _t
+locLines['settings_button_analysis'] = "Starting the analysis procedure (updating the list of stations)"%_t
+locLines['settings_button_forcerefresh'] = "Forced update"%_t
+locLines['settings_button_reset'] = "Resetting megacomplex data and settings"%_t
 
-locLines['production_tooltip_namestation'] = "Name of the associated station" % _t
+locLines['production_tooltip_namestation'] = "Name of the associated station"%_t
 locLines['production_tooltip_streams'] = "Active production streams / Maximum number of streams of the current station" %
 	_t
-locLines['production_tooltip_expand'] = "Switch to Detailed mode" % _t
-locLines['production_tooltip_switch'] = "Shutdown/activation of all production streams" % _t
-locLines['production_tooltip_switchbut_off'] = "All production streams are turned off" % _t
-locLines['production_tooltip_switchbut_partial'] = "Production streams are partially functioning" % _t
-locLines['production_tooltip_switchbut_on'] = "Production streams are functioning" % _t
-locLines['production_label_cons'] = "Provided: " % _t
+locLines['production_tooltip_expand'] = "Switch to Detailed mode"%_t
+locLines['production_tooltip_switch'] = "Shutdown/activation of all production streams"%_t
+locLines['production_tooltip_switchbut_off'] = "All production streams are turned off"%_t
+locLines['production_tooltip_switchbut_partial'] = "Production streams are partially functioning"%_t
+locLines['production_tooltip_switchbut_on'] = "Production streams are functioning"%_t
+locLines['production_label_cons'] = "Provided: "%_t
 
 
-locLines['consumption_tooltip_name'] = "Export streams" % _t
-locLines['consumption_tooltip_switchbut_off'] = "All export streams are turned off" % _t
-locLines['consumption_tooltip_switchbut_partial'] = "Export streams are partially functioning" % _t
-locLines['consumption_tooltip_switchbut_on'] = "Export streams are functioning" % _t
+locLines['consumption_tooltip_name'] = "Export streams"%_t
+locLines['consumption_tooltip_switchbut_off'] = "All export streams are turned off"%_t
+locLines['consumption_tooltip_switchbut_partial'] = "Export streams are partially functioning"%_t
+locLines['consumption_tooltip_switchbut_on'] = "Export streams are functioning"%_t
 
-locLines['storage_label_instock'] = "In cargo: " % _t
-locLines['storage_label_production'] = "Productions: " % _t
-locLines['storage_label_consumption'] = "Export: " % _t
-locLines['storage_label_limit'] = "Limit " % _t
-locLines['storage_tooltip_goodname'] = "\nGoods name" % _t
-locLines['storage_tooltip_goodamount'] = "The number of resources in the megacomplex cargo at the moment" % _t
+locLines['storage_label_instock'] = "In cargo: "%_t
+locLines['storage_label_production'] = "Productions: "%_t
+locLines['storage_label_consumption'] = "Export: "%_t
+locLines['storage_label_limit'] = "Limit "%_t
+locLines['storage_tooltip_goodname'] = "\nGoods name"%_t
+locLines['storage_tooltip_goodamount'] = "The number of resources in the megacomplex cargo at the moment"%_t
 locLines['storage_tooltip_todelete'] =
 	"On/off utilization mode.\n In this mode, the complex will try to accumulate this product from the stations indefinitely, while all goods over the storage limit will be deleted from stations" %
 	_t
-locLines['storage_tooltip_goodlimit'] = "Limitation on the amount of this product in the cargo of the megacomplex" % _t
-locLines['storage_tooltip_production'] = "Number of stations producing this product" % _t
-locLines['storage_tooltip_consumption'] = "Number of stations consuming this product" % _t
-locLines['storage_tooltip_inputlimit'] = "Enter here a new value for the storage limit of this product" % _t
+locLines['storage_tooltip_goodlimit'] = "Limitation on the amount of this product in the cargo of the megacomplex"%_t
+locLines['storage_tooltip_production'] = "Number of stations producing this product"%_t
+locLines['storage_tooltip_consumption'] = "Number of stations consuming this product"%_t
+locLines['storage_tooltip_inputlimit'] = "Enter here a new value for the storage limit of this product"%_t
 
-locLines['linegenerator_label_stationscargo'] = "Station cargo: " % _t
-locLines['linegenerator_tooltip_goodname'] = "Product name" % _t
-locLines['linegenerator_tooltip_goodamount'] = "Stock of goods in the station cargo" % _t
-locLines['linegenerator_tooltip_switcher'] = "Disable/enable this stream" % _t
+locLines['linegenerator_label_stationscargo'] = "Station cargo: "%_t
+locLines['linegenerator_tooltip_goodname'] = "Product name"%_t
+locLines['linegenerator_tooltip_goodamount'] = "Stock of goods in the station cargo"%_t
+locLines['linegenerator_tooltip_switcher'] = "Disable/enable this stream"%_t
 
 local _colorG = ColorHSV(150, 64, 100)
 local _colorY = ColorHSV(60, 94, 78)

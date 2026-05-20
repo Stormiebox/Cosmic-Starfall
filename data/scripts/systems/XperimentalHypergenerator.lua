@@ -649,19 +649,19 @@ function getName(seed, rarity)
 	--local reach, cooldown, energy, radar = getBonuses(seed, rarity, true)
 	local _name = ""
 	if rarity.value == -1 then
-		_name = "Omega" % _t
+		_name = "Omega"%_t
 	elseif rarity.value == 0 then
-		_name = "Zeta" % _t
+		_name = "Zeta"%_t
 	elseif rarity.value == 1 then
-		_name = "Epsilon" % _t
+		_name = "Epsilon"%_t
 	elseif rarity.value == 2 then
-		_name = "Delta" % _t
+		_name = "Delta"%_t
 	elseif rarity.value == 3 then
-		_name = "Gamma" % _t
+		_name = "Gamma"%_t
 	elseif rarity.value == 4 then
-		_name = "Beta" % _t
+		_name = "Beta"%_t
 	elseif rarity.value == 5 then
-		_name = "Alpha" % _t
+		_name = "Alpha"%_t
 	else
 		_name = "Meow"
 	end
@@ -693,7 +693,7 @@ function getTooltipLines(seed, rarity, permanent)
 	--Bonuses
 	table.insert(texts,
 		{
-			ltext = "Hyperspace Cooldown" % _t,
+			ltext = "Hyperspace Cooldown"%_t,
 			rtext = "-" .. tostring(_cooldown) .. "%",
 			icon =
 			"data/textures/icons/hourglass.png",
@@ -701,7 +701,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Hyperspace Charge Energy" % _t,
+			ltext = "Hyperspace Charge Energy"%_t,
 			rtext = "+" .. tostring(_eDrain) .. "%",
 			icon =
 			"data/textures/icons/electric.png",
@@ -709,7 +709,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Jump Range" % _t,
+			ltext = "Jump Range"%_t,
 			rtext = "+" .. tostring(_jump),
 			icon = "data/textures/icons/star-cycle.png",
 			boosted =
