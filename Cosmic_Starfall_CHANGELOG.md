@@ -1,3 +1,31 @@
+## Cosmic Starfall v2.0.0
+### Release Date TBD (Work In Progress)
+
+#### 1. Decoupled from Cosmic Vault
+- Stripped all `Cosmic Vault` dependencies, includes, and API calls (specifically in `cosmicstarfalllib.lua`).
+- Cosmic Starfall now operates as a **100% standalone mod**.
+
+#### 2. English Translation & Localization
+- Performed a comprehensive translation pass across the entire repository.
+- Translated all Russian UI labels, tooltips, server `print()` debug logs, variable names, and code comments into English across all `.lua` files (e.g., `complexCore.lua`, `repairDrones.lua`, `XperimentalHypergenerator.lua`, etc.).
+
+#### 3. Subsystem UI Persistence Fixes
+- **Active System Interface Bug:** Fixed a critical issue in `activeSysInterface.lua` where UI elements permanently disappeared when swapping modules or reloading the world. This was resolved by switching to stringified ID tracking for persistent tables instead of volatile object reference comparisons.
+- **Initialization Hooks:** Appended proper `initialize()` hooks to `bastionSystem.lua`, `overpoweredCore.lua`, `pulseTractorBeamGenerator.lua`, `repairDrones.lua`, and `XperimentalHypergenerator.lua` to ensure the interface correctly reconstructs itself on world load.
+
+#### 4. Percentage-Based Repairs
+- Refactored the rigid, flat-value repair systems (e.g., Polarizing Nanobots, Repair Matrix, Emergency Stabilization) to be dynamically percentage-based.
+- Repair algorithms in `macrofieldProjector.lua` now intelligently calculate healing multiplier outputs based on `Durability().maximum` and `Shield().maximum`, scaling perfectly into late-game. Updated UI descriptions to display the new `%` scaling.
+
+#### 5. SoundLib Linux Crash Fixes
+- Resolved weapon audio crashes for the "Particle Accelerator" and "Transphasic Lasers" weapons on Linux-based dedicated servers.
+- Adjusted file casing strictly to lowercase for both the physical `.wav` audio files via `git mv` and the internal script path references inside `PARTICLEACCELERATOR.lua` and `TRANSPHASIC.lua`, effectively neutralizing case-sensitivity pathing mismatches.
+
+#### 6. Megacomplex UI Populating Fix
+- Hardened server-to-client UI generation in `complexCoreV2.lua` (`adaptiveSync`) and `complexCore.lua` (`generateIncomeOutcome`).
+- Guarded `Player(callingPlayer)` invocations to prevent the thread from crashing if `callingPlayer` turns out to be `nil` (e.g., during background asynchronous sector events). In these scenarios, the script cleanly falls back to `broadcastInvokeClientFunction` guaranteeing UI lists properly populate without error.
+
+### LEGACY LOGS BELOW
 # Cosmic Starfall - Revamp Changelog
 
 This document tracks all known changes made during the current Cosmic Starfall modernization, balance pass, QA hardening, and compatibility work inside **Avorion Vault**.

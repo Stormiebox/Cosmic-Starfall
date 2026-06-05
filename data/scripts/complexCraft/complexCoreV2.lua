@@ -293,19 +293,19 @@ function MX.initUI()
 		end
 		local testButton1 = tabSettings:createRoundButton(rectButtons[1],
 			"data/textures/icons/SUBSYSPolarisationNanobots.png", "analyse")
-		testButton1.tooltip = "Пуск процедуры анализа"
+		testButton1.tooltip = "Start analysis procedure"
 		local testButton2 = tabSettings:createRoundButton(rectButtons[2],
 			"data/textures/icons/SUBSYSPolarisationNanobots.png", "buildRequestPacket")
-		testButton2.tooltip = "Инициация пакета обновления"
+		testButton2.tooltip = "Initiate update packet"
 		local testButton3 = tabSettings:createRoundButton(rectButtons[3],
 			"data/textures/icons/SUBSYSPolarisationNanobots.png", "DebugPurge")
-		testButton3.tooltip = "Удалить батареи с комплекса и всех пристыкованных станций"
+		testButton3.tooltip = "Remove batteries from complex and all docked stations"
 		local testButton4 = tabSettings:createRoundButton(rectButtons[4],
 			"data/textures/icons/SUBSYSPolarisationNanobots.png", "DebugClearMain")
-		testButton4.tooltip = "Сброс основных таблиц"
+		testButton4.tooltip = "Reset main tables"
 		local testButton5 = tabSettings:createRoundButton(rectButtons[5], "data/textures/icons/SUBSYSEmergencyRepair.png",
 			"restoreOperate")
-		testButton5.tooltip = "Принудительная загрузка из памяти"
+		testButton5.tooltip = "Force load from memory"
 	else
 		local rectButtons = {}
 		-- local rUnit = 30
@@ -443,7 +443,7 @@ end
 function MX.renderProductionLine()
 	--Cutting off
 	if tableProduction == nil or #tableProduction < 1 then
-		MX.DebugMsg('generateProductionLine: основная таблица отсутствует или пуста')
+		MX.DebugMsg('generateProductionLine: main table is missing or empty')
 		return
 	end
 
@@ -755,7 +755,7 @@ function MX.refreshInterface()
 	if _refreshAvialable then
 		for _index, _rows in pairs(interfaceProduction) do
 			if _rows[1] == nil then
-				MX.DebugMsg('refreshInterface(1): не могу найти нихрена :С')
+				MX.DebugMsg('refreshInterface(1): can not find anything :C')
 				return
 			end
 
@@ -821,7 +821,7 @@ function MX.refreshInterface()
 	if _refreshAvialable then
 		for _index, _rows in pairs(interfaceConsumption) do
 			if _rows[1] == nil then
-				MX.DebugMsg('refreshInterface(2): не могу найти нихрена :С')
+				MX.DebugMsg('refreshInterface(2): can not find anything :C')
 				return
 			end
 
@@ -1754,7 +1754,11 @@ function MX.adaptiveSync()
 	local _summLength = #tableProduction + #tableConsumption + #tableStorage
 	MX.DebugMsg('adaptiveSync attempt with summLength = ' .. tostring(_summLength))
 	if _summLength > 0 then
-		invokeClientFunction(Player(callingPlayer), 'onRestore', tableProduction, tableConsumption, tableStorage)
+		if callingPlayer then
+			invokeClientFunction(Player(callingPlayer), 'onRestore', tableProduction, tableConsumption, tableStorage)
+		else
+			broadcastInvokeClientFunction('onRestore', tableProduction, tableConsumption, tableStorage)
+		end
 	end
 end
 

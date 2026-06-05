@@ -1248,11 +1248,7 @@ function activeSysInterface.checkDuplicate(_table)
 	if registeredSystems[sysScript] == nil then return false end
 
 	for _id, _rows in pairs(registeredSystems[sysScript]) do
-		--local isSameScript = (_id == sysScript)
-		local isSameEntity = (_rows == sysShip)
-		--Debug(sf('Duplicate ID %s = %s',_id,sysScript))
-		Debug(sf('Duplicate Entity %s = %s', _rows, sysShip))
-		--if isSameScript and isSameEntity then
+		local isSameEntity = (tostring(_rows) == tostring(sysShip))
 		if isSameEntity then
 			Debug('DUP detected')
 			return true
@@ -1298,52 +1294,47 @@ end
 
 --Deletes a container matching the information on request
 function activeSysInterface.removeContainer(_script, _source)
-	for _index, _rows in pairs(containers) do
-		if not (Entity(_source)) then break end
+    for _index, _rows in pairs(containers) do
+        local isSameScript = (_script == _rows[2])
+        local isSameEntity = (tostring(_source) == tostring(_rows[3]))
 
-		local name = Entity(_source).name
-		local isSameScript = (_script == _rows[2])
-		local isSameEntity = (_source == _rows[3])
+        if isSameScript and isSameEntity then
+            Debug(sf('Container deleted for script %s', _script))
+            _rows[1]:clear()
+            table.remove(containers, _index)
+            self.removeButtonTable(_script, _source)
+            return
+        end
+    end
 
-		if isSameScript and isSameEntity then
-			Debug(sf('Container deleted for script %s and ship name %s', _script, name))
-			--Debug('container deleted for script '.._script)
-			_rows[1]:clear()
-			table.remove(containers, _index)
-			self.removeButtonTable(_script, _source)
-			return
-		end
-	end
-
-	return false
+    return false
 end
 
 --Collapses empty elements after deleting a container
 function activeSysInterface.removeButtonTable(_script, _source)
-	for _index, _rows in pairs(buttons) do
-		local isSameScript = (_script == _rows[3])
-		local isSameEntity = (_source == _rows[4])
-		local name = Entity(_source).name
+    for _index, _rows in pairs(buttons) do
+        local isSameScript = (_script == _rows[3])
+        local isSameEntity = (tostring(_source) == tostring(_rows[4]))
 
-		if (isSameScript and isSameEntity) then
-			Debug(sf('Button of index %i deleted for script %s and ship name %s. Reason: filter', _rows[6], _script, name))
-			table.remove(buttons, _index)
-			self.removeButtonTable(_script, _source)
-			break
-		end
-	end
+        if (isSameScript and isSameEntity) then
+            Debug(sf('Button of index %i deleted for script %s. Reason: filter', _rows[6], _script))
+            table.remove(buttons, _index)
+            self.removeButtonTable(_script, _source)
+            break
+        end
+    end
 end
 
 --Removes a system register
 function activeSysInterface.unRegister(_script, _entityID)
-	if not (registeredSystems[_script]) then return end
+    if not (registeredSystems[_script]) then return end
 
-	for _index, _rows in pairs(registeredSystems[_script]) do
-		if _rows == _entityID then
-			table.remove(registeredSystems, _index)
-			return
-		end
-	end
+    for _index, _rows in pairs(registeredSystems[_script]) do
+        if tostring(_rows) == tostring(_entityID) then
+            table.remove(registeredSystems[_script], _index)
+            return
+        end
+    end
 end
 
 --_addElement

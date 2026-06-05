@@ -142,9 +142,9 @@ function initializeUI()
 	BSwindow.transparency = 100
 
 	btnModule01 = BSwindow:createRoundButton(button1, "data/textures/icons/GRAVITON.png", "ApplyDebug")
-	btnModule01.tooltip = "Установить скрипт дебага"
+	btnModule01.tooltip = "Install debug script"
 	btnModule02 = BSwindow:createRoundButton(button2, "data/textures/icons/GRAVITON.png", "ApplyOCC")
-	btnModule02.tooltip = 'Добавить скрипт "OCCore"'
+	btnModule02.tooltip = 'Add script "OCCore"'
 	-- btnModule03 = BSwindow:createRoundButton(button3, "data/textures/icons/GRAVITON.png", "RestoreTable")
 	-- btnModule03.tooltip = "Check table"
 
@@ -286,7 +286,7 @@ end
 
 function getName(seed, rarity)
 	local _mk = rarity.value + 2
-	return "Перегруженное квантовое ядро MP-" .. tostring(_mk)
+	return "Overcharged Quantum Core MP-" .. tostring(_mk)
 end
 
 function getIcon(seed, rarity)
@@ -311,7 +311,7 @@ function getTooltipLines(seed, rarity, permanent)
 
 	table.insert(texts,
 		{
-			ltext = "Генерация энергии"%_t,
+			ltext = "Generated Energy"%_t,
 			rtext = string.format("%+2i%%", round(_eRegen * 100)),
 			icon =
 			"data/textures/icons/electric.png",
@@ -319,7 +319,7 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Объем аккумулятора"%_t,
+			ltext = "Energy Capacity"%_t,
 			rtext = string.format("%+2i%%", round(_eValue * 100)),
 			icon =
 			"data/textures/icons/battery-pack-alt.png",
@@ -328,8 +328,8 @@ function getTooltipLines(seed, rarity, permanent)
 
 	table.insert(texts,
 		{
-			ltext = "Ремонтная волна"%_t,
-			rtext = "Да",
+			ltext = "Repair Wave"%_t,
+			rtext = "Yes",
 			rcolor = ColorRGB(0.3, 1.0, 0.3),
 			icon =
 			"data/textures/icons/SUBSYSrepairwave.png",
@@ -337,8 +337,8 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Обновляющий луч"%_t,
-			rtext = "Да",
+			ltext = "Renovating Ray"%_t,
+			rtext = "Yes",
 			rcolor = ColorRGB(0.3, 1.0, 0.3),
 			icon =
 			"data/textures/icons/SUBSYSrenovationray.png",
@@ -346,8 +346,8 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Усилитель щита"%_t,
-			rtext = "Да",
+			ltext = "Shield Booster"%_t,
+			rtext = "Yes",
 			rcolor = ColorRGB(0.3, 1.0, 0.3),
 			icon =
 			"data/textures/icons/SUBSYSshieldbooster.png",
@@ -355,8 +355,8 @@ function getTooltipLines(seed, rarity, permanent)
 		})
 	table.insert(texts,
 		{
-			ltext = "Синхронизатор щитов"%_t,
-			rtext = "Да",
+			ltext = "Shield Synchronizer"%_t,
+			rtext = "Yes",
 			rcolor = ColorRGB(0.3, 1.0, 0.3),
 			icon =
 			"data/textures/icons/SUBSYSshieldsynchronizer.png",
@@ -400,4 +400,10 @@ function getComparableValues(seed, rarity)
 	end
 
 	return base, bonus
+end
+
+function initialize()
+	if onClient() then
+		initializeUI()
+	end
 end

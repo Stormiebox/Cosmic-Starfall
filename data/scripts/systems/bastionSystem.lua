@@ -106,9 +106,9 @@ end
 
 function ReportResult(exitCode)
 	if exitCode then
-		return "Пиздец, неужели работает"
+		return "Wow, it actually works"
 	end
-	return "Опять что-то сломалось"
+	return "Something broke again"
 end
 
 function isInRangeV3(v1, v2, range)
@@ -850,15 +850,15 @@ function onFinishWork(_time, _type)
 	--3 -protocol/pulsar
 	if _time <= 0 then
 		if _type == 0 then
-			DebugMsg("Рекуперация: конец работы")
+			DebugMsg("Recuperation: end of work")
 			UIplaysound(1)
 		end
 		if _type == 1 then
-			print("Ремонтная сеть завершила активную фазу")
+			print("Repair network completed active phase")
 			UIplaysound(1)
 		end
 		if _type == 3 then
-			print("Протокол завершил работу")
+			print("Protocol completed work")
 			UIplaysound(1)
 		end
 		updateStatusEffects(_type, false)
@@ -1116,4 +1116,10 @@ function getComparableValues(seed, rarity)
 	local bonus = {}
 
 	return base, bonus
+end
+
+function initialize()
+	if onClient() then
+		initializeUI()
+	end
 end

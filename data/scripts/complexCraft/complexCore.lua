@@ -147,7 +147,7 @@ function Megacomplex.transferResourses()
 	if _incomeRows > 0 then
 		for i = 0, _incomeRows - 1 do
 			if MCXincomeGoodsLabel[i] == nil then
-				print(Entity().name, i, 'Ошибка importResourses income')
+				print(Entity().name, i, 'Error: importResources income')
 				return
 			end
 
@@ -225,18 +225,15 @@ function Megacomplex.initUI()
 	local frameV2 = vec2(370, 270) --the second point for the rect scroller of the first two tabs
 
 	MCXwindow = ScriptUI():createWindow(Rect(res * 0.5 - size * 0.5, res * 0.5 + size * 0.5))
-	ScriptUI():registerWindow(MCXwindow, "Mega complex management"%_t)
-	MCXwindow.caption = "Mega complex management"
+	ScriptUI():registerWindow(MCXwindow, "Megacomplex Management"%_t)
+	MCXwindow.caption = "Megacomplex Management"%_t
 	MCXwindow.showCloseButton = true
 	MCXwindow.moveable = true
 	--Find out
 	MCXtab = MCXwindow:createTabbedWindow(Rect(vec2(10, 10), size - 10))
-	tabIncome = MCXtab:createTab("MCXinput", "data/textures/icons/MCXoutput.png",
-		"Configuring the reception of resources from factories")
-	tabOutcome = MCXtab:createTab("MCXoutput", "data/textures/icons/MCXinput.png",
-		"Setting up sending resources to factories")
-	tabSettings = MCXtab:createTab("Settings", "data/textures/icons/MCXmegaComplex.png",
-		"Mega complex operation configuration")
+	tabIncome = MCXtab:createTab("MCXinput", "data/textures/icons/MCXoutput.png", "Configure resource import from factories"%_t)
+	tabOutcome = MCXtab:createTab("MCXoutput", "data/textures/icons/MCXinput.png", "Configure resource export to factories"%_t)
+	tabSettings = MCXtab:createTab("Settings", "data/textures/icons/MCXmegaComplex.png", "Megacomplex operation configuration"%_t)
 	--Creating import-export tabs
 	MCXscrollerInc = tabIncome:createScrollFrame(Rect(vec2(10, 10), frameV2))
 	MCXscrollerInc.layer = 1
@@ -248,7 +245,7 @@ function Megacomplex.initUI()
 	--Tab settings:create round button(rect(175,20,225,70),'data/textures/icons/trp hon.png','do meow')
 	MCXsettingsMainSwitcher = tabSettings:createRoundButton(Rect(20, 20, 50, 50), 'data/textures/icons/TRPHon.png',
 		'globalSwitcherButton')
-	MCXsettingsSwitcherLabel = tabSettings:createTextField(Rect(80, 10, 280, 70), 'The complex is operational')
+	MCXsettingsSwitcherLabel = tabSettings:createTextField(Rect(80, 10, 280, 70), "The complex is operational"%_t)
 	MCXsettingsSwitcherLabel.fontSize = 12
 	if _debug then print(Entity():getValue('globalSW'), '<- globalSW') end
 	if Entity():getValue('globalSW') == nil then
@@ -256,22 +253,22 @@ function Megacomplex.initUI()
 	elseif Entity():getValue('globalSW') == false then
 		if _debug then print('Initially the complex is turned off') end
 		MCXsettingsMainSwitcher.icon = _iconRed
-		MCXsettingsSwitcherLabel.text = 'The complex is stopped'
+		MCXsettingsSwitcherLabel.text = "The complex is stopped"%_t
 		invokeServerFunction('globalSWtoServer', false)
 	end
 
-	MCXsettingsRestrLabel = tabSettings:createTextField(Rect(10, 80, 200, 140), 'Volume limit per product:')
+	MCXsettingsRestrLabel = tabSettings:createTextField(Rect(10, 80, 200, 140), "Volume limit per product:"%_t)
 	MCXsettingsRestrLabel.fontSize = 12
 	MCSsettingsRestrTextbox = tabSettings:createTextBox(Rect(220, 90, 280, 110), '')
 	--MCSsettingsRestrTextbox.onTextChangedFunction = invokeServerFunction('cargoRestrOperate',)
-	MCSsettingsRestrButton = tabSettings:createButton(Rect(290, 90, 340, 110), 'Rewrite',
+	MCSsettingsRestrButton = tabSettings:createButton(Rect(290, 90, 340, 110), "Apply"%_t,
 		'cargoRestrOperateOnButtonPressed')
 	invokeServerFunction('cargoRestrOperate', nil)
 
 	Entity():registerCallback("onEntityDocked", "onDockChange")
 	Entity():registerCallback("onEntityUndocked", "onDockChange")
 
-	invokeServerFunction("rebuildUI", Entity(), nil)
+	invokeServerFunction("rebuildUI", nil, nil)
 end
 
 function Megacomplex.cargoRestrOperateOnButtonPressed()
@@ -288,6 +285,7 @@ end
 
 function Megacomplex.cargoRestrOperate(_amount)
 	local _value = Entity():getValue('cargoRestr')
+	local targetPlayer = callingPlayer and Player(callingPlayer) or nil
 
 	--If amount is nil -then preloads from memory
 	if _amount == nil then
@@ -297,12 +295,20 @@ function Megacomplex.cargoRestrOperate(_amount)
 		else
 			local _result = Entity():getValue('cargoRestr')
 			if _debug then print('cargoRestr', _result) end
-			invokeClientFunction(Player(), 'cargoRestrOnClient', _result)
+			if targetPlayer then
+				invokeClientFunction(targetPlayer, 'cargoRestrOnClient', _result)
+			else
+				broadcastInvokeClientFunction('cargoRestrOnClient', _result)
+			end
 		end
 		--Otherwise, changes the cargo bay limit with overwriting
 	else
 		Entity():setValue('cargoRestr', _amount)
-		invokeClientFunction(Player(), 'cargoRestrOnClient', _amount)
+		if targetPlayer then
+			invokeClientFunction(targetPlayer, 'cargoRestrOnClient', _amount)
+		else
+			broadcastInvokeClientFunction('cargoRestrOnClient', _amount)
+		end
 		if _debug then print('CargoRestr value successfully set to', _amount) end
 	end
 end
@@ -311,7 +317,9 @@ callable(Megacomplex, 'cargoRestrOperate')
 
 function Megacomplex.cargoRestrOnClient(_amount)
 	_baseRestrCargo = _amount
-	MCSsettingsRestrTextbox.text = _amount
+	if MCSsettingsRestrTextbox then
+		MCSsettingsRestrTextbox.text = tostring(_amount)
+	end
 end
 
 function Megacomplex.refreshUIinfo()
@@ -357,6 +365,7 @@ end
 
 --Clears the interface for re-creation
 function Megacomplex.clearMXUI()
+	if not MCXscrollerInc or not MCXscrollerOut then return end
 	if _debug then print("Cleaning up the interface") end
 	--local frameV2 = vec2(370,270)
 	MCXscrollerInc:clear()
@@ -378,20 +387,21 @@ function Megacomplex.globalSwitcherButton()
 	if Entity():getValue('globalSW') then
 		Entity():setValue('globalSW', false)
 		MCXsettingsMainSwitcher.icon = _iconRed
-		MCXsettingsSwitcherLabel.text = 'Compex stopped'
+		MCXsettingsSwitcherLabel.text = "The complex is stopped"%_t
 		invokeServerFunction('globalSWtoServer', false)
 		if _debug then print('The complex is turned off') end
 	else
 		Entity():setValue('globalSW', true)
 		MCXsettingsMainSwitcher.icon = _iconGreen
-		MCXsettingsSwitcherLabel.text = 'The complex is operational'
+		MCXsettingsSwitcherLabel.text = "The complex is operational"%_t
 		invokeServerFunction('globalSWtoServer', true)
 		if _debug then print('The complex is activated') end
 	end
 end
 
 --Finds the resource and goods of each docked station, initiating the creation of corresponding elements in the mega-complex interface
-function Megacomplex.generateIncomeOutcome(_station)
+function Megacomplex.generateIncomeOutcome(_station, targetPlayer)
+	targetPlayer = targetPlayer or (callingPlayer and Player(callingPlayer) or nil)
 	local scripts = TradingUtility.getTradeableScripts()
 	local station = _station
 
@@ -402,7 +412,7 @@ function Megacomplex.generateIncomeOutcome(_station)
 		local results = { station:invokeFunction(script, "getSoldGoods") }
 		--Megacomplex.debug msg(tostring(script).."script")
 		local callResult = nil
-		if script == "/consumer.lua" then
+		if script == "/consumer.lua" or script == "data/scripts/entity/merchants/consumer.lua" then
 			--if _debug then print("I cut off consumer script") end
 			callResult = 1
 		else
@@ -414,7 +424,7 @@ function Megacomplex.generateIncomeOutcome(_station)
 			tradingStation = { station = station, script = script, bought = {}, sold = {} }
 			tradingStation.sold = {}
 
-			for i = 2, tablelength(results) do
+			for i = 2, #results do
 				local _getBool = Megacomplex.getStateFromString(_incomeRows, 'income')
 				--print(_incomeRows)
 				--print('incomeRows =',_incomeRows)
@@ -424,13 +434,17 @@ function Megacomplex.generateIncomeOutcome(_station)
 					_getBool = true
 					if _debug then print('When scanning a station, a new value for the center variable was created') end
 				end
-				invokeClientFunction(Player(), "generateLine", "income", _station, results[i], Entity(), _getBool)
+				if targetPlayer then
+					invokeClientFunction(targetPlayer, "generateLine", "income", _station, results[i], Entity(), _getBool)
+				else
+					broadcastInvokeClientFunction("generateLine", "income", _station, results[i], Entity(), _getBool)
+				end
 			end
 		end
 
 		local results = { station:invokeFunction(script, "getBoughtGoods") }
 		local callResult = nil
-		if script == "/consumer.lua" then
+		if script == "/consumer.lua" or script == "data/scripts/entity/merchants/consumer.lua" then
 			--if _debug then print("I cut off consumer script") end
 			callResult = 1
 		else
@@ -441,7 +455,7 @@ function Megacomplex.generateIncomeOutcome(_station)
 				tradingStation = { station = station, script = script, bought = {}, sold = {} }
 			end
 
-			for i = 2, tablelength(results) do
+			for i = 2, #results do
 				local _getBool = Megacomplex.getStateFromString(_outcomeRows, 'outcome')
 				_outcomeRows = _outcomeRows + 1
 				if _getBool == -1 or _getBool == nil then
@@ -453,7 +467,11 @@ function Megacomplex.generateIncomeOutcome(_station)
 					end
 				end
 				--table.insert(tradingStation.bought, results[i])
-				invokeClientFunction(Player(), "generateLine", "outcome", _station, results[i], Entity(), _getBool)
+				if targetPlayer then
+					invokeClientFunction(targetPlayer, "generateLine", "outcome", _station, results[i], Entity(), _getBool)
+				else
+					broadcastInvokeClientFunction("generateLine", "outcome", _station, results[i], Entity(), _getBool)
+				end
 				--_amountLinesOutcome = _amountLinesOutcome + 1
 			end
 		end
@@ -486,7 +504,7 @@ function Megacomplex.getStateFromString(_pos, _type)
 	end
 
 	if string.sub(_string, _pos + 1, _pos + 1) == '1' then
-		--if _debug then print("getStateFromString Вернул true") end
+		--if _debug then print("getStateFromString Returns true") end
 		return true
 	else
 		--if _debug then print("getStateFromString Vernul false") end
@@ -548,6 +566,7 @@ end
 
 --Creates a line in the megacomplex interface containing an icon, the name (in translation) of the product, its quantity, an icon with information about the station and a button
 function Megacomplex.generateLine(_tab, _sourceStation, _good, _complex, _boolIcon)
+	if not MCXscrollerInc or not MCXscrollerOut then return end
 	if _good == nil then
 		print('Error: no variable _good (generateLine)')
 		return
@@ -617,6 +636,7 @@ end
 
 function Megacomplex.switchButtonIcon(_pos, _bool, _type)
 	if _type == 'income' then
+		if not MCXincomeSwitcher or not MCXincomeSwitcher[_pos] then return end
 		--Print( bool)
 		if _bool then
 			MCXincomeSwitcher[_pos].icon = 'data/textures/icons/TRPHoff.png'
@@ -627,6 +647,7 @@ function Megacomplex.switchButtonIcon(_pos, _bool, _type)
 		end
 	else
 		local _goodName = MCXoutcomeGoodsLabel[_pos].tooltip
+		if not MCXoutcomeSwitcher or not MCXoutcomeSwitcher[_pos] then return end
 		if _bool then
 			MCXoutcomeSwitcher[_pos].icon = 'data/textures/icons/TRPHoff.png'
 			MCXoutcomeExportedRoutes[_goodName] = MCXoutcomeExportedRoutes[_goodName] - 1
@@ -659,13 +680,22 @@ function Megacomplex.onButtonWorkCore(_pos, _type)
 		return
 	end
 
+	local targetPlayer = callingPlayer and Player(callingPlayer) or nil
 	local _buttonState = Megacomplex.getStateFromString(_pos, _type)
 	if _buttonState and _buttonState ~= -1 then
 		Megacomplex.writeStateToString(_pos, false, _type)
-		invokeClientFunction(Player(), 'switchButtonIcon', _pos, _buttonState, _type)
+		if targetPlayer then
+			invokeClientFunction(targetPlayer, 'switchButtonIcon', _pos, _buttonState, _type)
+		else
+			broadcastInvokeClientFunction('switchButtonIcon', _pos, _buttonState, _type)
+		end
 	elseif _buttonState ~= -1 then
 		Megacomplex.writeStateToString(_pos, true, _type)
-		invokeClientFunction(Player(), 'switchButtonIcon', _pos, _buttonState, _type)
+		if targetPlayer then
+			invokeClientFunction(targetPlayer, 'switchButtonIcon', _pos, _buttonState, _type)
+		else
+			broadcastInvokeClientFunction('switchButtonIcon', _pos, _buttonState, _type)
+		end
 	end
 end
 
@@ -673,26 +703,32 @@ callable(Megacomplex, 'onButtonWorkCore')
 
 --Recreates (updates) the interface every time a station docks or undocks to the complex. Also called at the beginning to render the initial interface
 function Megacomplex.rebuildUI(_complexID, _stationID)
-	local _complex = Entity(_complexID)
+	local _complex = _complexID and Entity(_complexID) or Entity()
 
 	if _debug then
 		local _testy = _complex:getValue('MGXincome')
-		print(_testy, 'perestroika through rebuildUI')
+		print(_testy, 'rebuilding through rebuildUI')
 	end
 
-	local _station = Entity(_stationID)
+	local _station = _stationID and Entity(_stationID) or Entity()
 	if _station.isStation then
 		if _debug then print("Initialize the interface") end
 		--reset values
 		if _debug then print("I start resetting the interface, creating a new one") end
-		invokeClientFunction(Player(), "clearMXUI")
+
+		local targetPlayer = callingPlayer and Player(callingPlayer) or nil
+		if targetPlayer then
+			invokeClientFunction(targetPlayer, "clearMXUI")
+		else
+			broadcastInvokeClientFunction("clearMXUI")
+		end
 		_incomeRows = 0
 		_outcomeRows = 0
 		--request processing
 		_doent = { DockingClamps(_complex):getDockedEntities() }
 		for i = 1, #_doent do
 			if _debug then print("Creating an interface for " .. tostring(i) .. " docked station") end
-			Megacomplex.generateIncomeOutcome(Entity(_doent[i]))
+			Megacomplex.generateIncomeOutcome(Entity(_doent[i]), targetPlayer)
 		end
 	else
 		if _debug then print("The check failed, the docked vessel is not a station") end

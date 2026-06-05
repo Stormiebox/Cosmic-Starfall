@@ -212,7 +212,7 @@ function NanobotsActivate()
 		}
 		callTechAuraSelf(_aura)
 	else
-		print("Перезарядка не закончена! Осталось", NanobotsIsReady, "секунд")
+		print("Cooldown not finished! Remaining", NanobotsIsReady, "seconds")
 		invokeClientFunction(Player(), 'UIplaysound', 2)
 	end
 	if _debug then print(Durability().maxDurabilityFactor, "maxDurFactor current") end
@@ -330,7 +330,7 @@ function onInstalled(seed, rarity, permanent)
 	--local perc, energy, shield = getBonuses(seed, rarity, permanent)
 	local _cv = Entity():getValue("isRepairDrones")
 
-	if _debug then print(_cv, "Значение _cv при старте onInstalled") end
+	if _debug then print(_cv, "Value of _cv at start of onInstalled") end
 
 	if _cv == 0 and _debug then
 		print("No custom value isRepairDrones")
@@ -340,23 +340,23 @@ function onInstalled(seed, rarity, permanent)
 
 	--changes the limit of passively restored hull depending on the current module level (from -1 to +5)
 	PassiveRepairTreshhold = PassiveRepairTreshhold + rarity.value * 2
-	if _debug then print(PassiveRepairTreshhold, "% Лимит ремонта от качества") end
+	if _debug then print(PassiveRepairTreshhold, "% Repair limit from quality") end
 
 	--Changes the hull bonus depending on the current module level (from -1 to +5)
 	ModuleBonusDurability = ModuleBonusDurability + rarity.value * 3
-	if _debug then print(ModuleBonusDurability, "% Бонус корпуса") end
+	if _debug then print(ModuleBonusDurability, "% Hull bonus") end
 
 	--Checks the existence of a custom variable on the ship and if it does not exist, creates it
 	if _cv == nil then
 		Entity():setValue("isRepairDrones", false)
-		if _debug then print("isRepairDrones успешно создана") end
+		if _debug then print("isRepairDrones successfully created") end
 	end
 
 	--Checks to see if a similar bonus already exists. It is necessary so that when the game starts, the bonus is not applied again (when the game starts, the onInstalled function is triggered automatically for all entities where the module is already installed)
 	if _cv == 0 or _cv == false then
 		Entity():setValue("isRepairDrones", true)
 		Durability().maxDurabilityFactor = (Durability().maxDurabilityFactor + ModuleBonusDurability / 100)
-		if _debug then print("Корпус успешно увеличен при установке модуля") end
+		if _debug then print("Hull successfully increased on module install") end
 	end
 
 	--Initializing Interface Elements
@@ -548,7 +548,7 @@ end
 
 function onHitReact() --Needed for correct completion of the repair network when receiving damage to the hull
 	if RepairnetworkIsWorking > 0 then
-		if _debug then print("Работа ремонтной сети прервана") end
+		if _debug then print("Repair network operation interrupted") end
 		RepairnetworkIsWorking = 0
 		invokeClientFunction(Player(), "onFinishWork", RepairnetworkIsWorking, 1)
 		RepairnetworkIsReady = RepairnetworkIsReady * 0.4
@@ -640,4 +640,10 @@ function getComparableValues(seed, rarity) --I don’t understand why this is ne
 	-- end
 
 	return base, bonus
+end
+
+function initialize()
+	if onClient() then
+		initializeUI()
+	end
 end

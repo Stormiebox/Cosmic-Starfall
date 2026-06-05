@@ -121,7 +121,7 @@ function xFocusActivate()
 		if FocusedChargeReduction > 0 and FocusedChargeReduction < 100 then
 			FocusedChargeReductionTimer = HyperspaceEngine().cooldown / 100 * (100 - FocusedChargeReduction)
 		else
-			print("FocusedChargeReductionTimer является некорректным значением, возвращаю дефолт 40")
+			print("FocusedChargeReductionTimer is invalid, returning default 40")
 			FocusedChargeReductionTimer = HyperspaceEngine().cooldown / 100 * 60
 		end
 
@@ -137,7 +137,7 @@ function xFocusActivate()
 
 		addMultiplyableBias(StatsBonuses.HyperspaceReach, FocusedBonusRange)
 
-		DebugMsg(tostring(HyperspaceEngine().range) .. "HyperspaceEngine().range после преобразования")
+		DebugMsg(tostring(HyperspaceEngine().range) .. "HyperspaceEngine().range after conversion")
 
 		Entity():registerCallback("onHyperspaceEntered", "xFocusJump")
 
@@ -155,7 +155,7 @@ function xFocusJump()
 	Entity():unregisterCallback("onHyperspaceEntered", "xFocusJump")
 	FocusedCanRecharge = true
 	addMultiplyableBias(StatsBonuses.HyperspaceReach, -FocusedBonusRange)
-	DebugMsg(tostring(HyperspaceEngine().range) .. "HyperspaceEngine().range после прыжка")
+	DebugMsg(tostring(HyperspaceEngine().range) .. "HyperspaceEngine().range after jump")
 	onJumpFinished(FocusedBonusRange * FocusedJumpCooldown)
 	invokeClientFunction(Player(), "updateStatusEffects", 2, false)
 end
@@ -178,7 +178,7 @@ function xQuantumActivate()
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 		QuantumStandbyFlag = true
 	else
-		print("xQuantum - перезарядка не окончена")
+		print("xQuantum - cooling down")
 		invokeClientFunction(Player(), 'UIplaysound', 2)
 	end
 end
@@ -238,7 +238,7 @@ function xDestabilizerActivate()
 		end
 		invokeClientFunction(Player(), 'UIplaysound', 0)
 	else
-		print("xDestabilizer - перезарядка не окончена")
+		print("xDestabilizer - cooling down")
 		invokeClientFunction(Player(), 'UIplaysound', 2)
 	end
 end
@@ -253,7 +253,7 @@ end
 function xQuantumTrigger()
 	Entity():unregisterCallback("onJumpRouteCalculationStarted", "xQuantumTrigger")
 
-	if _debug then print("xQuantumTrigger поймал начало вычислений, назначаю бонусы и штрафы") end
+	if _debug then print("xQuantumTrigger caught start of calculation, assigning bonuses and penalties") end
 
 	executeUpdateProgressbar(1, 1)
 
@@ -289,7 +289,7 @@ end
 --Waiting to make a hyperjump in order to roll back penalties
 function XQuantumJump()
 	Entity():unregisterCallback("onHyperspaceEntered", "XQuantumJump")
-	if _debug then print("XQuantumJump сработал, снимаю штрафы") end
+	if _debug then print("XQuantumJump worked, removing penalties") end
 	QuantumDebuffFlag = false
 	invokeClientFunction(Player(), "updateStatusEffects", 3, false)
 	invokeClientFunction(Player(), "updateStatusEffects", 0, false)
@@ -303,7 +303,7 @@ end
 
 --Adds additional time to PD cooldown when called
 function onJumpFinished(_time)
-	if _debug then print("Прыжок завершен, применяю изменения") end
+	if _debug then print("Jump complete, applying changes") end
 	Entity().hyperspaceCooldown = Entity().hyperspaceCooldown + _time
 	invokeClientFunction(Player(), 'UIplaysound', 1)
 	FocusedChargedFlag = false
@@ -400,9 +400,9 @@ function updateServer(timePassed)
 			HyperspaceEngine().currentCooldown = HyperspaceEngine().currentCooldown - DestabilizerSpeedUp
 		else
 			if _debug and Durability().filledPercentage < DestabilizerChargeDestructionTreshold / 100 then
-				DebugMsg("Показатель корпуса ниже допустимого")
+				DebugMsg("Hull indicator below acceptable limit")
 			elseif _debug and Shield().filledPercentage > DestabilizerShieldTreshold / 100 then
-				DebugMsg("Показатель щита выше допустимого")
+				DebugMsg("Shield indicator above acceptable limit")
 			end
 		end
 
@@ -441,7 +441,7 @@ function onInstalled(seed, rarity, permanent)
 	_rarity = rarity.value
 
 	-- if onClient() then
-	-- DebugMsg("Запускаю onInstalledUItooltips")
+	-- DebugMsg("Starting onInstalledUItooltips")
 	-- onInstalledUItooltips(rarity.value)
 	-- end
 
@@ -451,9 +451,9 @@ function onInstalled(seed, rarity, permanent)
 
 	if _debug and onServer() then
 		print("________________")
-		print(-_cooldown / 100, "процент-бонус к откату ПД")
-		print(_eDrain / 100, "процент-штраф к энергопотреблению")
-		print(_jump, "бонус к дальности прыжка")
+		print(-_cooldown / 100, "cooldown percent bonus")
+		print(_eDrain / 100, "energy drain percent penalty")
+		print(_jump, "jump range bonus")
 		print("________________")
 	end
 
@@ -511,12 +511,12 @@ function updateStatusEffects(_type, _status)
 		if _status then
 			local _line = getSubtechName(systemname, 2) .. ' - ' .. getTechInfo('active')
 			if Shield().filledPercentage < DestabilizerShieldTreshold / 100 and Durability().filledPercentage > DestabilizerChargeDestructionTreshold / 100 then
-				DebugMsg("Корректный тик - дестабилизатор")
+				DebugMsg("Correct tick - destabilizer")
 				removeShipProblem(_name, Entity().id)
 				addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(150, 64, 100), false)
 			else
 				local _line = getSubtechName(systemname, 2) .. ' - ' .. getTechInfo('inactive')
-				DebugMsg("Некорректный тик - дестабилизатор")
+				DebugMsg("Incorrect tick - destabilizer")
 				removeShipProblem(_name, Entity().id)
 				addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(16, 97, 84), false)
 			end
@@ -767,4 +767,10 @@ function getComparableValues(seed, rarity)
 	-- end
 
 	return base, bonus
+end
+
+function initialize()
+	if onClient() then
+		initializeUI()
+	end
 end

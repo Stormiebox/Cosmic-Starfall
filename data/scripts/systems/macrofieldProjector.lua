@@ -35,7 +35,7 @@ ModuleBonusAccumRARMP = 9                --percentage, bonus per unit of rarity
 RepairWaveCooldown = 110                 --seconds, repair wave CD
 RepairWaveCooldownRARMP = 3              --seconds, cooldown reduction per rarity unit
 RepairWaveOperationTime = 6              --seconds, wave operating time
-RepairWaveHealingAmount = 2200           --hull units repaired for a selected amount of energy
+RepairWaveHealingAmount = 10           --percent of hull repaired for a selected amount of energy
 RepairWaveEnergyUnit = 1                 --terajoules, selected amount of energy
 RepairWaveSelfBonus = 12                 --interest, bonus recovery on your own
 RepairWaveSelfBonusRARMP = 2             --interest, bonus to restoration per unit of rarity
@@ -43,7 +43,7 @@ RepairWaveEnergyConsumption = 8          --percent, battery energy burned per se
 RepairWaveRange = 28                     --kilometers, wave radius
 
 RenovatingRayCooldown = 28               --seconds, module rollback
-RenovatingRayHealingAmount = 3200        --hull units repaired for a selected amount of energy
+RenovatingRayHealingAmount = 15        --percent of hull repaired for a selected amount of energy
 RenovatingRayEnergyUnit = 1              --terajoules, selected amount of energy
 RenovatingRayEnergyConsumption = 2.5     --percent, battery energy burned per second
 RenovatingRayRange = 30                  --kilometers, work radius
@@ -51,7 +51,7 @@ RenovatingRayRangeRARMP = 2              --kilometers, additional radius per uni
 RenovatingRayCanUseOnSelf = false        --does the beam work on its own?
 
 ShieldBoosterCooldown = 32               --seconds, module rollback
-ShieldBoosterHealingAmount = 7000        --hull units repaired for a selected amount of energy
+ShieldBoosterHealingAmount = 25        --percent of hull repaired for a selected amount of energy
 ShieldBoosterEnergyUnit = 1              --terajoules, selected amount of energy
 ShieldBoosterEnergyConsumption = 3       --percent, battery energy burned per second
 ShieldBoosterRange = 30                  --kilometers, work radius
@@ -145,18 +145,18 @@ function CalculateRepairAmount(_type)
 	--Shield Booster
 	if _type == 0 then
 		local _energyConsumpt = ConvertToJ(EnergySystem().capacity * (RepairWaveEnergyConsumption * 0.01), true)
-		local _baseHealMultiplier = round(_energyConsumpt * RepairWaveHealingAmount)
+		local _baseHealMultiplier = round((Durability().maximum / 100) * _energyConsumpt * RepairWaveHealingAmount)
 		DebugMsg("Repair amount (repair wave): " .. tostring(_baseHealMultiplier))
 		return _baseHealMultiplier
 	end
 	if _type == 1 then
 		local _energyConsumptRR = ConvertToJ(EnergySystem().capacity * (RenovatingRayEnergyConsumption * 0.01), true)
-		local _baseHealMultiplierRR = round(_energyConsumptRR * RenovatingRayHealingAmount)
+		local _baseHealMultiplierRR = round((Durability().maximum / 100) * _energyConsumptRR * RenovatingRayHealingAmount)
 		return _baseHealMultiplierRR
 	end
 	if _type == 2 then
 		local _energyConsumptSB = ConvertToJ(EnergySystem().capacity * (ShieldBoosterEnergyConsumption * 0.01), true)
-		local _baseHealMultiplierSB = round(_energyConsumptSB * ShieldBoosterHealingAmount)
+		local _baseHealMultiplierSB = round((Shield().maximum / 100) * _energyConsumptSB * ShieldBoosterHealingAmount)
 		return _baseHealMultiplierSB
 	end
 	if _type == 3 then
@@ -179,22 +179,22 @@ end
 --Displays enki costs
 function RWgetHealAmount()
 	local _energyConsumpt = ConvertToJ(EnergySystem().capacity * (RepairWaveEnergyConsumption * 0.01), true)
-	DebugMsg(tostring(_energyConsumpt) .. "тДж - затраты энергии ремонтной волны")
+	DebugMsg(tostring(_energyConsumpt) .. "TJ - energy cost of repair wave")
 	local _baseHealMultiplier = round(_energyConsumpt * RepairWaveHealingAmount)
-	DebugMsg(tostring(_baseHealMultiplier) .. " - потенциальный ремонт корпуса")
+	DebugMsg(tostring(_baseHealMultiplier) .. " - potential hull repair")
 	local _baseHealMultiplierSelf = round(_baseHealMultiplier *
 		(1 + (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) / 100))
-	DebugMsg(tostring(_baseHealMultiplierSelf) .. " - потенциальный ремонт корпуса себе")
+	DebugMsg(tostring(_baseHealMultiplierSelf) .. " - potential self hull repair")
 
 	local _energyConsumptRR = ConvertToJ(EnergySystem().capacity * (RenovatingRayEnergyConsumption * 0.01), true)
-	DebugMsg(tostring(_energyConsumptRR) .. "тДж - затраты энергии обновляющего луча")
+	DebugMsg(tostring(_energyConsumptRR) .. "TJ - energy cost of renovating ray")
 	local _baseHealMultiplierRR = round(_energyConsumptRR * RenovatingRayHealingAmount)
-	DebugMsg(tostring(_baseHealMultiplierRR) .. " - потенциальный ремонт корпуса от обновляющего луча")
+	DebugMsg(tostring(_baseHealMultiplierRR) .. " - potential hull repair from renovating ray")
 
 	local _energyConsumptSB = ConvertToJ(EnergySystem().capacity * (ShieldBoosterEnergyConsumption * 0.01), true)
-	DebugMsg(tostring(_energyConsumptSB) .. "тДж - затраты энергии усилителя щита")
+	DebugMsg(tostring(_energyConsumptSB) .. "TJ - energy cost of shield booster")
 	local _baseHealMultiplierSB = round(_energyConsumptSB * ShieldBoosterHealingAmount)
-	DebugMsg(tostring(_baseHealMultiplierSB) .. " - потенциальный реген щита от усилителя щита")
+	DebugMsg(tostring(_baseHealMultiplierSB) .. " - potential shield regen from shield booster")
 end
 
 function DebugMsg(_text)
@@ -511,7 +511,7 @@ function RenovationRayOperate()
 	--Check goals
 	if not (valid(RenovatingRayTarget)) or RenovatingRayTarget.isShip == false then
 		RenovatingRayTurnToFalse()
-		DebugMsg("RenovatingRay: не могу найти цель (отсутствует или погибла)")
+		DebugMsg("RenovatingRay: cannot find target (missing or destroyed)")
 		return
 	end
 
@@ -637,7 +637,7 @@ function ShieldBoosterOperate()
 	--Check goals
 	if ShieldBoosterTarget == nil or ShieldBoosterTarget.isShip == false or Shield(ShieldBoosterTarget.id).filledPercentage < 0.1 then
 		ShieldBoosterTurnToFalse()
-		DebugMsg("ShieldBooster: не могу найти цель (отсутствует или погибла)")
+		DebugMsg("ShieldBooster: cannot find target (missing or destroyed)")
 		return
 	end
 
@@ -758,7 +758,7 @@ function ShieldSyncOperate()
 
 	if ShieldSynchronizerTarget == nil or ShieldSynchronizerTarget.isShip == false then
 		ShieldSyncTurnToFalse()
-		DebugMsg("ShieldSync: не могу найти цель (отсутствует или погибла)")
+		DebugMsg("ShieldSync: cannot find target (missing or destroyed)")
 		return
 	end
 	--Checking the permissible distance to the target
@@ -845,7 +845,7 @@ end
 function onFinishWork(_time, _type)
 	if _time <= 0 then
 		if _type == 0 then
-			DebugMsg("Ремонтная волна: конец работы")
+			DebugMsg("Repair wave: end of work")
 			Entity():invokeFunction('raycast.lua', 'RemoveSphere', 'MPrw')
 			UIplaysound(1)
 		end
@@ -886,18 +886,18 @@ end
 function initializeUI()
 	subSysDesc = {
 		string.format(
-			"%s\nConsumes %i%% energy per second, restoring %i hull points to surrounding player-owned allied vessels for each %i TJ of energy consumed (~%i points per second). The repair of your own ship has been increased by %i%%. It does not allow you to use %s and %s while working.\nThe radius of operation of the module is %i km.\nThe working time is %i seconds.\nCooldown - %i s." %
+			"%s\nConsumes %i%% energy per second, restoring %i%% of max hull to surrounding player-owned allied vessels for each %i TJ of energy consumed (~%i points per second). The repair of your own ship has been increased by %i%%. It does not allow you to use %s and %s while working.\nThe radius of operation of the module is %i km.\nThe working time is %i seconds.\nCooldown - %i s." %
 			_t, getSubtechName(systemname, 1), RepairWaveEnergyConsumption, RepairWaveHealingAmount, RepairWaveEnergyUnit,
 			CalculateRepairAmount(0), RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity,
 			getSubtechName(systemname, 2), getSubtechName(systemname, 3), RepairWaveRange, RepairWaveOperationTime,
 			RepairWaveCooldown - RepairWaveCooldownRARMP * _rarity),
 		string.format(
-			"%s\nConsumes %i%% energy per second and repairs the selected player-owned target, restoring %i hull points per second for each %i TJ of energy consumed (~%i points per second). Repair continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the operation of the shield booster.\nBeam working range: %i km.\nModule cooldown when changing targets: %i s." %
+			"%s\nConsumes %i%% energy per second and repairs the selected player-owned target, restoring %i%% of max hull per second for each %i TJ of energy consumed (~%i points per second). Repair continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the operation of the shield booster.\nBeam working range: %i km.\nModule cooldown when changing targets: %i s." %
 			_t, getSubtechName(systemname, 2), RenovatingRayEnergyConsumption, RenovatingRayHealingAmount,
 			RenovatingRayEnergyUnit, CalculateRepairAmount(1), RenovatingRayRange + RenovatingRayRangeRARMP * _rarity,
 			RenovatingRayCooldown),
 		string.format(
-			"%s\nConsumes %i%% of the energy per second and charges the player-owned target shield, restoring %i points per second for each consumed %i TJ of energy (~%i points per second). Charging continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the work of the renovation ray.\nThe module will not work if the target's shield drops below %i%%\nBeam working range: %i km.\nModule cooldown when changing targets: %i s." %
+			"%s\nConsumes %i%% of the energy per second and charges the player-owned target shield, restoring %i%% of max shield per second for each consumed %i TJ of energy (~%i points per second). Charging continues until the entire energy reserve is used up or the module is turned off manually. It is impossible to turn on the repair wave during operation, interrupts the work of the renovation ray.\nThe module will not work if the target's shield drops below %i%%\nBeam working range: %i km.\nModule cooldown when changing targets: %i s." %
 			_t, getSubtechName(systemname, 3), ShieldBoosterEnergyConsumption, ShieldBoosterHealingAmount,
 			ShieldBoosterEnergyUnit, CalculateRepairAmount(2), ShieldBoosterValueTreshold,
 			ShieldBoosterRange + ShieldBoosterRangeRARMP * _rarity, ShieldBoosterCooldown),
@@ -1013,9 +1013,9 @@ function onInstalled(seed, rarity, permanent)
 	_rarity = rarity.value
 	--Adds passive bonuses upon installation
 	addBaseMultiplier(StatsBonuses.GeneratedEnergy, _eRegen)
-	if _debug then print(_eRegen * 100, "% Бонус регена") end
+	if _debug then print(_eRegen * 100, "% Regen bonus") end
 	addBaseMultiplier(StatsBonuses.EnergyCapacity, _eValue)
-	if _debug then print(_eValue * 100, "% Бонус аккума") end
+	if _debug then print(_eValue * 100, "% Battery bonus") end
 
 	--Initializing hooks
 	if onServer() then
@@ -1243,4 +1243,10 @@ function getComparableValues(seed, rarity)
 	end
 
 	return base, bonus
+end
+
+function initialize()
+	if onClient() then
+		initializeUI()
+	end
 end

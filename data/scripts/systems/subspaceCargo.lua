@@ -116,10 +116,10 @@ function getComparableValues(seed, rarity)
     local base = {}
     local bonus = {}
     -- if perc ~= 0 then
-    -- table.insert(base, {name = "Грузовой отсек"%_t, key = "cargo_hold_relative", value = round(perc *100), comp = UpgradeComparison.MoreIsBetter})
-    -- table.insert(bonus, {name = "Грузовой отсек"%_t, key = "cargo_hold_relative", value = round(perc *0.5 *100), comp = UpgradeComparison.MoreIsBetter})
-    -- table.insert(bonus, {name = "Объем щитов"%_t, key = "cargo_hold_relative", value = round(shield *0.5 *100), comp = UpgradeComparison.MoreIsBetter})
-    -- table.insert(base, {name = "Мощность реактора"%_t, key = "cargo_hold_relative", value = round(energy *100), comp = UpgradeComparison.MoreIsBetter})
+    -- table.insert(base, {name = "Cargo Hold"%_t, key = "cargo_hold_relative", value = round(perc *100), comp = UpgradeComparison.MoreIsBetter})
+    -- table.insert(bonus, {name = "Cargo Hold"%_t, key = "cargo_hold_relative", value = round(perc *0.5 *100), comp = UpgradeComparison.MoreIsBetter})
+    -- table.insert(bonus, {name = "Shield Capacity"%_t, key = "cargo_hold_relative", value = round(shield *0.5 *100), comp = UpgradeComparison.MoreIsBetter})
+    -- table.insert(base, {name = "Reactor Power"%_t, key = "cargo_hold_relative", value = round(energy *100), comp = UpgradeComparison.MoreIsBetter})
     -- end
 
     return base, bonus

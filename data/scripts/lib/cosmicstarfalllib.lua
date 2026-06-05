@@ -1,8 +1,5 @@
 package.path = package.path .. ";data/scripts/lib/?.lua"
 
-local okDebug, CosmicVaultDebug = pcall(include, "cosmicvaultdebug")
-local okConfig, CosmicVaultConfig = pcall(include, "cosmicvaultconfig")
-
 CosmicStarfallLib = CosmicStarfallLib or {}
 
 local function safeName(entity)
@@ -15,34 +12,18 @@ local function fallbackPrint(level, scope, msg, ...)
 end
 
 function CosmicStarfallLib.logInfo(scope, msg, ...)
-    if okDebug and CosmicVaultDebug and CosmicVaultDebug.info then
-        CosmicVaultDebug.info("CosmicStarfall-" .. tostring(scope), msg, ...)
-        return
-    end
     fallbackPrint("INFO", scope, msg, ...)
 end
 
 function CosmicStarfallLib.logWarn(scope, msg, ...)
-    if okDebug and CosmicVaultDebug and CosmicVaultDebug.warn then
-        CosmicVaultDebug.warn("CosmicStarfall-" .. tostring(scope), msg, ...)
-        return
-    end
     fallbackPrint("WARN", scope, msg, ...)
 end
 
 function CosmicStarfallLib.logError(scope, msg, ...)
-    if okDebug and CosmicVaultDebug and CosmicVaultDebug.error then
-        CosmicVaultDebug.error("CosmicStarfall-" .. tostring(scope), msg, ...)
-        return
-    end
     fallbackPrint("ERROR", scope, msg, ...)
 end
 
 function CosmicStarfallLib.getConfig()
-    if okConfig and CosmicVaultConfig and CosmicVaultConfig.get then
-        local cfg = CosmicVaultConfig.get()
-        if type(cfg) == "table" then return cfg end
-    end
     return {}
 end
 

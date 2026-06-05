@@ -76,8 +76,8 @@ function OCore.initUI()
 	local frameV2 = vec2(370, 270) --the second point for the rect scroller of the first two tabs
 
 	OCCwindow = ScriptUI():createWindow(Rect(res * 0.5 - size * 0.5, res * 0.5 + size * 0.5))
-	ScriptUI():registerWindow(OCCwindow, 'Экспериментальный функционал')
-	OCCwindow.caption = "Экспериментальный функционал"
+	ScriptUI():registerWindow(OCCwindow, 'Experimental Features')
+	OCCwindow.caption = "Experimental Features"
 	OCCwindow.showCloseButton = true
 	OCCwindow.moveable = true
 
@@ -102,7 +102,7 @@ function OCore.initUI()
 	OCCbutton1.tooltip = "Inventory check"
 	OCCbutton2 = OCCwindow:createRoundButton(rectButtons[2], "data/textures/icons/SUBSYSPolarisationNanobots.png",
 		"RestoreTestTable")
-	OCCbutton2.tooltip = "Отобразить таблицу"
+	OCCbutton2.tooltip = "Display Table"
 	OCCbutton3 = OCCwindow:createRoundButton(rectButtons[3], "data/textures/icons/fill-up-arrow.png", "aquaSave")
 	OCCbutton3.tooltip = "Save"
 	OCCbutton4 = OCCwindow:createRoundButton(rectButtons[4], locIcons['party'], "aquaLoad")
@@ -287,7 +287,7 @@ end
 
 function OCore.inventoryCheck()
 	Debug('inventoryCheck attempt')
-	local _name = 'Штурмовая'
+	local _name = 'Assault'
 	local turret = Player():getInventory():find(14)
 	if turret then
 		if turret.flavorText then Debug('turret flavorText: ' .. turret.flavorText) end

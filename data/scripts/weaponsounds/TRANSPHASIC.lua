@@ -1,11 +1,11 @@
 WeaponSounds = {
     sounds = {
-        "weapon/maincaliber/heavyLaserV2",
+        "weapon/maincaliber/heavylaserv2",
     },
     range = 750,
     volume = 0.25,
     loop = {
-        sound = "weapon/maincaliber/laserLoop",
+        sound = "weapon/maincaliber/laserloop",
         range = 750,
         volume = 1.0,
     }

@@ -101,17 +101,17 @@ function updateServer(timePassed)
 
 		GeneratorIsWorking = math.max(0, GeneratorIsWorking - timePassed)
 
-		if _debug then print(GeneratorIsWorking, "- оставшееся время") end
+		if _debug then print(GeneratorIsWorking, "- remaining time") end
 
 		if GeneratorIsWorking > 0 then
 			if _debug then
-				print(_cv, "- значение, которое имеет _cv перед импульсом")
-				print("Активная фаза updateServer")
+				print(_cv, "- value of _cv before pulse")
+				print("Active phase updateServer")
 			end
 			_ship:setValue("isPulseGenerator", _cv + GeneratorRangePerPulse)
 			_ship:addAbsoluteBias(StatsBonuses.LootCollectionRange, GeneratorRangePerPulse)
 			if _debug then
-				print(Entity():getValue("isPulseGenerator"), "_cv после импульса")
+				print(Entity():getValue("isPulseGenerator"), "_cv after pulse")
 				print(Entity():getBoostedValue(StatsBonuses.LootCollectionRange, 0), "_ab")
 				print("__________")
 			end
@@ -130,18 +130,18 @@ function pGeneratorActivate()
 
 	if GeneratorIsReady == 0 then
 		if _debug then
-			print(_ab, "- lootCollectionRange в начале вызова pGeneratorActivate")
-			print(_cv, "_cv в начале работы pGeneratorActivate")
+			print(_ab, "- lootCollectionRange at start of pGeneratorActivate")
+			print(_cv, "_cv at start of pGeneratorActivate")
 		end
 
 		if _cv == nil then
-			if _debug then print("_cv не обнаружен, принудительно установлен как 0") end
+			if _debug then print("_cv not found, forced to 0") end
 			Entity():setValue("isPulseGenerator", 0)
 		end
 		GeneratorIsReady = GeneratorCooldown --starts rollback
 		GeneratorAllowedPulses = GeneratorMaxPulsesBase + GeneratorPulsesPerRarity * (_rarity + 2) +
 			1                          --counts the maximum number of pulses
-		if _debug then print(GeneratorAllowedPulses, "- количество импульсов") end
+		if _debug then print(GeneratorAllowedPulses, "- number of pulses") end
 		GeneratorIsWorking = GeneratorAllowedPulses *
 			2                                                    --duration depends on the number of pulses
 
@@ -163,7 +163,7 @@ function pGeneratorActivate()
 		}
 		callTechAuraSelf(_aura)
 	else
-		if _debug then print("Перезарядка не закончена! Осталось", GeneratorIsReady, "секунд") end
+		if _debug then print("Cooldown not finished! Remaining", GeneratorIsReady, "seconds") end
 		invokeClientFunction(Player(), 'UIplaysound', 2)
 	end
 end
@@ -383,4 +383,10 @@ function getComparableValues(seed, rarity) --I don’t understand why this is ne
 	local bonus = {}
 
 	return base, bonus
+end
+
+function initialize()
+	if onClient() then
+		initializeUI()
+	end
 end
