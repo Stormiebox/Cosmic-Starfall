@@ -3,11 +3,12 @@ function initialize(...)
     if cs_old_player_init then cs_old_player_init(...) end
 
     if onServer() then
-        Player():addScriptOnce("ui/alertCore.lua")
-        Player():addScriptOnce("ui/auraCore.lua")
+        Player():addScriptOnce("data/scripts/player/ui/alertCore.lua")
+        Player():addScriptOnce("data/scripts/player/ui/auraCore.lua")
         --Player():addScriptOnce("ui/combatGroup.lua")
-        Player():addScriptOnce("ui/combatGroupV2.lua")
-        Player():addScriptOnce("ui/infoTab/infoTabCore.lua")
-        Player():addScriptOnce("ui/interfaces/activeSysInterface.lua")
+        Player():addScriptOnce("data/scripts/player/ui/combatGroupV2.lua")
+        Player():addScriptOnce("data/scripts/player/ui/infoTab/infoTabCore.lua")
+        Player():addScriptOnce("data/scripts/player/ui/interfaces/activeSysInterface.lua")
     end
 end
+

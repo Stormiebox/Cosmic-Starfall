@@ -999,26 +999,23 @@ end
 function getBonuses(seed, rarity, permanent)
 	math.randomseed(seed)
 
-	local _shield = math.random(27, 31) - rarity.value * 2
+	local _shieldBuff = math.random(69, 73) + rarity.value * 2
 
 	local _regen = math.random(14, 19) + rarity.value * 3
 
 	local _timeFactor = math.random(19, 21) + rarity.value * 2
 
-	--DebugMsg(tostring(_shield).."% _shield")
-	--DebugMsg(tostring(_regen).."% _regen")
-
-	return _shield, _regen, _timeFactor
+	return _shieldBuff, _regen, _timeFactor
 end
 
 function onInstalled(seed, rarity, permanent)
 	local _shield, _regen, _timeFactor = getBonuses(seed, rarity, permanent)
 	if not Entity() then return end
 	--Assigns a global variable used to determine module quality
-	_rarity = rarity.value
+		_rarity = rarity.value
 	--Adds passive bonuses upon installation
 	addBaseMultiplier(StatsBonuses.ShieldRecharge, _regen / 100)
-	addMultiplier(StatsBonuses.ShieldDurability, 1 - (_shield / 100))
+	addMultiplier(StatsBonuses.ShieldDurability, _shield / 100)
 	addBaseMultiplier(StatsBonuses.ShieldTimeUntilRechargeAfterHit, -(_timeFactor / 100))
 
 	--Initializing Interface Elements
@@ -1070,7 +1067,7 @@ function getTooltipLines(seed, rarity, permanent)
 	table.insert(texts,
 		{
 			ltext = "Shield Durability"%_t,
-			rtext = string.format('-%i%%', _shield),
+			rtext = string.format('+%i%%', _shield),
 			icon =
 			"data/textures/icons/health-normal.png",
 			boosted = permanent
@@ -1123,3 +1120,5 @@ function initialize()
 		initializeUI()
 	end
 end
+
+

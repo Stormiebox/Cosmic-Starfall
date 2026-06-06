@@ -1,3 +1,4 @@
+include('utility')
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 include('Armory')
 include('Neltharaku')
@@ -595,3 +596,4 @@ entities['subspaceCargo'] = {
 	--Active Effects
 	nil,
 }
+

@@ -26,6 +26,7 @@ local TSR = Neltharaku.TableSelfReport
 local order = {
 	--name,ID,IDupdate
 	--Active
+	{ 'Update 2.1.0', 'Starfall-Compliance', 2.0 },
 	{ 'Cosmic Starfall Revamp', 'Starfall-Revamp', 1.0 },
 }
 
@@ -317,6 +318,24 @@ end
 
 --Types: desc,picture,iconinfo,mainlabel
 
+entities['Starfall-Compliance'] = {
+	--Name
+	'Update 2.1.0 - Compliance & Balance', --Name of the stType
+	--Content
+	{
+		{
+			'mainlabel',                           -- Item type
+			nil,                                   -- Height (nil for iconname/mainlabel)
+			'data/textures/icons/clipboard-arrow-down.png', -- Content. Text or path to the image.
+		},
+		{
+			'desc',                                            -- Item type
+			10,                                                 -- Height (nil for iconname/mainlabel)
+			self.transformToSingleLine(updateLines['Starfall-Compliance']), -- Content. Text or path to the image.
+		},
+	},
+}
+
 entities['Starfall-Revamp'] = {
 	--Name
 	'Cosmic Starfall Revamp', --Name of the stType
@@ -334,3 +353,6 @@ entities['Starfall-Revamp'] = {
 		},
 	},
 }
+
+
+

@@ -5,7 +5,7 @@ include('Armory')
 local old_generateChaingun = WeaponGenerator.generateChaingun
 function WeaponGenerator.generateChaingun(rand, dps, tech, material, rarity)
     local weapon = old_generateChaingun(rand, dps, tech, material, rarity)
-    weapon.damage = weapon.damage * 1.25
+    weapon.damage = weapon.damage * 1.10
     weapon.reach = weapon.reach + tech * 3
     if rand:test(0.075) then
         WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 1.5, 0.15, 0.2)
@@ -21,7 +21,7 @@ end
 local old_generateBolter = WeaponGenerator.generateBolter
 function WeaponGenerator.generateBolter(rand, dps, tech, material, rarity)
     local weapon = old_generateBolter(rand, dps, tech, material, rarity)
-    weapon.damage = weapon.damage * 1.15
+    weapon.damage = weapon.damage * 1.05
     weapon.damageType = DamageType.AntiMatter
     WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 2.5, 0.15, 0.2)
     weapon.recoil = weapon.damage * 16
@@ -63,7 +63,7 @@ end
 local old_generateRocketLauncher = WeaponGenerator.generateRocketLauncher
 function WeaponGenerator.generateRocketLauncher(rand, dps, tech, material, rarity)
     local weapon = old_generateRocketLauncher(rand, dps, tech, material, rarity)
-    weapon.damage = weapon.damage * 1.15
+    weapon.damage = weapon.damage * 1.05
     if rand:test(0.1) then
         WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 2, 0.15, 0.2)
     end
@@ -996,3 +996,4 @@ generatorFunction[WeaponType.PRD] = WeaponGenerator.generatePRD
 generatorFunction[WeaponType.MAGNETICMORTAR] = WeaponGenerator.generateMagneticmortar
 generatorFunction[WeaponType.TRANSPHASIC] = WeaponGenerator.generateTRANSPHASIC
 generatorFunction[WeaponType.PLASMAFLAK] = WeaponGenerator.generatePLASMAFLAK
+

@@ -278,8 +278,8 @@ end
 ---------------------------------------------------------------------
 function getBonuses(seed, rarity, permanent)
 	math.randomseed(seed)
-	local _eRegen = 0.07
-	local _eAmount = 0.07
+	local _eRegen = 0.05 + (rarity.value * 0.02)
+	local _eAmount = 0.05 + (rarity.value * 0.02)
 
 	return _eRegen, _eAmount
 end
@@ -407,3 +407,4 @@ function initialize()
 		initializeUI()
 	end
 end
+

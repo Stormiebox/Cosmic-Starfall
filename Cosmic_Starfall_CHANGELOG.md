@@ -25,6 +25,21 @@
 - Hardened server-to-client UI generation in `complexCoreV2.lua` and `complexCore.lua`.
 - Purged all un-targeted `invokeClientFunction(Player(), ...)` invocations which resolve to `nil` during background callbacks (like `onDockChange`). They now cleanly fall back to `broadcastInvokeClientFunction` to ensure station UI lists properly populate without throwing server errors.
 
+
+#### 7. Virtual File System (VFS) Compliance
+- Fixed a massive mod-breaking compatibility issue where a 580-line clone of the vanilla shiputility.lua script forcefully overwrote all other mods' modifications.
+- Migrated the Starfall AI Weapon Pool extensions to perfectly utilize native Avorion 2.0 VFS hooks without overwriting the core files.
+- Re-routed player and entity script injections in init.lua files using strict VFS paths (data/scripts/...) to prevent load errors on dedicated servers.
+
+#### 8. Mod-Wide Balance Pass
+- **Overpowered Core:** Stripped out the broken hardcoded stat values. It now utilizes true dynamic rarity scaling (+5% up to +15% energy stats).
+- **Bastion System:** Fully reversed the faulty mathematical logic. The system now natively scales positively (+69% up to +83% shield), and the UI tooltip was patched to properly display a buff (+XX%) instead of a negative penalty.
+- **Vanilla Power Creep:** Nerfed the flat exponential global damage multipliers applied to vanilla Chainguns (1.25x -> 1.10x) and Bolters (1.15x -> 1.05x) to restore late-game TTK balance.
+
+#### 9. UI & QoL Fixes
+- **Player Info Tab Crash:** Identified and resolved a critical silent crash caused by missing include('utility') definitions for UIVerticalSplitter and UIHorizontalSplitter. The Cosmic Starfall Mod Wiki tab now correctly renders and functions.
+- **In-Game Changelog Syntax:** Fixed a fatal syntax error in infoChangelog.lua (dangling comma in a table) that would have crashed the UI script, and updated the in-game wiki to publicly display all Update 2.1.0 balance/compliance modifications.
+
 ### LEGACY LOGS BELOW
 # Cosmic Starfall - Revamp Changelog
 

@@ -1,3 +1,4 @@
+include('utility')
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 package.path = package.path .. ";data/scripts/player/ui/infoTab/?.lua"
 include('Neltharaku')
@@ -375,3 +376,4 @@ if onClient() then
 
 	--onclient over
 end
+

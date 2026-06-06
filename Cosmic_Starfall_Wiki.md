@@ -131,48 +131,49 @@ A focused crash-fix pass hardened owner resolution for modern Avorion runtime co
 Enables smoother interoperability with broader Cosmic-series workflows while preserving standalone safety and avoiding repeated owner-context stack traces.
 </details>
 
+
 ### 5) Deep-Dive Script Corrections & Hygiene
 <details>
-<summary><b>Click to expand detailed script fixes</b></summary>
+<summary><b>Click to expand details</b></summary>
 
-#### Subspace Cargo Corrections
-- **File:** `data/scripts/systems/subspaceCargo.lua`
-- **Fixes:** Deterministic naming mark-level logic cleanup, dead/unused naming path cleanup, and bridge include alignment with the compatibility helper strategy.
-- **Impact:** More stable subsystem naming and cleaner script path readability.
+- **Virtual File System (VFS) Compliance:** Fixed a major architectural flaw where shiputility.lua was blindly overriding the vanilla script and destroying compatibility with other mods. The AI Weapon Pool injection now properly utilizes modern Avorion 2.0 VFS hook techniques.
+- **UI Restoration:** Fixed fatal silent crashes in the player infoTab modules caused by missing utility includes. The built-in Starfall Wiki interface has been fully restored and updated.
+- **Math Logic Fixes:** Identified and resolved completely reversed math inside the Bastion System (where tooltips displayed negative penalties despite providing positive buffs).
+- **Injection Safety:** All script injections in init.lua arrays now use rigorous data/scripts/... absolute pathways to prevent load failures on dedicated servers.
 
-#### Overpowered Core Lifecycle Safety Improvements
-- **File:** `data/scripts/systems/overpoweredCore.lua`
-- **Fixes:** Ownership checks shifted toward safer index/owner-robust logic, side-appropriate callback behavior, and uninstall/state persistence logic adjusted to avoid invalid side assumptions.
-- **Impact:** Lower ownership mismatch risk and better client/server correctness.
-
-#### Complex Craft Core Robustness Fixes
-- **File:** `data/scripts/complexCraft/complexCore.lua`
-- **Fixes:** Nil-before-compare guard ordering improvements, safer `tonumber` parsing and clamping in cargo/UI paths, corrected identifier reference mismatches in rebuild paths, and debug print/lint issue corrections.
-- **Impact:** Better operational safety in complex craft management and rebuild flows.
-
-#### Engine Overwrite & Hook Cleanup
-- **Files:** `weapongenerator.lua`, `turretingredients.lua`, `turretgenerator.lua`, `shiputility.lua`, `tooltipmaker.lua`
-- **Fixes:** Eliminated destructive hard-overwrites of vanilla game code. Original vanilla weapon generation, AI logic, and UI tooltips are no longer replaced. Instead, Starfall's weapon buffs, custom constraints, and UI additions are dynamically applied using non-invasive hooks (`local old_function = ...`).
-- **Impact:** Cosmic Starfall is now 100% compliant with the modern Avorion ecosystem, seamlessly sharing engine space with mods like Cosmic Overhaul without breaking recipes or stats.
-
-#### UI & Group Crash Fixes
-- **Files:** `entityAlerts.lua`, `combatGroup.lua`, `combatGroupV2.lua`
-- **Fixes:** Eliminated guaranteed server crashes linked to UI alerts trying to blindly call `Player()` from server-entity contexts. Added safety checks for `nil` returns when kicking or inviting logged-off players.
-- **Impact:** Seamless, crash-free UI rendering and group mechanics.
-
-#### Known Stability Improvements (Latest Cycle)
-Specifically addressed recurring owner-context crashes affecting:
-- `data/scripts/systems/XperimentalHypergenerator.lua`
-- `data/scripts/systems/repairDrones.lua`
-
-**What Changed:** Added owner-availability guards before owner-routed UI invoke/update/delete helper calls. Hardened owner descriptor/index extraction in `cosmicstarfalllib.lua`.
-**Practical Outcome:** Eliminated repeated stacktrace patterns tied to `Property not found or not readable: Owner.index`, reduced high-frequency update/UI error spam, and improved resilience under dynamic ownership/lifecycle edge cases in long sessions.
-
-#### Maintainability-Oriented Refactor Hygiene
-Reduced fragile patterns in touched areas, clearer code intent in high-risk regions, and better future patchability for subsequent balancing passes. This allows for faster and safer iteration cycles as runtime telemetry informs future tuning.
 </details>
 
+
 ---
+### 6) Arsenal & Subsystem Statistics
+<details>
+<summary><b>Click to expand full numeric details</b></summary>
+
+#### Advanced Subsystems
+
+**1. The Overpowered Core (overpoweredCore.lua)**
+- **Function:** Dramatically increases energy generation and capacity.
+- **Rarity Scaling:** Dynamically scales based on rarity tier.
+  - **Petty (Grey):** +5% Energy Generation & Capacity
+  - **Common (White):** +7% Energy Generation & Capacity
+  - **Uncommon (Green):** +9% Energy Generation & Capacity
+  - **Rare (Blue):** +11% Energy Generation & Capacity
+  - **Exceptional (Yellow):** +13% Energy Generation & Capacity
+  - **Legendary (Purple):** +15% Energy Generation & Capacity
+
+**2. The Bastion System (astionSystem.lua)**
+- **Function:** Massively multiplies base shield durability at the cost of shield regeneration delay.
+- **Rarity Scaling:**
+  - **Shield Durability Bonus:** Positively scales from +69% up to +83% (Legendary).
+  - **Recharge Penalty:** Increases recharge delay after taking a hit.
+
+#### Vanilla Weapon Modifications (weapongenerator.lua)
+Cosmic Starfall slightly augments the baseline strength of some vanilla physical weapons to ensure they remain competitive alongside the new energy-heavy arsenal.
+- **Chainguns:** Base Damage x 1.10, Reach + Tech * 3, Recoil heavily increased. 15% chance to spawn with Antimatter or Plasma damage, 5% chance for Electric.
+- **Bolters:** Base Damage x 1.05, Damage Type natively converted to Antimatter.
+
+</details>
+
 
 ## Ecosystem & Server Considerations
 
@@ -221,3 +222,4 @@ Cosmic Starfall is currently an **active WIP** with ongoing runtime validation a
 - Strategic balance over extreme dominance.
 - Script safety and reliability.
 - Compatibility-minded evolution for broader Cosmic ecosystem use.
+

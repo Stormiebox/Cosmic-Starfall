@@ -1,3 +1,4 @@
+include('utility')
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 include('Armory')
 include('Neltharaku')
@@ -1168,3 +1169,4 @@ entities['transphasic'] = {
 		_t,
 	},
 }
+
