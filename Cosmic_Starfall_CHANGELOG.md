@@ -36,6 +36,9 @@ It is intended to explain:
 - what was fixed for current Avorion-era script safety,
 - and what was added for interoperability with Cosmic Vault / Cosmic ecosystem modules.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ## Scope of this Revamp
@@ -49,6 +52,9 @@ This pass focused on four goals:
 
 Runtime/in-game tuning remains iterative, but the codebase has been materially stabilized and normalized for continued testing.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ## New / Added
@@ -65,6 +71,9 @@ A new bridge/helper library was added to centralize compatibility behavior and o
 - Uses optional loading patterns (`pcall(include, ...)`) for Vault/debug/config-style modules.
 - Designed as a non-breaking helper layer: if optional dependencies are missing, scripts continue running.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ## Fixed / Updated
@@ -83,6 +92,9 @@ A new bridge/helper library was added to centralize compatibility behavior and o
 - Cleaner static code path.
 - Better consistency with Starfall compatibility bridge approach.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 2) `data/scripts/systems/overpoweredCore.lua`
@@ -102,6 +114,9 @@ A new bridge/helper library was added to centralize compatibility behavior and o
 - Better side-correct behavior in Avorion’s client/server model.
 - Fewer lifecycle-related script hazards.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 3) `data/scripts/complexCraft/complexCore.lua`
@@ -128,18 +143,36 @@ A new bridge/helper library was added to centralize compatibility behavior and o
 - Overhauled and renamed many of old Starfall UI information.
 - Updated information and changelog info.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ## Balance Revamp (Anti-OP Pass)
 
 The following changes were intentional **nerfs** aimed at reducing runaway power spikes while preserving identity/fantasy of each system.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### A) `data/scripts/systems/bastionSystem.lua`
 
 | Parameter | Old | New | Intent |
-|---|---:|---:|---|
+|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---:|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---:|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---|
 | VeilResistance | 25 | 16 | Lower passive tank ceiling |
 | VeilRepair | 0.10 | 0.06 | Reduce sustain burst |
 | VeilCooldown | 60 | 85 | Longer downtime window |
@@ -154,12 +187,27 @@ The following changes were intentional **nerfs** aimed at reducing runaway power
 
 **Net result:** Bastion remains defensive/control-focused but no longer sustains near-permanent oppressive uptime.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### B) `data/scripts/systems/macrofieldProjector.lua`
 
 | Parameter | Old | New | Intent |
-|---|---:|---:|---|
+|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---:|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---:|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---|
 | ModuleBonusEnergy | 20 | 12 | Lower passive efficiency gain |
 | ModuleBonusAccum | 130 | 80 | Reduce stacking battery inflation |
 | ModuleBonusEnergyRARMP | 4 | 2.5 | Flatten rarity scaling |
@@ -180,18 +228,36 @@ The following changes were intentional **nerfs** aimed at reducing runaway power
 
 **Net result:** Macrofield remains a versatile support platform but shifts from "all-in-one overpower" toward costly, timing-sensitive support.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### C) `data/scripts/systems/pulseTractorBeamGenerator.lua`
 
 | Parameter | Old | New | Intent |
-|---|---:|---:|---|
+|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---:|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---:|
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
+---|
 | GeneratorPulsesPerRarity | 4 | 3 | Lower scaling curve |
 | GeneratorRangePerPulse | 300 | 200 | Tighter influence zone |
 | GeneratorCooldown | 240 | 300 | Longer downtime |
 
 **Net result:** Tractor control identity is retained with reduced persistent map-control pressure.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ## Compatibility / Ecosystem Notes
@@ -200,6 +266,9 @@ The following changes were intentional **nerfs** aimed at reducing runaway power
 - No mandatory external hard dependency was introduced for this bridge behavior.
 - Design intent is "optional enhancement, safe fallback" rather than strict coupling.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ## Current Avorion Alignment
@@ -211,6 +280,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 - safer nil/type handling in high-traffic code paths,
 - reduced OP loop risk that can destabilize long-session gameplay balance.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ## QA Status
@@ -227,6 +299,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 - High-density docking/rebuild stress testing for complex craft flows.
 - Final numeric tuning after gameplay telemetry.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ## Additional Fixes (Latest Integration Cycle)
@@ -247,6 +322,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 - Eliminates repeated owner-descriptor index crashes from invalid/unreadable owner contexts.
 - Reduces high-frequency stacktrace spam in update/UI paths.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 7) `data/scripts/systems/XperimentalHypergenerator.lua`
@@ -260,6 +338,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 - Prevents owner-routed calls when entity owner context is unavailable.
 - Avoids cascading crashes from stale/missing owner handles.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 8) `data/scripts/systems/repairDrones.lua`
@@ -273,6 +354,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 - Prevents repeated updateServer/UI invoke faults tied to missing owner index context.
 - Stabilizes runtime behavior in prolonged sessions where entity ownership state can transiently change.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 9) `data/scripts/lib/weapongenerator.lua`, `turretingredients.lua`, `turretgenerator.lua`
@@ -286,6 +370,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 
 - Mod is now 100% compatible with Cosmic Overhaul and other mods that touch vanilla weapon economy and balance.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 10) `data/scripts/lib/shiputility.lua`, `tooltipmaker.lua`
@@ -299,6 +386,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 
 - Prevents other mods' custom UI from being obliterated, and natively supports future Avorion engine updates.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 11) `data/scripts/neltharaku/Aquaflow.lua`
@@ -311,6 +401,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 
 - Safely neutralizes the security threat while preventing crash loops in the abandoned developer UI panels.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 12) `data/scripts/complexCraft/complexCoreV2.lua`
@@ -325,6 +418,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 
 - Megacomplex operations are now fully secure, stable, and server-safe.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 13) `data/scripts/entity/mainCaliber.lua`, `activeSysInterface.lua`
@@ -338,6 +434,9 @@ This revamp specifically addressed script-side issues common in modern Avorion m
 
 - Highly secure, exploit-proof active systems and super-weapon penalty mechanics.
 
+
+#### 7. Initialization Compliance
+- Wrapped all init.lua injection files safely into the vanilla initialize() callback to ensure they do not accidentally wipe out vanilla logic upon load.
 ---
 
 ### 14) `data/scripts/entity/entityAlerts.lua`, `combatGroup.lua`, `combatGroupV2.lua`
@@ -361,3 +460,4 @@ This Cosmic Starfall revamp differs from the original baseline by being:
 - and **better prepared for modern Avorion stress-testing cycles**.
 
 The latest owner-resolution hardening pass further improves script safety in modern Avorion server/client lifecycle conditions and removes known recurring stacktrace patterns tied to owner descriptor access.
+
