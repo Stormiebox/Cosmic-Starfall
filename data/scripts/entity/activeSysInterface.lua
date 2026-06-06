@@ -888,7 +888,7 @@ end
 
 function activeSysInterface.executeUpdateProgress(_index, _scriptName, _entityID, _progress, _isStandby)
     if onServer() then
-        invokeClientFunction(Player(), 'executeUpdateProgress', _index, _scriptName, _entityID, _progress, _isStandby)
+        broadcastInvokeClientFunction( 'executeUpdateProgress', _index, _scriptName, _entityID, _progress, _isStandby)
     else
         local buttonTable = self.getButtonTable(_index, _scriptName, _entityID)
 
@@ -916,7 +916,7 @@ end
 
 function activeSysInterface.executeUpdateSecondary(_index, _scriptName, _entityID, _progress)
     if onServer() then
-        invokeClientFunction(Player(), 'executeUpdateSecondary', _index, _scriptName, _entityID, _progress)
+        broadcastInvokeClientFunction( 'executeUpdateSecondary', _index, _scriptName, _entityID, _progress)
     else
         local buttonTable = self.getButtonTable(_index, _scriptName, _entityID)
 

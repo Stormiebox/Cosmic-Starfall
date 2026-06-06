@@ -174,7 +174,7 @@ function UIretrievePosition(_position)
 		local retrPosition = vec2(Entity():getValue("oCsysUIposX"), Entity():getValue("oCsysUIposY"))
 		DebugMsg(tostring(retrPosition) .. " - retrPos")
 		if retrPosition ~= vec2(0, 0) then
-			invokeClientFunction(Player(), 'UIretrievePosition', retrPosition)
+			broadcastInvokeClientFunction( 'UIretrievePosition', retrPosition)
 		end
 	else
 		if _position ~= nil then

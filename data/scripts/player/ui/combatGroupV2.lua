@@ -542,7 +542,7 @@ function combatGroup.getOnlinePwayers(_table)
 			}
 		end
 
-		invokeClientFunction(Player(), 'getOnlinePwayers', onlinePwayers)
+		broadcastInvokeClientFunction( 'getOnlinePwayers', onlinePwayers)
 	else
 		onlinePwayers = _table
 		self.RenderGroup()
@@ -653,7 +653,7 @@ end
 --This function is called by the server to create an incoming message.
 function combatGroup.remoteInvite()
 	if onServer() then
-		invokeClientFunction(Player(), 'remoteInvite')
+		broadcastInvokeClientFunction( 'remoteInvite')
 	else
 		invintationFlag = 40 --button blinking period
 		SLplaysoundUI('combatgroup_invite', 2)

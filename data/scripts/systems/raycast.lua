@@ -494,7 +494,7 @@ function AnalyseSphereTable(_toRemoveIndex)
 		end
 	end
 	if not (Player()) then return end
-	invokeClientFunction(Player(), 'SyncToClient', nil, sphereTable)
+	broadcastInvokeClientFunction( 'SyncToClient', nil, sphereTable)
 end
 
 function SyncToClient(_table, _sphereTable)
@@ -519,5 +519,5 @@ function ClearGraphicsOnJump()
 
 	laserTable = {}
 	sphereTable = {}
-	invokeClientFunction(Player(), 'SyncToClient', laserTable, sphereTable)
+	broadcastInvokeClientFunction( 'SyncToClient', laserTable, sphereTable)
 end

@@ -120,7 +120,7 @@ function updateServer(timePassed)
 		--Aura on yourself
 		local _aura = {
 			'selfrepairpassiveaura',
-			string.format("+%i/s", math.floor(Durability().maximum / 100 * PassiveRepairAmount)),
+			string.format("+%.1f%%/s", PassiveRepairAmount),
 			0,
 			getTechAuraDesc('hullrepair'),
 			'buff',
@@ -143,7 +143,7 @@ function updateServer(timePassed)
 		if Durability().filledPercentage < (NanobotsHealingTreshhold / 100) then --Doesn't work if body strength is above cap
 			Entity().durability = Entity().durability + NanobotsHealingSpeed
 		end
-		invokeClientFunction(Player(), "onFinishWork", NanobotsIsWorking, 0) --Catch the moment when the module ends
+		broadcastInvokeClientFunction( "onFinishWork", NanobotsIsWorking, 0) --Catch the moment when the module ends
 	end
 	--repair network segment
 	if RepairnetworkIsReady > 0 then
@@ -154,23 +154,23 @@ function updateServer(timePassed)
 	if RepairnetworkIsWorking > 0 then
 		RepairnetworkIsWorking = RepairnetworkIsWorking - timePassed
 		Entity().durability = Entity().durability + RepairnetworkHealingSpeed
-		invokeClientFunction(Player(), "onFinishWork", RepairnetworkIsWorking, 1) --Catch the moment when the module ends
+		broadcastInvokeClientFunction( "onFinishWork", RepairnetworkIsWorking, 1) --Catch the moment when the module ends
 	end
 	--emergency stabilizer segment
 	if EmergencyIsReady > 0 then
 		EmergencyIsReady = math.max(0, EmergencyIsReady - timePassed) --direct reduction of rollback
-		--invokeClientFunction(Player(),"updateUIbars",EmergencyCooldown,EmergencyIsReady,2)
+		--broadcastInvokeClientFunction("updateUIbars",EmergencyCooldown,EmergencyIsReady,2)
 	end
 	if EmergencyIsWorking > 0 then
 		EmergencyIsWorking = EmergencyIsWorking - timePassed
 		executeUpdateProgressbar(3, 0, true)
 		if Durability().filledPercentage < EmergencyActivationTreshhold / 100 then
 			EmergencyIsWorking = 0
-			invokeClientFunction(Player(), "onFinishWork", EmergencyIsWorking, 2)
+			broadcastInvokeClientFunction( "onFinishWork", EmergencyIsWorking, 2)
 			Entity().durability = Entity().durability + EmergencyHeal
 			EmergencyOverloadActivate()
 		else
-			invokeClientFunction(Player(), "onFinishWork", EmergencyIsWorking, 2)
+			broadcastInvokeClientFunction( "onFinishWork", EmergencyIsWorking, 2)
 		end
 	else
 		executeUpdateProgressbar(3, EmergencyIsReady / EmergencyCooldown)
@@ -178,7 +178,7 @@ function updateServer(timePassed)
 	--subsegment for overload
 	if EmergencyOverloadIsWorking > 0 then
 		EmergencyOverloadIsWorking = math.max(0, EmergencyOverloadIsWorking - timePassed)
-		invokeClientFunction(Player(), "onFinishWork", EmergencyOverloadIsWorking, 3)
+		broadcastInvokeClientFunction( "onFinishWork", EmergencyOverloadIsWorking, 3)
 		if EmergencyOverloadIsWorking == 0 then
 			PassiveRepairAmount = PassiveRepairAmount / EmergencyBoosterAmount
 		end
@@ -194,13 +194,13 @@ function NanobotsActivate()
 			NanobotsOperationTime                                --assigns the amount of repair per unit of time (1 sec)
 		NanobotsIsWorking =
 			NanobotsOperationTime                                --we set a working time and at the same time tell the handler that the module is running
-		invokeClientFunction(Player(), "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura on yourself
 		local _aura = {
 			getSubtechSignature(systemname, 1),
-			string.format("+%i/s", math.floor(NanobotsHealingSpeed)),
+			string.format("+%.1f%%/s", NanobotsHealingAmount / NanobotsOperationTime),
 			NanobotsOperationTime,
 			getTechAuraDesc('hullrepair'),
 			'buff',
@@ -213,7 +213,7 @@ function NanobotsActivate()
 		callTechAuraSelf(_aura)
 	else
 		print("Cooldown not finished! Remaining", NanobotsIsReady, "seconds")
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 	if _debug then print(Durability().maxDurabilityFactor, "maxDurFactor current") end
 end
@@ -226,13 +226,13 @@ function RepairNetworkActivate()
 		RepairnetworkHealingSpeed = (Durability().maximum / 100 * RepairnetworkHealingAmount) /
 			RepairnetworkOperationTime
 		RepairnetworkIsWorking = RepairnetworkOperationTime
-		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura on yourself
 		local _aura = {
 			getSubtechSignature(systemname, 2),
-			string.format("+%i/s", math.floor(RepairnetworkHealingSpeed)),
+			string.format("+%.1f%%/s", RepairnetworkHealingAmount / RepairnetworkOperationTime),
 			RepairnetworkOperationTime,
 			getTechAuraDesc('hullrepair'),
 			'buff',
@@ -244,7 +244,7 @@ function RepairNetworkActivate()
 		}
 		callTechAuraSelf(_aura)
 	else
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -255,8 +255,8 @@ function EmergencyActivate()
 		EmergencyIsReady = EmergencyCooldown
 		EmergencyHeal = (Durability().maximum / 100) * EmergencyHealingAmount
 		EmergencyIsWorking = EmergencyOperationTime
-		invokeClientFunction(Player(), "updateStatusEffects", 2, true)
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura on yourself
 		local _aura = {
@@ -273,7 +273,7 @@ function EmergencyActivate()
 		}
 		callTechAuraSelf(_aura)
 	else
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -283,8 +283,8 @@ callable(nil, "EmergencyActivate")
 function EmergencyOverloadActivate()
 	EmergencyOverloadIsWorking = EmergencyBoosterTime
 	PassiveRepairAmount = PassiveRepairAmount * EmergencyBoosterAmount
-	invokeClientFunction(Player(), "updateStatusEffects", 3, true)
-	invokeClientFunction(Player(), 'UIplaysound', 0)
+	broadcastInvokeClientFunction( "updateStatusEffects", 3, true)
+	broadcastInvokeClientFunction( 'UIplaysound', 0)
 	--Aura on yourself
 	local _aura = {
 		getSubtechSignature(systemname, 3) .. 'activate',
@@ -550,9 +550,9 @@ function onHitReact() --Needed for correct completion of the repair network when
 	if RepairnetworkIsWorking > 0 then
 		if _debug then print("Repair network operation interrupted") end
 		RepairnetworkIsWorking = 0
-		invokeClientFunction(Player(), "onFinishWork", RepairnetworkIsWorking, 1)
+		broadcastInvokeClientFunction( "onFinishWork", RepairnetworkIsWorking, 1)
 		RepairnetworkIsReady = RepairnetworkIsReady * 0.4
-		invokeClientFunction(Player(), 'UIplaysound', 1)
+		broadcastInvokeClientFunction( 'UIplaysound', 1)
 
 		callTechAuraInterruptSelf(getSubtechSignature(systemname, 2))
 	end

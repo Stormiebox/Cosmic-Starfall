@@ -119,7 +119,7 @@ function updateServer(timePassed)
 			Entity():removeScriptBonuses()
 			--_cv = ReverseBonusRange(_cv)
 
-			invokeClientFunction(Player(), "onFinishWork", GeneratorIsWorking, 0)
+			broadcastInvokeClientFunction( "onFinishWork", GeneratorIsWorking, 0)
 		end
 	end
 end
@@ -145,8 +145,8 @@ function pGeneratorActivate()
 		GeneratorIsWorking = GeneratorAllowedPulses *
 			2                                                    --duration depends on the number of pulses
 
-		invokeClientFunction(Player(), "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura on yourself
 		local _aura = {
@@ -164,7 +164,7 @@ function pGeneratorActivate()
 		callTechAuraSelf(_aura)
 	else
 		if _debug then print("Cooldown not finished! Remaining", GeneratorIsReady, "seconds") end
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 

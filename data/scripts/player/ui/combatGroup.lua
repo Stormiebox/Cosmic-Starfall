@@ -308,7 +308,7 @@ function cG.serverIssueToRender()
 		--cG.serverScanPlayersOnline()
 
 		--Continuation of the procedure on the client side
-		invokeClientFunction(Player(), 'issueToRenderGroup', playersOnline)
+		broadcastInvokeClientFunction( 'issueToRenderGroup', playersOnline)
 	end
 end
 
@@ -453,7 +453,7 @@ function cG.onAddButtonPress()
 		cG.serverScanPlayersOnline()
 
 		--Running check and render
-		invokeClientFunction(Player(), 'renderAddTable', playersOnline)
+		broadcastInvokeClientFunction( 'renderAddTable', playersOnline)
 
 		--Checking button status
 		cG.addButtonSwitcher()

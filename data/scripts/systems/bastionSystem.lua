@@ -323,11 +323,11 @@ end
 
 function VeilActivate()
 	if Shield().durability == 0 then
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
 	if VeilIsReady > 0 and not (VeilIsWorking) then
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
 	if not (VeilIsWorking) and VeilIsReady == 0 then
@@ -359,11 +359,11 @@ function VeilActivate()
 		--Setting the work flag
 		VeilIsWorking = true
 		--Creating an effect icon
-		invokeClientFunction(Player(), "updateStatusEffects", 0, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 0, true)
 		--Enabling bonuses
 		VeilOperateSetup()
 		--Playing sound
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 		return
 	else
 		--Cut off unnecessary triggering during CD
@@ -456,8 +456,8 @@ function VeilTurnToFalse()
 		VeilIsWorking = false
 		--Invoke client function(player(),"veil graphics")
 		Entity():invokeFunction('raycast.lua', 'RemoveSphere', 'BSve')
-		invokeClientFunction(Player(), "updateStatusEffects", 0, false)
-		invokeClientFunction(Player(), 'UIplaysound', 1)
+		broadcastInvokeClientFunction( "updateStatusEffects", 0, false)
+		broadcastInvokeClientFunction( 'UIplaysound', 1)
 	end
 end
 
@@ -482,15 +482,15 @@ function RecupActivate()
 		RecupIsWorking = RecupLength
 
 		--Creating an effect icon
-		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
 
 		--Resetting accumulated charge
 		Entity():setValue("RecupStoredAmount", 0)
 		executeUpdateSecondary(2, 0)
 
 		--Resetting the charge status progressbar
-		invokeClientFunction(Player(), "updateUIrecup", 0, RecupMaximumAmount)
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( "updateUIrecup", 0, RecupMaximumAmount)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura generation
 		local _aura = {
@@ -507,7 +507,7 @@ function RecupActivate()
 		}
 		callTechAuraSelf(_aura)
 	else
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -520,7 +520,7 @@ function RecupOperate()
 	if not (Shield().isActive) or Shield().durability == 0 then
 		DebugMsg("Recup: shield offline, cant work")
 		RecupIsWorking = 0
-		invokeClientFunction(Player(), "onFinishWork", RecupIsWorking, 1)
+		broadcastInvokeClientFunction( "onFinishWork", RecupIsWorking, 1)
 		return
 	end
 	--Shield repair
@@ -546,7 +546,7 @@ function RecupInitiation()
 	--Setting the charge
 	local _value = Entity():getValue("RecupStoredAmount")
 	if _value and Player() then
-		invokeClientFunction(Player(), "updateUIrecup", RecupStoredAmount, RecupMaximumAmount)
+		broadcastInvokeClientFunction( "updateUIrecup", RecupStoredAmount, RecupMaximumAmount)
 	end
 end
 
@@ -588,7 +588,7 @@ end
 
 function MultiphaseActivate()
 	if Shield().durability == 0 then
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
 	if MultiphaseIsReady == 0 then
@@ -619,10 +619,10 @@ function MultiphaseActivate()
 		--Setting the work flag
 		MultiphaseIsWorking = MultiphaseLength + MultiphaseLengthR * _rarity
 		--Creating an effect icon
-		invokeClientFunction(Player(), "updateStatusEffects", 2, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
 		--Launch of bonuses
 		MultiphaseOperateSetup()
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura generation (impenetrability)
 		local _aura = {
@@ -654,7 +654,7 @@ function MultiphaseActivate()
 		}
 		callTechAuraSelf(_aura)
 	else
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -709,8 +709,8 @@ function MultiphaseTurnToFalse()
 	end
 	--Invoke client function(player(),"multiphase graphics")
 	Entity():invokeFunction('raycast.lua', 'RemoveSphere', 'BSmp')
-	invokeClientFunction(Player(), "updateStatusEffects", 2, false)
-	invokeClientFunction(Player(), 'UIplaysound', 1)
+	broadcastInvokeClientFunction( "updateStatusEffects", 2, false)
+	broadcastInvokeClientFunction( 'UIplaysound', 1)
 end
 
 function MultiphaseStreamingChargeSwitchOff()
@@ -740,18 +740,18 @@ function PulsarActivate()
 
 	--Activation cutoff if shield is below limit
 	if Shield().durability < PulsarTreshold * 0.01 then
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
 	if PulsarIsReady == 0 then
 		DebugMsg("PDS: activate")
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 		--Setting cooldown
 		PulsarIsReady = PulsarCooldown
 		--Setting the work flag
 		PulsarIsWorking = PulsarLength + PulsarLengthR * _rarity
 		--Creating an effect icon
-		invokeClientFunction(Player(), "updateStatusEffects", 3, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 3, true)
 
 		--Aura generation
 		local _aura = {
@@ -769,7 +769,7 @@ function PulsarActivate()
 		callTechAuraSelf(_aura)
 	else
 		--Cut off unnecessary triggering during CD
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		if PulsarIsReady == 0 then return end
 	end
 end
@@ -781,7 +781,7 @@ function PulsarOperate()
 	if Shield().durability < PulsarTreshold * 0.01 then
 		DebugMsg('PulsarOperate: shields too low, deactivating!')
 		PulsarIsWorking = 1
-		invokeClientFunction(Player(), 'UIplaysound', 1)
+		broadcastInvokeClientFunction( 'UIplaysound', 1)
 		return
 	end
 

@@ -117,7 +117,7 @@ function xFocusActivate()
 		FocusedIsReady = FocusedCooldown
 		--Invoke client function(player(),"update u ibars",focused cooldown,focused is ready,2)
 		executeUpdateProgressbar(3, 1)
-		invokeClientFunction(Player(), "updateStatusEffects", 2, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
 		if FocusedChargeReduction > 0 and FocusedChargeReduction < 100 then
 			FocusedChargeReductionTimer = HyperspaceEngine().cooldown / 100 * (100 - FocusedChargeReduction)
 		else
@@ -143,9 +143,9 @@ function xFocusActivate()
 
 		FocusedChargedFlag = true
 
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -157,7 +157,7 @@ function xFocusJump()
 	addMultiplyableBias(StatsBonuses.HyperspaceReach, -FocusedBonusRange)
 	DebugMsg(tostring(HyperspaceEngine().range) .. "HyperspaceEngine().range after jump")
 	onJumpFinished(FocusedBonusRange * FocusedJumpCooldown)
-	invokeClientFunction(Player(), "updateStatusEffects", 2, false)
+	broadcastInvokeClientFunction( "updateStatusEffects", 2, false)
 end
 
 --Transfers control of the main function to the server
@@ -170,16 +170,16 @@ function xQuantumActivate()
 	if QuantumIsReady == 0 then
 		QuantumIsReady = QuantumCooldown
 		--Invoke client function(player(),"update u ibars",quantum cooldown,quantum is ready,0)
-		invokeClientFunction(Player(), "updateStatusEffects", 4, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
 		--QuantumIsWorking = QuantumWorkingTimer
 		QuantumHealDelta = Shield():getMaxDurability(true) / 100 * QuantumShieldHeal
 		Entity():registerCallback("onJumpRouteCalculationStarted", "xQuantumTrigger")
-		invokeClientFunction(Player(), "updateStatusEffects", 4, true)
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 		QuantumStandbyFlag = true
 	else
 		print("xQuantum - cooling down")
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -189,7 +189,7 @@ function xDestabilizerActivate()
 	if DestabilizerIsReady == 0 then
 		DestabilizerIsReady = DestabilizerCooldown
 		--Invoke client function(player(),"update u ibars",100,1,1)
-		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
 		DestabilizerIsWorking = DestabilizerWorkingTimeBase + _rarity
 		DestabilizerDamageToHull = Durability().maximum / 100 * DestabilizerChargeDestruction
 		DestabilizerSpeedUp = HyperspaceEngine().currentCooldown / HyperspaceEngine().cooldownSpeed / 100 *
@@ -236,10 +236,10 @@ function xDestabilizerActivate()
 
 			print(DestabilizerSpeedUp, "DestabilizerSpeedUp")
 		end
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
 		print("xDestabilizer - cooling down")
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -257,9 +257,9 @@ function xQuantumTrigger()
 
 	executeUpdateProgressbar(1, 1)
 
-	invokeClientFunction(Player(), "updateStatusEffects", 4, false)
-	invokeClientFunction(Player(), "updateStatusEffects", 3, true)
-	invokeClientFunction(Player(), "updateStatusEffects", 0, true)
+	broadcastInvokeClientFunction( "updateStatusEffects", 4, false)
+	broadcastInvokeClientFunction( "updateStatusEffects", 3, true)
+	broadcastInvokeClientFunction( "updateStatusEffects", 0, true)
 
 	Entity():registerCallback("onHyperspaceEntered", "XQuantumJump")
 	QuantumIsWorking = QuantumWorkingTimer
@@ -283,7 +283,7 @@ function xQuantumTrigger()
 
 	--Fire rate penalty
 	Entity():addBaseMultiplier(StatsBonuses.FireRate, -QuantumFirerateSlow / 100)
-	invokeClientFunction(Player(), 'UIplaysound', 0)
+	broadcastInvokeClientFunction( 'UIplaysound', 0)
 end
 
 --Waiting to make a hyperjump in order to roll back penalties
@@ -291,21 +291,21 @@ function XQuantumJump()
 	Entity():unregisterCallback("onHyperspaceEntered", "XQuantumJump")
 	if _debug then print("XQuantumJump worked, removing penalties") end
 	QuantumDebuffFlag = false
-	invokeClientFunction(Player(), "updateStatusEffects", 3, false)
-	invokeClientFunction(Player(), "updateStatusEffects", 0, false)
+	broadcastInvokeClientFunction( "updateStatusEffects", 3, false)
+	broadcastInvokeClientFunction( "updateStatusEffects", 0, false)
 	QuantumCanRecharge = true
 	Entity():addBaseMultiplier(StatsBonuses.FireRate, QuantumFirerateSlow / 100)
 	QuantumIsWorking = 0
-	invokeClientFunction(Player(), "updateStatusEffects", 0, false)
+	broadcastInvokeClientFunction( "updateStatusEffects", 0, false)
 	onJumpFinished(QuantumJumpCooldown)
-	invokeClientFunction(Player(), 'UIplaysound', 1)
+	broadcastInvokeClientFunction( 'UIplaysound', 1)
 end
 
 --Adds additional time to PD cooldown when called
 function onJumpFinished(_time)
 	if _debug then print("Jump complete, applying changes") end
 	Entity().hyperspaceCooldown = Entity().hyperspaceCooldown + _time
-	invokeClientFunction(Player(), 'UIplaysound', 1)
+	broadcastInvokeClientFunction( 'UIplaysound', 1)
 	FocusedChargedFlag = false
 end
 
@@ -383,7 +383,7 @@ function updateServer(timePassed)
 		QuantumIsWorking = math.max(0, QuantumIsWorking - timePassed)
 		Shield():healDamage(QuantumHealDelta)
 		if QuantumIsWorking == 0 then
-			invokeClientFunction(Player(), "updateStatusEffects", 0, false)
+			broadcastInvokeClientFunction( "updateStatusEffects", 0, false)
 		end
 	end
 	--Destabilizer segment
@@ -392,7 +392,7 @@ function updateServer(timePassed)
 		executeUpdateProgressbar(2, DestabilizerIsReady / DestabilizerCooldown)
 	end
 	if DestabilizerIsWorking > 0 then
-		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
 		DestabilizerIsWorking = math.max(0, DestabilizerIsWorking - timePassed)
 
 		if Durability().filledPercentage > DestabilizerChargeDestructionTreshold / 100 and Shield().filledPercentage < DestabilizerShieldTreshold / 100 then
@@ -407,7 +407,7 @@ function updateServer(timePassed)
 		end
 
 		if DestabilizerIsWorking == 0 then --fires when shutdown
-			invokeClientFunction(Player(), "updateStatusEffects", 1, false)
+			broadcastInvokeClientFunction( "updateStatusEffects", 1, false)
 		end
 	end
 	--Focus segment

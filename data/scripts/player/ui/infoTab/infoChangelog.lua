@@ -300,7 +300,7 @@ updateLines['Starfall-Revamp'] = {
 	"Balanced gameplay elements and mechanics based on player feedback and data analysis for a more engaging experience.",
 	"Fixed various bugs and issues reported by the community to enhance overall game stability and user experience.",
 	"Fixed weapon class names and descriptions to be more accurate and informative.",
-	"Added Cosmic Vault as requirement for Cosmic Starfall.",
+
 }
 
 function infoChangelog.transformToSingleLine(_table)

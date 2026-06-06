@@ -1,13 +1,3 @@
-#: data/scripts/complexCraft/complexCore.lua:
-msgid "Mega complex management"
-msgstr "Gestión del megacomplejo"
-
-
-# ==========data/scripts/complexCraft/complexCoreV2.lua ==========
-#: data/scripts/complexCraft/complexCoreV2.lua:
-msgid "Megacomplex interface"
-msgstr "Interfaz del megacomplejo"
-
 #: data/scripts/complexCraft/complexCoreV2.lua:
 msgid "Configuring import"
 msgstr "Configurando importación"
@@ -140,12 +130,6 @@ msgstr "Existencias de bienes en el cargamento de la estación"
 msgid "Disable/enable this stream"
 msgstr "Desactivar/activar este flujo"
 
-
-#: data/scripts/entity/activeSysInterface.lua:
-#: data/scripts/player/ui/interfaces/activeSysInterface.lua:
-msgid "Switch frames on/off"
-msgstr "Activar/desactivar marcos"
-
 #: data/scripts/entity/activeSysInterface.lua:
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Enable/disable window move mode"
@@ -190,12 +174,6 @@ msgstr "Establecer color de 'enfriamiento'"
 #: data/scripts/player/ui/interfaces/activeSysInterface.lua:
 msgid "Set 'recharge' color"
 msgstr "Establecer color de 'recarga'"
-
-
-#: data/scripts/player/ui/combatGroup.lua:
-#: data/scripts/player/ui/combatGroupV2.lua:
-msgid "Expand combat group window"
-msgstr "Expandir ventana del grupo de combate"
 
 #: data/scripts/entity/combatGroup.lua:
 #: data/scripts/entity/combatGroupV2.lua:
@@ -277,11 +255,6 @@ msgstr "Megacomplejo"
 msgid "Distributes goods between docked stations for efficient production chains"
 msgstr "Distribuye bienes entre estaciones acopladas para cadenas de producción eficientes"
 
-
-#: data/scripts/lib/tooltipmaker.lua:
-msgid "Weapon class"
-msgstr "Clase de arma"
-
 #: data/scripts/lib/tooltipmaker.lua:
 msgid "Light"
 msgstr "Ligera"
@@ -302,24 +275,9 @@ msgstr "Velocidad del proyectil"
 msgid "Instant"
 msgstr "Instantánea"
 
-
-
 #: data/scripts/lib/weapongenerator.lua:
 msgid "PEWPEW"
 msgstr "PEWPEW"
-
-
-
-#: data/scripts/lib/weapontype.lua:
-msgctxt "Weapon Type"
-msgid "Graviton anchor"
-msgstr "Ancla de gravitón"
-
-
-# ==========data/scripts/neltharaku/Armory.lua ==========
-#: data/scripts/neltharaku/Armory.lua:
-msgid "Pulse Gun"
-msgstr "Arma de pulsos"
 
 #: data/scripts/neltharaku/Armory.lua:
 msgid "Particle Accelerator"
@@ -389,91 +347,6 @@ msgstr "Batería de misiles 'Ciclón'"
 msgid "Transphasic Laser"
 msgstr "Láser transfásico"
 
-#: data/scripts/neltharaku/Armory.lua:
-msgid ""
-# ==========data/scripts/neltharaku/Tech.lua ==========
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Bastion system"
-msgstr "Sistema bastión"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "'Veil' system"
-msgstr "Sistema 'Velo'"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Energy recuperation system"
-msgstr "Sistema de recuperación de energía"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Multiphase shield"
-msgstr "Escudo multifase"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Reflection Protocol"
-msgstr "Protocolo de reflexión"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Macrofield projector"
-msgstr "Proyector de macrocampo"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Repair wave"
-msgstr "Onda de reparación"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Renovation ray"
-msgstr "Rayo de renovación"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Shield booster"
-msgstr "Potenciador de escudos"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Shield synchronizer"
-msgstr "Sincronizador de escudos"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Pulse tractor beam generator"
-msgstr "Generador de rayo tractor de pulsos"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Repair system"
-msgstr "Sistema de reparación"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Polarizing nanobots"
-msgstr "Nanobots polarizadores"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Repair matrix"
-msgstr "Matriz de reparación"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Emergency stabilization"
-msgstr "Estabilización de emergencia"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "X-perimental Hypergenerator"
-msgstr "Hipergenerador X-perimental"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Quantum overdrive"
-msgstr "Sobremarcha cuántica"
-
-#: data/scripts/neltharaku/Tech.lua:
-#: data/scripts/systems/XperimentalHypergenerator.lua:
-msgid "Space Destabilizer"
-msgstr "Desestabilizador espacial"
-
-#: data/scripts/neltharaku/Tech.lua:
-#: data/scripts/systems/XperimentalHypergenerator.lua:
-msgid "Focused Jump"
-msgstr "Salto concentrado"
-
-#: data/scripts/neltharaku/Tech.lua:
-msgid "Subspace cargo system"
-msgstr "Sistema de carga subespacial"
-
 #: data/scripts/neltharaku/Tech.lua:
 msgid "weapons fire rate"
 msgstr "cadencia de tiro de armas"
@@ -534,12 +407,6 @@ msgstr "carga del hiperimpulsor"
 msgid "passive repair speed"
 msgstr "velocidad de reparación pasiva"
 
-
-# ==========data/scripts/player/ui/alertCore.lua ==========
-#: data/scripts/player/ui/alertCore.lua:
-msgid "Invitation to a group"
-msgstr "Invitación a un grupo"
-
 #: data/scripts/player/ui/alertCore.lua:
 msgid "You were kicked from the group"
 msgstr "Fuiste expulsado del grupo"
@@ -548,26 +415,9 @@ msgstr "Fuiste expulsado del grupo"
 msgid "Your turret is destroyed!"
 msgstr "¡Tu torreta ha sido destruida!"
 
-
-# ==========data/scripts/player/ui/auraCore.lua ==========
-#: data/scripts/player/ui/auraCore.lua:
-msgid "Active effects"
-msgstr "Efectos activos"
-
 #: data/scripts/player/ui/auraCore.lua:
 msgid "s"
 msgstr "s"
-
-
-# ==========data/scripts/player/ui/combatGroup.lua ==========
-# ==========data/scripts/player/ui/infoTab/infoGeneral.lua ==========
-#: data/scripts/player/ui/infoTab/infoGeneral.lua:
-msgid "17 new weapons have been added to the game. You can find out more about each one in the tab 'Weapons'"
-msgstr "Se han añadido 17 armas nuevas al juego. Puedes obtener más información sobre cada una en la pestaña 'Armas'"
-
-#: data/scripts/player/ui/infoTab/infoGeneral.lua:
-msgid "New stations added by modification. For more information, see the 'stations' tab"
-msgstr "Nuevas estaciones añadidas por modificación. Para más información, consulta la pestaña 'Estaciones'"
 
 #: data/scripts/player/ui/infoTab/infoGeneral.lua:
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
@@ -577,60 +427,6 @@ msgstr "Interfaz personalizable que proporciona acceso a los sistemas activos in
 #: data/scripts/player/ui/infoTab/infoGeneral.lua:
 msgid "An interface that displays active effects from the Cosmic Starfall mod affecting the ship"
 msgstr "Una interfaz que muestra los efectos activos del mod Cosmic Starfall que afectan a la nave"
-
-
-# ==========data/scripts/player/ui/infoTab/infoInterfaces.lua ==========
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "'Collapse' button"
-msgstr "Botón 'Contraer'"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "Minimizes the window, leaving the 'expand' button on its place, allowing you to expand it later"
-msgstr "Minimiza la ventana, dejando el botón 'expandir' en su lugar, permitiéndote expandirla más tarde"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "'Update' button"
-msgstr "Botón 'Actualizar'"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "Updates information in the active window"
-msgstr "Actualiza la información en la ventana activa"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "'Switch to adding' button"
-msgstr "Botón 'Cambiar a añadir'"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "Opens a window with a list of online players who are not in your group"
-msgstr "Abre una ventana con una lista de jugadores en línea que no están en tu grupo"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "'Switch to Group Management' button"
-msgstr "Botón 'Cambiar a Gestión de Grupo'"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "Switches the main window to group management mode. Unavailable if you are not a group leader"
-msgstr "Cambia la ventana principal al modo de gestión de grupo. No disponible si no eres el líder del grupo"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "Indicates the status of the player (offline, online, leader) and allows you to transfer the leader"
-msgstr "Indica el estado del jugador (desconectado, en línea, líder) y te permite transferir el líder"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "'Kick' button"
-msgstr "Botón 'Expulsar'"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "Allows you to kick the player (available only to the leader). You can't kick players offline"
-msgstr "Te permite expulsar al jugador (disponible solo para el líder). No puedes expulsar a jugadores desconectados"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "'Leave' button"
-msgstr "Botón 'Abandonar'"
-
-#: data/scripts/player/ui/infoTab/infoInterfaces.lua:
-msgid "Allows you to leave the group"
-msgstr "Te permite abandonar el grupo"
 
 #: data/scripts/player/ui/infoTab/infoInterfaces.lua:
 msgid "Frame switcher"
@@ -656,16 +452,6 @@ msgstr "Interruptor de color"
 msgid "Reset to Default"
 msgstr "Restablecer a valores predeterminados"
 
-
-# ==========data/scripts/player/ui/infoTab/infoStations.lua ==========
-#: data/scripts/player/ui/infoTab/infoStations.lua:
-msgid "'Production' tab"
-msgstr "Pestaña 'Producción'"
-
-#: data/scripts/player/ui/infoTab/infoStations.lua:
-msgid "'Consumption' tab"
-msgstr "Pestaña 'Consumo'"
-
 #: data/scripts/player/ui/infoTab/infoStations.lua:
 msgid "'Storage and utilization' tab"
 msgstr "Pestaña 'Almacenamiento y utilización'"
@@ -690,36 +476,9 @@ msgstr "Pestaña 'Ajustes'"
 msgid "Allows you to forcibly initiate some procedures if their automatic initialization failed"
 msgstr "Te permite iniciar por la fuerza algunos procedimientos si su inicialización automática falló"
 
-
-# ==========data/scripts/player/ui/infoTab/infoSystems.lua ==========
-#: data/scripts/player/ui/infoTab/infoSystems.lua:
-#: data/scripts/systems/repairDrones.lua:
-msgid "Auto-repair treshold"
-msgstr "Umbral de autorreparación"
-
-#: data/scripts/player/ui/infoTab/infoSystems.lua:
-#: data/scripts/systems/repairDrones.lua:
-msgid "Auto-repair value"
-msgstr "Valor de autorreparación"
-
-#: data/scripts/player/ui/infoTab/infoSystems.lua:
-#: data/scripts/systems/pulseTractorBeamGenerator.lua:
-msgid "Number of pulses"
-msgstr "Número de pulsos"
-
 #: data/scripts/player/ui/infoTab/infoSystems.lua:
 msgid "Using rift technology creates a stable subspace storage"
 msgstr "El uso de tecnología de grietas crea un almacenamiento subespacial estable"
-
-
-# ==========data/scripts/player/ui/infoTab/infoWeapons.lua ==========
-#: data/scripts/player/ui/infoTab/infoWeapons.lua:
-msgid "Weapon class changed to 'Heavy'"
-msgstr "La clase de arma cambió a 'Pesada'"
-
-#: data/scripts/player/ui/infoTab/infoWeapons.lua:
-msgid "Low- and medium-range weapon that allow you to quickly destroy the enemy's hull"
-msgstr "Arma de corto y medio alcance que te permite destruir rápidamente el casco del enemigo"
 
 #: data/scripts/player/ui/infoTab/infoWeapons.lua:
 msgid "Reduces the fighter's firing radius by 25%"
@@ -736,13 +495,6 @@ msgstr "Aumenta el radio de disparo del caza en un 175%"
 #: data/scripts/player/ui/infoTab/infoWeapons.lua:
 msgid "Increases the fighter's firing radius by 15%"
 msgstr "Aumenta el radio de disparo del caza en un 15%"
-
-
-# ==========data/scripts/player/ui/interfaces/activeSysInterface.lua ==========
-# ==========data/scripts/systems/XperimentalHypergenerator.lua ==========
-#: data/scripts/systems/XperimentalHypergenerator.lua:
-msgid "Omega"
-msgstr "Omega"
 
 #: data/scripts/systems/XperimentalHypergenerator.lua:
 msgid "Zeta"
@@ -764,78 +516,13 @@ msgstr "Beta"
 msgid "Alpha"
 msgstr "Alfa"
 
-#: data/scripts/systems/XperimentalHypergenerator.lua:
-msgid "Quantum Overload"
-msgstr "Sobrecarga cuántica"
-
-
-# ==========data/scripts/systems/overpoweredCore.lua ==========
-#: data/scripts/systems/overpoweredCore.lua:
-msgid "Генерация энергии"
-msgstr "Generación de energía"
-
-#: data/scripts/systems/overpoweredCore.lua:
-msgid "Объем аккумулятора"
-msgstr "Capacidad de la batería"
-
-#: data/scripts/systems/overpoweredCore.lua:
-msgid "Ремонтная волна"
-msgstr "Onda de reparación"
-
-#: data/scripts/systems/overpoweredCore.lua:
-msgid "Обновляющий луч"
-msgstr "Rayo de renovación"
-
-#: data/scripts/systems/overpoweredCore.lua:
-msgid "Усилитель щита"
-msgstr "Potenciador de escudos"
-
-#: data/scripts/systems/overpoweredCore.lua:
-msgid "Синхронизатор щитов"
-msgstr "Sincronizador de escudos"
-
-#: data/scripts/systems/overpoweredCore.lua:
-msgid "Never ask a wyvern: 'why'"
-msgstr "Nunca le preguntes a un wyvern: 'por qué'"
-
 
 # ==========data/scripts/systems/pulseTractorBeamGenerator.lua ==========
 #: data/scripts/systems/pulseTractorBeamGenerator.lua:
 msgid "%s\nActivates a pulse generator that increases the range of the tractor beam by %i km every two seconds for the duration of its operation.\nRecharge %i seconds"
 msgstr "%s\nActiva un generador de pulsos que aumenta el alcance del rayo tractor en %i km cada dos segundos durante su funcionamiento.\nRecarga %i segundos"
 
-#: data/scripts/systems/pulseTractorBeamGenerator.lua:
-msgid "An experimental reactor operating on the principle of a temporary increase of the effect"
-msgstr "Un reactor experimental que funciona según el principio de un aumento temporal del efecto"
-
-
-# ==========data/scripts/systems/repairDrones.lua ==========
-#: data/scripts/systems/repairDrones.lua:
-msgid "Additional armor plates equipped with integrated repair systems"
-msgstr "Placas de blindaje adicionales equipadas con sistemas de reparación integrados"
-
 #: data/scripts/systems/repairDrones.lua:
 msgid "Additional Hull Strength"
 msgstr "Resistencia adicional del casco"
 
-#: data/scripts/systems/repairDrones.lua:
-msgid "Auto repair limit"
-msgstr "Límite de reparación automática"
-
-#: data/scripts/systems/repairDrones.lua:
-msgid "Auto repair rate"
-msgstr "Tasa de reparación automática"
-
-
-# ==========data/scripts/systems/subspaceCargo.lua ==========
-#: data/scripts/systems/subspaceCargo.lua:
-msgid "Грузовой отсек"
-msgstr "Bahía de carga"
-
-#: data/scripts/systems/subspaceCargo.lua:
-msgid "Объем щитов"
-msgstr "Capacidad de escudos"
-
-#: data/scripts/systems/subspaceCargo.lua:
-msgid "Мощность реактора"
-msgstr "Potencia del reactor"

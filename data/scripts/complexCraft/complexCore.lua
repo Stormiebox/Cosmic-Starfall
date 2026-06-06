@@ -92,11 +92,11 @@ function Megacomplex.updateServer(timePassed)
 	-- _transferInfoSwitcher = _transferInfoSwitcher + 1
 
 	-- if _isWorkingMainSW and _transferInfoSwitcher == 5 then
-	-- --invokeClientFunction(Player(),'transferResourses')
+	-- --broadcastInvokeClientFunction('transferResourses')
 	-- end
 	-- if _isWorkingMainSW and _transferInfoSwitcher == 6 then
 	-- --_transferInfoSwitcher = 0
-	-- --invokeClientFunction(Player(),'refreshUIinfo')
+	-- --broadcastInvokeClientFunction('refreshUIinfo')
 	-- end
 end
 

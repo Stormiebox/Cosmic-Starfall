@@ -229,7 +229,7 @@ function RestoreEnergy() --for debug
 	if _debug then
 		if onServer() then
 			EnergySystem():addEnergy(EnergySystem().capacity * 0.2)
-			invokeClientFunction(Player(), "RestoreEnergy")
+			broadcastInvokeClientFunction( "RestoreEnergy")
 		else
 			EnergySystem():addEnergy(EnergySystem().capacity * 0.2)
 		end
@@ -265,7 +265,7 @@ end
 function SyncEnergyRemove(_value)
 	if onServer() then
 		EnergySystem():removeEnergy(_value)
-		invokeClientFunction(Player(), "SyncEnergyRemove", _value)
+		broadcastInvokeClientFunction( "SyncEnergyRemove", _value)
 	else
 		EnergySystem():removeEnergy(_value)
 	end
@@ -297,7 +297,7 @@ function updateServer(timePassed)
 	if RepairWaveIsWorking > 0 then
 		RepairWaveIsWorking = math.max(0, RepairWaveIsWorking - timePassed)
 		RepairWaveOperate()
-		invokeClientFunction(Player(), "onFinishWork", RepairWaveIsWorking, 0) --Catch the moment when the module ends
+		broadcastInvokeClientFunction( "onFinishWork", RepairWaveIsWorking, 0) --Catch the moment when the module ends
 	end
 	--beam segment
 	if RenovatingRayIsReady > 0 and RenovatingRayIsWorking == false then
@@ -367,7 +367,7 @@ function RepairWaveActivate()
 		RepairWaveIsWorking = RepairWaveOperationTime
 
 		--Creating an effect icon
-		invokeClientFunction(Player(), "updateStatusEffects", 0, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 0, true)
 
 		--Turn off the beam and amplifier if they are working
 		RenovatingRayTurnToFalse()
@@ -388,9 +388,9 @@ function RepairWaveActivate()
 		callTechAuraSelf(_aura)
 
 		--Sound
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -409,7 +409,7 @@ function RepairWaveOperate()
 			return
 		end
 		EnergySystem():removeEnergy(RepairWaveEnergyConsumptionCV)
-		invokeClientFunction(Player(), "RepairWaveOperateClient", RepairWaveEnergyConsumptionCV)
+		broadcastInvokeClientFunction( "RepairWaveOperateClient", RepairWaveEnergyConsumptionCV)
 
 		local ShipsInSector = { Sector():getEntitiesByType(EntityType.Ship) }
 		for n, ship in pairs(ShipsInSector) do
@@ -476,7 +476,7 @@ function RenovationRayActivate()
 			_colorG, _range, 2)
 		DebugMsg('RenovationRayActivate: callResult is ' .. tostring(_callResult))
 		if _exitResult > 0 or _callResult > 0 then
-			invokeClientFunction(Player(), 'UIplaysound', 2)
+			broadcastInvokeClientFunction( 'UIplaysound', 2)
 			return
 		end
 		local _exitResult, _callResult = _shipSelf:invokeFunction('raycast.lua', 'setLaser', 'MPrrS', _shipSelf, _shipTGT,
@@ -485,18 +485,18 @@ function RenovationRayActivate()
 		-- local _exitResult,_callResult = _shipSelf:invokeFunction('raycast.lua','setLaser','MPrrS',_shipSelf,	_shipTGT,_colorG,_range,2)
 		-- end
 
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 		RenovatingRayIsReady = RenovatingRayCooldown
 		RenovatingRayAmount = CalculateRepairAmount(1)
 		RenovatingRayEnergyConsumptionCV = EnergySystem().capacity * (RenovatingRayEnergyConsumption * 0.01)
 		RenovatingRayIsWorking = true
-		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
-		invokeClientFunction(Player(), "updateUIbarsToYellow", 1)
+		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
+		broadcastInvokeClientFunction( "updateUIbarsToYellow", 1)
 		RenovatingRayTarget = _shipTGT
 		ShieldBoosterTurnToFalse()
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		DebugMsg("RenovationRay activation failure: on cooldown")
 		DebugMsg("RepairWaveIsWorking: " .. tostring(RepairWaveIsWorking))
 	end
@@ -524,11 +524,11 @@ function RenovationRayOperate()
 
 	--Status icon control
 	if RenovatingRayInRange then
-		invokeClientFunction(Player(), "updateStatusEffects", 1, true)
-		invokeClientFunction(Player(), "updateStatusEffects", 2, false)
+		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 2, false)
 	else
-		invokeClientFunction(Player(), "updateStatusEffects", 1, false)
-		invokeClientFunction(Player(), "updateStatusEffects", 2, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 1, false)
+		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
 	end
 
 	--Hull restoration
@@ -568,9 +568,9 @@ end
 function RenovatingRayTurnToFalse()
 	if RenovatingRayIsWorking then
 		RenovatingRayIsWorking = false
-		invokeClientFunction(Player(), "updateStatusEffects", 1, false)
-		invokeClientFunction(Player(), "updateStatusEffects", 2, false)
-		invokeClientFunction(Player(), 'UIplaysound', 1)
+		broadcastInvokeClientFunction( "updateStatusEffects", 1, false)
+		broadcastInvokeClientFunction( "updateStatusEffects", 2, false)
+		broadcastInvokeClientFunction( 'UIplaysound', 1)
 		--Laser off segment
 		DebugMsg('RenovatingRaySendFalse attempt')
 		Entity():invokeFunction('raycast.lua', 'removeLaser', 'MPrrS')
@@ -602,7 +602,7 @@ function ShieldBoosterActivate()
 			_colorB, _range, 2)
 		DebugMsg('RenovationRayActivate: callResult is ' .. tostring(_callResult))
 		if _exitResult > 0 or _callResult > 0 then
-			invokeClientFunction(Player(), 'UIplaysound', 2)
+			broadcastInvokeClientFunction( 'UIplaysound', 2)
 			return
 		end
 		-- if Owner(_shipTGT.id).name~=Owner(_shipSelf.id).name then
@@ -616,15 +616,15 @@ function ShieldBoosterActivate()
 		ShieldBoosterEnergyConsumptionCV = EnergySystem().capacity * (ShieldBoosterEnergyConsumption * 0.01)
 		ShieldBoosterIsWorking = true
 		ShieldBoosterTarget = _shipTGT
-		invokeClientFunction(Player(), "updateStatusEffects", 3, true)
-		invokeClientFunction(Player(), "updateUIbarsToYellow", 2)
+		broadcastInvokeClientFunction( "updateStatusEffects", 3, true)
+		broadcastInvokeClientFunction( "updateUIbarsToYellow", 2)
 		--Invoke client function(player(),"shield booster ray graphics",shield booster target)
 		RenovatingRayTurnToFalse()
 		--Renovation ray graphics(renovating ray target)
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
 		DebugMsg("ShieldBooster activation failure: on cooldown")
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -650,13 +650,13 @@ function ShieldBoosterOperate()
 
 	--Status icon control
 	if ShieldBoosterInRange then
-		invokeClientFunction(Player(), "updateStatusEffects", 3, true)
-		invokeClientFunction(Player(), "updateStatusEffects", 4, false)
-		invokeClientFunction(Player(), "UniSetLaserWidth", 2, 2)
+		broadcastInvokeClientFunction( "updateStatusEffects", 3, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 4, false)
+		broadcastInvokeClientFunction( "UniSetLaserWidth", 2, 2)
 	else
-		invokeClientFunction(Player(), "updateStatusEffects", 3, false)
-		invokeClientFunction(Player(), "updateStatusEffects", 4, true)
-		invokeClientFunction(Player(), "UniSetLaserWidth", 2, 0)
+		broadcastInvokeClientFunction( "updateStatusEffects", 3, false)
+		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
+		broadcastInvokeClientFunction( "UniSetLaserWidth", 2, 0)
 	end
 
 	--Shield restoration
@@ -693,9 +693,9 @@ end
 function ShieldBoosterTurnToFalse()
 	if ShieldBoosterIsWorking then
 		ShieldBoosterIsWorking = false
-		invokeClientFunction(Player(), "updateStatusEffects", 3, false)
-		invokeClientFunction(Player(), "updateStatusEffects", 4, false)
-		invokeClientFunction(Player(), 'UIplaysound', 1)
+		broadcastInvokeClientFunction( "updateStatusEffects", 3, false)
+		broadcastInvokeClientFunction( "updateStatusEffects", 4, false)
+		broadcastInvokeClientFunction( 'UIplaysound', 1)
 
 		Entity():invokeFunction('raycast.lua', 'removeLaser', 'MPsbS')
 		if ShieldBoosterTarget then
@@ -725,7 +725,7 @@ function ShieldSyncActivate()
 			_colorC, _range, 1)
 		DebugMsg('RenovationRayActivate: callResult is ' .. tostring(_callResult))
 		if _exitResult > 0 or _callResult > 0 then
-			invokeClientFunction(Player(), 'UIplaysound', 2)
+			broadcastInvokeClientFunction( 'UIplaysound', 2)
 			return
 		end
 		-- if Owner(_shipTGT.id).name~=Owner(_shipSelf.id).name then
@@ -736,12 +736,12 @@ function ShieldSyncActivate()
 		ShieldSynchronizerTarget = _shipTGT
 		ShieldSynchronizerIsReady = ShieldSynchronizerCooldown
 		ShieldSynchronizerIsWorking = true
-		invokeClientFunction(Player(), "updateStatusEffects", 5, true)
-		invokeClientFunction(Player(), "updateUIbarsToYellow", 3)
-		invokeClientFunction(Player(), 'UIplaysound', 0)
+		broadcastInvokeClientFunction( "updateStatusEffects", 5, true)
+		broadcastInvokeClientFunction( "updateUIbarsToYellow", 3)
+		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
 		DebugMsg("ShieldSync activation failure: on cooldown")
-		invokeClientFunction(Player(), 'UIplaysound', 2)
+		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
 
@@ -766,13 +766,13 @@ function ShieldSyncOperate()
 		ShieldBoosterRange + ShieldSynchronizerRange)
 	--Status icon control
 	if ShieldSynchronizerInRange then
-		invokeClientFunction(Player(), "updateStatusEffects", 5, true)
-		invokeClientFunction(Player(), "updateStatusEffects", 6, false)
-		invokeClientFunction(Player(), "UniSetLaserWidth", 2, 1)
+		broadcastInvokeClientFunction( "updateStatusEffects", 5, true)
+		broadcastInvokeClientFunction( "updateStatusEffects", 6, false)
+		broadcastInvokeClientFunction( "UniSetLaserWidth", 2, 1)
 	else
-		invokeClientFunction(Player(), "updateStatusEffects", 5, false)
-		invokeClientFunction(Player(), "updateStatusEffects", 6, true)
-		invokeClientFunction(Player(), "UniSetLaserWidth", 2, 0)
+		broadcastInvokeClientFunction( "updateStatusEffects", 5, false)
+		broadcastInvokeClientFunction( "updateStatusEffects", 6, true)
+		broadcastInvokeClientFunction( "UniSetLaserWidth", 2, 0)
 	end
 
 	--Shield restoration
@@ -827,9 +827,9 @@ end
 function ShieldSyncTurnToFalse()
 	if ShieldSynchronizerIsWorking then
 		ShieldSynchronizerIsWorking = false
-		invokeClientFunction(Player(), "updateStatusEffects", 5, false)
-		invokeClientFunction(Player(), "updateStatusEffects", 6, false)
-		invokeClientFunction(Player(), 'UIplaysound', 1)
+		broadcastInvokeClientFunction( "updateStatusEffects", 5, false)
+		broadcastInvokeClientFunction( "updateStatusEffects", 6, false)
+		broadcastInvokeClientFunction( 'UIplaysound', 1)
 
 		Entity():invokeFunction('raycast.lua', 'removeLaser', 'MPssS')
 		if valid(ShieldSynchronizerTarget) then

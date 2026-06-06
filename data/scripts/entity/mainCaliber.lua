@@ -124,7 +124,7 @@ end
 --Counts the number of installed "main caliber" weapons for calls with turret removal
 function mainCaliber.checkWeaponsDeleted()
 	if onServer() then
-		invokeClientFunction(Player(), 'checkWeaponsDeleted')
+		broadcastInvokeClientFunction( 'checkWeaponsDeleted')
 		return
 	end
 

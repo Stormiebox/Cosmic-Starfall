@@ -240,7 +240,7 @@ end
 --Checks and adds the effect to the general table
 function auraCore.ApplyAura(_table)
 	if onServer() then
-		invokeClientFunction(Player(), 'ApplyAura', _table)
+		broadcastInvokeClientFunction( 'ApplyAura', _table)
 		return
 	end
 
@@ -265,7 +265,7 @@ end
 --Interrupts the effect of the aura
 function auraCore.InterruptAura(signature, sourcename)
 	if onServer() then
-		invokeClientFunction(Player(), 'InterruptAura', signature, sourcename)
+		broadcastInvokeClientFunction( 'InterruptAura', signature, sourcename)
 	end
 
 	for _ind, _rows in pairs(activeAuras) do

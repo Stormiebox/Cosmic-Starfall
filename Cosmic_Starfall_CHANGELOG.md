@@ -2,28 +2,28 @@
 ### Release Date TBD (Work In Progress)
 
 #### 1. Decoupled from Cosmic Vault
-- Stripped all `Cosmic Vault` dependencies, includes, and API calls (specifically in `cosmicstarfalllib.lua`).
+- Stripped all `Cosmic Vault` dependencies from `modinfo.lua` and its references in the `infoChangelog.lua`.
 - Cosmic Starfall now operates as a **100% standalone mod**.
 
 #### 2. English Translation & Localization
 - Performed a comprehensive translation pass across the entire repository.
 - Translated all Russian UI labels, tooltips, server `print()` debug logs, variable names, and code comments into English across all `.lua` files (e.g., `complexCore.lua`, `repairDrones.lua`, `XperimentalHypergenerator.lua`, etc.).
+- **Localization Files Purge:** Wrote a custom Python script to scan the codebase for active `%_t` localized strings and aggressively purged redundant/orphaned translations from `template.pot` and all `.po` language files, significantly reducing their file size and memory footprint.
 
 #### 3. Subsystem UI Persistence Fixes
-- **Active System Interface Bug:** Fixed a critical issue in `activeSysInterface.lua` where UI elements permanently disappeared when swapping modules or reloading the world. This was resolved by switching to stringified ID tracking for persistent tables instead of volatile object reference comparisons.
-- **Initialization Hooks:** Appended proper `initialize()` hooks to `bastionSystem.lua`, `overpoweredCore.lua`, `pulseTractorBeamGenerator.lua`, `repairDrones.lua`, and `XperimentalHypergenerator.lua` to ensure the interface correctly reconstructs itself on world load.
+- **Active System Interface Bug:** Replaced all bugged instances of `invokeClientFunction(Player(), ...)` with proper `broadcastInvokeClientFunction(...)` usage globally across all `.lua` system scripts. UI elements will no longer disappear when swapping modules or reloading the world.
 
 #### 4. Percentage-Based Repairs
-- Refactored the rigid, flat-value repair systems (e.g., Polarizing Nanobots, Repair Matrix, Emergency Stabilization) to be dynamically percentage-based.
-- Repair algorithms in `macrofieldProjector.lua` now intelligently calculate healing multiplier outputs based on `Durability().maximum` and `Shield().maximum`, scaling perfectly into late-game. Updated UI descriptions to display the new `%` scaling.
+- Refactored the rigid, flat-value repair systems (Polarizing Nanobots, Repair Matrix, Emergency Stabilization) in `repairDrones.lua` to properly use dynamically percentage-based healing.
+- Re-wrote the UI tooltips in `repairDrones.lua` to natively parse and display fractional percentages (e.g., `+0.2%/s`) instead of large rounded flat digits.
 
 #### 5. SoundLib Linux Crash Fixes
-- Resolved weapon audio crashes for the "Particle Accelerator" and "Transphasic Lasers" weapons on Linux-based dedicated servers.
-- Adjusted file casing strictly to lowercase for both the physical `.wav` audio files via `git mv` and the internal script path references inside `PARTICLEACCELERATOR.lua` and `TRANSPHASIC.lua`, effectively neutralizing case-sensitivity pathing mismatches.
+- Resolved widespread weapon audio crashes (specifically affecting Particle Accelerator, Transphasic Lasers, and others) on Linux-based dedicated servers.
+- Automatically batch-renamed all physical audio `.wav` files and subdirectories inside `data/sfx` to be strictly lowercase. This permanently neutralizes case-sensitivity mismatch errors when the game engine fetches `.wav` names via Lua sound scripts.
 
 #### 6. Megacomplex UI Populating Fix
-- Hardened server-to-client UI generation in `complexCoreV2.lua` (`adaptiveSync`) and `complexCore.lua` (`generateIncomeOutcome`).
-- Guarded `Player(callingPlayer)` invocations to prevent the thread from crashing if `callingPlayer` turns out to be `nil` (e.g., during background asynchronous sector events). In these scenarios, the script cleanly falls back to `broadcastInvokeClientFunction` guaranteeing UI lists properly populate without error.
+- Hardened server-to-client UI generation in `complexCoreV2.lua` and `complexCore.lua`.
+- Purged all un-targeted `invokeClientFunction(Player(), ...)` invocations which resolve to `nil` during background callbacks (like `onDockChange`). They now cleanly fall back to `broadcastInvokeClientFunction` to ensure station UI lists properly populate without throwing server errors.
 
 ### LEGACY LOGS BELOW
 # Cosmic Starfall - Revamp Changelog
