@@ -16,7 +16,7 @@ iT = {}
 
 local rUnit = 12
 
-local ITtab = nil
+iT.tab = nil
 local ITtabbedWindow = nil
 
 local UIlabelBox = nil
@@ -37,14 +37,21 @@ local globalUpdateKey = 2.0
 
 if onClient() then
 
-function iT.initialize()
+function iT.initUI()
+    if iT.tab then return end
 	--Home tab
-	ITtab = PlayerWindow():createTab('Cosmic Starfall Info'%_t, 'data/textures/icons/uiStarfall.png', 'Cosmic Starfall Information'%_t)
+	iT.tab = PlayerWindow():createTab('Cosmic Starfall Info'%_t, 'data/textures/icons/uiStarfall.png', 'Cosmic Starfall Information'%_t)
+	PlayerWindow():moveTabToTheRight(iT.tab)
 	
-	--Inner container
+	end
+
+function iT.initialize()
+    iT.initUI()
+
+    --Inner container
 	local _k = 0.01
-	local modSizeRect = Rect(ITtab.size)
-	ITtabbedWindow = ITtab:createTabbedWindow(modSizeRect)
+	local modSizeRect = Rect(iT.tab.size)
+	ITtabbedWindow = iT.tab:createTabbedWindow(modSizeRect)
 	
 	--Basic Variables
 	rUnit = ITtabbedWindow.height/35
@@ -67,7 +74,7 @@ function iT.initialize()
 	iT.splitIni('alertsystem',_alertsystem)
 	iT.splitIni('changelog',_changelog)
 	
-	ITtab.onSelectedFunction = 'onSelected'
+	iT.tab.onSelectedFunction = 'onSelected'
 
 end
 
@@ -352,5 +359,8 @@ function iT.onClickChangelog(index)
 end
 
 end -- onClient
+
+
+
 
 

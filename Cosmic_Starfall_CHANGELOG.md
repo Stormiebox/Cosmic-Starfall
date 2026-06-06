@@ -40,6 +40,11 @@
 - **Player Info Tab Crash:** Identified and resolved a critical silent crash caused by missing include('utility') definitions for UIVerticalSplitter and UIHorizontalSplitter. The Cosmic Starfall Mod Wiki tab now correctly renders and functions.
 - **In-Game Changelog Syntax:** Fixed a fatal syntax error in infoChangelog.lua (dangling comma in a table) that would have crashed the UI script, and updated the in-game wiki to publicly display all Update 2.1.0 balance/compliance modifications.
 
+#### 10. Core Bootstrap & Networking Stability
+- **Engine Bootstrap Compliance:** Removed invalid `initialize()` wrappers inside `player/init.lua` and `entity/init.lua` that were silently preventing background event scripts from running in newly created galaxies.
+- **Client Networking Fix:** Replaced illegal `broadcastInvokeClientFunction()` calls inside player-bound UI scripts (`combatGroupV2.lua`, `infoTabCore.lua`) with properly targeted `invokeClientFunction()` calls to fix UI data-fetching crashes on the server.
+- **UI Table Initialization:** Corrected an illegal `local iT.tab = nil` syntax error in `infoTabCore.lua` that prevented the mod's Wiki/Info tab from rendering, and restored the missing `moveTabToTheRight()` lifecycle call.
+
 ### LEGACY LOGS BELOW
 # Cosmic Starfall - Revamp Changelog
 
