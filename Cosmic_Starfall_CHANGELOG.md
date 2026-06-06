@@ -1,5 +1,5 @@
-## Cosmic Starfall v2.0.0
-### Release Date TBD (Work In Progress)
+## Cosmic Starfall v2.1.0
+### Released 2026-06-06
 
 #### 1. Decoupled from Cosmic Vault
 - Stripped all `Cosmic Vault` dependencies from `modinfo.lua` and its references in the `infoChangelog.lua`.
