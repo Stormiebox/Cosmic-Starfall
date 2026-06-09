@@ -1,51 +1,39 @@
-## Cosmic Starfall v2.1.0
-### Released 2026-06-06
+## Cosmic Starfall v2.0.0
 
-#### 1. Decoupled from Cosmic Vault
-- Stripped all `Cosmic Vault` dependencies from `modinfo.lua` and its references in the `infoChangelog.lua`.
-- Cosmic Starfall now operates as a **100% standalone mod**.
+#### 1. Native Cosmic Vault Integration
+- **Cosmic Vault Requirement:** Cosmic Starfall has been officially integrated into the Cosmic Series ecosystem. It now natively requires `Cosmic Vault` to run.
+- **Legacy Library Purge:** Completely removed the obsolete `cosmicstarfalllib` bridge. All systems now make native calls to the powerful new Cosmic Vault APIs.
 
-#### 2. English Translation & Localization
+#### 2. Cinematic UI & QoL Overhaul
+- Active systems (Bastion System, Xperimental Hypergenerator, etc.) now use `CosmicVaultUI.ShowCinematicBanner` to provide stunning, responsive on-screen visual feedback when activated or toggled.
+- The custom Player UI Tab (Encyclopedia) now utilizes `CosmicUIHorizontalProportionalSplitter` for perfect dynamic scaling across all monitor resolutions.
+
+#### 3. Asynchronous Performance Processing
+- High-intensity iterative loops that used to cause server lag (such as the Repair Wave and Tractor Pulses in `macrofieldProjector.lua`) have been rewritten to execute asynchronously via `CosmicVaultTask.RunAsync()`. This completely eliminates TPS drops during massive fleet battles.
+
+#### 4. Dynamic Economy Hooks
+- Megacomplexes are now fully integrated into `CosmicVaultEconomy`.
+- If a Megacomplex over-accumulates resources beyond its configured limits and is forced to dump cargo into space, it now triggers a sector-wide **Market Crash** event!
+
+#### 5. Complete Script QA Hardening
+- Performed a deep codebase audit to eradicate dangerous direct dereference assumptions.
+- Fixed severe silent crashes in `entity/init.lua` and `Tech.lua` where evaluating an unowned entity (e.g. an unowned wreck) would trigger `attempt to index a nil value` server exceptions. The mod is now 100% crash-safe in heavy multiplayer environments.
+
+#### 6. English Translation & Localization
 - Performed a comprehensive translation pass across the entire repository.
-- Translated all Russian UI labels, tooltips, server `print()` debug logs, variable names, and code comments into English across all `.lua` files (e.g., `complexCore.lua`, `repairDrones.lua`, `XperimentalHypergenerator.lua`, etc.).
-- **Localization Files Purge:** Wrote a custom Python script to scan the codebase for active `%_t` localized strings and aggressively purged redundant/orphaned translations from `template.pot` and all `.po` language files, significantly reducing their file size and memory footprint.
+- Translated all Russian UI labels, tooltips, server `print()` debug logs, variable names, and code comments into English across all `.lua` files.
+- **Localization Files Purge:** Wrote a custom Python script to aggressively purge redundant/orphaned translations from `template.pot` and all `.po` language files, significantly reducing their file size and memory footprint.
 
-#### 3. Subsystem UI Persistence Fixes
-- **Active System Interface Bug:** Replaced all bugged instances of `invokeClientFunction(Player(), ...)` with proper `broadcastInvokeClientFunction(...)` usage globally across all `.lua` system scripts. UI elements will no longer disappear when swapping modules or reloading the world.
-
-#### 4. Percentage-Based Repairs
-- Refactored the rigid, flat-value repair systems (Polarizing Nanobots, Repair Matrix, Emergency Stabilization) in `repairDrones.lua` to properly use dynamically percentage-based healing.
-- Re-wrote the UI tooltips in `repairDrones.lua` to natively parse and display fractional percentages (e.g., `+0.2%/s`) instead of large rounded flat digits.
-
-#### 5. SoundLib Linux Crash Fixes
+#### 7. SoundLib Linux Crash Fixes
 - Resolved widespread weapon audio crashes (specifically affecting Particle Accelerator, Transphasic Lasers, and others) on Linux-based dedicated servers.
 - Automatically batch-renamed all physical audio `.wav` files and subdirectories inside `data/sfx` to be strictly lowercase. This permanently neutralizes case-sensitivity mismatch errors when the game engine fetches `.wav` names via Lua sound scripts.
-
-#### 6. Megacomplex UI Populating Fix
-- Hardened server-to-client UI generation in `complexCoreV2.lua` and `complexCore.lua`.
-- Purged all un-targeted `invokeClientFunction(Player(), ...)` invocations which resolve to `nil` during background callbacks (like `onDockChange`). They now cleanly fall back to `broadcastInvokeClientFunction` to ensure station UI lists properly populate without throwing server errors.
-
-
-#### 7. Virtual File System (VFS) Compliance
-- Fixed a massive mod-breaking compatibility issue where a 580-line clone of the vanilla shiputility.lua script forcefully overwrote all other mods' modifications.
-- Migrated the Starfall AI Weapon Pool extensions to perfectly utilize native Avorion 2.0 VFS hooks without overwriting the core files.
-- Re-routed player and entity script injections in init.lua files using strict VFS paths (data/scripts/...) to prevent load errors on dedicated servers.
 
 #### 8. Mod-Wide Balance Pass
 - **Overpowered Core:** Stripped out the broken hardcoded stat values. It now utilizes true dynamic rarity scaling (+5% up to +15% energy stats).
 - **Bastion System:** Fully reversed the faulty mathematical logic. The system now natively scales positively (+69% up to +83% shield), and the UI tooltip was patched to properly display a buff (+XX%) instead of a negative penalty.
 - **Vanilla Power Creep:** Nerfed the flat exponential global damage multipliers applied to vanilla Chainguns (1.25x -> 1.10x) and Bolters (1.15x -> 1.05x) to restore late-game TTK balance.
 
-#### 9. UI & QoL Fixes
-- **Player Info Tab Crash:** Identified and resolved a critical silent crash caused by missing include('utility') definitions for UIVerticalSplitter and UIHorizontalSplitter. The Cosmic Starfall Mod Wiki tab now correctly renders and functions.
-- **In-Game Changelog Syntax:** Fixed a fatal syntax error in infoChangelog.lua (dangling comma in a table) that would have crashed the UI script, and updated the in-game wiki to publicly display all Update 2.1.0 balance/compliance modifications.
-
-#### 10. Core Bootstrap & Networking Stability
-- **Engine Bootstrap Compliance:** Removed invalid `initialize()` wrappers inside `player/init.lua` and `entity/init.lua` that were silently preventing background event scripts from running in newly created galaxies.
-- **Client Networking Fix:** Replaced illegal `broadcastInvokeClientFunction()` calls inside player-bound UI scripts (`combatGroupV2.lua`, `infoTabCore.lua`) with properly targeted `invokeClientFunction()` calls to fix UI data-fetching crashes on the server.
-- **UI Table Initialization:** Corrected an illegal `local iT.tab = nil` syntax error in `infoTabCore.lua` that prevented the mod's Wiki/Info tab from rendering, and restored the missing `moveTabToTheRight()` lifecycle call.
-
-### LEGACY LOGS BELOW
+### LEGACY LOGS BELOW - KEPT HERE FOR HISTORICAL LOGGING PURPOSES!
 # Cosmic Starfall - Revamp Changelog
 
 This document tracks all known changes made during the current Cosmic Starfall modernization, balance pass, QA hardening, and compatibility work inside **Avorion Vault**.

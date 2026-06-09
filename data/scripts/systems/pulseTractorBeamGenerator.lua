@@ -6,7 +6,9 @@ include("utility")
 include("randomext")
 include("tooltipmaker")
 include("Tech")
-include("cosmicstarfalllib")
+
+local CosmicVaultUI = nil
+pcall(function() CosmicVaultUI = include("cosmicvaultui") end)
 
 --Include('callable')
 
@@ -146,6 +148,9 @@ function pGeneratorActivate()
 			2                                                    --duration depends on the number of pulses
 
 		broadcastInvokeClientFunction( "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "PULSE TRACTOR BEAM ACTIVE", ColorRGB(0, 1, 1), "data/sounds/siren.ogg", 2)
+		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura on yourself
@@ -226,6 +231,8 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
+	if not Entity() or not Owner() then return end
+
 	-- local subSysDesc = {
 	-- string.format("%s\nActivates a pulse generator that increases the range of the tractor beam by %i km every two seconds for the duration of its operation.\nRecharge %i seconds"%_t,getSubtechName(systemname,1),GeneratorRangePerPulse*0.01,GeneratorCooldown)
 	-- }
@@ -249,30 +256,33 @@ function executeDrawInterface(subSysDesc)
 		subsys             --subsys
 	}
 
-	CosmicStarfallLib.invokeOwnerFunction(Entity(), 'activeSysInterface', 'executeDraw', _table)
-	-- if Server():isOnline(Faction().index) then
-	-- if invokeFactionFunction(Faction().index,false,'activeSysInterface','executeDraw',_table)==1 then
-	-- onlineFlag = false
-	-- end
-	-- else
-	-- onlineFlag = false
-	-- end
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+	end
 end
 
 callable(nil, 'executeDrawInterface')
 
 function executeUpdateProgressbar(_index, _progress, _isStandby)
+	if not Entity() or not Owner() then return end
 	local entity = Entity().id
 
 	if not (_isStandby) then _isStandby = false end
 
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeUpdateProgress', _index,
-		scriptname, entity, _progress, _isStandby)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+	end
 end
 
 function executeDelete()
+	if not Entity() or not Owner() then return end
 	local entity = Entity().id
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDelete', scriptname, entity)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+	end
 end
 
 --Responsible for various related visuals (icons on the screen, glow, etc.)

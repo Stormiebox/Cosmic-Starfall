@@ -5,7 +5,6 @@ include("basesystem")
 include("utility")
 include("randomext")
 include("tooltipmaker")
-include("cosmicstarfalllib")
 
 local _debug = false
 local _prototype = true

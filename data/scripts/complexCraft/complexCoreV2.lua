@@ -5,6 +5,10 @@ include("utility")
 include('callable')
 include('goods')
 include('Stations')
+
+local CosmicVaultEconomy = nil
+pcall(function() CosmicVaultEconomy = include("cosmicvaulteconomy") end)
+
 local TradingUtility = include("tradingutility")
 
 --namespace MX
@@ -1488,6 +1492,13 @@ function MX.ServerSendResourses(_table)
 		if _toRemoveValue > _amount then
 			CargoBay(_from):removeCargo(_good, _toRemoveValue)
 			--MX.DebugMsg('ServerResourseTransfer: deleted '..tostring(_toRemoveValue)..' of '..getGoodAttribute(_good,'name')..' from '..Entity(_from).name)
+			
+			-- Hook into CosmicVaultEconomy: Market crash when a megacomplex dumps excess goods
+			if CosmicVaultEconomy and CosmicVaultEconomy.TriggerMarketEvent and Sector() then
+				local goodName = getGoodAttribute(_good, 'name')
+				local x, y = Sector():getCoordinates()
+				CosmicVaultEconomy.TriggerMarketEvent(goodName, x, y, 1, "crash")
+			end
 		end
 	end
 end

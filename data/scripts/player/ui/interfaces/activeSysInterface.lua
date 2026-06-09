@@ -1,9 +1,11 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
+package.path = package.path .. ";data/scripts/lib/?.lua"
 include('callable')
 include('ColorLib')
 include('Tech')
 include('Aquaflow')
 include('Neltharaku')
+include('cosmicui_proportionalsplitter')
 
 --namespace activeSysInterface
 activeSysInterface = {}
@@ -651,47 +653,37 @@ function activeSysInterface.renderColorPickLine(yPos, cont, paddX, paddY, lblShi
 
 	local yShift = yPos + paddY
 
-	local button = {
-		paddX, yShift,
-		btnSize,
-		btnSize
-	}
+	-- Using CosmicVault UI Proportional Splitters for the main line
+	local lineRect = Rect(paddX, yShift, cont.width - paddX, yShift + btnSize)
+	local splitter = CosmicUIHorizontalProportionalSplitter(lineRect, paddX, 0, {btnSize, btnSize * 1.5, 0.5})
 
-	local pb = {
-		button[1] + button[3] + paddX, yShift + btnSize * 0.3,
-		btnSize * 1.5,
-		btnSize * 0.4
-	}
+	local buttonRect = splitter[1]
+	local pbRect = Rect(splitter[2].lower.x, splitter[2].lower.y + btnSize * 0.3, splitter[2].upper.x, splitter[2].lower.y + btnSize * 0.7)
+	local labelRect = Rect(splitter[3].lower.x, splitter[3].lower.y + lblShift, splitter[3].upper.x, splitter[3].upper.y + lblShift)
 
-	local label = {
-		pb[1] + pb[3] + paddX, button[2] + lblShift,
-		rUnit * 4,
-		btnSize + lblShift
-	}
-
-	local createdButton = cont:createRoundButton(getrect(button), nil, nil)
-	local createdPB = cont:createProgressBar(getrect(pb), getUIcolor())
-	local createdLabel = cont:createLabel(getrect(label), 'default', textSize)
-
-
+	local createdButton = cont:createRoundButton(buttonRect, nil, nil)
+	local createdPB = cont:createProgressBar(pbRect, getUIcolor())
+	local createdLabel = cont:createLabel(labelRect, 'default', textSize)
 
 	for _out, _rows in pairs(colorsToPick) do
 		yShift = btnSize + yShift
+		
+		-- Use horizontal splitter for colors
+		local colorsLineRect = Rect(paddX, yShift, paddX + (#_rows * btnSize) + ((#_rows - 1) * paddX), yShift + btnSize)
+		local props = {}
+		for i = 1, #_rows do table.insert(props, btnSize) end
+		
+		local colorSplitter = CosmicUIHorizontalProportionalSplitter(colorsLineRect, paddX, 0, props)
+
 		local buttons_group = {}
 		for _in, _rows2 in pairs(_rows) do
-			local colorPicker = {
-				paddX * (_in + 1) + btnSize * _in, yShift + btnSize * 0.3,
-				btnSize,
-				btnSize * 0.3
-			}
-			local colorBckg = {
-				paddX * (_in + 1) + btnSize * _in, yShift + btnSize * 0.3 - rUnit * 0.02,
-				btnSize,
-				btnSize * 0.3 + rUnit * 0.04
-			}
-			local frame = cont:createFrame(getrect(colorBckg))
+			local cRect = colorSplitter[_in]
+			local colorPickerRect = Rect(cRect.lower.x, cRect.lower.y + btnSize * 0.3, cRect.upper.x, cRect.lower.y + btnSize * 0.6)
+			local colorBckgRect = Rect(colorPickerRect.lower.x, colorPickerRect.lower.y - rUnit * 0.02, colorPickerRect.upper.x, colorPickerRect.upper.y + rUnit * 0.02)
+			
+			local frame = cont:createFrame(colorBckgRect)
 			frame.backgroundColor = getColor(_rows2)
-			local resultButton = cont:createButton(getrect(colorPicker), '', nil)
+			local resultButton = cont:createButton(colorPickerRect, '', nil)
 			table.insert(pickers, { resultButton, _rows2 })
 		end
 	end

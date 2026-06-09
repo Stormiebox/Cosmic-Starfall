@@ -5,7 +5,6 @@ include("basesystem")
 include("utility")
 include("randomext")
 include("Tech")
-include("cosmicstarfalllib")
 
 -- optimization so that energy requirement doesn't have to be read every frame
 FixedEnergyRequirement = true

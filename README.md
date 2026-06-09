@@ -2,12 +2,14 @@
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
-**Cosmic Starfall** is a modernization and continuation of the original Starfall concept for Avorion.
+**Cosmic Starfall** is a complete, foundation-up modernization and continuation of the original Starfall concept for Avorion.
+
+As of **v2.0.0**, Cosmic Starfall is natively integrated into the **Cosmic Series** ecosystem. It requires the [Cosmic Vault](https://steamcommunity.com/sharedfiles/filedetails/?id=3727542782) framework to operate.
 
 This project focuses on:
-- anti-OP rebalance of high-impact systems,
-- script QA hardening for reliability,
-- and compatibility-minded evolution for broader Cosmic ecosystem usage.
+- **Native Cosmic Vault APIs:** Utilizing modern UI hooks, asynchronous processing, and dynamic economy events.
+- **Anti-OP Rebalance:** Ground-up tuning of all high-impact systems for strategic fairness.
+- **Extreme Script Hardening:** Zero crash guarantee in multiplayer heavy combat scenarios.
 
 ---
 

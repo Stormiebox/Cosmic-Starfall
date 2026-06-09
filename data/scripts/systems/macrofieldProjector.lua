@@ -6,9 +6,12 @@ include("utility")
 include("randomext")
 include("tooltipmaker")
 include("Tech")
-include("cosmicstarfalllib")
 
-local _debug = false
+local CosmicVaultUI = nil
+pcall(function() CosmicVaultUI = include("cosmicvaultui") end)
+
+local CosmicVaultTask = nil
+pcall(function() CosmicVaultTask = include("cosmicvaulttask") end)
 local _prototype = true
 local BSwindow
 local updateSW = false
@@ -288,6 +291,8 @@ function update(timeStep)
 end
 
 function updateServer(timePassed)
+	if CosmicVaultTask then CosmicVaultTask.Update(timePassed) end
+
 	--repair wave segment
 	if RepairWaveIsReady > 0 then
 		RepairWaveIsReady = math.max(0, RepairWaveIsReady - timePassed) --direct reduction of rollback
@@ -368,6 +373,9 @@ function RepairWaveActivate()
 
 		--Creating an effect icon
 		broadcastInvokeClientFunction( "updateStatusEffects", 0, true)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "REPAIR WAVE INITIATED", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		end
 
 		--Turn off the beam and amplifier if they are working
 		RenovatingRayTurnToFalse()
@@ -411,38 +419,52 @@ function RepairWaveOperate()
 		EnergySystem():removeEnergy(RepairWaveEnergyConsumptionCV)
 		broadcastInvokeClientFunction( "RepairWaveOperateClient", RepairWaveEnergyConsumptionCV)
 
-		local ShipsInSector = { Sector():getEntitiesByType(EntityType.Ship) }
-		for n, ship in pairs(ShipsInSector) do
-			if ship.playerOrAllianceOwned and ship.isShip and isInRangeV3(ship.translationf, Entity().translationf, RepairWaveRange) then
-				if _debug then
-					print(ship.name)
-					print("Heal tick: ", RepairWaveHealAmount)
+		local function pulseTask()
+			local ShipsInSector = { Sector():getEntitiesByType(EntityType.Ship) }
+			local processed = 0
+			for n, ship in pairs(ShipsInSector) do
+				if ship.playerOrAllianceOwned and ship.isShip and isInRangeV3(ship.translationf, Entity().translationf, RepairWaveRange) then
+					if _debug then
+						print(ship.name)
+						print("Heal tick: ", RepairWaveHealAmount)
+					end
+					Durability(ship.id):healDamage(RepairWaveHealAmount, Entity().id)
+
+					--Aura
+					local target = ship
+
+					local _aura = {
+						getSubtechSignature(systemname, 1) .. 'remote',
+						string.format("+%i/s", CalculateRepairAmount(0)),
+						0,
+						getTechAuraDesc('hullrepair'),
+						'buff',
+						Entity().name,
+						target.name,
+						getSubtechIcon(systemname, 1),
+						true,
+						true
+					}
+					callTechAuraTarget(_aura, target)
 				end
-				Durability(ship.id):healDamage(RepairWaveHealAmount, Entity().id)
-
-				--Aura
-				local target = ship
-
-				local _aura = {
-					getSubtechSignature(systemname, 1) .. 'remote',
-					string.format("+%i/s", CalculateRepairAmount(0)),
-					0,
-					getTechAuraDesc('hullrepair'),
-					'buff',
-					Entity().name,
-					target.name,
-					getSubtechIcon(systemname, 1),
-					true,
-					true
-				}
-				callTechAuraTarget(_aura, target)
+				processed = processed + 1
+				if processed % 15 == 0 then
+					if CosmicVaultTask then CosmicVaultTask.Yield() end
+				end
+			end
+			
+			if Entity() then
+				local selfHealMult = (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) * 0.01 + 1
+				DebugMsg("SelfHealIs: " ..
+					tostring(RepairWaveHealAmount * selfHealMult) .. " where selfMult is " .. tostring(selfHealMult - 1))
+				Durability(Entity().id):healDamage(RepairWaveHealAmount * selfHealMult, Entity().id)
 			end
 		end
-		if Entity() then
-			local selfHealMult = (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) * 0.01 + 1
-			DebugMsg("SelfHealIs: " ..
-				tostring(RepairWaveHealAmount * selfHealMult) .. " where selfMult is " .. tostring(selfHealMult - 1))
-			Durability(Entity().id):healDamage(RepairWaveHealAmount * selfHealMult, Entity().id)
+
+		if CosmicVaultTask then
+			CosmicVaultTask.RunAsync("RepairWavePulse_" .. Entity().id.string, pulseTask)
+		else
+			pulseTask()
 		end
 		--Turns off the refresh beam
 		-- RenovatingRayTurnToFalse()
@@ -494,6 +516,9 @@ function RenovationRayActivate()
 		broadcastInvokeClientFunction( "updateUIbarsToYellow", 1)
 		RenovatingRayTarget = _shipTGT
 		ShieldBoosterTurnToFalse()
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "RENOVATION RAY LOCKED", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
@@ -621,6 +646,9 @@ function ShieldBoosterActivate()
 		--Invoke client function(player(),"shield booster ray graphics",shield booster target)
 		RenovatingRayTurnToFalse()
 		--Renovation ray graphics(renovating ray target)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "SHIELD BOOSTER LOCKED", ColorRGB(0, 0, 1), "data/sounds/siren.ogg", 2)
+		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
 		DebugMsg("ShieldBooster activation failure: on cooldown")
@@ -738,6 +766,9 @@ function ShieldSyncActivate()
 		ShieldSynchronizerIsWorking = true
 		broadcastInvokeClientFunction( "updateStatusEffects", 5, true)
 		broadcastInvokeClientFunction( "updateUIbarsToYellow", 3)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "SHIELD SYNC ESTABLISHED", ColorRGB(0.5, 0, 1), "data/sounds/siren.ogg", 2)
+		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
 		DebugMsg("ShieldSync activation failure: on cooldown")
@@ -912,9 +943,7 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local subsys = {}
 
@@ -954,30 +983,36 @@ function executeDrawInterface(subSysDesc)
 		Entity().id,       --entityID
 		subsys             --subsys
 	}
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDraw', _table)
+	
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+	end
 end
 
 callable(nil, 'executeDrawInterface')
 
 function executeUpdateProgressbar(_index, _progress, _isStandby)
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local entity = Entity().id
 
 	if not (_isStandby) then _isStandby = false end
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeUpdateProgress', _index,
-		scriptname, entity, _progress, _isStandby)
+	
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+	end
 end
 
 function executeDelete()
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local entity = Entity().id
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDelete', scriptname, entity)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+	end
 end
 
 --------------------------------------------------------------------------------------------

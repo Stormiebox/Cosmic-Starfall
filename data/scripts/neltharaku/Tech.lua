@@ -263,17 +263,23 @@ end
 --=============
 
 function callTechAuraSelf(_aura)
-	local targetPlayer = Owner(Entity().id).factionIndex
+	local owner = Owner(Entity().id)
+	if not owner then return end
+	local targetPlayer = owner.factionIndex
 	invokeFactionFunction(targetPlayer, false, 'auraCore', 'ApplyAura', _aura)
 end
 
 function callTechAuraTarget(_aura, _targetEntity)
-	local targetPlayer = Owner(_targetEntity).factionIndex
+	local owner = Owner(_targetEntity)
+	if not owner then return end
+	local targetPlayer = owner.factionIndex
 	invokeFactionFunction(targetPlayer, false, 'auraCore', 'ApplyAura', _aura)
 end
 
 function callTechAuraInterruptSelf(signature)
-	local targetPlayer = Owner(Entity().id).factionIndex
+	local owner = Owner(Entity().id)
+	if not owner then return end
+	local targetPlayer = owner.factionIndex
 	local source = Entity()
 	invokeFactionFunction(targetPlayer, false, 'auraCore', 'InterruptAura', signature, source.name)
 end

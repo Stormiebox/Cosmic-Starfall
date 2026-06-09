@@ -7,7 +7,13 @@ include("basesystem")
 include("utility")
 include("randomext")
 include("Tech")
-include("cosmicstarfalllib")
+
+local CosmicVaultBuffs = nil
+pcall(function() CosmicVaultBuffs = include("cosmicvaultbuffs") end)
+local CosmicVaultData = nil
+pcall(function() CosmicVaultData = include("cosmicvaultdata") end)
+local CosmicVaultUI = nil
+pcall(function() CosmicVaultUI = include("cosmicvaultui") end)
 
 local SpawnUtility = include("spawnutility")
 
@@ -360,6 +366,9 @@ function VeilActivate()
 		VeilIsWorking = true
 		--Creating an effect icon
 		broadcastInvokeClientFunction( "updateStatusEffects", 0, true)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "VEIL ACTIVATED", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		end
 		--Enabling bonuses
 		VeilOperateSetup()
 		--Playing sound
@@ -380,25 +389,20 @@ end
 callable(nil, "VeilActivate")
 
 function VeilOperateSetup()
+	if not CosmicVaultBuffs then return end
+	local entityId = Entity().id
+
 	--Installing bonuses upon activation
 	if VeilIsWorking then
-		--Setting the Resistance Index
-		if Shield().damageFactor ~= 1 then
-			DebugMsg("Veil - damage factor is not 1 somehow")
-		end
-		Shield().damageFactor = 1 - VeilResistance * 0.01
-		DebugMsg("Veil: current damage factor is " .. tostring(Shield().damageFactor))
-		--Setting the rate of fire
-		Entity():addBaseMultiplier(StatsBonuses.FireRate, -VeilFireRate * 0.01)
+		CosmicVaultBuffs.applyBuff(entityId, "DamageReduction", VeilResistance * 0.01, VeilCooldown)
+		CosmicVaultBuffs.applyBuff(entityId, "FireRate", -VeilFireRate * 0.01, VeilCooldown)
 		return
 	end
+	
 	--Cancellation of bonuses upon deactivation
 	if not (VeilIsWorking) then
-		--Resist the shield
-		Shield().damageFactor = Shield().damageFactor + VeilResistance * 0.01
-		DebugMsg("Veil: current damage factor after cancel is " .. tostring(Shield().damageFactor))
-		--Rate of fire
-		Entity():addBaseMultiplier(StatsBonuses.FireRate, VeilFireRate * 0.01)
+		CosmicVaultBuffs.removeBuff(entityId, "DamageReduction")
+		CosmicVaultBuffs.removeBuff(entityId, "FireRate")
 		return
 	end
 	return
@@ -483,9 +487,16 @@ function RecupActivate()
 
 		--Creating an effect icon
 		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "RECUPERATION ACTIVE", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		end
 
 		--Resetting accumulated charge
-		Entity():setValue("RecupStoredAmount", 0)
+		if CosmicVaultData then
+			CosmicVaultData.SetTable(Entity(), "RecupStoredAmount", 0)
+		else
+			Entity():setValue("RecupStoredAmount", 0)
+		end
 		executeUpdateSecondary(2, 0)
 
 		--Resetting the charge status progressbar
@@ -620,6 +631,9 @@ function MultiphaseActivate()
 		MultiphaseIsWorking = MultiphaseLength + MultiphaseLengthR * _rarity
 		--Creating an effect icon
 		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "MULTIPHASE SHIELD ENABLED", ColorRGB(1, 1, 0), "data/sounds/siren.ogg", 2)
+		end
 		--Launch of bonuses
 		MultiphaseOperateSetup()
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
@@ -752,6 +766,9 @@ function PulsarActivate()
 		PulsarIsWorking = PulsarLength + PulsarLengthR * _rarity
 		--Creating an effect icon
 		broadcastInvokeClientFunction( "updateStatusEffects", 3, true)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "PROTOCOL: PULSAR ACTIVE", ColorRGB(1, 0, 0), "data/sounds/siren.ogg", 2)
+		end
 
 		--Aura generation
 		local _aura = {
@@ -892,9 +909,7 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local subsys = {}
 
@@ -939,41 +954,46 @@ function executeDrawInterface(subSysDesc)
 		[2] = { 'progressbar' }
 	}
 
-	CosmicStarfallLib.invokeOwnerFunction(Entity(), 'activeSysInterface', 'executeDraw', _table, _addBars)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table, _addBars)
+	end
 end
 
 callable(nil, 'executeDrawInterface')
 
 function executeUpdateProgressbar(_index, _progress, _isStandby)
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local entity = Entity().id
 
 	if not (_isStandby) then _isStandby = false end
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeUpdateProgress', _index,
-		scriptname, entity, _progress, _isStandby)
+	
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+	end
 end
 
 function executeUpdateSecondary(_index, _progress)
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local entity = Entity().id
 	Debug('executing update secondary from ' .. Entity().name)
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeUpdateSecondary', _index,
-		scriptname, entity, _progress)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateSecondary', _index, scriptname, entity, _progress)
+	end
 end
 
 function executeDelete()
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local entity = Entity().id
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDelete', scriptname, entity)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+	end
 end
 
 function UIplaysound(_type)

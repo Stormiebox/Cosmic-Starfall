@@ -6,9 +6,9 @@ include("utility")
 include("randomext")
 include("tooltipmaker")
 include("Tech")
-include("cosmicstarfalllib")
 
---Include('callable')
+local CosmicVaultUI = nil
+pcall(function() CosmicVaultUI = include("cosmicvaultui") end)
 
 local _debug = false
 local _prototype = true
@@ -195,6 +195,9 @@ function NanobotsActivate()
 		NanobotsIsWorking =
 			NanobotsOperationTime                                --we set a working time and at the same time tell the handler that the module is running
 		broadcastInvokeClientFunction( "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "NANOBOTS ACTIVE", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura on yourself
@@ -227,6 +230,9 @@ function RepairNetworkActivate()
 			RepairnetworkOperationTime
 		RepairnetworkIsWorking = RepairnetworkOperationTime
 		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "REPAIR NETWORK ENABLED", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura on yourself
@@ -256,6 +262,9 @@ function EmergencyActivate()
 		EmergencyHeal = (Durability().maximum / 100) * EmergencyHealingAmount
 		EmergencyIsWorking = EmergencyOperationTime
 		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "EMERGENCY PROTOCOL STANDBY", ColorRGB(1, 1, 0), "data/sounds/siren.ogg", 2)
+		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
 		--Aura on yourself
@@ -284,6 +293,10 @@ function EmergencyOverloadActivate()
 	EmergencyOverloadIsWorking = EmergencyBoosterTime
 	PassiveRepairAmount = PassiveRepairAmount * EmergencyBoosterAmount
 	broadcastInvokeClientFunction( "updateStatusEffects", 3, true)
+	local owner = Owner()
+	if owner and owner.isPlayer and CosmicVaultUI then
+		CosmicVaultUI.ShowCinematicBanner(Player(owner.index), "EMERGENCY PROTOCOL TRIGGERED", ColorRGB(1, 0, 0), "data/sounds/siren.ogg", 2)
+	end
 	broadcastInvokeClientFunction( 'UIplaysound', 0)
 	--Aura on yourself
 	local _aura = {
@@ -404,9 +417,7 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local subsys = {}
 
@@ -442,31 +453,36 @@ function executeDrawInterface(subSysDesc)
 		subsys             --subsys
 	}
 
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDraw', _table)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+	end
 end
 
 callable(nil, 'executeDrawInterface')
 
 function executeUpdateProgressbar(_index, _progress, _isStandby)
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local entity = Entity().id
 	--local selfIndex = Faction().index
 
 	if not (_isStandby) then _isStandby = false end
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeUpdateProgress', _index,
-		scriptname, entity, _progress, _isStandby)
+	
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+	end
 end
 
 function executeDelete()
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local entity = Entity().id
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDelete', scriptname, entity)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+	end
 end
 
 --Responsible for various related visuals (icons on the screen, glow, etc.)

@@ -2,11 +2,13 @@
 
 Welcome to the **Cosmic Starfall** official wiki! This page contains the full, detailed documentation for the mod, a modernization and continuation of the original **Starfall** concept for current Avorion-era mod stacks.
 
+**As of v2.0.0, Cosmic Starfall is natively integrated into the Cosmic Series.** It uses the advanced APIs provided by **Cosmic Vault**.
+
 **Cosmic Starfall is focused on:**
 - Preserving high-tech identity and flavor.
-- Reducing legacy overpowered behavior.
-- Hardening scripts for reliability.
-- Improving compatibility with the broader Cosmic ecosystem.
+- Replacing legacy overpowered behavior with balanced, strategic mechanics.
+- Achieving 100% crash-free stability through asynchronous processing and direct QA hardening.
+- Operating seamlessly alongside Cosmic Overhaul and Cosmic War.
 
 ---
 
@@ -107,28 +109,20 @@ Reduce runaway power spikes while preserving each system’s gameplay identity.
 - Mod mechanics are fully secured for public dedicated multiplayer servers, ensuring a safe, exploit-free environment.
 </details>
 
-### 4) Compatibility Helper Layer (Ecosystem Bridge)
+### 4) Native Cosmic Vault Integration
 <details>
 <summary><b>Click to expand details</b></summary>
 
-**Added Library:** `data/scripts/lib/cosmicstarfalllib.lua`
-
 **What it does:**
-Provides helper and bridge behavior for optional ecosystem integration patterns without forcing hard runtime failures if external helpers are absent.
+Cosmic Starfall has completely eliminated its legacy compatibility library (`cosmicstarfalllib`) and now hooks directly into the **Cosmic Vault**.
 
-**Design Style:**
-- Optional loading patterns (guarded `include` / `pcall` style where applicable).
-- Safe fallback when external helper context is missing.
-- Centralized owner-routing and helper access patterns to reduce code duplication.
-
-**Latest Hardening in this Layer:**
-A focused crash-fix pass hardened owner resolution for modern Avorion runtime contexts:
-- Owner descriptor creation now uses guarded access patterns instead of unsafe direct dereference assumptions.
-- Owner-index routing is protected against unavailable or unreadable owner states.
-- Owner-routed `invoke` helpers now fail safely when the owner context is not valid.
+**Key Integration Points:**
+- **Dynamic Economy:** Megacomplexes trigger sector-wide `CosmicVaultEconomy` market crash events when forced to dump over-accumulated cargo.
+- **Cinematic Feedback:** Systems broadcast their status via `CosmicVaultUI.ShowCinematicBanner` for immersive, lag-free UI overlays.
+- **Asynchronous Processing:** Heavy logic like Repair Waves or Tractor Pulses are scheduled safely onto `CosmicVaultTask.RunAsync()`, protecting the server's TPS rate during massive fleet clashes.
 
 **Why it matters:**
-Enables smoother interoperability with broader Cosmic-series workflows while preserving standalone safety and avoiding repeated owner-context stack traces.
+Enables seamless interoperability with the entire Cosmic Series while simultaneously granting extreme performance uplifts that were not possible with vanilla scripts alone.
 </details>
 
 

@@ -5,7 +5,9 @@ include("basesystem")
 include("utility")
 include("randomext")
 include("Tech")
-include("cosmicstarfalllib")
+
+local CosmicVaultUI = nil
+pcall(function() CosmicVaultUI = include("cosmicvaultui") end)
 
 local _debug = false
 local _prototype = true
@@ -142,7 +144,9 @@ function xFocusActivate()
 		Entity():registerCallback("onHyperspaceEntered", "xFocusJump")
 
 		FocusedChargedFlag = true
-
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "FOCUSED JUMP ENGAGED", ColorRGB(0, 0, 1), "data/sounds/siren.ogg", 2)
+		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
@@ -175,6 +179,9 @@ function xQuantumActivate()
 		QuantumHealDelta = Shield():getMaxDurability(true) / 100 * QuantumShieldHeal
 		Entity():registerCallback("onJumpRouteCalculationStarted", "xQuantumTrigger")
 		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "QUANTUM STANDBY", ColorRGB(1, 1, 0), "data/sounds/siren.ogg", 2)
+		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 		QuantumStandbyFlag = true
 	else
@@ -235,6 +242,9 @@ function xDestabilizerActivate()
 			print(DestabilizerDamageToHull, "DestabilizerDamageToHull")
 
 			print(DestabilizerSpeedUp, "DestabilizerSpeedUp")
+		end
+		if CosmicVaultUI then
+			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "DESTABILIZER ACTIVE", ColorRGB(1, 0, 0), "data/sounds/siren.ogg", 2)
 		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
@@ -582,9 +592,7 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local subsys = {}
 
@@ -619,30 +627,35 @@ function executeDrawInterface(subSysDesc)
 		Entity().id,       --entityID
 		subsys             --subsys
 	}
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDraw', _table)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+	end
 end
 
 callable(nil, 'executeDrawInterface')
 
 function executeUpdateProgressbar(_index, _progress, _isStandby)
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local entity = Entity().id
 
 	if not (_isStandby) then _isStandby = false end
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeUpdateProgress', _index,
-		scriptname, entity, _progress, _isStandby)
+	
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+	end
 end
 
 function executeDelete()
-	if not CosmicStarfallLib.hasOwnerIndex(Entity()) then
-		return
-	end
+	if not Entity() or not Owner() then return end
 
 	local entity = Entity().id
-	CosmicStarfallLib.invokeOwnerFunctionIfOnline(Entity(), 'activeSysInterface', 'executeDelete', scriptname, entity)
+	local owner = Owner()
+	if owner then
+		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+	end
 end
 
 function getName(seed, rarity)

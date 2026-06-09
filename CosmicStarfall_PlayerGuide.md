@@ -57,10 +57,10 @@ For the economic moguls. Installing a Megacomplex core allows you to vastly stre
 ## 🛠️ Frequently Asked Questions (FAQ)
 
 **Does this mod require Cosmic Overhaul or Cosmic Vault?**
-No! Cosmic Starfall is a **100% standalone mod**. However, if you *do* use it alongside Cosmic Vault and Cosmic War, it features built-in bridges to synchronize perfectly with those mods (such as Headhunters using Starfall weapons).
+Yes! As of v2.0.0, Cosmic Starfall natively integrates with the Cosmic Series ecosystem. It **requires Cosmic Vault** to run. This allows the mod to utilize advanced API features like dynamic market crashes, cinematic UI banners, and async performance processing.
 
 **Is it balanced for late-game?**
-Yes. As of Update 2.0.0, Starfall has been heavily audited. Weapons scale fairly into the late-game Ogonite/Avorion tiers, and modules use dynamic rarity scaling so you are always rewarded for hunting down Legendary (Violet) drops.
+Yes. As of Update v2.0.0, Starfall has been heavily audited. Weapons scale fairly into the late-game Ogonite/Avorion tiers, and modules use dynamic rarity scaling so you are always rewarded for hunting down Legendary (Violet) drops.
 
 **Can I use this on a Multiplayer Server?**
 Absolutely. Cosmic Starfall utilizes strict Virtual File System (VFS) hooks and has been optimized specifically to prevent desyncs and UI crashes on dedicated servers.
