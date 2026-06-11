@@ -1,713 +1,779 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
-package.path = package.path .. ";data/scripts/lib/?.lua"
-package.path = package.path .. ";data/scripts/entity/?.lua"
-package.path = package.path .. ";data/scripts/player/ui/?.lua"
-
-include('utility')
-include('callable')
 include('Neltharaku')
+include('callable')
+include('ColorLib')
+include('SoundLib')
 
---namespace cG
-cG = {}
+--namespace combatGroup
+combatGroup = {}
 
-_colorG = ColorHSV(150, 64, 100)
-_colorY = ColorHSV(60, 94, 78)
-_colorR = ColorHSV(16, 97, 84)
-_colorB = ColorHSV(240, 40, 100)
-_colorC = ColorHSV(264, 60, 100)
+local locIcons = {}
+locIcons['leader'] = 'data/textures/icons/ui/ui_playerLeader.png'
+locIcons['online'] = 'data/textures/icons/ui/ui_playerOnline.png'
+locIcons['offline'] = 'data/textures/icons/ui/ui_playerOffline.png'
+locIcons['kick'] = 'data/textures/icons/kick.png'
 
-local rUnit = 40
-local rPaddingX = 15
-local rPaddingY = 10
+locIcons['collapse'] = 'data/textures/icons/uiCollapse.png'
+locIcons['collapseleft'] = 'data/textures/icons/ui/ui_collapseleft.png'
+locIcons['expand'] = 'data/textures/icons/uiFederation.png'
+locIcons['pendinginvite'] = 'data/textures/icons/ui/ui_invitePending.png'
+locIcons['refresh'] = 'data/textures/icons/uiUpdate.png'
+locIcons['add'] = 'data/textures/icons/uiPlus.png'
+locIcons['sent'] = 'data/textures/icons/submit.png'
+locIcons['cancel'] = 'data/textures/icons/cancel.png'
+locIcons['cancelnoring'] = 'data/textures/icons/ui/ui_cancelWOring.png'
+locIcons['submitnoring'] = 'data/textures/icons/ui/ui_submitWOring.png'
+locIcons['mail'] = 'data/textures/icons/ui/ui_mail.png'
 
-local windowSize = { 10, 6 }
-
-local addNativeIcon = 'data/textures/icons/uiPlus.png'
-local addSwitchedIcon = 'data/textures/icons/uiPlayer.png'
-
-local cGwindow = nil
-local cGframe = nil
 
 local locLines = {}
 locLines['button_tooltip_expand'] = "Expand combat group window"%_t
 locLines['button_tooltip_collapse'] = "Collapse window"%_t
 locLines['button_tooltip_refresh'] = "Refresh window"%_t
-locLines['button_tooltip_settoinvite'] = "Switch to the mode of adding players"%_t
-locLines['button_tooltip_settogroup'] = "Switch to the current group display mode"%_t
-locLines['button_label_online'] = "Online"%_t
+
+locLines['button_tooltip_collapseLeft'] = "Collapse invitation window"%_t
+locLines['button_tooltip_openadd'] = "Open invitation window"%_t
+locLines['label_caption_invited'] = "You are invited to the group!"%_t
+locLines['label_caption_noplayers'] = "Cannot find players to invite"%_t
+locLines['button_tooltip_leave'] = "Leave the group"%_t
+--locLines['button_tooltip_transferleader'] = "Transfer leader"%_t
 
 locLines['window_name'] = "Combat group"%_t
 
-local windowName = locLines['window_name']
-local mainWindow = {}
---window
---frame
---iconCollapse
---iconRefresh
---buttonInit
+local UIE = {}
 
-local groupUIelements = {}
---icon
---name
---status
---kick
-
-local groupUIadd = {}
---inviteButton
---name
-
-local playersOnline = {}
---Name
 
 local _debug = false
-function cG.DebugMsg(_text)
+function combatGroup.DebugMsg(_text)
 	if _debug then
 		print('combatGroup|', _text)
 	end
 end
 
-local Debug = cG.DebugMsg
+local Debug = combatGroup.DebugMsg
+local sf = string.format
+local self = combatGroup
 local TSR = Neltharaku.TableSelfReport
+local RR = Neltharaku.ReportRect
+local getrect = Neltharaku.createRect
 
-function cG.DoMeow()
+local colors = {}
+colors['buff'] = ColorHSV(90, 0.8, 0.65)
+colors['debuff'] = ColorHSV(16, 97, 84)
+colors['neutral'] = ColorHSV(60, 94, 78)
+colors['st'] = ColorHSV(240, 0, 100)
+
+local rUnit
+local mainContainer
+local innerContainers = {}
+local buttons = {}
+--local partyPlayers = {}
+local onlinePwayers = {}
+
+local invintationFlag = 0
+local invintationPendingFlag = false
+
+local updateFlag = 0
+local updateFlagValue = 5
+
+function combatGroup.initialize()
+	Debug('--------initialize--------')
+	if onClient() then
+		--Variables
+		--UIAnchor = vec2(getResolution().x*0.25,getResolution().y*0.15)
+		rUnit = math.min(getResolution().x, getResolution().y) * 0.05
+		--containerSize = rUnit*4
+
+		--Actions
+		self.CreateInterface()
+	end
+end
+
+function combatGroup.DoMeow()
 	Debug('Meow')
 end
 
---Searches for the index of an element in the specified table
-function cG.getElementByIndex(_element, _table, _pos)
-	--The element itself in _element
-	--Table to search in _table
-	--Position of the button in the line in _pos
-	local _result = nil
-	for _index, _rows in pairs(_table) do
-		if _rows[_pos].index == _element.index then
-			_result = _index
+local Meow = combatGroup.DoMeow
+
+--======================================[Built-in functions]======================================================
+
+function combatGroup.getUpdateInterval()
+	return 2
+end
+
+function combatGroup.update(timeStep)
+	if onClient() then
+		if buttons['expand'] ~= nil then
+			local but = buttons['expand']
+			if invintationFlag > 0 then
+				invintationFlag = math.max(invintationFlag - timeStep, 0)
+				if invintationPendingFlag then
+					invintationPendingFlag = false
+					but.icon = locIcons['pendinginvite']
+				else
+					invintationPendingFlag = true
+					but.icon = locIcons['expand']
+				end
+				if invintationFlag == 0 then
+					but.icon = locIcons['expand']
+				end
+			end
+		end
+
+		if updateFlag > 0 then
+			updateFlag = math.max(updateFlag - timeStep, 0)
+			if updateFlag == 0 then
+				self.resetInvintationIcons()
+			end
 		end
 	end
-	return _result
 end
 
-function cG.initialize()
-	terminate()
-	if onServer() then
-		--Calls to update data
-		Server():registerCallback("onPlayerLogIn", "callbackIssuePoint")
-		Server():registerCallback("onPlayerLogOff", "callbackIssuePoint")
-		Player():registerCallback("onGroupChanged", "callbackIssuePoint")
-		Player():registerCallback("onGroupLeaderChanged", "callbackIssuePoint")
-		Player():registerCallback("onPlayerEnteredGroup", "callbackIssuePoint")
-		Player():registerCallback("onPlayerLeftGroup", "callbackIssuePoint")
-	end
-
-	if onClient() then
-		cG.createWindow()
-	end
-end
-
-----[service]
-
-
-
-----------------------------------[Drawing the basic interface]-------------------------------------
---Creates a main window
-function cG.createWindow()
-	if _debug then
-		rUnit = 40
-		Debug('createWindow local unit corrected')
-	end
-
-	--Creating the Main Window
-	mainWindow['window'], mainWindow['frame'] = Neltharaku.CreateHudWindow(windowName, rUnit, windowSize[1],
-		windowSize[2])
-	mainWindow['window'].showCloseButton = false
-	mainWindow['window'].moveable = false
-
-	--Creating a Collapse Button
-	local _size = rUnit * 0.7
-	mainWindow['collapse'] = Neltharaku.UIcreateCloseButton(mainWindow['window'], _size)
-	if not (mainWindow['collapse']) then
-		Debug('closeButtonEroro')
-	end
-	mainWindow['collapse'].icon = 'data/textures/icons/uiCollapse.png'
-	mainWindow['collapse'].onPressedFunction = 'collapseWindow'
-	mainWindow['collapse'].tooltip = locLines['button_tooltip_collapse']
-
-	--Creating a Refresh Button
-	mainWindow['refresh'] = Neltharaku.UIcreateCloseButton(mainWindow['window'], _size, 2)
-	if not (mainWindow['refresh']) then
-		Debug('refreshButtonEroro')
-	end
-	mainWindow['refresh'].icon = 'data/textures/icons/uiUpdate.png'
-	mainWindow['refresh'].onPressedFunction = 'serverIssueToRender'
-	mainWindow['refresh'].tooltip = locLines['button_tooltip_refresh']
-
-	--Creating an "add" button
-	mainWindow['add'] = Neltharaku.UIcreateCloseButton(mainWindow['window'], _size, 3)
-	if not (mainWindow['add']) then
-		Debug('addButtonEroro')
-	end
-	mainWindow['add'].icon = 'data/textures/icons/uiPlus.png'
-	mainWindow['add'].onPressedFunction = 'onAddButtonPress'
-	mainWindow['add'].tooltip = locLines['button_tooltip_settoinvite']
-
-	--Saving the width/height values ​​of the main window
-	windowSize[1] = mainWindow['window'].width
-	windowSize[2] = mainWindow['window'].height
-
-	--Main window['window']:hide()
-	cG.collapseWindow(mainWindow['collapse'])
-
-	--local anchorPoint = vec2(rUnit*3,rUnit*3)
-	--
-	--Positions the button on the screen
-	local resX = getResolution().y * 0.06
-	local resY = getResolution().y * 0.3
-	local anchorPoint = vec2(resX, resY)
-	local debugRect = Neltharaku.GetAchoredRect(0, anchorPoint)
-	mainWindow['window'].rect = debugRect
-end
-
---Responsible for folding
-function cG.collapseWindow(_button)
-	--Changing icons, button functions
-	_button.icon = 'data/textures/icons/uiFederation.png'
-	_button.onPressedFunction = 'expandWindow'
-	_button.tooltip = locLines['button_tooltip_expand']
-
-	--Turning off unnecessary interface elements
-	mainWindow['window'].caption = ''
-	mainWindow['frame']:hide()
-	mainWindow['refresh']:hide()
-	mainWindow['add']:hide()
-
-	--Minimizing a window
-	local _newWidth = rUnit * 0
-	local _newHeight = rUnit * 0
-	local _anchorPosition = mainWindow['window'].rect.topLeft
-	local _collapsePoint = vec2(_anchorPosition.x + _newWidth, _anchorPosition.y + _newHeight)
-	local _collapseRect = Rect(_anchorPosition, _collapsePoint)
-
-	mainWindow['window'].rect = _collapseRect
-
-	--Changing the button position
-	Neltharaku.UIplaceCloseButton(_button, mainWindow['window'], 1)
-
-	--Checking if the window has flown off the screen
-	if Neltharaku.isOutOfBorder(_button) then
-		local anchorPoint = vec2(rUnit * 3, rUnit * 3)
-		local debugRect = Neltharaku.GetAchoredRect(0, anchorPoint)
-		mainWindow['window'].rect = debugRect
-		Debug('collapseWindow: out of border')
-	end
-end
-
---Responsible for unfolding
-function cG.expandWindow(_button)
-	--Changing icons, button functions
-	_button.icon = 'data/textures/icons/uiCollapse.png'
-	_button.onPressedFunction = 'collapseWindow'
-	_button.tooltip = locLines['button_tooltip_collapse']
-
-	--Maximizing a window
-	local anchorPoint = mainWindow['window'].rect.topLeft
-	local secondPoint = vec2(anchorPoint.x + windowSize[1], anchorPoint.y + windowSize[2])
-	local expandRect = Rect(anchorPoint, secondPoint)
-	mainWindow['window'].rect = expandRect
-
-	--Activating interface elements
-	mainWindow['window'].caption = windowName
-	mainWindow['frame']:show()
-	mainWindow['refresh']:show()
-	mainWindow['add']:show()
-
-	--Moving the minimize button
-	Neltharaku.UIplaceCloseButton(_button, mainWindow['window'], 1)
-
-	--Clarifying the status of the "add" button
-	cG.addButtonSwitcher()
-end
-
---Input function to perform listener processing, distributes update type based on current active window
-function cG.callbackIssuePoint()
-	Debug('callbackIssuePoint attempt')
-	--Stream destination
-	if onServer() then
-		invokeClientFunction(Player(callingPlayer), 'callbackIssuePoint')
-		return
-	end
-
-	--Cutting off
-	if not (Player()) or not (mainWindow['add']) then
-		Debug('callbackIssuePoint failure: nil')
-		return
-	end
-
-	--Finding the update path: group interface update
-	if mainWindow['add'].icon == addNativeIcon then
-		Debug('callbackUpdate for "GROUP"')
-		cG.serverIssueToRender()
-	else
-		--Finding the update path: updating the interface of new players
-		Debug('callbackUpdate for "NEW"')
-		--Search for players
-		cG.serverScanPlayersOnline()
-	end
-end
-
---Handles the accessibility of the "add" button
-function cG.addButtonSwitcher()
-	--Stream destination
-	if onServer() then
-		invokeClientFunction(Player(callingPlayer), 'addButtonSwitcher')
-		return
-	end
-
-	--Variables
-	local pwayer = Player()
-	local button = mainWindow['add']
-
-	--Cutting off
-	if not (pwayer) or not (button) then return end
-
-	--Testing Various Conditions
-	local isParty = Player().group
-	local isLeader = false
-	if isParty then
-		isLeader = (Player().name == Faction(Player().group.leader).name)
-	end
-	local isAddState = (button.icon == addNativeIcon)
-
-	--Setting the button activity
-	if not (isParty) then
-		button.active = true
-		return
-	end
-
-	if isAddState then
-		if isLeader then
-			button.active = true
-		else
-			button.active = false
-		end
-	else
-		button.active = true
-	end
-end
-
-----------------------------------[Group Interface]-------------------------------------
-
---Input group rendering function. Searches for players online and sends the process further
-function cG.serverIssueToRender()
-	Debug('serverIssueToRender attempt')
-	if onClient() then
-		invokeServerFunction('serverIssueToRender')
-
-		--C g.add button switcher()
-	else
-		--Update players online
-		--cG.serverScanPlayersOnline()
-
-		--Continuation of the procedure on the client side
-		broadcastInvokeClientFunction( 'issueToRenderGroup', playersOnline)
-	end
-end
-
-callable(cG, 'serverIssueToRender')
-
---Scans the player's group (if available) and renders the interface.
-function cG.issueToRenderGroup(_tableOnline)
-	Debug('issueToRenderGroup attempt')
-	--TSR(_tableOnline,'_tableOnline')
-	--Clipping
+--===================================[Creating/rendering the interface]================================================
+function combatGroup.CreateInterface()
 	if onServer() then return end
 
-	--Changing button status
-	mainWindow['add'].icon = 'data/textures/icons/uiPlus.png'
-	mainWindow['add'].onPressedFunction = 'onAddButtonPress'
-	mainWindow['add'].tooltip = locLines['button_tooltip_settoinvite']
-	mainWindow['refresh'].onPressedFunction = 'serverIssueToRender'
+	--Control Variables
+	local mainWidth = rUnit * 4  --Window width
+	local mainHeight = rUnit * 3 --Window height
+	local topContHeight = rUnit * 0.7 --Top line height
 
-	--Online player table synchronization
-	playersOnline = _tableOnline
+	local res = getResolution()
+	local mainAnchor = vec2(res.x * 0.035, res.y * 0.22)
 
-	--Clearing the interface to render a new one
-	mainWindow['frame']:clear()
-	groupUIelements = {}
+	local bottomContainer = { --Bottom container (group management)
+		0, topContHeight,
+		mainWidth,
+		mainHeight - topContHeight
+	}
+	local rightContainer = { --Right container (append)
+		mainWidth + rUnit * 0.4, 0,
+		mainWidth,
+		mainHeight
+	}
+	local mainLabel = {      --Name square
+		rUnit * 0.3, rUnit * 0.05, --Anchor
+		rUnit * 2,           --Width
+		rUnit * 0.95         --Height
+	}
+	local collapseButton = { --Collapse (expand) button
+		rUnit * -0.7, rUnit * 0.05,
+		rUnit * 0.6,
+		rUnit * 0.6
+	}
+	local addButton = { --Add button
+		collapseButton[1], collapseButton[2] + collapseButton[4] + rUnit * 0.2,
+		rUnit * 0.5,
+		rUnit * 0.5
+	}
+	local collapseLeftButton = { --Collapse-menu-add button
+		mainWidth - rUnit * 0.5, rUnit * 0.05,
+		rUnit * 0.5,
+		rUnit * 0.5
+	}
+	local acceptinvitelabel = { --invitation acceptance label
+		rUnit * 0.3, rUnit * 0.2,
+		rUnit * 4,
+		rUnit * 0.6
+	}
+	local acceptinvitebutton = { --Accept invitation button
+		rUnit * 0.3, acceptinvitelabel[2] + acceptinvitelabel[4],
+		rUnit * 0.5,
+		rUnit * 0.5
+	}
+	local declineinvitebutton = { --Decline invitation button
+		acceptinvitebutton[1] + acceptinvitebutton[3] + rUnit * 0.2, acceptinvitebutton[2],
+		rUnit * 0.5,
+		rUnit * 0.5
+	}
 
-	--First iteration of variables
+	--Creating a shared container
+	local res = getResolution()
+	local containerAnchor = vec2(res.x * 0.035, res.y * 0.26)
+	local containerPoint = vec2(containerAnchor.x + mainWidth, containerAnchor.y + mainHeight)
+	local containerRect = Rect(containerAnchor, containerPoint)
+
+	local getrect = self.createRect
+	mainContainer = Hud():createContainer(containerRect)
+	--Main container:create frame(rect(main container.size))
+
+	--Creating Internal Zones
+	local topContainerPoint = vec2(mainContainer.width, topContHeight)
+	innerContainers['top'] = mainContainer:createContainer(Rect(topContainerPoint))
+	--local topFrame = innerContainers['top']:createFrame(Rect(innerContainers['top'].size))
+	--topFrame.backgroundColor = colors['buff']
+
+	innerContainers['bottom'] = mainContainer:createContainer(self.createRect(bottomContainer))
+	--local botFrame = innerContainers['bottom']:createFrame(Rect(innerContainers['bottom'].size))
+	--botFrame.backgroundColor = colors['neutral']
+	innerContainers['bottom_invite'] = mainContainer:createContainer(self.createRect(bottomContainer))
+
+	innerContainers['right'] = mainContainer:createContainer(self.createRect(rightContainer))
+	innerContainers['right']:createFrame(Rect(innerContainers['right'].size))
+
+
+
+	--Filling the header zone
+	--Title
+	local mainLabelRect = self.createRect(mainLabel)
+	local labelFontSize = rUnit * 0.25
+	local mainLabel = innerContainers['top']:createLabel(mainLabelRect, locLines['window_name'], labelFontSize)
+	--Collapse button
+	local collapseRect = self.createRect(collapseButton)
+	buttons['collapse'] = innerContainers['top']:createRoundButton(collapseRect, locIcons['collapse'], 'Collapse')
+	buttons['collapse'].tooltip = locLines['button_tooltip_collapse']
+	--"Collapse adding" button
+	buttons['collapseLeft'] = innerContainers['top']:createRoundButton(getrect(collapseLeftButton),
+		locIcons['collapseleft'], 'collapseAdd')
+	buttons['collapseLeft'].tooltip = locLines['button_tooltip_collapseLeft']
+	buttons['collapseLeft']:hide()
+	--"Expand" button
+	local collapseRect = self.createRect(collapseButton)
+	buttons['expand'] = mainContainer:createRoundButton(collapseRect, locIcons['expand'], 'Expand')
+	buttons['expand'].tooltip = locLines['button_tooltip_expand']
+	--"Add" button
+	local addRect = self.createRect(addButton)
+	buttons['add'] = innerContainers['top']:createRoundButton(addRect, locIcons['add'], 'ExpandAdd')
+	buttons['add'].tooltip = locLines['button_tooltip_openadd']
+	buttons['add']:hide()
+
+	--Filling the invite zone
+	--labelFontSize = rUnit *0.3
+	--Inscription
+	local invitelabel = innerContainers['bottom_invite']:createLabel(getrect(acceptinvitelabel),
+		locLines['label_caption_invited'], labelFontSize)
+	--"Accept" button
+	buttons['acceptinvite'] = innerContainers['bottom_invite']:createRoundButton(getrect(acceptinvitebutton),
+		locIcons['sent'], 'AcceptInvite')
+	--"Refuse" button
+	buttons['declineinvite'] = innerContainers['bottom_invite']:createRoundButton(getrect(declineinvitebutton),
+		locIcons['cancel'], 'interruptInvite')
+
+
+	--Initiating folding
+	self.Collapse()
+
+	--Initialize the renderer
+	--self.RenderGroup()
+
+	--Initializing lines
+	--Top
+	local top_lineLeftSide = {
+		0, 0,
+		0,
+		innerContainers['top'].height
+	}
+	innerContainers['top']:createLine(self.getLines(top_lineLeftSide))
+
+	--Initializing hooks and interface
+	invokeServerFunction('getOnlinePwayers')
+	invokeServerFunction('applyHooks')
+end
+
+function combatGroup.RenderGroup()
+	local isGroup = Player().group
+
+	--Cleaning the interface
+	partyPlayers = {}
+	innerContainers['bottom']:clear()
+
+	--Cuts off the render and opens the "add" button if the player is not in a group
+	if isGroup == nil then
+		buttons['add']:show()
+		return
+	end
+
+	--If the group exists, generates its lines
 	local party = Player().group
-	if not (party) then return end
-	local iconLeader = 'data/textures/icons/group-leader-colored.png'
-	local iconNotLeader = 'data/textures/icons/group-leader.png'
-	local iconKick = 'data/textures/icons/kick.png'
+	local partyGuys = { party:getPlayers() }
+	local isSelfLeader = (Player().index == party.leader)
 
-	--Creating Important Variables
-	--if party.leader = Faction().index then isLeader = true end
-	local partyPlayers = { party:getPlayers() }
-	local offsetY = rPaddingY
-	local isCallingPlayerLeader = (Player().name == Faction(party.leader).name)
-	Debug('isCallingPlayerLeader: ' .. tostring(isCallingPlayerLeader))
-
-	--Disable the button that switches to the invitation panel
-	if not (isCallingPlayerLeader) and party then
-		mainWindow['add'].active = false
-	end
-
-	--Searching for players, recording and creating interface elements
-	for _index, _rows in pairs(partyPlayers) do
-		--Person's name
-		local _name = Faction(_rows).name
-		Debug('-----------' .. _name .. '-----------')
-
-		--Assigning statuses
-		local isOnline = cG.isPlayerOnline(_name)
-		Debug('isOnline check: ' .. tostring(isOnline))
-		local isSelf = (_name == Player().name)
-		Debug('isSelf check: ' .. tostring(isSelf))
-		local isLeader = (party.leader == _rows)
-		Debug('isLeader check: ' .. tostring(isLeader))
-
-		--Calculating Interface Positions
-		local _elements = { 1, 3, 3, 1 }
-		local rects = Neltharaku.UIrowAutoplace(_elements, rUnit, rPaddingX, offsetY)
-		offsetY = offsetY + rUnit + rPaddingY
-
-		--Interface creation
-		local _frame = mainWindow['frame']
-		--Leader
-		local _leaderButton = _frame:createRoundButton(rects[1], iconNotLeader, 'onLeaderChangePressed')
-		if isLeader then _leaderButton.icon = iconLeader end
-		if not (isCallingPlayerLeader) then _leaderButton.active = false end
-		if not (isOnline) then _leaderButton.active = false end
-
-		--Name
-		local _nameTF = _frame:createTextField(rects[2], _name)
-		_nameTF.fontSize = rUnit * 0.25
-
-		--State
-		local _statusTF = _frame:createTextField(rects[3], locLines['button_label_online'])
-		_statusTF.fontSize = rUnit * 0.25
-		_statusTF.fontColor = _colorG
-		if not (isOnline) then _statusTF:hide() end
-
-		--Kick
-		local _kickButton = _frame:createRoundButton(rects[4], iconKick, nil)
-		_kickButton.active = false
-		--Distribution of the functionality of this button
-
-		--If it is the player himself, he kicks himself
-		if isSelf then _kickButton.onPressedFunction = 'onKickSelfPressed' end
-
-		--If the player is the leader of the party, the button refers to the remote kick
-		if not (isSelf) and isCallingPlayerLeader and isOnline then _kickButton.onPressedFunction = 'onKickOtherPressed' end
-
-		--Enables the button if the leader or the player himself
-		if (isCallingPlayerLeader and isOnline) or isSelf then _kickButton.active = true end
-		--if (not(isSelf) and not(isCallingPlayerLeader)) or not(isOnline) then _kickButton.active = false end
-
-		--Saving an interface string to a table
-		table.insert(groupUIelements, { _leaderButton, _nameTF, _statusTF, _kickButton, _name })
-	end
-	Debug('issueToRenderGroup successful call')
-
-	--Clarifying the status of the "add" button
-	cG.addButtonSwitcher()
-end
-
-----------------------------------[Group interface subfunctions]-------------------------------------
---Creates/updates table of online player names
-function cG.serverScanPlayersOnline(_table)
-	--Debug('serverScanPlayersOnline attempt')
-	if onServer() then
-		playersOnline = {}
-		--local scannedPlayers =
-		for _, _rows in pairs({ Server():getOnlinePlayers() }) do
-			table.insert(playersOnline, _rows.name)
-		end
-	end
-end
-
---Checks the player's name for a match with online players
-function cG.isPlayerOnline(_name)
-	for _, rows in pairs(playersOnline) do
-		if _name == rows then return true end
-	end
-	return false
-end
-
-----------------------------------[Interface "add"]-------------------------------------
---Initializing the button, scanning players online and starting rendering
-function cG.onAddButtonPress()
-	Debug('onAddButtonPress attempt')
-	if onClient() then
-		--Changing button status
-		mainWindow['add'].icon = 'data/textures/icons/uiPlayer.png'
-		mainWindow['add'].onPressedFunction = 'serverIssueToRender'
-		mainWindow['refresh'].onPressedFunction = 'onAddButtonPress'
-		mainWindow['add'].tooltip = locLines['button_tooltip_settogroup']
-
-		--Running the server side of the script
-		invokeServerFunction('onAddButtonPress')
+	--Opens the "add" button
+	if isSelfLeader then
+		buttons['add']:show()
 	else
-		--Search for players
-		cG.serverScanPlayersOnline()
-
-		--Running check and render
-		broadcastInvokeClientFunction( 'renderAddTable', playersOnline)
-
-		--Checking button status
-		cG.addButtonSwitcher()
-	end
-end
-
-callable(cG, 'onAddButtonPress')
-
---Compiling a list of online players and starting rendering
-function cG.renderAddTable(_table)
-	--Frame clearing
-	mainWindow['frame']:clear()
-	groupUIadd = {}
-
-	--Online player table synchronization
-	playersOnline = _table
-
-	--Group Variables
-	local party = Player().group
-	local playersInParty = {}
-	local possiblePlayers = {}
-	local iconInvite = 'data/textures/icons/uiPlus.png'
-	local self = Player().name
-
-	--Finding suitable players
-	for _, _rows in pairs(playersOnline) do
-		if not (cG.isInSameGroup(_rows)) then
-			table.insert(possiblePlayers, _rows)
-		end
+		buttons['add']:hide()
 	end
 
-	--Tsr(possible players,'possible players')
+	yPos = 0
 
-	--Player list render
-	local offsetY = rPaddingY
-	local _frame = mainWindow['frame']
-	for _index, _rows in pairs(possiblePlayers) do
-		local _elements = { 1, 4 }
-		local rects = Neltharaku.UIrowAutoplace(_elements, rUnit, rPaddingX, offsetY)
-		offsetY = offsetY + rUnit + rPaddingY
-
-		--Invitebutton
-		local _inviteButton = _frame:createRoundButton(rects[1], iconInvite, 'onPlayerInvitePressed')
-
-		--Playername
-		local _nameTF = _frame:createTextField(rects[2], _rows)
-		_nameTF.fontSize = rUnit * 0.4
-
-		--Recording an interface in a table
-		table.insert(groupUIadd, { _inviteButton, _nameTF })
-	end
-
-	--Checking button status
-	cG.addButtonSwitcher()
-end
-
-----------------------------------[Player invitation functionality]-------------------------------------
-
---Processes a request to add a player
-function cG.onPlayerInvitePressed(_button)
-	--Switching button mode
-	_button.icon = 'data/textures/icons/submit.png'
-	_button.active = false
-
-	--Generating values ​​for a request
-	local _buttonIndex = cG.getElementIndex(_button, groupUIadd, 1)
-	local _name = groupUIadd[_buttonIndex][2].text
-
-	--Submitting a request to the server
-	if #_name > 0 then
-		invokeServerFunction('serverPlayerInvite', _name)
-	end
-end
-
---executes the invite command on the server side and sends "invitations" to players
-function cG.serverPlayerInvite(_name)
-	Server():addChatCommand(Player(), '/invite ' .. _name)
-	local _targetPlayer = Galaxy():findPlayer(_name)
-	Debug('_targetPlayer name is ' .. _name)
-	local _index = _targetPlayer.index
-	invokeFactionFunction(_index, false, 'combatGroup', 'playerOperateInvite', _name)
-end
-
-callable(cG, 'serverPlayerInvite')
-
---Initiates an invite on the local client
-function cG.playerOperateInvite(_name)
-	--Translation of stream
-	if onServer() then
-		invokeClientFunction(Player(callingPlayer), 'playerOperateInvite')
-		return
-	end
-
-	Player():invokeFunction('alertCore', 'entityGroupInvite')
-end
-
-----------------------------------[Leader transfer functionality]-------------------------------------
-
---Handles leader transfer push
-function cG.onLeaderChangePressed(button, name)
-	Debug('onLeaderChangePressed attempt')
-
-	--Server thread: command execution
-	if onServer() then
-		--Cutting off
-		if not (name) then return end
-
-		--Executing a command
-		Server():addChatCommand(Player(), '/leader ' .. name)
-		return
-	end
-
-	--Client Flow: Command Generation
-	--Clipping
-	if not (button) then return end
-
-	--Assigning Variables
-	local _pwayerIndex = cG.getElementIndex(button, groupUIelements, 1)
-	Debug('_pwayerIndex is ' .. tostring(_pwayerIndex))
-	local name = groupUIelements[_pwayerIndex][2].text
-	--Running the server side of the script
-	invokeServerFunction('onLeaderChangePressed', nil, name)
-end
-
-callable(cG, 'onLeaderChangePressed')
-
-----------------------------------[Player kick functionality]-------------------------------------
-
---Handles another player's kick button click
-function cG.onKickOtherPressed(button, name)
-	Debug('onKickOtherPressed attempt')
-
-	--Server thread: command execution
-	if onServer() then
-		--Cutting off
-		if not (name) then return end
-
-		--Remote command launch
-		local _targetPlayer = Galaxy():findPlayer(name)
-		Debug('_targetPlayer name is ' .. name)
-		local _index = _targetPlayer.index
-		invokeFactionFunction(_index, false, 'combatGroup', 'remoteKick')
-		return
-	end
-
-	--Client Flow: Command Generation
-	--Clipping
-	if not (button) then return end
-
-	--Assigning Variables
-	local _pwayerIndex = cG.getElementIndex(button, groupUIelements, 4)
-	Debug('_pwayerIndex is ' .. tostring(_pwayerIndex))
-	local name = groupUIelements[_pwayerIndex][2].text
-	--Running the server side of the script
-	invokeServerFunction('onKickOtherPressed', nil, name)
-end
-
-callable(cG, 'onKickOtherPressed')
-
---Runs the kick command on a third-party client
-function cG.remoteKick()
-	--Cutting off
-	if not (Player()) then return end
-
-	--Thread separation
-	if onServer() then
-		--Run a chat command
-		Server():addChatCommand(Player(), '/leave')
-
-		--Translating the stream to trigger an alert
-		invokeClientFunction(Player(callingPlayer), 'remoteKick')
-	else
-		--Calling an alert
-		Player():invokeFunction('alertCore', 'playerGroupKick')
-		--Updating a Button
-		cG.addButtonSwitcher()
-	end
-end
-
-function cG.onKickSelfPressed()
-	--Cutting off
-	if not (Player()) then return end
-
-	--Executing a command on the server
-	if onServer() then
-		Server():addChatCommand(Player(), '/leave')
-		--Updating a Button
-		cG.addButtonSwitcher()
-		return
-	end
-
-	--Translating the stream on the client
-	invokeServerFunction('onKickSelfPressed')
-end
-
-callable(cG, 'onKickSelfPressed')
-
-----------------------------------[Subfunctions]-------------------------------------
---Checks the button against the table, returning its index
-function cG.getElementIndex(_element, _table, _pos)
-	local _result = nil
-	for _index, _rows in pairs(_table) do
-		if _rows[_pos].index == _element.index then
-			_result = _index
-		end
-	end
-	return _result
-end
-
---Checks the player for presence in the online table
-function cG.isOnline(_name)
-	for _, _rows in pairs(playersOnline) do
-		if _name == Player().name then Debug('isOnline self') end
-		if playersOnline == _rows then return true end
-	end
-
-	return false
-end
-
---Checks whether the specified player is in the same group as the current one
---Also does not return TRUE if the name matches the name of the main player
-function cG.isInSameGroup(_name)
-	if Player().name == _name then
-		Debug('isInSameGroup: same as main player alert')
-		return true
-	end
-
-	local party = Player().group
-	if not (party) then return false end
-
-	--Getting player indices
-	local indPwayers = { party:getPlayers() }
-	--Change to names
-	local tableNames = {}
-	for _, _rows in pairs(indPwayers) do
-		table.insert(tableNames, Player(_rows))
-	end
-	--Tsr(table names,'is in same group')
-
-	--We check availability and complete if it matches
-	for _, _rows in pairs(tableNames) do
-		if _name == tableNames then return true end
-	end
-
-	return false
-end
-
---Checks if a name exists in the specified table
-function cG.isPlayerNameInTable(_table, _name)
-	--Checking if a name exists in a table
-	for _, _rows in pairs(_table) do
+	for _, _rows in pairs(partyGuys) do
+		local elements = {}
 		local name = Faction(_rows).name
-		if _name == name then return true end
+		elements, yPos = self.GenerateGroupLine(yPos)
+
+		--Calculating flags
+		--local isLeader = (Player(party.leader).name == _rows)
+		local isLeader = (party.leader == _rows)
+		local isOnline = (self.isPlayerOnline(_rows))
+		local isSelf = (Player().index == _rows)
+
+		Debug(sf("(%s)\nisLeader - %s\nisOnline - %s\nisSelf - %s,\nisSelfLeader - %s", name, tostring(isLeader),
+			tostring(isOnline), tostring(isSelf), tostring(isSelfLeader)))
+
+		--Selectively include elements
+		--===[Leader Button Block]===--
+		--Show button
+		if isOnline and isSelfLeader and not (isLeader) then
+			elements['but_online']:show()
+			elements['but_online'].tooltip = name
+			elements['but_online'].onPressedFunction = 'transferLeader'
+		end
+		--Show online icon
+		if isOnline and not (isLeader) and not (isSelfLeader) then
+			elements['pic_online']:show()
+		end
+		--Show leader icon
+		if isOnline and isLeader then
+			elements['pic_leader']:show()
+		end
+		--Show offline icon
+		if not (isOnline) then
+			elements['pic_offline']:show()
+		end
+
+		--===[Name block]===--
+		elements['label_name']:show()
+		elements['label_name'].caption = name
+		if isLeader then
+			elements['label_name'].color = colors['neutral']
+		end
+		if not (isOnline) then
+			elements['label_name'].color = getColor('lightgray')
+		end
+		Debug(sf("Trying to add caption: %s", name))
+
+		--===[Kick button block]===--
+		--Show kik icon
+		if not (isSelf) and isSelfLeader and isOnline then
+			elements['but_kick']:show()
+			elements['but_kick'].tooltip = name
+			elements['but_kick'].onPressedFunction = 'kickPlayer'
+		end
+		--Show liwa icon
+		if isSelf then
+			elements['but_leave']:show()
+			elements['but_leave'].onPressedFunction = 'leaveGroup'
+		end
+	end
+
+	if yPos == 0 then
+		yPos = rUnit
+	end
+
+	--Drawing lines
+	local bottom_lineLeftSide = {
+		0, 0,
+		0,
+		yPos
+	}
+
+	--Bottom
+	innerContainers['bottom']:createLine(self.getLines(bottom_lineLeftSide))
+end
+
+function combatGroup.RenderAdd()
+	local pwayers = self.getPwayersToInvite()
+	local yPos = 0
+	if not (pwayers) then return end
+
+	UIE['add_lines'] = {}
+	local t = UIE['add_lines']
+
+	innerContainers['right']:clear()
+
+	Debug('RenderAdd attempt')
+
+	for _index, _rows in pairs(pwayers) do
+		local elements = {}
+
+		elements, yPos = self.GenerateAddLine(yPos)
+
+
+		elements['but_add']:show()
+		elements['but_add'].onPressedFunction = 'sendInvite'
+		elements['but_add'].tooltip = _rows[1]
+		elements['label_name'].caption = _rows[1]
+		elements['label_name']:show()
+
+		t[_index] = { elements['but_add'], elements['pic_sent'] }
+	end
+
+	if #pwayers == 0 then
+		elements, yPos = self.GenerateAddLine(yPos)
+		elements['pic_eroro']:show()
+		elements['label_name']:show()
+	end
+
+	--Render lines
+	local right_lineLeftSide = {
+		0, 0,
+		0,
+		yPos
+	}
+
+	innerContainers['right']:createLine(self.getLines(right_lineLeftSide))
+end
+
+function combatGroup.GenerateGroupLine(yPos)
+	--leader/online/offline
+	--name
+	--kick
+
+	--Variables
+	local yPadding = rUnit * 0.05 + yPos --vertical displacement of the entire line
+	local fontSize = rUnit * 0.23
+	local localSize = rUnit * 0.6
+
+	local leaderButton = { --Leader button/icon
+		rUnit * 0.1, yPadding,
+		localSize,
+		localSize
+	}
+	local nameLabel = { --Player name
+		leaderButton[1] + leaderButton[3], yPadding + localSize * 0.35,
+		localSize * 4,
+		localSize * 1.35
+	}
+	local kickButton = { --Kick/pour button
+		nameLabel[1] + nameLabel[3], yPadding + localSize * 0.22,
+		localSize * 0.8,
+		localSize * 0.8 + localSize * 0.22
+	}
+	local uiElems = {}
+	local cont = innerContainers['bottom']
+	local getrect = self.createRect
+
+	--=====[Leader Button Block]=====--
+	--generating a leader transfer button
+	uiElems['but_online'] = cont:createRoundButton(getrect(leaderButton), locIcons['online'], 'DoMeow')
+	--leader image generation
+	uiElems['pic_leader'] = cont:createPicture(getrect(leaderButton), locIcons['leader'])
+	uiElems['pic_leader'].isIcon = true
+	--online image generation
+	uiElems['pic_online'] = cont:createPicture(getrect(leaderButton), locIcons['online'])
+	uiElems['pic_online'].isIcon = true
+	--offline image generation
+	uiElems['pic_offline'] = cont:createPicture(getrect(leaderButton), locIcons['offline'])
+	uiElems['pic_offline'].isIcon = true
+
+	--=====[Name block]=====--
+	uiElems['label_name'] = cont:createLabel(getrect(nameLabel), 'default', fontSize)
+
+	--=====[Kick button block]=====--
+	--generating a kik button
+	uiElems['but_kick'] = cont:createRoundButton(getrect(kickButton), locIcons['kick'], 'DoMeow')
+	--the generation button is left
+	uiElems['but_leave'] = cont:createRoundButton(getrect(kickButton), locIcons['cancel'], 'DoMeow')
+	uiElems['but_leave'].tooltip = locLines['button_tooltip_leave']
+	--Precap all row elements
+	for _, _rows in pairs(uiElems) do
+		_rows:hide()
+	end
+
+	--return table and yPos
+	return uiElems, (yPos + localSize)
+end
+
+function combatGroup.GenerateAddLine(yPos)
+	--Variables
+	local yPadding = rUnit * 0.05 + yPos --vertical displacement of the entire line
+	local fontSize = rUnit * 0.23
+	local localSize = rUnit * 0.5
+
+	local addButton = { --Plus button
+		rUnit * 0.1, yPadding,
+		localSize,
+		localSize
+	}
+	local nameLabel = { --Player name
+		addButton[1] + addButton[3] + rUnit * 0.1, yPadding + localSize * 0.3,
+		localSize * 6,
+		localSize * 1.3
+	}
+
+	local uiElems = {}
+	local cont = innerContainers['right']
+	local getrect = self.createRect
+
+	--=====[Add button block]=====--
+	--"Add" button
+	uiElems['but_add'] = cont:createRoundButton(getrect(addButton), locIcons['add'], 'DoMeow')
+	--Sent icon
+	uiElems['pic_sent'] = cont:createPicture(getrect(addButton), locIcons['mail'])
+	uiElems['pic_sent'].isIcon = true
+	--"No matches" icon
+	uiElems['pic_eroro'] = cont:createPicture(getrect(addButton), locIcons['cancelnoring'])
+	uiElems['pic_eroro'].isIcon = true
+
+	--=====[Name block]=====--
+	uiElems['label_name'] = cont:createLabel(getrect(nameLabel), locLines['label_caption_noplayers'], fontSize)
+
+	--Precap all row elements
+	for _, _rows in pairs(uiElems) do
+		_rows:hide()
+	end
+
+	--return table and yPos
+	return uiElems, (yPos + localSize)
+end
+
+--======================================================[Search for information]=====================================================
+
+--Server->Client search for players is online, in addition, it is initiated by hooks for updating information
+function combatGroup.getOnlinePwayers(_table)
+	if onServer() then
+		--Information scanning and synchronization
+		scanned = { Server():getOnlinePlayers() }
+		onlinePwayers = {}
+
+		for _, _rows in pairs(scanned) do
+			table.insert(onlinePwayers, { _rows.name, _rows.index })
+		end
+
+		if _debug then
+			onlinePwayers = {
+				{ 'Twilight Sparkle', 190 },
+				{ 'Rainbow Dash',     191 },
+				{ 'Applejack',        192 },
+				{ 'Pinkie Pie',       193 },
+				{ 'Rarity',           194 },
+				{ 'Fluttershy',       195 },
+			}
+		end
+
+		invokeClientFunction(Player(callingPlayer), 'getOnlinePwayers', onlinePwayers)
+	else
+		onlinePwayers = _table
+		self.RenderGroup()
+		self.RenderAdd()
+	end
+end
+
+callable(combatGroup, 'getOnlinePwayers')
+
+function combatGroup.getPwayersToInvite()
+	local result = {}
+	local party = Player().group
+
+	-- --If there is no group, does not check the group
+	if party == nil then
+		for _, _rows in pairs(onlinePwayers) do
+			local isSelf = (_rows[2] == Player().index)
+
+			if not (isSelf) then
+				table.insert(result, _rows)
+			end
+		end
+
+		return result
+	end
+
+	--Checks with the group
+	for _, _rows in pairs(onlinePwayers) do
+		Debug(sf('Check party with name %s and index %i', _rows[1], _rows[2]))
+		local isInGroup = (party:contains(_rows[2]))
+		--if (_debug and _rows[2]>192) then isInGroup = true end
+		local isSelf = (_rows[2] == Player().index)
+
+		if not (isInGroup) and not (isSelf) then
+			table.insert(result, _rows)
+		end
+	end
+
+	return result
+end
+
+--===================================[Handling interface buttons]================================================
+
+function combatGroup.Collapse()
+	for _, _rows in pairs(innerContainers) do
+		_rows:hide()
+	end
+	buttons['collapseLeft']:hide()
+	buttons['expand']:show()
+end
+
+function combatGroup.Expand()
+	innerContainers['top']:show()
+
+	if invintationFlag > 0 then
+		innerContainers['bottom_invite']:show()
+		innerContainers['bottom']:hide()
+	else
+		innerContainers['bottom']:show()
+		innerContainers['bottom_invite']:hide()
+	end
+
+	buttons['expand']:hide()
+end
+
+function combatGroup.ExpandAdd()
+	Debug('ExpandAdd attempt')
+	innerContainers['right']:show()
+	RR(innerContainers['right'].rect)
+	buttons['collapseLeft']:show()
+end
+
+function combatGroup.collapseAdd()
+	innerContainers['right']:hide()
+	buttons['collapseLeft']:hide()
+end
+
+--=========[invite]
+
+function combatGroup.AcceptInvite()
+	local command = '/join'
+	self.executeServerCmd('simple', command)
+	self.interruptInvite()
+end
+
+function combatGroup.sendInvite(button)
+	local name = button.tooltip
+	local command = sf("/invite %s", name)
+
+	for _index, _rows in pairs(UIE['add_lines']) do
+		if button.index == _rows[1].index then
+			_rows[1]:hide()
+			_rows[2]:show()
+			self.setUpdate()
+			break
+		end
+	end
+
+	self.executeServerCmd('invite', command, name)
+end
+
+function combatGroup.interruptInvite()
+	invintationFlag = 1
+	innerContainers['bottom_invite']:hide()
+	innerContainers['bottom']:show()
+end
+
+--This function is called by the server to create an incoming message.
+function combatGroup.remoteInvite()
+	if onServer() then
+		invokeClientFunction(Player(callingPlayer), 'remoteInvite')
+	else
+		invintationFlag = 40 --button blinking period
+		SLplaysoundUI('combatgroup_invite', 2)
+		--innerContainers['bottom']:hide()
+		--innerContainers['bottom_invite']:show()
+	end
+end
+
+--=========[leave]
+
+function combatGroup.leaveGroup()
+	local command = '/leave'
+	self.executeServerCmd('simple', command)
+end
+
+--=========[kick]
+
+function combatGroup.kickPlayer(button)
+	local name = button.tooltip
+	local command = '/leave'
+	self.executeServerCmd('kick', command, name)
+end
+
+--This function is called by the server for a remote kick
+function combatGroup.remoteKick()
+	if onServer() then
+		local command = '/leave'
+		self.executeServerCmd('simple', command)
+	end
+end
+
+--=========[leader]
+
+function combatGroup.transferLeader(button)
+	local name = button.tooltip
+	local command = sf("/leader %s", name)
+	self.executeServerCmd('simple', command)
+end
+
+--===================================[Service]================================================
+--Simulates a chat command
+function combatGroup.executeServerCmd(_type, _cmd, _name)
+	if onClient() then
+		invokeServerFunction('executeServerCmd', _type, _cmd, _name)
+	else
+		if _type == 'invite' then
+			Server():addChatCommand(Player(), _cmd)
+			local targetID = Galaxy():findPlayer(_name).index
+			invokeFactionFunction(targetID, false, 'combatGroup', 'remoteInvite', _name)
+		end
+
+		if _type == 'kick' then
+			local targetID = Galaxy():findPlayer(_name).index
+			invokeFactionFunction(targetID, false, 'combatGroup', 'remoteKick', _name)
+		end
+
+		if _type == 'simple' then
+			Server():addChatCommand(Player(), _cmd)
+		end
+
+		self.getOnlinePwayers()
+	end
+end
+
+callable(combatGroup, 'executeServerCmd')
+
+--Hangs hooks during initialization
+function combatGroup.applyHooks()
+	if onServer() then
+		Server():registerCallback("onPlayerLogIn", "getOnlinePwayers")
+		Server():registerCallback("onPlayerLogOff", "getOnlinePwayers")
+		Player():registerCallback("onGroupChanged", "getOnlinePwayers")
+		Player():registerCallback("onGroupLeaderChanged", "getOnlinePwayers")
+		Player():registerCallback("onPlayerEnteredGroup", "getOnlinePwayers")
+		Player():registerCallback("onPlayerLeftGroup", "getOnlinePwayers")
+	end
+end
+
+callable(combatGroup, 'applyHooks')
+
+--A simple way to create a square using the anchor-dot principle
+function combatGroup.createRect(_table)
+	local Anchor = vec2(_table[1], _table[2])
+	local Point = vec2(Anchor.x + _table[3], Anchor.y + _table[4])
+	local resultRect = Rect(Anchor, Point)
+	return resultRect
+end
+
+--Returns vectors for a line
+function combatGroup.getLines(_table)
+	local line1points = { vec2(_table[1], _table[2]), vec2(_table[1] + _table[3], _table[2] + _table[4]) }
+	return line1points[1], line1points[2]
+end
+
+--Checks the presence of a name/index in the list of names online
+function combatGroup.isPlayerOnline(_element)
+	--Debug('Element set: '..tostring(_element))
+	--TSR(onlinePwayers)
+	for _, _rows in pairs(onlinePwayers) do
+		Debug(sf("Element is %s\nrows1 is %s\nrows2 is %s", tostring(_element), _rows[1], tostring(_rows[2])))
+		if _element == _rows[1] then
+			Debug('isPlayerOnline same name - online')
+			return true
+		end
+		if _element == _rows[2] then
+			Debug('isPlayerOnline same index - online')
+			return true
+		end
 	end
 
 	return false
+end
+
+function combatGroup.setUpdate()
+	updateFlag = updateFlagValue
+end
+
+function combatGroup.resetInvintationIcons()
+	for _, _rows in pairs(UIE['add_lines']) do
+		_rows[1]:show()
+		_rows[2]:hide()
+	end
 end

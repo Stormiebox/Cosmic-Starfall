@@ -33,6 +33,18 @@
 - **Bastion System:** Fully reversed the faulty mathematical logic. The system now natively scales positively (+69% up to +83% shield), and the UI tooltip was patched to properly display a buff (+XX%) instead of a negative penalty.
 - **Vanilla Power Creep:** Nerfed the flat exponential global damage multipliers applied to vanilla Chainguns (1.25x -> 1.10x) and Bolters (1.15x -> 1.05x) to restore late-game TTK balance.
 
+#### 9. Native CCM Integration
+- **Zero-Dependency Configs:** Stripped out the legacy, hard-coded Mod Configuration Menu (MCM) intercept scripts. Cosmic Starfall configurations now natively run through the new server-authoritative Cosmic Configuration Menu (CCM) module inside Cosmic Vault.
+
+#### 10. Architecture Restructure & Cleanup
+- Officially finalized the V2 refactoring phase. Renamed all experimental `V2` scripts back to their canonical names (`combatGroup.lua`, `complexCore.lua`), eradicated legacy and orphaned UI scripts from the filesystem, and dynamically updated 70+ internal reference pathways.
+
+#### 11. Player Alliance Hardware Compatibility
+- Hardened script owner resolution logic across `overpoweredCore.lua` and other subsystems to explicitly query `player.allianceIndex`. Active subsystem user interfaces will no longer crash or fail to render when players pilot an Alliance-owned vessel.
+
+#### 12. Encyclopedia Codification
+- Removed the legacy in-game encyclopedia UI entirely. Cosmic Starfall lore, item descriptions, and feature alerts are now fully integrated and injected directly into the central `Cosmic Codex` ecosystem UI tab.
+
 ### LEGACY LOGS BELOW - KEPT HERE FOR HISTORICAL LOGGING PURPOSES!
 # Cosmic Starfall - Revamp Changelog
 

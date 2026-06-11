@@ -98,7 +98,7 @@ function initializeUI()
 	local owner = Owner(Entity())
 	local player = Player()
 
-	if not owner or not player or owner.index ~= player.index then return end
+	if not owner or not player or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
 	DebugMsg('UI initialization')
 	local resolution = getResolution()
 	local windowPoint = vec2(resolution.x * 0.6, resolution.y * 0.7)
@@ -201,7 +201,7 @@ function UIshowhide()
 	if not player then return end
 
 	local owner = Owner(Entity())
-	local ownerMatches = owner and owner.index == player.index
+	local ownerMatches = owner and (owner.index == player.index or owner.index == player.allianceIndex)
 	local isCurrentCraft = Entity().index == player.craftIndex
 
 	if isCurrentCraft and ownerMatches then

@@ -57,7 +57,7 @@ For the economic moguls. Installing a Megacomplex core allows you to vastly stre
 ## 🛠️ Frequently Asked Questions (FAQ)
 
 **Does this mod require Cosmic Overhaul or Cosmic Vault?**
-Yes! As of v2.0.0, Cosmic Starfall natively integrates with the Cosmic Series ecosystem. It **requires Cosmic Vault** to run. This allows the mod to utilize advanced API features like dynamic market crashes, cinematic UI banners, and async performance processing.
+Yes! As of v2.0.0, Cosmic Starfall natively integrates with the Cosmic Series ecosystem. It **requires Cosmic Vault** to run. This allows the mod to utilize advanced API features like dynamic market crashes, cinematic UI banners, async performance processing, server-authoritative CCM configurations, and the global Cosmic Codex ecosystem.
 
 **Is it balanced for late-game?**
 Yes. As of Update v2.0.0, Starfall has been heavily audited. Weapons scale fairly into the late-game Ogonite/Avorion tiers, and modules use dynamic rarity scaling so you are always rewarded for hunting down Legendary (Violet) drops.

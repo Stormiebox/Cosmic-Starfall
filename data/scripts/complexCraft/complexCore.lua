@@ -1,752 +1,1776 @@
 package.path = package.path .. ";data/scripts/complexCraft/?.lua"
---package.path = package.path .. ";data/scripts/systems/?.lua"
 package.path = package.path .. ";data/scripts/lib/?.lua"
---include ("basesystem")
+package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 include("utility")
 include('callable')
 include('goods')
---include("productionsindex")
---include("productions")
---include("stringutility")
+include('Stations')
+
+local CosmicVaultEconomy = nil
+pcall(function() CosmicVaultEconomy = include("cosmicvaulteconomy") end)
 
 local TradingUtility = include("tradingutility")
---local TradingAPI = include ("tradingmanager")
 
---namespace Megacomplex
-Megacomplex = {}
---Interface
-local MCXwindow, MCXtab, tabIncome, tabOutcome, tabSettings
-local MCXscrollerInc, MCXscrollerOut
-
-local MCXincomeLines = {}
-local MCXincomeIcons = {}
-local MCXincomeGoodsLabel = {}
-local MCXincomeStInfo = {}
-local MCXincomeAmount = {}
-local MCXincomeSwitcher = {}
-local MCXincomeIsAllowed = {}
-local MCXincomeBoundedStation = {}
-
-local MCXoutcomeLines = {}
-local MCXoutcomeIcons = {}
-local MCXoutcomeGoodsLabel = {}
-local MCXoutcomeStInfo = {}
-local MCXoutcomeAmount = {}
-local MCXoutcomeSwitcher = {}
-local MCXoutcomeIsAllowed = {}
-local MCXoutcomeBoundedStation = {}
-local MCXoutcomeExportedRoutes = {} --the number of export destinations for each cargo is stored here
-
-local MCXsettingsMainSwitcher = nil
-local MCXsettingsSwitcherLabel = nil
-local MCXsettingsRestrLabel = nil
-local MCSsettingsRestrTextbox = nil
-local MCSsettingsRestrButton = nil
-
-
-local _pad = 25
-local _incomeRows = 0
-local _outcomeRows = 0
-local _baseRestrCargo = 500 --Responsible for the starting limit of cargo compartment volume for each type of product
-local _baseRestrCargoInput = 500
-local _baseRestrCargoOutput = 500
-local _minRestrCargo = 10       --The value below which the limit will not fall
-local _isWorkingMainSW = true
-local _transferInfoSwitcher = 0 --Responsible for switching processing resource transfer/interface update
---local _globalIsWorking = true
---local _tableOperationsIncome = {} --Fixes the shutdown of some stations for import
---local _tableOperationsOutcome = {} --Fixes the shutdown of some stations for export
+--namespace MX
+MX = {}
 
 local _debug = false
-local _iconGreen = 'data/textures/icons/TRPHon.png'
-local _iconRed = 'data/textures/icons/TRPHoff.png'
+local _debugUpdate = 2     --Update cycle interval if debug is enabled
+local _secureSwitch = true --Despite the weird name, it just disables (false) the script's ability to load tables from the server's memory :)
 
-function Megacomplex.debugMsg(_text)
+local restoredValue = nil
+
+local locLines = {}
+locLines['window_label'] = "Megacomplex interface"%_t
+locLines['tabprod_label'] = "Configuring import"%_t
+locLines['tabcons_label'] = "Configuring export"%_t
+locLines['tabstorage_label'] = "Configuring storage and utilization"%_t
+locLines['tabexport_label'] = "Configuring external export"%_t
+locLines['tabsettings_label'] = "Megacomplex Settings"%_t
+
+locLines['settings_button_analysis'] = "Starting the analysis procedure (updating the list of stations)"%_t
+locLines['settings_button_forcerefresh'] = "Forced update"%_t
+locLines['settings_button_reset'] = "Resetting megacomplex data and settings"%_t
+
+locLines['production_tooltip_namestation'] = "Name of the associated station"%_t
+locLines['production_tooltip_streams'] = "Active production streams / Maximum number of streams of the current station" %
+	_t
+locLines['production_tooltip_expand'] = "Switch to Detailed mode"%_t
+locLines['production_tooltip_switch'] = "Shutdown/activation of all production streams"%_t
+locLines['production_tooltip_switchbut_off'] = "All production streams are turned off"%_t
+locLines['production_tooltip_switchbut_partial'] = "Production streams are partially functioning"%_t
+locLines['production_tooltip_switchbut_on'] = "Production streams are functioning"%_t
+locLines['production_label_cons'] = "Provided: "%_t
+
+
+locLines['consumption_tooltip_name'] = "Export streams"%_t
+locLines['consumption_tooltip_switchbut_off'] = "All export streams are turned off"%_t
+locLines['consumption_tooltip_switchbut_partial'] = "Export streams are partially functioning"%_t
+locLines['consumption_tooltip_switchbut_on'] = "Export streams are functioning"%_t
+
+locLines['storage_label_instock'] = "In cargo: "%_t
+locLines['storage_label_production'] = "Productions: "%_t
+locLines['storage_label_consumption'] = "Export: "%_t
+locLines['storage_label_limit'] = "Limit "%_t
+locLines['storage_tooltip_goodname'] = "\nGoods name"%_t
+locLines['storage_tooltip_goodamount'] = "The number of resources in the megacomplex cargo at the moment"%_t
+locLines['storage_tooltip_todelete'] =
+	"On/off utilization mode.\n In this mode, the complex will try to accumulate this product from the stations indefinitely, while all goods over the storage limit will be deleted from stations" %
+	_t
+locLines['storage_tooltip_goodlimit'] = "Limitation on the amount of this product in the cargo of the megacomplex"%_t
+locLines['storage_tooltip_production'] = "Number of stations producing this product"%_t
+locLines['storage_tooltip_consumption'] = "Number of stations consuming this product"%_t
+locLines['storage_tooltip_inputlimit'] = "Enter here a new value for the storage limit of this product"%_t
+
+locLines['linegenerator_label_stationscargo'] = "Station cargo: "%_t
+locLines['linegenerator_tooltip_goodname'] = "Product name"%_t
+locLines['linegenerator_tooltip_goodamount'] = "Stock of goods in the station cargo"%_t
+locLines['linegenerator_tooltip_switcher'] = "Disable/enable this stream"%_t
+
+local _colorG = ColorHSV(150, 64, 100)
+local _colorY = ColorHSV(60, 94, 78)
+local _colorR = ColorHSV(16, 97, 84)
+local _colorB = ColorHSV(240, 40, 100)
+local _colorC = ColorHSV(264, 60, 100)
+
+function MX.DebugMsg(_text)
 	if _debug then
-		print(_text)
+		print('MX(' .. Entity().name .. ')|', _text)
 	end
 end
 
-function Megacomplex.initialize()
-	Entity():addScriptOnce("complexCraft/complexCoreV2.lua")
-	terminate()
-	--Entity():remove script('complex craft/complex core.lua')
-	if onClient() and EntityIcon().icon == "" then
-		EntityIcon().icon = "data/textures/icons/pix/PIXmx.png"
-	end
-end
+local Debug = MX.DebugMsg
 
---key segments
---Entity():registerCallback("onEntityDocked", "onDockedChange")
---end of key segments
-
-function Megacomplex.DoMeow()
-	if _debug then print("Meow") end
-end
-
-function Megacomplex.getUpdateInterval()
-	return 1
-end
-
-function Megacomplex.updateServer(timePassed)
-	-- _transferInfoSwitcher = _transferInfoSwitcher + 1
-
-	-- if _isWorkingMainSW and _transferInfoSwitcher == 5 then
-	-- --broadcastInvokeClientFunction('transferResourses')
-	-- end
-	-- if _isWorkingMainSW and _transferInfoSwitcher == 6 then
-	-- --_transferInfoSwitcher = 0
-	-- --broadcastInvokeClientFunction('refreshUIinfo')
-	-- end
-end
-
---Called to perform a server-side load transfer to avoid client-server desynchronization
---source -the station from which resources are taken
---destination -station to which resources are sent
---amount -amount of resource
---good -TradingGood type!!! -resource type
-function Megacomplex.transferCargo(_source, _destination, _amount, _good)
-	if _amount == nil or _amount < 1 then
-		print('transferCargo: error, transferred resource is less than one or nil')
-		return
-	end
-	if _source == nil or _destination == nil then
-		print('transferCargo: error, no receiving station or destination station')
-		return
-	end
-	if _good == nil then
-		print('transferCargo: error, product type nil')
-		return
-	end
-
-	if CargoBay(_source):getNumCargos(_good) < _amount then
-		if _debug then
-			print('transferCargo: error, there are not enough product units for transfer, I am trying the minimum value')
-		end
-		if CargoBay(_source):getNumCargos(_good) == 0 then
-			if _debug then
-				print('transferCargo: error, not enough product units for transfer, products do not exist')
-			end
-			return
-		else
-			_amount = CargoBay(_source):getNumCargos(_good)
-		end
-	end
-
-	CargoBay(_source):removeCargo(_good, _amount)
-	CargoBay(_destination):addCargo(_good, _amount)
+function MX.TableSelfReport(_table, _name)
 	if _debug then
-		print("Resource transfer completed", _good.name, "from the station", _source.name, 'to the station',
-			_destination.name, 'in quantity', _amount, 'Things')
-	end
-end
-
-callable(Megacomplex, 'transferCargo')
-
-function Megacomplex.transferResourses()
-	if _incomeRows > 0 then
-		for i = 0, _incomeRows - 1 do
-			if MCXincomeGoodsLabel[i] == nil then
-				print(Entity().name, i, 'Error: importResources income')
-				return
-			end
-
-			local _good = MCXincomeGoodsLabel[i].tooltip
-			_good = tableToGood(goods[_good])
-
-			--Import scanning sector
-			local _currentCargoRestrict = _baseRestrCargo / _good.size
-			--Print( current cargo restrict,' current cargo restrict')
-			local _currentCargoAviableSpace = _currentCargoRestrict - CargoBay():getNumCargos(_good)
-			if _currentCargoAviableSpace > CargoBay().freeSpace then
-				_currentCargoAviableSpace = CargoBay().freeSpace
-			end
-			--Print( current cargo aviable space,' current cargo aviable space')
-			local _currentAviableForImport = CargoBay(MCXincomeBoundedStation[i]):getNumCargos(_good)
-			--print(_currentAviableForImport,'_currentAviableForImport')
-			--Transfer execution sector
-			--if _currentAviableForImport>0 and _currentCargoAviableSpace>0 and MCXincomeIsAllowed[i] then
-			if _currentAviableForImport > 0 and _currentCargoAviableSpace > 0 then
-				local _transferValue = _currentAviableForImport
-				if _transferValue > _currentCargoAviableSpace then _transferValue = _currentCargoAviableSpace end
-				if _transferValue > 1 then
-					invokeServerFunction('transferCargo', MCXincomeBoundedStation[i], Entity(), _transferValue, _good)
-				end
-			end
+		local _headline = 'TableSelfReport: called]------------------------------------'
+		if _name then
+			_headline = 'TableSelfReport(' .. _name .. '): called]------------------------------------'
 		end
+		MX.DebugMsg(_headline)
+		MX.TSRbase(_table)
+		MX.DebugMsg('TableSelfReport: EndOfBaseLevel]----------------------------')
+		MX.TSRre(_table)
+		MX.DebugMsg('TableSelfReport: finish]------------------------------------')
 	end
-	if _outcomeRows > 0 then
-		for i = 0, _outcomeRows - 1 do
-			if MCXoutcomeGoodsLabel[i] == nil then
-				print(Entity().name, i, 'Error importResourses outcome')
-				return
-			end
+end
 
-			local _good = MCXoutcomeGoodsLabel[i].tooltip
-			_good = tableToGood(goods[_good])
-			local _goodSize = _good.size
-			--Export scanning sector
-
-			if _goodSize < 0.5 then
-				_goodSize = 0.5
-			end
-
-			local _currentCargoRestrict = _baseRestrCargo / _goodSize
-			--if _currentCargoRestrict > _baseRestrCargo then
-			--_currentCargoRestrict = _baseRestrCargo
-			--end
-			local _currentCargoAviableSpace = _currentCargoRestrict -
-				CargoBay(MCXoutcomeBoundedStation[i]):getNumCargos(_good)
-			if _currentCargoAviableSpace > CargoBay(MCXoutcomeBoundedStation[i]).freeSpace then
-				_currentCargoAviableSpace = CargoBay(MCXoutcomeBoundedStation[i]).freeSpace
-			end
-			local _currentAvailableForExport = CargoBay():getNumCargos(_good) / MCXoutcomeExportedRoutes[_good.name]
-			--Transfer execution sector
-			--if _currentAvailableForExport>0 and _currentCargoAviableSpace>0 and MCXoutcomeIsAllowed[i] then
-			if _currentAvailableForExport > 0 and _currentCargoAviableSpace > 0 then
-				local _transferValue = _currentAvailableForExport
-				if _transferValue > _currentCargoAviableSpace then _transferValue = _currentCargoAviableSpace end
-				if _transferValue > 1 then
-					invokeServerFunction('transferCargo', Entity(), MCXoutcomeBoundedStation[i], _transferValue, _good)
-				end
-			end
+function MX.TSRre(_value, _level)
+	if _level == nil then _level = 0 end
+	local _lines = '---(' .. tostring(_level) .. ')---'
+	for i = 0, _level do
+		_lines = _lines .. '------'
+	end
+	if type(_value) == 'table' then
+		MX.DebugMsg('TSRre: ' .. _lines)
+		for _index, _row in pairs(_value) do
+			MX.TSRre(_row, _level + 1)
 		end
-	end
-
-	--local start = os.time()
-	--repeat until os.time() > start + 1
-	--sleep(1)
-end
-
---Performs the creation of a basic interface, creates a start interface and attaches docking/undocking scripts to the megacomplex
-function Megacomplex.initUI()
-	local res = getResolution()
-	local size = vec2(400, 350)
-	local frameV2 = vec2(370, 270) --the second point for the rect scroller of the first two tabs
-
-	MCXwindow = ScriptUI():createWindow(Rect(res * 0.5 - size * 0.5, res * 0.5 + size * 0.5))
-	ScriptUI():registerWindow(MCXwindow, "Megacomplex Management"%_t)
-	MCXwindow.caption = "Megacomplex Management"%_t
-	MCXwindow.showCloseButton = true
-	MCXwindow.moveable = true
-	--Find out
-	MCXtab = MCXwindow:createTabbedWindow(Rect(vec2(10, 10), size - 10))
-	tabIncome = MCXtab:createTab("MCXinput", "data/textures/icons/MCXoutput.png", "Configure resource import from factories"%_t)
-	tabOutcome = MCXtab:createTab("MCXoutput", "data/textures/icons/MCXinput.png", "Configure resource export to factories"%_t)
-	tabSettings = MCXtab:createTab("Settings", "data/textures/icons/MCXmegaComplex.png", "Megacomplex operation configuration"%_t)
-	--Creating import-export tabs
-	MCXscrollerInc = tabIncome:createScrollFrame(Rect(vec2(10, 10), frameV2))
-	MCXscrollerInc.layer = 1
-	if _debug then print(MCXscrollerInc.layer, "frame layer") end
-	MCXscrollerOut = tabOutcome:createScrollFrame(Rect(vec2(10, 10), frameV2))
-	MCXscrollerOut.layer = 1
-	--Creating a configuration tab
-
-	--Tab settings:create round button(rect(175,20,225,70),'data/textures/icons/trp hon.png','do meow')
-	MCXsettingsMainSwitcher = tabSettings:createRoundButton(Rect(20, 20, 50, 50), 'data/textures/icons/TRPHon.png',
-		'globalSwitcherButton')
-	MCXsettingsSwitcherLabel = tabSettings:createTextField(Rect(80, 10, 280, 70), "The complex is operational"%_t)
-	MCXsettingsSwitcherLabel.fontSize = 12
-	if _debug then print(Entity():getValue('globalSW'), '<- globalSW') end
-	if Entity():getValue('globalSW') == nil then
-		Entity():setValue('globalSW', true)
-	elseif Entity():getValue('globalSW') == false then
-		if _debug then print('Initially the complex is turned off') end
-		MCXsettingsMainSwitcher.icon = _iconRed
-		MCXsettingsSwitcherLabel.text = "The complex is stopped"%_t
-		invokeServerFunction('globalSWtoServer', false)
-	end
-
-	MCXsettingsRestrLabel = tabSettings:createTextField(Rect(10, 80, 200, 140), "Volume limit per product:"%_t)
-	MCXsettingsRestrLabel.fontSize = 12
-	MCSsettingsRestrTextbox = tabSettings:createTextBox(Rect(220, 90, 280, 110), '')
-	--MCSsettingsRestrTextbox.onTextChangedFunction = invokeServerFunction('cargoRestrOperate',)
-	MCSsettingsRestrButton = tabSettings:createButton(Rect(290, 90, 340, 110), "Apply"%_t,
-		'cargoRestrOperateOnButtonPressed')
-	invokeServerFunction('cargoRestrOperate', nil)
-
-	Entity():registerCallback("onEntityDocked", "onDockChange")
-	Entity():registerCallback("onEntityUndocked", "onDockChange")
-
-	invokeServerFunction("rebuildUI", nil, nil)
-end
-
-function Megacomplex.cargoRestrOperateOnButtonPressed()
-	local _amount = MCSsettingsRestrTextbox.text
-	if _debug then print('cargoRestrOperateOnButtonPressed amount ->', _amount) end
-
-	local num = tonumber(_amount)
-	if num == nil or num < _minRestrCargo then
-		num = _minRestrCargo
-	end
-
-	invokeServerFunction('cargoRestrOperate', num)
-end
-
-function Megacomplex.cargoRestrOperate(_amount)
-	local _value = Entity():getValue('cargoRestr')
-	local targetPlayer = callingPlayer and Player(callingPlayer) or nil
-
-	--If amount is nil -then preloads from memory
-	if _amount == nil then
-		_amount = _baseRestrCargo
-		if _value == nil then
-			Entity():setValue('cargoRestr', _amount)
+		MX.DebugMsg('TSRre: ' .. _lines)
+	else
+		if _value ~= nil then
+			print(type(_value), '|', _value)
 		else
-			local _result = Entity():getValue('cargoRestr')
-			if _debug then print('cargoRestr', _result) end
-			if targetPlayer then
-				invokeClientFunction(targetPlayer, 'cargoRestrOnClient', _result)
+			print('Empty')
+		end
+	end
+end
+
+function MX.TSRbase(_value)
+	if type(_value) == 'table' then
+		for _index, _row in pairs(_value) do
+			local _text = 'TSRre:position ' .. tostring(_index) .. ' - '
+			if type(_row) == 'table' then
+				_text = _text .. 'table(' .. tostring(#_row) .. ')'
+				print(_text)
 			else
-				broadcastInvokeClientFunction('cargoRestrOnClient', _result)
+				text = _text .. 'non-table|'
+				print(_text, _row)
 			end
 		end
-		--Otherwise, changes the cargo bay limit with overwriting
 	else
-		Entity():setValue('cargoRestr', _amount)
-		if targetPlayer then
-			invokeClientFunction(targetPlayer, 'cargoRestrOnClient', _amount)
-		else
-			broadcastInvokeClientFunction('cargoRestrOnClient', _amount)
-		end
-		if _debug then print('CargoRestr value successfully set to', _amount) end
+		MX.DebugMsg('TSRre: this isnt a table')
 	end
 end
 
-callable(Megacomplex, 'cargoRestrOperate')
-
-function Megacomplex.cargoRestrOnClient(_amount)
-	_baseRestrCargo = _amount
-	if MCSsettingsRestrTextbox then
-		MCSsettingsRestrTextbox.text = tostring(_amount)
-	end
-end
-
-function Megacomplex.refreshUIinfo()
-	--sleep(1)
-	--print(_incomeRows,'_incomeRows-refreshUIinfo')
-	if _incomeRows > 0 then
-		print(Entity().name)
-		for i = 0, _incomeRows - 1 do
-			if MCXincomeGoodsLabel[i] == nil then
-				print(Entity().name, i, 'refreshUIinfo income error')
-				return
-			end
-
-			local _good = MCXincomeGoodsLabel[i].tooltip
-			local _currentCargoValue = CargoBay():getNumCargos(_good)
-			local _currentCargoRestrict = _baseRestrCargo / getGoodAttribute(_good, 'size')
-
-			MCXincomeAmount[i].text = tostring(_currentCargoValue) .. '/' .. tostring(_currentCargoRestrict)
-			--Mc xincome goods label.tooltip
-		end
-	end
-
-	if _outcomeRows > 0 then
-		for i = 0, _outcomeRows - 1 do
-			if MCXoutcomeGoodsLabel[i] == nil then
-				print(Entity().name, i, 'Error refreshUIinfo outcome')
-				return
-			end
-
-			local _good = MCXoutcomeGoodsLabel[i].tooltip
-			local _currentCargoValue = CargoBay(MCXoutcomeBoundedStation[i]):getNumCargos(_good)
-			local _currentCargoRestrict = _baseRestrCargo / getGoodAttribute(_good, 'size')
-
-			MCXoutcomeAmount[i].text = tostring(_currentCargoValue) .. '/' .. tostring(_currentCargoRestrict)
-		end
-	end
-
-	-- if _incomeRows>0 then
-	-- _good = MCXincomeGoodsLabel[0].tooltip
-	-- local _currentCargoValue = CargoBay():getNumCargos(_good)
-	-- end
-end
-
---Clears the interface for re-creation
-function Megacomplex.clearMXUI()
-	if not MCXscrollerInc or not MCXscrollerOut then return end
-	if _debug then print("Cleaning up the interface") end
-	--local frameV2 = vec2(370,270)
-	MCXscrollerInc:clear()
-	MCXscrollerOut:clear()
-	MCXoutcomeExportedRoutes = { nil }
-	_incomeRows = 0
-	_outcomeRows = 0
-end
-
-function Megacomplex.globalSWtoServer(_bool)
-	--Entity():set value('global sw', bool)
-	_isWorkingMainSW = _bool
-	if _debug then print('_isWorkingMainSW switched to', _bool) end
-end
-
-callable(Megacomplex, 'globalSWtoServer')
-
-function Megacomplex.globalSwitcherButton()
-	if Entity():getValue('globalSW') then
-		Entity():setValue('globalSW', false)
-		MCXsettingsMainSwitcher.icon = _iconRed
-		MCXsettingsSwitcherLabel.text = "The complex is stopped"%_t
-		invokeServerFunction('globalSWtoServer', false)
-		if _debug then print('The complex is turned off') end
-	else
-		Entity():setValue('globalSW', true)
-		MCXsettingsMainSwitcher.icon = _iconGreen
-		MCXsettingsSwitcherLabel.text = "The complex is operational"%_t
-		invokeServerFunction('globalSWtoServer', true)
-		if _debug then print('The complex is activated') end
-	end
-end
-
---Finds the resource and goods of each docked station, initiating the creation of corresponding elements in the mega-complex interface
-function Megacomplex.generateIncomeOutcome(_station, targetPlayer)
-	targetPlayer = targetPlayer or (callingPlayer and Player(callingPlayer) or nil)
-	local scripts = TradingUtility.getTradeableScripts()
-	local station = _station
-
-	for _, script in pairs(scripts) do
-		local tradingStation = nil
-
-
-		local results = { station:invokeFunction(script, "getSoldGoods") }
-		--Megacomplex.debug msg(tostring(script).."script")
-		local callResult = nil
-		if script == "/consumer.lua" or script == "data/scripts/entity/merchants/consumer.lua" then
-			--if _debug then print("I cut off consumer script") end
-			callResult = 1
-		else
-			--if _debug then print("Correct script. Switching") end
-			callResult = results[1]
-		end
-		if callResult == 0 then
-			--print("Script run successful: trading something!")
-			tradingStation = { station = station, script = script, bought = {}, sold = {} }
-			tradingStation.sold = {}
-
-			for i = 2, #results do
-				local _getBool = Megacomplex.getStateFromString(_incomeRows, 'income')
-				--print(_incomeRows)
-				--print('incomeRows =',_incomeRows)
-				_incomeRows = _incomeRows + 1
-				if _getBool == -1 or _getBool == nil then
-					Megacomplex.writeStateToString(_incomeRows, true, 'income')
-					_getBool = true
-					if _debug then print('When scanning a station, a new value for the center variable was created') end
-				end
-				if targetPlayer then
-					invokeClientFunction(targetPlayer, "generateLine", "income", _station, results[i], Entity(), _getBool)
-				else
-					broadcastInvokeClientFunction("generateLine", "income", _station, results[i], Entity(), _getBool)
-				end
-			end
-		end
-
-		local results = { station:invokeFunction(script, "getBoughtGoods") }
-		local callResult = nil
-		if script == "/consumer.lua" or script == "data/scripts/entity/merchants/consumer.lua" then
-			--if _debug then print("I cut off consumer script") end
-			callResult = 1
-		else
-			callResult = results[1]
-		end
-		if callResult == 0 then -- call was successful, the station buys goods
-			if tradingStation == nil then
-				tradingStation = { station = station, script = script, bought = {}, sold = {} }
-			end
-
-			for i = 2, #results do
-				local _getBool = Megacomplex.getStateFromString(_outcomeRows, 'outcome')
-				_outcomeRows = _outcomeRows + 1
-				if _getBool == -1 or _getBool == nil then
-					Megacomplex.writeStateToString(_outcomeRows, true, 'outcome')
-					_getBool = true
-					if _debug then
-						print(
-							'When scanning a station, a new value for the center variable was created, Outcome sector')
-					end
-				end
-				--table.insert(tradingStation.bought, results[i])
-				if targetPlayer then
-					invokeClientFunction(targetPlayer, "generateLine", "outcome", _station, results[i], Entity(), _getBool)
-				else
-					broadcastInvokeClientFunction("generateLine", "outcome", _station, results[i], Entity(), _getBool)
-				end
-				--_amountLinesOutcome = _amountLinesOutcome + 1
-			end
-		end
-	end
-end
-
-callable(Megacomplex, "generateIncomeOutcome")
-
---Gets an array of characters and converts it to a string
-function Megacomplex.convertToString(_input)
-	local _result = ''
-
-	for i = 1, #_input do
-		_result = _result .. _input[i]
-	end
-
-	return _result
-end
-
---returns a bool from a position in a binary series. Returns -1 if value does not exist
-function Megacomplex.getStateFromString(_pos, _type)
-	local _string = ''
-
-	if _type == 'income' then
-		_string = Entity():getValue('MGXincome')
-		if _string == nil then return -1 end
-	else
-		_string = Entity():getValue('MGXoutcome')
-		if _string == nil then return -1 end
-	end
-
-	if string.sub(_string, _pos + 1, _pos + 1) == '1' then
-		--if _debug then print("getStateFromString Returns true") end
+function MX.compareID(_id1, _id2)
+	local e1 = Entity(_id1)
+	local e2 = Entity(_id2)
+	if e1 and e2 and e1.index == e2.index then
 		return true
-	else
-		--if _debug then print("getStateFromString Vernul false") end
-		return false
 	end
+	return false
 end
 
-callable(Megacomplex, 'getStateFromString')
---writes the value of the button (bool) to the corresponding position in the general string as 0 or 1. Creates stored strings in customValue if none exist
---where _pos is the position of the element in the line, _bool is the value, _type is import or export
---IMPORTANT, _pos is offset by +1 due to the fact that the enumeration of UI elements starts from zero, and the enumeration of line elements starts from one
-function Megacomplex.writeStateToString(_pos, _bool, _type)
-	local _getValue = ''
-	if _type == 'income' then
-		_getValue = Entity():getValue("MGXincome")
-		if _getValue == nil then
-			Entity():setValue("MGXincome", 1)
-			_getValue = 1
-			print('Empty center variable, set to 1')
-		end
-	else
-		_getValue = Entity():getValue("MGXoutcome")
-		if _getValue == nil then
-			Entity():setValue("MGXoutcome", 1)
-			_getValue = 1
-		end
-	end
-
-	local _result = Megacomplex.convertToArray(_getValue)
-	if _bool then
-		_result[_pos + 1] = 1
-	else
-		_result[_pos + 1] = 0
-	end
-	local toSave = Megacomplex.convertToString(_result)
-	if _type == 'income' then
-		Entity():setValue("MGXincome", toSave)
-	else
-		Entity():setValue("MGXoutcome", toSave)
-	end
-	if _debug then print(toSave, "-the string to be saved from writeStateToString") end
+function MX.DoMeow()
+	MX.DebugMsg('Meow')
 end
 
-callable(Megacomplex, 'writeStateToString')
---Gets a string and splits it into a character array
-function Megacomplex.convertToArray(_input)
-	local _result = {}
-	_input = tostring(_input)
-	-- if _debug then
-	-- print('|',_input,'| -main line')
-	-- print(#_input,"-length of string?")
-	-- end
-	for i = 1, #_input do
-		_result[i] = string.sub(_input, i, i)
-		--if _debug then print(_result[i],"_result[i]") end
-	end
-	return _result
-end
+--Interface
+local MXwindow, MXtab
 
---Creates a line in the megacomplex interface containing an icon, the name (in translation) of the product, its quantity, an icon with information about the station and a button
-function Megacomplex.generateLine(_tab, _sourceStation, _good, _complex, _boolIcon)
-	if not MCXscrollerInc or not MCXscrollerOut then return end
-	if _good == nil then
-		print('Error: no variable _good (generateLine)')
-		return
-	end
-	_goodT = getTranslatedGoodName(_good)
-	_icon = getGoodAttribute(_good, 'icon')
-	_cargoAmount = getGoodAttribute(_good, 'size') * CargoBay(_complex):getNumCargos(_good)
-	_cargoRestricted = _baseRestrCargo / getGoodAttribute(_good, 'size')
-	_cargoResult = tostring(_cargoAmount) .. '/' .. tostring(_cargoRestricted)
-	local _iconB = ''
-	if _boolIcon then
-		_iconB = 'data/textures/icons/TRPHon.png'
-	else
-		_iconB = 'data/textures/icons/TRPHoff.png'
-	end
+local MXtemp = {}
+local _tempWindow
+local _tempStateIsProd = true
 
-	if _tab == 'income' then
-		--resource acquisition segment
-		local i = _incomeRows
-		_incomeRows = _incomeRows + 1
-		--Product icon
-		MCXincomeIcons[i] = MCXscrollerInc:createPicture(Rect(25, _pad * i + 25, 5, _pad * i + 5), _icon)
-		--Product name (with translation)
-		--MCXincomeIcons[i].layer = 0
-		MCXincomeGoodsLabel[i] = MCXscrollerInc:createTextField(Rect(30, _pad * i, 170, _pad * i + 30), _goodT)
-		MCXincomeGoodsLabel[i].fontSize = 10
-		MCXincomeGoodsLabel[i].tooltip = _good
-		--Station information
-		MCXincomeStInfo[i] = MCXscrollerInc:createPicture(Rect(175, _pad * i + 5, 195, _pad * i + 25),
-			"data/textures/icons/MCXinfo.png")
-		MCXincomeStInfo[i].tooltip = _sourceStation.name
-		--Information on the amount of space occupied
-		MCXincomeAmount[i] = MCXscrollerInc:createTextField(Rect(200, _pad * i, 320, _pad * i + 30), _cargoResult)
-		MCXincomeAmount[i].fontSize = 10
-		MCXincomeSwitcher[i] = MCXscrollerInc:createRoundButton(Rect(325, _pad * i, 350, _pad * i + 25), _iconB,
-			"onButtonChangeStateIncome")
-		MCXincomeBoundedStation[i] = _sourceStation
-		MCXincomeIsAllowed[i] = _boolIcon
-	elseif _tab == 'outcome' then
-		--resource sending segment
-		local i = _outcomeRows
-		_outcomeRows = _outcomeRows + 1
-		--Product icon
-		MCXoutcomeIcons[i] = MCXscrollerOut:createPicture(Rect(25, _pad * i + 25, 5, _pad * i + 5), _icon)
-		--Product name (with translation)
-		MCXoutcomeGoodsLabel[i] = MCXscrollerOut:createTextField(Rect(30, _pad * i, 170, _pad * i + 30), _goodT)
-		MCXoutcomeGoodsLabel[i].fontSize = 10
-		MCXoutcomeGoodsLabel[i].tooltip = _good
-		--Station information
-		MCXoutcomeStInfo[i] = MCXscrollerOut:createPicture(Rect(175, _pad * i + 5, 195, _pad * i + 25),
-			"data/textures/icons/MCXinfo.png")
-		MCXoutcomeStInfo[i].tooltip = _sourceStation.name
-		--Information on the amount of space occupied
-		MCXoutcomeAmount[i] = MCXscrollerOut:createTextField(Rect(200, _pad * i, 320, _pad * i + 30), _cargoResult)
-		MCXoutcomeAmount[i].fontSize = 10
-		MCXoutcomeSwitcher[i] = MCXscrollerOut:createRoundButton(Rect(325, _pad * i, 350, _pad * i + 25), _iconB,
-			"onButtonChangeStateOutcome")
-		MCXoutcomeBoundedStation[i] = _sourceStation
-		if MCXoutcomeExportedRoutes[_good] == nil then
-			if _boolIcon then MCXoutcomeExportedRoutes[_good] = 1 else MCXoutcomeExportedRoutes[_good] = 0 end
-		elseif _boolIcon then
-			MCXoutcomeExportedRoutes[_good] = MCXoutcomeExportedRoutes[_good] + 1
-		end
-		MCXoutcomeIsAllowed[i] = _boolIcon
-	end
-end
+local tabProduction, tabConsume, tabStorage, tabExport, tabSettings
+local tabProductionScroller, tabConsumeScroller, tabStorageScroller, tabExportScroller
 
-function Megacomplex.switchButtonIcon(_pos, _bool, _type)
-	if _type == 'income' then
-		if not MCXincomeSwitcher or not MCXincomeSwitcher[_pos] then return end
-		--Print( bool)
-		if _bool then
-			MCXincomeSwitcher[_pos].icon = 'data/textures/icons/TRPHoff.png'
-			MCXincomeIsAllowed[_pos] = false
-		else
-			MCXincomeSwitcher[_pos].icon = 'data/textures/icons/TRPHon.png'
-			MCXincomeIsAllowed[_pos] = true
-		end
-	else
-		local _goodName = MCXoutcomeGoodsLabel[_pos].tooltip
-		if not MCXoutcomeSwitcher or not MCXoutcomeSwitcher[_pos] then return end
-		if _bool then
-			MCXoutcomeSwitcher[_pos].icon = 'data/textures/icons/TRPHoff.png'
-			MCXoutcomeExportedRoutes[_goodName] = MCXoutcomeExportedRoutes[_goodName] - 1
-			print(MCXoutcomeExportedRoutes[_goodName], 'current routes value after decrement for the product', _goodName)
-			MCXoutcomeIsAllowed[_pos] = false
-		else
-			MCXoutcomeSwitcher[_pos].icon = 'data/textures/icons/TRPHon.png'
-			MCXoutcomeExportedRoutes[_goodName] = MCXoutcomeExportedRoutes[_goodName] + 1
-			print(MCXoutcomeExportedRoutes[_goodName], 'current routes value after increment for the product', _goodName)
-			MCXoutcomeIsAllowed[_pos] = true
-		end
-	end
-end
+local rUnit = 30
+local rPaddingX = 15
+local rPaddingY = 10
 
---Handling a button click in the import panel
-function Megacomplex.onButtonChangeStateIncome(_button)
-	local _rectPos = _button.localRect.topLeft.y / _pad --converts the Y-coordinate of a button to its index
-	invokeServerFunction('onButtonWorkCore', _rectPos, 'income')
-end
+--Basic tables
+local tableProduction = {}
+--Entity().id
+--Goods(table)
+--isActive(table)
+local interfaceProduction = {}
 
-function Megacomplex.onButtonChangeStateOutcome(_button)
-	local _rectPos = _button.localRect.topLeft.y / _pad --converts the Y-coordinate of a button to its index
-	invokeServerFunction('onButtonWorkCore', _rectPos, 'outcome')
-end
+local tableConsumption = {}
+--Entity().id
+--GoodType
+--TransferAmount
+--isActive
+local interfaceConsumption = {}
 
---Further processing of button clicks on import/export, changing the icon and changing the main ship variable storing values
-function Megacomplex.onButtonWorkCore(_pos, _type)
-	if _type ~= 'income' and _type ~= 'outcome' then
-		print('onButtonWorkCore error: invalid type _type')
-		return
-	end
+local tableStorage = {}
+--GoodType
+--Entries
+--StorageAmount
+--ToDelete
+local interfaceStorage = {}
 
-	local targetPlayer = callingPlayer and Player(callingPlayer) or nil
-	local _buttonState = Megacomplex.getStateFromString(_pos, _type)
-	if _buttonState and _buttonState ~= -1 then
-		Megacomplex.writeStateToString(_pos, false, _type)
-		if targetPlayer then
-			invokeClientFunction(targetPlayer, 'switchButtonIcon', _pos, _buttonState, _type)
-		else
-			broadcastInvokeClientFunction('switchButtonIcon', _pos, _buttonState, _type)
-		end
-	elseif _buttonState ~= -1 then
-		Megacomplex.writeStateToString(_pos, true, _type)
-		if targetPlayer then
-			invokeClientFunction(targetPlayer, 'switchButtonIcon', _pos, _buttonState, _type)
-		else
-			broadcastInvokeClientFunction('switchButtonIcon', _pos, _buttonState, _type)
-		end
-	end
-end
+local tableExport = {}
+--Entity().id
+--GoodType
+--TransferRate
+--Priority (true -priority over the station consumption algorithm)
+--isActive
+local tableSettings = {}
+table.insert(tableSettings, true) --Is complex active
+table.insert(tableSettings, 500)  --Base transfer rate
 
-callable(Megacomplex, 'onButtonWorkCore')
-
---Recreates (updates) the interface every time a station docks or undocks to the complex. Also called at the beginning to render the initial interface
-function Megacomplex.rebuildUI(_complexID, _stationID)
-	local _complex = _complexID and Entity(_complexID) or Entity()
-
-	if _debug then
-		local _testy = _complex:getValue('MGXincome')
-		print(_testy, 'rebuilding through rebuildUI')
-	end
-
-	local _station = _stationID and Entity(_stationID) or Entity()
-	if _station.isStation then
-		if _debug then print("Initialize the interface") end
-		--reset values
-		if _debug then print("I start resetting the interface, creating a new one") end
-
-		local targetPlayer = callingPlayer and Player(callingPlayer) or nil
-		if targetPlayer then
-			invokeClientFunction(targetPlayer, "clearMXUI")
-		else
-			broadcastInvokeClientFunction("clearMXUI")
-		end
-		_incomeRows = 0
-		_outcomeRows = 0
-		--request processing
-		_doent = { DockingClamps(_complex):getDockedEntities() }
-		for i = 1, #_doent do
-			if _debug then print("Creating an interface for " .. tostring(i) .. " docked station") end
-			Megacomplex.generateIncomeOutcome(Entity(_doent[i]), targetPlayer)
-		end
-	else
-		if _debug then print("The check failed, the docked vessel is not a station") end
-	end
-end
-
-callable(Megacomplex, "rebuildUI")
-
-function Megacomplex.onDockChange(_complexId, _stationId)
-	invokeServerFunction("rebuildUI", _complexId, _stationId)
-	if _debug then print("The docking or undocking is complete, I transfer control to the rebuildUI script") end
-end
-
-function Megacomplex.interactionPossible(playerIndex, option)
+function MX.interactionPossible(playerIndex, option)
 	local player = Player()
 	if Entity().index == player.craftIndex then
 		return true
 	end
 end
 
---/run Entity():addScript("data/scripts/complexCraft/complexCore.lua")
+---------------------------------------------------------------------------------
+
+function MX.getIcon()
+	return "data/textures/icons/MCXmegaComplex.png"
+end
+
+function MX.getUpdateInterval()
+	if _debug then
+		return _debugUpdate
+	else
+		return 2
+	end
+end
+
+function MX.operate()
+	if onServer() then return end
+
+	if #tableProduction <= 0 and #tableConsumption <= 0 and #tableStorage <= 0 then
+		Debug('Force analysis')
+		MX.analyse()
+	end
+
+	if MXwindow then
+		MX.buildRequestPacket()
+	end
+
+	invokeServerFunction('SyncMainTables', tableProduction, tableConsumption, tableStorage)
+	MX.refreshInterface()
+	MX.generatedWindowsUpdate()
+end
+
+function MX.updateServer(timePassed)
+	if #tableProduction <= 0 and #tableConsumption <= 0 and #tableStorage <= 0 then
+		--Debug('updateServer: force to restore')
+		--MX.restore(values)
+	end
+	--Mx.restore(values)
+end
+
+function MX.updateClient(timePassed)
+	if Player().craftIndex == Entity().index then
+		MX.operate()
+	end
+end
+
+---------------------------------------------------------------------------------
+function MX.initialize()
+	--Entity():remove script('complex craft/complex core.lua')
+	if onClient() and EntityIcon().icon == "" then
+		EntityIcon().icon = "data/textures/icons/pix/PIXmx.png"
+	end
+	if onClient() then
+		MX.DebugMsg('====================[CLIENT INITIALIZATION]====================')
+	else
+		MX.DebugMsg('====================[SERVER INITIALIZATION]====================')
+	end
+end
+
+function MX.initUI()
+	local res = getResolution()
+	local frameV2 = vec2(rUnit * 16, rUnit * 15)
+	local size = vec2(frameV2.x + rUnit, frameV2.y + rUnit * 3)
+
+	MXwindow = ScriptUI():createWindow(Rect(res * 0.5 - size * 0.5, res * 0.5 + size * 0.5))
+	ScriptUI():registerWindow(MXwindow, locLines['window_label'])
+	MXwindow.caption = locLines['window_label']
+	MXwindow.showCloseButton = true
+	MXwindow.moveable = true
+	--Find out
+	MXtab = MXwindow:createTabbedWindow(Rect(vec2(10, 10), size - 10))
+	tabProduction = MXtab:createTab("MXproduction", getInnerStationIcon('mxoutput'), locLines['tabprod_label'])
+	tabConsume = MXtab:createTab("MXconsumption", getInnerStationIcon('mxinput'), locLines['tabcons_label'])
+	tabStorage = MXtab:createTab("MXstorage", getInnerStationIcon('mxstorage'), locLines['tabstorage_label'])
+	tabExport = MXtab:createTab("MXexport", getInnerStationIcon('mxexport'), locLines['tabexport_label'])
+	tabSettings = MXtab:createTab("MXsettings", getInnerStationIcon('mxsettings'), locLines['tabsettings_label'])
+
+	--Creating import-export tabs
+	tabProductionScroller = tabProduction:createScrollFrame(Rect(vec2(10, 10), frameV2))
+	tabProductionScroller.layer = 1
+	tabConsumeScroller = tabConsume:createScrollFrame(Rect(vec2(10, 10), frameV2))
+	tabConsumeScroller.layer = 1
+	tabStorageScroller = tabStorage:createScrollFrame(Rect(vec2(10, 10), frameV2))
+	tabStorageScroller.layer = 1
+	tabExportScroller = tabExport:createScrollFrame(Rect(vec2(10, 10), frameV2))
+	tabExportScroller.layer = 1
+
+	if _debug then
+		local rectButtons = {}
+		-- local rUnit = 30
+		-- local rPaddingX = 15
+		-- local rPaddingY = 10
+		for i = 0, 5 do
+			local X1 = (rPaddingX * (i + 1) + rUnit * i)
+			local X2 = X1 + rUnit
+			local _rectResult = Rect(X1, rPaddingY, X2, rPaddingY + rUnit)
+			table.insert(rectButtons, _rectResult)
+		end
+		local testButton1 = tabSettings:createRoundButton(rectButtons[1],
+			"data/textures/icons/SUBSYSPolarisationNanobots.png", "analyse")
+		testButton1.tooltip = "Start analysis procedure"
+		local testButton2 = tabSettings:createRoundButton(rectButtons[2],
+			"data/textures/icons/SUBSYSPolarisationNanobots.png", "buildRequestPacket")
+		testButton2.tooltip = "Initiate update packet"
+		local testButton3 = tabSettings:createRoundButton(rectButtons[3],
+			"data/textures/icons/SUBSYSPolarisationNanobots.png", "DebugPurge")
+		testButton3.tooltip = "Remove batteries from complex and all docked stations"
+		local testButton4 = tabSettings:createRoundButton(rectButtons[4],
+			"data/textures/icons/SUBSYSPolarisationNanobots.png", "DebugClearMain")
+		testButton4.tooltip = "Reset main tables"
+		local testButton5 = tabSettings:createRoundButton(rectButtons[5], "data/textures/icons/SUBSYSEmergencyRepair.png",
+			"restoreOperate")
+		testButton5.tooltip = "Force load from memory"
+	else
+		local rectButtons = {}
+		-- local rUnit = 30
+		-- local rPaddingX = 15
+		-- local rPaddingY = 10
+		for i = 0, 3 do
+			local X1 = (rPaddingX * (i + 1) + rUnit * i)
+			local X2 = X1 + rUnit
+			local _rectResult = Rect(X1, rPaddingY, X2, rPaddingY + rUnit)
+			table.insert(rectButtons, _rectResult)
+		end
+		local testButton1 = tabSettings:createRoundButton(rectButtons[1], "data/textures/icons/MCXinput.png", "analyse")
+		testButton1.tooltip = locLines['settings_button_analysis']
+
+		local testButton2 = tabSettings:createRoundButton(rectButtons[2], "data/textures/icons/MCXupdateLimit.png",
+			"buildRequestPacket")
+		testButton2.tooltip = locLines['settings_button_forcerefresh']
+
+		local testButton3 = tabSettings:createRoundButton(rectButtons[3],
+			"data/textures/icons/SUBSYSPolarisationNanobots.png", "DebugClearMain")
+		testButton3.tooltip = locLines['settings_button_reset']
+	end
+	if _secureSwitch then
+		invokeServerFunction('adaptiveSync')
+	end
+
+	Entity():registerCallback("onEntityDocked", "analyse")
+	Entity():registerCallback("onEntityUndocked", "analyse")
+end
+
+-----------------------------------------------------------------------------------[Interface functions and its generation]
+--Scans stations and causes updates to main tables
+function MX.analyse()
+	MX.DebugMsg('analyse launch')
+	local dockedEntities = { DockingClamps():getDockedEntities() }
+
+	if not (dockedEntities) then
+		Debug('analyse failure: docked entities is nil')
+	end
+
+	local collectedStations = {} --capturing all stations that meet the conditions (there is at least one resource or product)
+
+	--------------------------[Production/Consumption Segment]-----------
+	--The algorithm checks all docked objects and fills a temporary table of results, filtering out duplicates
+	for _, _scanned in pairs(dockedEntities) do
+		--MX.DebugMsg('analyse: '..Entity(_scanned).name)
+		if MX.isStationUniq(_scanned) then
+			MX.DebugMsg('analyse uniq: ' .. Entity(_scanned).name .. ' - success')
+			local _scannedProduction = MX.getProduction(_scanned)
+			local _scannedResourses = MX.getConsumption(_scanned)
+
+			if #_scannedProduction > 0 or #_scannedResourses > 0 then
+				table.insert(collectedStations, { _scanned, _scannedProduction, _scannedResourses })
+			end
+		else
+			MX.DebugMsg('analyse uniq: ' .. Entity(_scanned).name .. ' - failed')
+		end
+	end
+
+	MX.DebugMsg('Analysis finish| uniq stations found: ' .. tostring(#collectedStations))
+	MX.refreshMainTables(collectedStations)
+end
+
+function MX.refreshMainTables(_analysisResult)
+	--preliminary run to detect inactive (missing) segments and remove them from the table
+	for _index = #tableProduction, 1, -1 do
+		local _prod = tableProduction[_index]
+		local _entity = Entity(_prod[1])
+		if valid(_entity) then
+			if not (_entity.dockingParent == Entity().id) then
+				MX.DebugMsg('refreshProductionTable(' .. _entity.name .. '): deleted (undock)')
+				SWrewriteConfirmed = true
+				table.remove(tableProduction, _index)
+			end
+		else
+			MX.DebugMsg('refreshProductionTable: deleted from update (station is not valid)')
+			table.remove(tableProduction, _index)
+		end
+	end
+	--MX.DebugMsg('refreshProductionTable: refreshed')
+
+	for _index = #tableConsumption, 1, -1 do
+		local _prod = tableConsumption[_index]
+		local _entity = Entity(_prod[1])
+		if valid(_entity) then
+			if not (_entity.dockingParent == Entity().id) then
+				MX.DebugMsg('refreshConsumptionTable(' .. _entity.name .. '): deleted (undock)')
+				SWrewriteConfirmed = true
+				table.remove(tableProduction, _index)
+			end
+		else
+			MX.DebugMsg('refreshConsumptionTable: deleted from update (station is not valid)')
+			table.remove(tableConsumption, _index)
+		end
+	end
+	--MX.DebugMsg('refreshConsumptionTable: refreshed')
+
+	--Writing new elements
+	if _analysisResult ~= nil then
+		for _index, _rows in pairs(_analysisResult) do
+			--Entry into the production table
+			if #_rows[2] > 0 then
+				local _stId = _rows[1]
+				local _goodTypes = _rows[2]
+				local _isActive = {}
+
+				for i = 1, #_rows[2] do
+					table.insert(_isActive, true)
+				end
+				local _insert = { _stId, _goodTypes, _isActive }
+				table.insert(tableProduction, _insert)
+			end
+			--Entry into the consumption table
+			if #_rows[3] > 0 then
+				local _stId = _rows[1]
+				local _goodTypes = _rows[3]
+				local _isActive = {}
+
+				for i = 1, #_rows[3] do
+					table.insert(_isActive, true)
+				end
+				local _insert = { _stId, _goodTypes, _isActive }
+				table.insert(tableConsumption, _insert)
+			end
+		end
+	end
+
+	--interface generation
+	MX.renderProductionLine()
+	MX.renderConsumptionLine()
+	MX.renderStorageLine()
+end
+
+--creates an interactive line in the production interface
+function MX.renderProductionLine()
+	--Cutting off
+	if tableProduction == nil or #tableProduction < 1 then
+		MX.DebugMsg('generateProductionLine: main table is missing or empty')
+		return
+	end
+
+	if not (tabProductionScroller) then return end
+
+
+	--full interface reset
+	tabProductionScroller:clear()
+	interfaceProduction = {}
+
+	--interface variables
+	local iconHead = 'data/textures/icons/MCXicon.png'
+	local iconArrow = 'data/textures/icons/MCXexpand.png'
+	local iconOnline = 'data/textures/icons/MCXon.png'
+
+	--A generation
+	for _index, _station in pairs(tableProduction) do
+		local i = _index - 1
+		local UnivY = rPaddingY * (i + 1) + rUnit * i
+		local UnivY2 = UnivY + rUnit
+
+
+		local HeadIconX = rPaddingX
+		local HeadIconX2 = rPaddingX + rUnit
+		local NameX = HeadIconX2 + rPaddingX
+		local NameX2 = NameX + rUnit * 5
+		local ProdsX = NameX2 + rPaddingX
+		local ProdsX2 = ProdsX + rUnit * 4
+		local ExpandX = ProdsX2 + rPaddingX
+		local ExpandX2 = ExpandX + rUnit
+		local SwitchX = ExpandX2 + rPaddingX
+		local SwitchX2 = SwitchX + rUnit
+
+
+		local HeadIconRect = Rect(HeadIconX, UnivY, HeadIconX2, UnivY2)
+		local NameRect = Rect(NameX, UnivY, NameX2, UnivY2)
+		local ProdsRect = Rect(ProdsX, UnivY, ProdsX2, UnivY2)
+		local ExpandRect = Rect(ExpandX, UnivY, ExpandX2, UnivY2)
+		local SwitchRect = Rect(SwitchX, UnivY, SwitchX2, UnivY2)
+
+		--------------------------[Production Interface]-------------------------
+		--Aqua icon
+		local STheadIcon = tabProductionScroller:createPicture(HeadIconRect, iconHead)
+
+		--Station name
+		local STname = tabProductionScroller:createTextField(NameRect, 'default')
+		STname.fontSize = 10
+		STname.tooltip = locLines['production_tooltip_namestation']
+		-- STlocalNameFrame = tabProductionScroller:createFrame(STname.localRect)
+		-- STlocalNameFrame.backgroundColor = _colorC
+		--Number of productions
+		local STprods = tabProductionScroller:createTextField(ProdsRect, 'default')
+		STprods.fontSize = 10
+		STprods.tooltip = locLines['production_tooltip_streams']
+		-- STlocalProdsFrame = tabProductionScroller:createFrame(STprods.localRect)
+		-- STlocalProdsFrame.backgroundColor = _colorC
+		--"More details" button
+		local STexpand = tabProductionScroller:createRoundButton(ExpandRect, iconArrow, 'onProductionClick')
+		STexpand.tooltip = locLines['production_tooltip_expand']
+		--Shutdown button
+		local STswitch = tabProductionScroller:createRoundButton(SwitchRect, iconOnline, 'onClickSwitchProdGlobal')
+		STswitch.tooltip = locLines['production_tooltip_switch']
+
+		local _result = { STheadIcon, STname, STprods, STexpand, STswitch }
+		table.insert(interfaceProduction, _result)
+	end
+end
+
+--creates an interactive line in the production interface
+function MX.renderConsumptionLine()
+	--Cutting off
+	if tableConsumption == nil or #tableConsumption < 1 then
+		MX.DebugMsg('renderConsumptionLine: main table is empty or nil')
+		return
+	end
+
+	if not (tabProductionScroller) then return end
+
+	--full interface reset
+	tabConsumeScroller:clear()
+	interfaceConsumption = {}
+
+	--interface variables
+	local iconHead = 'data/textures/icons/MCXicon.png'
+	local iconArrow = 'data/textures/icons/MCXexpand.png'
+	local iconOnline = 'data/textures/icons/MCXon.png'
+
+	--A generation
+	for _index, _station in pairs(tableConsumption) do
+		local i = _index - 1
+		local UnivY = rPaddingY * (i + 1) + rUnit * i
+		local UnivY2 = UnivY + rUnit
+
+
+		local HeadIconX = rPaddingX
+		local HeadIconX2 = rPaddingX + rUnit
+		local NameX = HeadIconX2 + rPaddingX
+		local NameX2 = NameX + rUnit * 5
+		local ConsX = NameX2 + rPaddingX
+		local ConsX2 = ConsX + rUnit * 4
+		local ExpandX = ConsX2 + rPaddingX
+		local ExpandX2 = ExpandX + rUnit
+		local SwitchX = ExpandX2 + rPaddingX
+		local SwitchX2 = SwitchX + rUnit
+
+
+		local HeadIconRect = Rect(HeadIconX, UnivY, HeadIconX2, UnivY2)
+		local NameRect = Rect(NameX, UnivY, NameX2, UnivY2)
+		local ConsRect = Rect(ConsX, UnivY, ConsX2, UnivY2)
+		local ExpandRect = Rect(ExpandX, UnivY, ExpandX2, UnivY2)
+		local SwitchRect = Rect(SwitchX, UnivY, SwitchX2, UnivY2)
+
+		--------------------------[Consumption Interface]-------------------------
+		--Aqua icon
+		local STheadIcon = tabConsumeScroller:createPicture(HeadIconRect, iconHead)
+		--Station name
+		local STname = tabConsumeScroller:createTextField(NameRect, 'default')
+		STname.fontSize = 10
+		--Number of productions
+		local STcons = tabConsumeScroller:createTextField(ConsRect, 'default')
+		STcons.fontSize = 10
+		--"More details" button
+		local STexpand = tabConsumeScroller:createRoundButton(ExpandRect, iconArrow, 'onConsumptionClick')
+		--Shutdown button
+		local STswitch = tabConsumeScroller:createRoundButton(SwitchRect, iconOnline, 'onClickSwitchConsGlobal')
+
+		local _result = { STheadIcon, STname, STcons, STexpand, STswitch }
+		table.insert(interfaceConsumption, _result)
+	end
+end
+
+--Performs full processing (updating, deleting, searching for new elements) of the warehouse table and rendering the elements
+function MX.renderStorageLine()
+	--------------------------[Warehouse table processing segment]-----------
+	local _goodsTable = {}
+
+	--Cutting off
+	if not (tabStorageScroller) then return end
+
+	--Collects a list of possible unique products from production
+	for _, _row in pairs(tableProduction) do
+		for i = 1, #_row[2] do
+			local _good = _row[2][i]
+			if MX.isGoodUniq(_goodsTable, _good) then
+				table.insert(_goodsTable, _good)
+			end
+		end
+	end
+
+	--Collects a list of possible unique goods from consumption
+	for _, _row in pairs(tableConsumption) do
+		for i = 1, #_row[2] do
+			local _good = _row[2][i]
+			if MX.isGoodUniq(_goodsTable, _good) then
+				table.insert(_goodsTable, _good)
+			end
+		end
+	end
+
+	--Mx.table self report( goods table,'uniq resourses to storage')
+
+	--Removes an irrelevant product from the current table
+	for _index, _rows in pairs(tableStorage) do
+		if MX.isGoodUniq(_goodsTable, _rows[1]) then
+			table.remove(tableStorage, _index)
+			MX.DebugMsg('Good removed from table (wasnt presented in prod/cons tables): ' ..
+				getGoodAttribute(_rows[1], 'name'))
+		end
+	end
+
+	--Detects an unaccounted item and adds it to the table
+	for _, _rows in pairs(_goodsTable) do
+		if MX.isGoodUniq(tableStorage, _rows) then
+			local _goodType = _rows
+			local _EntriesProd = MX.getEntries(_GoodType, tableProduction)
+			local _EntriesCons = MX.getEntries(_GoodType, tableConsumption)
+			local _StorageAmount = tableSettings[2]
+			local _ToDelete = false
+			--MX.DebugMsg('Good inserted into storage table: '..getGoodAttribute(_goodType,'name'))
+			table.insert(tableStorage, { _goodType, _EntriesProd, _EntriesCons, _StorageAmount, _ToDelete })
+		end
+	end
+	--------------------------[Warehouse table rendering segment]-----------
+	--cutting off
+	if not (tableStorage) then return end
+	--Reset
+	tabStorageScroller:clear()
+	interfaceStorage = {}
+	for _index, _row in pairs(tableStorage) do
+		--Variables
+		local _good = _row[1]
+		local i = _index - 1
+		local _icon = getGoodAttribute(_good, 'icon')
+		local _name = getTranslatedGoodName(_good)
+		local _currentStorage = locLines['storage_label_instock'] .. tostring(CargoBay():getNumCargos(_good))
+		local _production = locLines['storage_label_production']
+		if #_row[2] > 0 then
+			_production = _production .. tostring(#_row[2])
+		else
+			_production = _production .. '0'
+		end
+		local _consumption = locLines['storage_label_consumption']
+		if #_row[3] > 0 then
+			_consumption = _consumption .. tostring(#_row[3])
+		else
+			_consumption = _consumption .. '0'
+		end
+		local _storageLimit = locLines['storage_label_limit'] .. _row[4]
+		local _toDelete = _row[5]
+
+
+		local _iconToDelete = 'data/textures/icons/MCXtoDelete.png'
+		if _toDelete then
+			_iconToDelete = 'data/textures/icons/MCXtoDeleteR.png'
+		end
+		local _iconRefreshLimit = 'data/textures/icons/MCXupdateLimit.png'
+
+		local UnivY = rPaddingY + rPaddingY * 2 * (i) + rUnit * 2 * i
+		local Line1Y = UnivY
+		local Line1Y2 = Line1Y + rUnit
+		local Line2Y = Line1Y2 + rPaddingY
+		local Line2Y2 = Line2Y + rUnit
+
+		local MainIconX = rPaddingX
+		local MainIconX2 = MainIconX + rUnit * 1.5
+		local MainIconY2 = Line1Y + rUnit * 1.5
+		local MainIconRect = Rect(MainIconX2, MainIconY2, MainIconX, Line1Y)
+		--Line 1
+		local NameX = MainIconX2 + rPaddingX
+		local NameX2 = NameX + rUnit * 3.5
+		local StorageX = NameX2 + rPaddingX
+		local StorageX2 = StorageX + rUnit * 3.5
+		local LimitX = StorageX2 + rPaddingX
+		local LimitX2 = LimitX + rUnit * 3
+		local ToDeleteX = LimitX2 + rPaddingX
+		local ToDeleteX2 = ToDeleteX + rUnit
+
+		local NameRect = Rect(NameX, Line1Y, NameX2, Line1Y2)
+		local StorageRect = Rect(StorageX, Line1Y, StorageX2, Line1Y2)
+		local ToDeleteRect = Rect(ToDeleteX, Line1Y, ToDeleteX2, Line1Y2)
+		local LimitRect = Rect(LimitX, Line1Y, LimitX2, Line1Y2)
+
+		--Line 2
+		local ProdX = MainIconX2 + rPaddingX
+		local ProdX2 = ProdX + rUnit * 3.5
+		local ConsX = ProdX2 + rPaddingX
+		local ConsX2 = ConsX + rUnit * 3.5
+		local LimitInsertX = ConsX2 + rPaddingX
+		local LimitInsertX2 = LimitInsertX + rUnit * 3
+
+		local ProdRect = Rect(ProdX, Line2Y, ProdX2, Line2Y2)
+		local ConsRect = Rect(ConsX, Line2Y, ConsX2, Line2Y2)
+		local LimitInsertRect = Rect(LimitInsertX, Line2Y, LimitInsertX2, Line2Y2)
+		--------------------------[Storage Interface]-------------------------
+		--Product icon
+		local STMainIcon = tabStorageScroller:createPicture(MainIconRect, _icon)
+
+		--Line 1
+		--Product name
+		local STname = tabStorageScroller:createTextField(NameRect, _name)
+		STname.fontSize = 10
+		STname.tooltip = _name .. locLines['storage_tooltip_goodname']
+		STname.scrollable = true
+		--Current volume
+		local STstorage = tabStorageScroller:createTextField(StorageRect, _currentStorage)
+		STstorage.fontSize = 10
+		STstorage.tooltip = locLines['storage_tooltip_goodamount']
+		--Delete button
+		local STtoDelete = tabStorageScroller:createRoundButton(ToDeleteRect, _iconToDelete, 'onClickToDelete')
+		STtoDelete.tooltip = locLines['storage_tooltip_todelete']
+		--Limit
+		local STlimit = tabStorageScroller:createTextField(LimitRect, _storageLimit)
+		STlimit.fontSize = 10
+		STlimit.tooltip = locLines['storage_tooltip_goodlimit']
+
+		--Line 2
+		--Productions
+		local STprod = tabStorageScroller:createTextField(ProdRect, _production)
+		STprod.fontSize = 10
+		STprod.tooltip = locLines['storage_tooltip_production']
+		--Consumption
+		local STcons = tabStorageScroller:createTextField(ConsRect, _consumption)
+		STcons.fontSize = 10
+		STcons.tooltip = locLines['storage_tooltip_consumption']
+		--Limit filling window
+		local STlimitInsert = tabStorageScroller:createTextBox(LimitInsertRect, 'adjustStorageValue', '1')
+		STlimitInsert.tooltip = locLines['storage_tooltip_inputlimit']
+		STlimitInsert.maxCharacters = 5
+		--STlimitInsert.fontSize = 10
+		--function TextBox createTextBox(Rect rect, string onTextChangedFunction)
+
+
+		local _result = { STMainIcon, STname, STstorage, STtoDelete, STlimit, STprod, STcons, STlimitInsert }
+		table.insert(interfaceStorage, _result)
+	end
+end
+
+function MX.refreshInterface()
+	--General Variables
+	local _iconOn = 'data/textures/icons/MCXon.png'
+	local _iconOff = 'data/textures/icons/MCXoff.png'
+	--------------------------------[Product Segment]--------------------------------
+	--MX.TableSelfReport(interfaceProduction,'interfaceProduction(refresh)')
+	local _refreshAvialable = false
+	if (interfaceProduction and tableProduction) and (#interfaceProduction == #tableProduction) and #interfaceProduction > 0 then
+		_refreshAvialable = true
+	end
+
+	if _refreshAvialable then
+		for _index, _rows in pairs(interfaceProduction) do
+			if _rows[1] == nil then
+				MX.DebugMsg('refreshInterface(1): can not find anything :C')
+				return
+			end
+
+			_rows[1].tooltip = tostring(_index)
+			--Name
+			_rows[2].text = Entity(tableProduction[_index][1]).name
+
+			--Status
+			local _thisProduction = tableProduction[_index][3]
+			local _active = 0
+			local _inactive = 0
+			local _color = nil
+			--Counts the number of turned on and off productions
+			for _, _activity in pairs(_thisProduction) do
+				if _activity then
+					_active = _active + 1
+				else
+					_inactive = _inactive + 1
+				end
+			end
+
+			--Compiling a list of production facilities and filling out a tooltip
+			local _prodTable = tableProduction[_index][2]
+			local _prodTextAdd = ''
+			for i = 1, #_prodTable do
+				_prodTextAdd = _prodTextAdd .. '\n - ' .. getTranslatedGoodName(_prodTable[i])
+			end
+			_rows[3].tooltip = locLines['production_tooltip_streams'] .. _prodTextAdd
+			--Mx.table self report( prod table,' prod table')
+
+			--installation of production
+			--uses data from past segments
+			local _prodText = string.format("%s%i/%i", locLines['storage_label_production'], _active, #_thisProduction)
+			_rows[3].text = _prodText
+
+			--Primary icon color and row[5] button icon
+			local _headIconText = ''
+
+			if _active == 0 then
+				_color = _colorR
+				_rows[5].icon = _iconOff
+				_headIconText = locLines['production_tooltip_switchbut_off']
+			elseif _inactive == 0 then
+				_color = _colorG
+				_rows[5].icon = _iconOn
+				_headIconText = locLines['production_tooltip_switchbut_on']
+			else
+				_color = _colorY
+				_rows[5].icon = _iconOn
+				_headIconText = locLines['production_tooltip_switchbut_partial']
+			end
+			_rows[1].color = _color
+			_rows[1].tooltip = _headIconText
+		end
+	end
+
+	--------------------------------[Consumption segment]--------------------------------
+	_refreshAvialable = false
+	if (interfaceConsumption and tableConsumption) and (#interfaceConsumption == #tableConsumption) and #interfaceProduction > 0 then
+		_refreshAvialable = true
+	end
+
+	if _refreshAvialable then
+		for _index, _rows in pairs(interfaceConsumption) do
+			if _rows[1] == nil then
+				MX.DebugMsg('refreshInterface(2): can not find anything :C')
+				return
+			end
+
+			--Name
+			_rows[2].text = Entity(tableConsumption[_index][1]).name
+
+			--Status
+			local _thisConsumption = tableConsumption[_index][3]
+			_active = 0
+			_inactive = 0
+			--Counts the number of enabled and disabled consumption streams
+			for _, _activity in pairs(_thisConsumption) do
+				if _activity then
+					_active = _active + 1
+				else
+					_inactive = _inactive + 1
+				end
+			end
+
+			--setting the display of available consumption streams
+			local _needs = tableConsumption[_index]
+			local _availableRoutes = 0
+
+			local _row3tooltip = locLines['consumption_tooltip_name']
+
+			--Checks production for appropriate flows
+			for i = 1, #_needs[2] do
+				local isRoutes = MX.getAvialableProductionRoutes(_needs[2][i])
+				local isRouteActive = _needs[3][i]
+
+				if isRoutes > 0 and isRouteActive then
+					_availableRoutes = _availableRoutes + 1
+					_row3tooltip = _row3tooltip .. '\n+' .. getTranslatedGoodName(_needs[2][i])
+				else
+					_row3tooltip = _row3tooltip .. '\n' .. getTranslatedGoodName(_needs[2][i])
+				end
+			end
+
+			--Indicates the ratio of available production to consumption.
+			--local _consText = 'Provided by: '..tostring(_availableRoutes)..'/'..tostring(_active)
+			local _consText = string.format("%s%i/%i", locLines['production_label_cons'], _availableRoutes, _active)
+			_rows[3].text = _consText
+
+			--Primary icon color
+			if _active == 0 then
+				_color = _colorR
+				_rows[5].icon = _iconOff
+				_headIconText = locLines['consumption_tooltip_switchbut_off']
+			elseif _inactive == 0 then
+				_color = _colorG
+				_rows[5].icon = _iconOn
+				_headIconText = locLines['consumption_tooltip_switchbut_on']
+			else
+				_color = _colorY
+				_rows[5].icon = _iconOn
+				_headIconText = locLines['consumption_tooltip_switchbut_partial']
+			end
+			_rows[1].color = _color
+			_rows[1].tooltip = _headIconText
+
+			_rows[3].tooltip = _row3tooltip
+		end
+	end
+	--------------------------------[Storage segment]--------------------------------
+	MX.refreshProdCons()
+	if interfaceStorage and (#interfaceStorage > 0) then
+		for _index, _rows in pairs(interfaceStorage) do
+			local _STtable = tableStorage[_index]
+			local _good = _STtable[1]
+			local _iconToDelete = 'data/textures/icons/MCXtoDelete.png'
+			local _iconToDeleteR = 'data/textures/icons/MCXtoDeleteR.png'
+			--The icon does not change!
+			--The product name does not change!
+
+			--Composition
+			local _currentStorage = CargoBay():getNumCargos(_good)
+			local _currentStorageText = locLines['storage_label_instock'] .. tostring(_currentStorage)
+
+			--Production flows
+
+
+			local _entryProd = locLines['storage_label_production']
+			if #_STtable[2] > 0 then
+				_entryProd = _entryProd .. tostring(#_STtable[2])
+			else
+				_entryProd = _entryProd .. '0'
+			end
+
+			--Consumption flows
+			local _entryCons = locLines['storage_label_consumption']
+			if #_STtable[3] > 0 then
+				_entryCons = _entryCons .. tostring(#_STtable[3])
+			else
+				_entryCons = _entryCons .. '0'
+			end
+
+			--Storage limit
+			local _storageLimit = locLines['storage_label_limit'] .. _STtable[4]
+
+			--Removal
+			local _toDelete = _STtable[5]
+
+			--Processing received values
+			--Warehouse
+			_rows[3].text = _currentStorageText
+			if _currentStorage > 9999 then
+				_rows[3].fontSize = 9
+				_rows[3].scrollable = true
+			else
+				_rows[3].fontSize = 10
+				_rows[3].scrollable = false
+			end
+			--Delete icon
+			if _toDelete then
+				_rows[4].icon = _iconToDeleteR
+			else
+				_rows[4].icon = _iconToDelete
+			end
+			--Resource limit
+			_rows[5].text = _storageLimit
+			--Production
+			_rows[6].text = _entryProd
+			--Consumption
+			_rows[7].text = _entryCons
+			--Limit window is not updated
+		end
+	end
+end
+
+function MX.onProductionClick(_button)
+	--Determining the button index. This is such nonsense, fucked up :/
+	local _thisIndex = nil
+	for _index, _rows in pairs(interfaceProduction) do
+		if _rows[4].index == _button.index then
+			_thisIndex = _index
+		end
+	end
+	--Calling a window
+	MX.generateProdWindow(_thisIndex)
+end
+
+function MX.onConsumptionClick(_button)
+	--Determining the button index. This is such nonsense, fucked up :/
+	local _thisIndex = nil
+	for _index, _rows in pairs(interfaceConsumption) do
+		if _rows[4].index == _button.index then
+			_thisIndex = _index
+		end
+	end
+	--Calling a window
+	MX.generateConsWindow(_thisIndex)
+end
+
+function MX.generateProdWindow(_stindex)
+	-- if MXtemp[1] then
+	-- _tempWindow:hide()
+	-- _tempWindow = nil
+	-- end
+	if _tempWindow then
+		_tempWindow:hide()
+		_tempWindow = nil
+	end
+
+	_tempStateIsProd = true
+
+	local res = getResolution()
+	local frameV2 = vec2(rUnit * 13, rUnit * 8)
+	local size = vec2(frameV2.x + rUnit, frameV2.y + rUnit * 3)
+
+	local _table = tableProduction[_stindex]
+	local _station = Entity(_table[1])
+	local _stname = _station.name
+
+	local _caption = _stname
+	_tempWindow = ScriptUI():createWindow(Rect(res * 0.5 - size * 0.5, res * 0.5 + size * 0.5))
+	_tempWindow.caption = _caption
+	_tempWindow.showCloseButton = true
+	_tempWindow.moveable = true
+	local _winSize = _tempWindow.size
+	local _frameRect = Rect(vec2(rPaddingX / 2, rPaddingX / 2), _winSize - rPaddingX * 1.5)
+
+	local _frame = _tempWindow:createScrollFrame(_frameRect)
+	_frame:createFrame(_frameRect)
+	MXtemp = {}
+	------------------------------[line generation]------------------------------
+	for _index, _rows in pairs(_table[2]) do
+		local _result = {}
+		local _good = _rows
+		local _icon = getGoodAttribute(_good, 'icon')
+		local _name = getTranslatedGoodName(_good)
+		local _iconButton = 'data/textures/icons/MCXon.png'
+		local _iconButtonR = 'data/textures/icons/MCXoff.png'
+
+		local _goodsOnStation = locLines['linegenerator_label_stationscargo'] ..
+			tostring(CargoBay(_station.id):getNumCargos(_good))
+		local _isActive = _table[3][_index]
+
+		--Coordinates
+		local i = _index - 1
+		local UnivY = rPaddingY * _index + rUnit * i
+		local UnivY2 = UnivY + rUnit
+
+
+		local GoodIconX = rPaddingX
+		local GoodIconX2 = GoodIconX + rUnit
+		local NameX = GoodIconX2 + rPaddingX
+		local NameX2 = NameX + rUnit * 4
+		local AmountX = NameX2 + rPaddingX
+		local AmountX2 = AmountX + rUnit * 4.5
+		local ButtonX = AmountX2 + rPaddingX
+		local ButtonX2 = ButtonX + rUnit
+
+		local GoodIconRect = Rect(GoodIconX2, UnivY2, GoodIconX, UnivY)
+		local NameRect = Rect(NameX, UnivY, NameX2, UnivY2)
+		local AmountRect = Rect(AmountX, UnivY, AmountX2, UnivY2)
+		local ButtonRect = Rect(ButtonX, UnivY, ButtonX2, UnivY2)
+
+		--Product icon
+		local STgoodIcon = _frame:createPicture(GoodIconRect, _icon)
+		--Naimenovanie tovar
+		local STname = _frame:createTextField(NameRect, _name)
+		STname.tooltip = locLines['linegenerator_tooltip_goodname']
+		STname.fontSize = 10
+		--Stock cargo at stations
+		local STamount = _frame:createTextField(AmountRect, _goodsOnStation)
+		STamount.fontSize = 10
+		STamount.tooltip = locLines['linegenerator_tooltip_goodamount']
+		--Shutdown button
+		local STswitch = _frame:createRoundButton(ButtonRect, _iconButton, 'onClickSwitchProd')
+		STswitch.tooltip = locLines['linegenerator_tooltip_switcher']
+
+		_result = { STamount, STswitch, _good, _table[1], _stindex, _index }
+		--Mx.table self report( result,' result')
+		table.insert(MXtemp, _result)
+	end
+	_tempWindow:show()
+	MX.generatedWindowsUpdate()
+end
+
+function MX.generateConsWindow(_stindex)
+	if _tempWindow then
+		_tempWindow:hide()
+		_tempWindow = nil
+	end
+	MXtemp = {}
+	_tempStateIsProd = false
+
+	local res = getResolution()
+	local frameV2 = vec2(rUnit * 13, rUnit * 8)
+	local size = vec2(frameV2.x + rUnit, frameV2.y + rUnit * 3)
+
+	local _table = tableConsumption[_stindex]
+	local _station = Entity(_table[1])
+	local _stname = _station.name
+
+	local _caption = _stname
+	_tempWindow = ScriptUI():createWindow(Rect(res * 0.5 - size * 0.5, res * 0.5 + size * 0.5))
+	_tempWindow.caption = _caption
+	_tempWindow.showCloseButton = true
+	_tempWindow.moveable = true
+	local _winSize = _tempWindow.size
+	local _frameRect = Rect(vec2(rPaddingX / 2, rPaddingX / 2), _winSize - rPaddingX * 1.5)
+
+	local _frame = _tempWindow:createScrollFrame(_frameRect)
+	_frame:createFrame(_frameRect)
+
+	------------------------------[line generation]------------------------------
+	for _index, _rows in pairs(_table[2]) do
+		local _result = {}
+		local _good = _rows
+		local _icon = getGoodAttribute(_good, 'icon')
+		local _name = getTranslatedGoodName(_good)
+		local _iconButton = 'data/textures/icons/MCXon.png'
+		local _iconButtonR = 'data/textures/icons/MCXoff.png'
+
+		local _goodsOnStation = locLines['linegenerator_label_stationscargo'] ..
+			tostring(CargoBay(_station.id):getNumCargos(_good))
+		local _isActive = _table[3][_index]
+
+		--Coordinates
+		local i = _index - 1
+		local UnivY = rPaddingY * _index + rUnit * i
+		local UnivY2 = UnivY + rUnit
+
+
+		local GoodIconX = rPaddingX
+		local GoodIconX2 = GoodIconX + rUnit
+		local NameX = GoodIconX2 + rPaddingX
+		local NameX2 = NameX + rUnit * 4
+		local AmountX = NameX2 + rPaddingX
+		local AmountX2 = AmountX + rUnit * 4.5
+		local ButtonX = AmountX2 + rPaddingX
+		local ButtonX2 = ButtonX + rUnit
+
+		local GoodIconRect = Rect(GoodIconX2, UnivY2, GoodIconX, UnivY)
+		local NameRect = Rect(NameX, UnivY, NameX2, UnivY2)
+		local AmountRect = Rect(AmountX, UnivY, AmountX2, UnivY2)
+		local ButtonRect = Rect(ButtonX, UnivY, ButtonX2, UnivY2)
+
+		--Product icon
+		local STgoodIcon = _frame:createPicture(GoodIconRect, _icon)
+		--Naimenovanie tovar
+		local STname = _frame:createTextField(NameRect, _name)
+		STname.tooltip = locLines['linegenerator_tooltip_goodname']
+		STname.fontSize = 10
+		--Stock cargo at stations
+		local STamount = _frame:createTextField(AmountRect, _goodsOnStation)
+		STamount.fontSize = 10
+		STamount.tooltip = locLines['linegenerator_tooltip_goodamount']
+		--Shutdown button
+		local STswitch = _frame:createRoundButton(ButtonRect, _iconButton, 'onClickSwitchCons')
+		STswitch.tooltip = locLines['linegenerator_tooltip_switcher']
+
+		_result = { STamount, STswitch, _good, _table[1], _stindex, _index }
+		--Mx.table self report( result,' result')
+		table.insert(MXtemp, _result)
+	end
+	_tempWindow:show()
+	MX.generatedWindowsUpdate()
+end
+
+--Updates data in an open production detail table
+function MX.generatedWindowsUpdate()
+	------------------------------[Product Window Segment]------------------------------
+	if #MXtemp > 0 then
+		for _index, _row in pairs(MXtemp) do
+			local _good = _row[3]
+			local _stindex = _row[5]
+			--volume of goods
+			local _goodsOnStation = locLines['linegenerator_label_stationscargo'] ..
+				tostring(CargoBay(_row[4]):getNumCargos(_good))
+			--icon status
+			local _status = nil
+			if _tempStateIsProd then
+				_status = tableProduction[_stindex][3][_index]
+			else
+				_status = tableConsumption[_stindex][3][_index]
+			end
+			--volume setting
+			_row[1].text = _goodsOnStation
+			--setting icon
+			if _status then
+				_row[2].icon = 'data/textures/icons/MCXon.png'
+			else
+				_row[2].icon = 'data/textures/icons/MCXoff.png'
+			end
+		end
+	end
+end
+
+function MX.onClickSwitchProd(_button)
+	local _thisIndex = MX.getElementIndex(_button, MXtemp, 2)
+	if not (_thisIndex) then return end
+
+	local _tempTable = MXtemp[_thisIndex]
+	local _stIndex = _tempTable[5]
+	local _prodTable = tableProduction[_stIndex][3]
+	local _status = _prodTable[_thisIndex]
+
+	if _status then
+		_prodTable[_thisIndex] = false
+	else
+		_prodTable[_thisIndex] = true
+	end
+	MX.generatedWindowsUpdate()
+end
+
+function MX.onClickSwitchCons(_button)
+	local _thisIndex = MX.getElementIndex(_button, MXtemp, 2)
+
+	if not (_thisIndex) then return end
+
+	local _tempTable = MXtemp[_thisIndex]
+	local _stIndex = _tempTable[5]
+	local _prodTable = tableConsumption[_stIndex][3]
+	local _status = _prodTable[_thisIndex]
+
+	if _status then
+		_prodTable[_thisIndex] = false
+	else
+		_prodTable[_thisIndex] = true
+	end
+	MX.generatedWindowsUpdate()
+end
+
+function MX.onClickSwitchProdGlobal(_button)
+	local _thisIndex = MX.getElementIndex(_button, interfaceProduction, 5)
+
+	if not (_thisIndex) then return end
+
+	local _table = tableProduction[_thisIndex][3]
+
+	local _calcCorrect = 0
+
+	for i = 1, #_table do
+		if _table[i] then
+			_calcCorrect = _calcCorrect + 1
+		end
+	end
+
+	if _calcCorrect == 0 then
+		for i = 1, #_table do
+			_table[i] = true
+		end
+	else
+		for i = 1, #_table do
+			_table[i] = false
+		end
+	end
+	MX.refreshInterface()
+end
+
+function MX.onClickSwitchConsGlobal(_button)
+	local _thisIndex = MX.getElementIndex(_button, interfaceConsumption, 5)
+
+	if not (_thisIndex) then return end
+
+	local _table = tableConsumption[_thisIndex][3]
+
+	local _calcCorrect = 0
+
+	for i = 1, #_table do
+		if _table[i] then
+			_calcCorrect = _calcCorrect + 1
+		end
+	end
+
+	if _calcCorrect == 0 then
+		for i = 1, #_table do
+			_table[i] = true
+		end
+	else
+		for i = 1, #_table do
+			_table[i] = false
+		end
+	end
+	MX.refreshInterface()
+end
+
+function MX.onClickToDelete(_button)
+	--local _thisIndex = MX.getButtonIndex(_button,interfaceStorage,4)
+	local _thisIndex = MX.getElementIndex(_button, interfaceStorage, 4)
+
+	local _toDelete = tableStorage[_thisIndex][5]
+
+	if _toDelete then
+		tableStorage[_thisIndex][5] = false
+	else
+		tableStorage[_thisIndex][5] = true
+	end
+
+	MX.refreshInterface()
+end
+
+function MX.adjustStorageValue(_textBox)
+	local _thisIndex = MX.getElementIndex(_textBox, interfaceStorage, 8)
+	local _value = tonumber(_textBox.text)
+	local _baseValue = tableSettings[2]
+	if not (_value) then return end
+	if _value > _baseValue then
+		tableStorage[_thisIndex][4] = _value
+	end
+end
+
+--------------------------------------------------------------------------[Functions for sending/receiving/deleting resources]
+
+--Generates a request for resources based on the requirements of consuming stations and the capabilities of producing ones
+function MX.buildRequestPacket()
+	local requestProduction = {}
+	--station.id
+	--good
+	--amount
+	--toDelete
+	local requestConsumption = {}
+	--station.id
+	--good
+	--amount
+	----------------------[Request generation segment]---------------------
+	--Request Path Scanning
+	for _index, _row in pairs(tableStorage) do
+		local _good = _row[1]
+		local _entriesProdT = _row[2]
+		local _amount = _row[4] - CargoBay():getNumCargos(_good)
+		local _toDelete = _row[5]
+
+		--Search for a resource on related stations
+		for _index2, _st in pairs(_entriesProdT) do
+			if _amount > 0 or _toDelete then
+				local _localAmount = CargoBay(_st):getNumCargos(_good)
+				local _resultRequest = {}
+				if _localAmount > 0 then --Checking resource availability
+					if _amount < 0 then _amount = 0 end
+
+					if _localAmount >= _amount then --Checking stock availability for simultaneous transmission
+						_resultRequest = { _st, _good, _amount, _toDelete }
+						_amount = 0
+					else --Partial transfer
+						_resultRequest = { _st, _good, _localAmount, _toDelete }
+						_amount = _amount - _localAmount
+					end
+
+					if _resultRequest then
+						--A request for 0 units is not sent if there is no toDelete position
+						if (_resultRequest[3] > 0) or _toDelete then
+							table.insert(requestProduction, _resultRequest)
+						end
+					end
+				end
+			end
+		end
+	end
+
+	--MX.TableSelfReport(requestProduction,'requestProduction')
+	----------------------[Issue generation segment]-----------------------
+	for _index, _row in pairs(tableStorage) do
+		local _good = _row[1]
+		local _goodSize = getGoodAttribute(_good, 'size')
+		local _routes = _row[3]
+		local _BV = tableSettings[2]
+
+		if #_routes > 0 then
+			--We find out the current available supply of these resources on the complex
+			local _requestTotal = CargoBay():getNumCargos(_good)
+			--We find out a potential request taking into account all flows
+			local _consumers = #_routes
+			local _requestedByCons = _BV * _consumers
+			--We equalize the request and the available amount of resources if necessary
+			if _requestedByCons > _requestTotal then
+				_requestedByCons = _requestTotal
+			end
+			--We distribute resources
+			for _ind, _row2 in pairs(_routes) do
+				--We calculate the packet volume from the common pool for one station
+				local _PV = _requestedByCons / _consumers
+				--We carry out clarification according to the volume of goods that is already available at the station
+				local amountNeeded = _BV - CargoBay(_row2):getNumCargos(_good)
+				if _PV > amountNeeded then
+					_PV = amountNeeded
+				end
+
+				--Conditional calculation of free space. There must be enough space to distribute the resource
+				local _freeSpace = CargoBay(_row2).freeSpace
+				if _PV * _goodSize > _freeSpace then
+					_PV = _freeSpace / _goodSize - 1 --Little crutch :)
+				end
+				if _PV > 1 then
+					--Writing the result to the active table
+					local _result = { _row2, _good, _PV }
+					--A request for 0 units is not sent
+					if _result[3] > 0 then
+						table.insert(requestConsumption, _result)
+					end
+					--Dynamic pool and consumer reduction
+					_requestedByCons = _requestedByCons - _PV
+					_consumers = _consumers - 1
+				else
+					--MX.DebugMsg('_PV < 1, error')
+				end
+			end
+		end
+	end
+
+	if #requestProduction > 0 then
+		MX.applyRequestProduction(requestProduction)
+	end
+	if #requestConsumption > 0 then
+		MX.applyRequestConsumption(requestConsumption)
+	end
+end
+
+--Performs a request to obtain a resource from a station
+function MX.applyRequestProduction(_productionTable)
+	if _productionTable and (#_productionTable > 0) then
+		for _, _rows in pairs(_productionTable) do
+			local _from = _rows[1]
+			local _to = Entity().id
+			local _good = _rows[2]
+			local _amount = _rows[3]
+			local _delete = _rows[4]
+			if _delete == nil then _delete = false end
+			local _result = { _from, _to, _good, _amount, _delete }
+
+			invokeServerFunction('ServerSendResourses', _result)
+		end
+	else
+		--MX.DebugMsg('applyRequestProduction error: table is nil')
+	end
+end
+
+--Performs a request to transfer a resource TO a station
+function MX.applyRequestConsumption(_consumptionTable)
+	for _, _rows in pairs(_consumptionTable) do
+		local _from = Entity().id
+		local _to = _rows[1]
+		local _good = _rows[2]
+		local _amount = _rows[3]
+		local _result = { _from, _to, _good, _amount, false }
+
+		if _amount == 0 then return end
+
+		invokeServerFunction('ServerSendResourses', _result)
+	end
+end
+
+function MX.ServerSendResourses(_table)
+	--Running Variables
+	local _from = _table[1]
+	local _to = _table[2]
+	local _good = _table[3]
+	local _amount = _table[4]
+	local _delete = _table[5]
+	local _isRequestCorrect = true
+
+	--Security Patch: Ensure transfers only happen between the complex and docked entities
+	local myId = Entity().id
+	if _from ~= myId and _to ~= myId then
+		return
+	end
+	local otherId = (_from == myId) and _to or _from
+	local otherEntity = Entity(otherId)
+	if not otherEntity or otherEntity.dockingParent ~= myId then
+		return
+	end
+
+	--Validation of values
+	if _amount <= 0 and not (_delete) then
+		MX.DebugMsg('ServerSendResourses error: incorrect _amount(' .. tostring(_amount) .. ')')
+		_isRequestCorrect = false
+	end
+	--Checking the existence of goals
+	if not (_from) or not (_to) then
+		MX.DebugMsg('ServerSendResourses error: from or to is NIL')
+		_isRequestCorrect = false
+	end
+	--Checking available resource
+	local _resourseAvailable = CargoBay(_from):getNumCargos(_good)
+	if _resourseAvailable < _amount then
+		MX.DebugMsg('ServerSendResourses error: not enough goods(' ..
+			getGoodAttribute(_good, 'name') .. ', station: ' .. Entity(_from).name .. ') for transfer')
+		_isRequestCorrect = false
+	end
+	--Checking available space
+	local _spaceAvailable = CargoBay(_to).freeSpace
+	local _spaceNeeded = getGoodAttribute(_good, 'size') * _amount
+	if _spaceAvailable < _spaceNeeded then
+		MX.DebugMsg('ServerSendResourses error: not enough space(' .. Entity(_to).name .. ') for transfer')
+		_isRequestCorrect = false
+	end
+	--Reaction to an incorrect request
+	if not (_isRequestCorrect) then
+		MX.TableSelfReport(ServerSendResourses, 'ServerSendResourses')
+		return
+	end
+
+	--Task processing
+	if _amount > 0 then
+		CargoBay(_from):removeCargo(tableToGood(goods[_good]), _amount)
+		CargoBay(_to):addCargo(tableToGood(goods[_good]), _amount)
+		--MX.DebugMsg('ServerResourseTransfer: transfered '..tostring(_amount)..' '..getGoodAttribute(_good,'name')..' from '..Entity(_from).name..' to '..Entity(_to).name)
+	end
+	--Delete mode
+	if _delete then
+		local _toRemoveValue = CargoBay(_from):getNumCargos(_good)
+		if _toRemoveValue > _amount then
+			CargoBay(_from):removeCargo(_good, _toRemoveValue)
+			--MX.DebugMsg('ServerResourseTransfer: deleted '..tostring(_toRemoveValue)..' of '..getGoodAttribute(_good,'name')..' from '..Entity(_from).name)
+			
+			-- Hook into CosmicVaultEconomy: Market crash when a megacomplex dumps excess goods
+			if CosmicVaultEconomy and CosmicVaultEconomy.TriggerMarketEvent and Sector() then
+				local goodName = getGoodAttribute(_good, 'name')
+				local x, y = Sector():getCoordinates()
+				CosmicVaultEconomy.TriggerMarketEvent(goodName, x, y, 1, "crash")
+			end
+		end
+	end
+end
+
+callable(MX, 'ServerSendResourses')
+
+-----------------------------------------------------------------------------------[utility functions]
+
+--Checking for the uniqueness of a station simultaneously for the production and consumption tables
+function MX.isStationUniq(_id)
+	if not (tableProduction) and not (tableConsumption) then return true end
+	for _, _row in pairs(tableProduction) do
+		if MX.compareID(_id, _row[1]) then
+			return false
+		end
+	end
+	if not (tableConsumption) then return true end
+	for _, _row in pairs(tableConsumption) do
+		if MX.compareID(_id, _row[1]) then
+			return false
+		end
+	end
+	return true
+end
+
+--It's just a mess of the council
+function MX.ServerDebugPurge()
+	MX.DebugMsg('PurgeAttempt')
+	local _good = tableToGood(goods['Energy Cell'])
+
+	local _amount = CargoBay():getNumCargos(_good)
+	CargoBay():removeCargo(_good, _amount)
+
+	local dockedEntities = { DockingClamps():getDockedEntities() }
+	for _, _scanned in pairs(dockedEntities) do
+		local _amount = CargoBay(_scanned):getNumCargos(_good)
+		CargoBay(_scanned):removeCargo(_good, _amount)
+	end
+end
+
+callable(MX, 'ServerDebugPurge')
+
+function MX.DebugClearMain()
+	MX.DebugMsg('===========================|DebugClearMain called|===========================')
+	tableProduction = {}
+	tableConsumption = {}
+	tableStorage = {}
+
+	interfaceProduction = {}
+	interfaceConsumption = {}
+	interfaceStorage = {}
+
+	MX.analyse()
+end
+
+function MX.DebugPurge()
+	if _debug then
+		invokeServerFunction('ServerDebugPurge')
+	end
+end
+
+--Synchronizes information from main tables in a client/server system
+function MX.SyncMainTables(_prod, _cons, _stor)
+	--MX.DebugMsg('SyncMainTables called')
+	tableProduction = _prod
+	tableConsumption = _cons
+	tableStorage = _stor
+end
+
+callable(MX, 'SyncMainTables')
+
+function MX.onRestore(_prod, _cons, _stor)
+	MX.DebugMsg('onRestore called')
+	tableProduction = _prod
+	tableConsumption = _cons
+	tableStorage = _stor
+	--MX.TableSelfReport(tableStorage,'Restored Storage')
+	MX.analyse()
+end
+
+--Performs an update of ACTIVE providers/consumers in the storage table
+function MX.refreshProdCons()
+	for _index, _rows in pairs(tableStorage) do
+		local _good = _rows[1]
+		--List of manufacturers
+		_rows[2] = MX.getEntries(_good, tableProduction)
+		--List of consumers
+		_rows[3] = MX.getEntries(_good, tableConsumption)
+	end
+end
+
+--Returns the index of the element calling the function (button, TB)
+function MX.getElementIndex(_element, _table, _pos)
+	local _result = nil
+	for _index, _rows in pairs(_table) do
+		if _rows[_pos].index == _element.index then
+			_result = _index
+		end
+	end
+	return _result
+end
+
+--Scans the production table and returns the number of productions of the specified product, or 0 if the production data is missing (outdated?)
+function MX.getAvialableProductionRoutes(_good)
+	local _result = 0
+	--Table Pass
+	for _, _production in pairs(tableProduction) do
+		for i = 1, #_production[2] do
+			if (_production[2][i] == _good) and _production[3][i] then
+				_result = _result + 1
+			end
+		end
+	end
+	return _result
+end
+
+--Checks the script for correctness to receive goods
+function MX.checkTradingScript(_script)
+	local _noice = {
+		'/basefactory.lua',
+		'/factory.lua',
+		'/highfactory.lua',
+		'/lowfactory.lua',
+		'/midfactory.lua'
+	}
+	for _, _rows in pairs(_noice) do
+		if _script == _rows then return true end
+	end
+	return false
+end
+
+--Returns a table of: station output ONLY (does not return the station itself)
+function MX.getProduction(_id)
+	local _station = Entity(_id)
+	local _result = {}
+	local scripts = TradingUtility.getTradeableScripts()
+	for _, script in pairs(scripts) do
+		local results = { _station:invokeFunction(script, "getSoldGoods") }
+		local callResult = nil
+		if not (MX.checkTradingScript(script)) then
+			callResult = 1
+		else
+			callResult = results[1]
+		end
+		if callResult == 0 then
+			for i = 2, #results do
+				table.insert(_result, results[i])
+			end
+		end
+	end
+	return _result
+end
+
+--Returns a table: required resources for the station
+function MX.getConsumption(_id)
+	local _station = Entity(_id)
+	local _result = {}
+	local scripts = TradingUtility.getTradeableScripts()
+	for _, script in pairs(scripts) do
+		local results = { _station:invokeFunction(script, "getBoughtGoods") }
+		local callResult = nil
+		--if script == "/consumer.lua" then
+		if not (MX.checkTradingScript(script)) then
+			callResult = 1
+		else
+			callResult = results[1]
+		end
+		if callResult == 0 then
+			for i = 2, #results do
+				table.insert(_result, results[i])
+			end
+		end
+	end
+	return _result
+end
+
+--Checks the table for the presence (false) or absence (true) of the specified product in it
+function MX.isGoodUniq(_table, _good)
+	if #_table < 1 then return true end
+
+	for _, _row in pairs(_table) do
+		if type(_row) == 'table' then
+			if _row[1] == _good then return false end
+		else
+			if _row == _good then return false end
+		end
+	end
+	return true
+end
+
+--Checks the table for the presence of a given product type and returns a table of related stations
+function MX.getEntries(_good, _route)
+	local _result = {}
+	for _, _rows in pairs(_route) do
+		local _entity = _rows[1]
+		for i = 1, #_rows[2] do
+			if (_rows[2][i] == _good) and (_rows[3][i]) then
+				table.insert(_result, _entity)
+			end
+		end
+	end
+	return _result
+end
+
+function MX.secure()
+	MX.DebugMsg('secure attempt')
+
+	--Cutting off an empty save
+	if #tableProduction < 1 and #tableConsumption < 1 and #tableStorage < 1 then
+		Debug('Secure failed: empty tables')
+		return
+	end
+
+	local secureTable = {}
+	table.insert(secureTable, tableProduction)
+	table.insert(secureTable, tableConsumption)
+	table.insert(secureTable, tableStorage)
+	Debug('secure success')
+	return { secureTable = secureTable }
+end
+
+function MX.restore(values)
+	MX.DebugMsg('restore attempt')
+
+	local restoredValue = secureTable
+	MX.restoreOperate()
+end
+
+function MX.restoreOperate()
+	--Translation of stream
+	if onClient() then
+		invokeServerFunction('restoreOperate')
+		return
+	end
+
+	Debug('restoreOperate attempt')
+
+	--Loading Saved Values
+	if restoredValue then
+		local isProd = restored[1]
+		local isCons = restored[2]
+		local isStor = restored[3]
+
+		if #isProd < 1 and isCons < 1 and isStor < 1 then
+			Debug('Restore failed: empty tables')
+			return
+		end
+
+		if isProd and isCons and isStor then
+			tableProduction = restored[1]
+			tableConsumption = restored[2]
+			tableStorage = restored[3]
+			MX.DebugMsg('restore tables: online')
+		end
+	else
+		Debug('restoredValue failure (nil)')
+		--Mx.analyse()
+	end
+end
+
+callable(MX, 'restoreOperate')
+
+function MX.adaptiveSync()
+	local _summLength = #tableProduction + #tableConsumption + #tableStorage
+	MX.DebugMsg('adaptiveSync attempt with summLength = ' .. tostring(_summLength))
+	if _summLength > 0 then
+		if callingPlayer then
+			invokeClientFunction(Player(callingPlayer), 'onRestore', tableProduction, tableConsumption, tableStorage)
+		else
+			broadcastInvokeClientFunction('onRestore', tableProduction, tableConsumption, tableStorage)
+		end
+	end
+end
+
+callable(MX, 'adaptiveSync')

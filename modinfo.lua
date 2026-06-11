@@ -44,8 +44,9 @@ meta =
     --      {id = "OptionalMod", min = "0.2", optional = true}, -- we support OptionalMod optionally, starting at version 0.2
     -- },
     dependencies = {
-        { id = "Avorion", min = "1.0", max = "5.0" },
-        { id = "3730040713", exact = "2.0.0" } -- Cosmic Vault
+        { id = "2977686775", incompatible = true }, -- Starfall
+        { id = "3727542782", min = "2.0.0" }, -- Cosmic Vault
+        { id = "Avorion",    min = "2.0", max = "*.*" }
     },
 
     -- Set to true if the mod only has to run on the server. Clients will get notified that the mod is running on the server, but they won't download it to themselves

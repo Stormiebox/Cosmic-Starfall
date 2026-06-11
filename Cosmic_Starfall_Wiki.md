@@ -120,6 +120,8 @@ Cosmic Starfall has completely eliminated its legacy compatibility library (`cos
 - **Dynamic Economy:** Megacomplexes trigger sector-wide `CosmicVaultEconomy` market crash events when forced to dump over-accumulated cargo.
 - **Cinematic Feedback:** Systems broadcast their status via `CosmicVaultUI.ShowCinematicBanner` for immersive, lag-free UI overlays.
 - **Asynchronous Processing:** Heavy logic like Repair Waves or Tractor Pulses are scheduled safely onto `CosmicVaultTask.RunAsync()`, protecting the server's TPS rate during massive fleet clashes.
+- **Server-Authoritative Configurations:** Completely stripped out the third-party Mod Configuration Menu (MCM) scripts. All configurations natively run through Cosmic Vault's CCM module.
+- **Unified Lore/Wiki:** The heavy legacy in-game encyclopedia UI was purged. All item stats, lore, and mechanical alerts are injected dynamically into the lightweight, unified **Cosmic Codex**.
 
 **Why it matters:**
 Enables seamless interoperability with the entire Cosmic Series while simultaneously granting extreme performance uplifts that were not possible with vanilla scripts alone.
@@ -131,9 +133,10 @@ Enables seamless interoperability with the entire Cosmic Series while simultaneo
 <summary><b>Click to expand details</b></summary>
 
 - **Virtual File System (VFS) Compliance:** Fixed a major architectural flaw where shiputility.lua was blindly overriding the vanilla script and destroying compatibility with other mods. The AI Weapon Pool injection now properly utilizes modern Avorion 2.0 VFS hook techniques.
-- **UI Restoration:** Fixed fatal silent crashes in the player infoTab modules caused by missing utility includes. The built-in Starfall Wiki interface has been fully restored and updated.
+- **Alliance Hardware Compatibility:** Hardened script owner resolution logic. Active subsystem user interfaces will no longer crash or fail to render when players pilot an Alliance-owned vessel (it now safely queries `player.allianceIndex`).
 - **Math Logic Fixes:** Identified and resolved completely reversed math inside the Bastion System (where tooltips displayed negative penalties despite providing positive buffs).
 - **Injection Safety:** All script injections in init.lua arrays now use rigorous data/scripts/... absolute pathways to prevent load failures on dedicated servers.
+- **Architecture Finalization:** Concluded the structural "V2" phase. Over 70 reference pathways were updated to phase out temporary `V2` scripts, graduating them to their official names (e.g. `combatGroup.lua`, `complexCore.lua`) and safely deleting all legacy/orphaned variants.
 
 </details>
 
