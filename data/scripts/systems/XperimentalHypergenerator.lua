@@ -144,8 +144,11 @@ function xFocusActivate()
 		Entity():registerCallback("onHyperspaceEntered", "xFocusJump")
 
 		FocusedChargedFlag = true
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "FOCUSED JUMP ENGAGED", ColorRGB(0, 0, 1), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "FOCUSED JUMP ENGAGED", ColorRGB(0, 0, 1), "data/sounds/siren.ogg", 2)
+			end
 		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
@@ -179,8 +182,11 @@ function xQuantumActivate()
 		QuantumHealDelta = Shield():getMaxDurability(true) / 100 * QuantumShieldHeal
 		Entity():registerCallback("onJumpRouteCalculationStarted", "xQuantumTrigger")
 		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "QUANTUM STANDBY", ColorRGB(1, 1, 0), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "QUANTUM STANDBY", ColorRGB(1, 1, 0), "data/sounds/siren.ogg", 2)
+			end
 		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 		QuantumStandbyFlag = true
@@ -243,8 +249,11 @@ function xDestabilizerActivate()
 
 			print(DestabilizerSpeedUp, "DestabilizerSpeedUp")
 		end
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "DESTABILIZER ACTIVE", ColorRGB(1, 0, 0), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "DESTABILIZER ACTIVE", ColorRGB(1, 0, 0), "data/sounds/siren.ogg", 2)
+			end
 		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
@@ -629,7 +638,18 @@ function executeDrawInterface(subSysDesc)
 	}
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeDraw', _table)
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -644,7 +664,18 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 	
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -654,7 +685,18 @@ function executeDelete()
 	local entity = Entity().id
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+					end
+				end
+			end
+		end
 	end
 end
 

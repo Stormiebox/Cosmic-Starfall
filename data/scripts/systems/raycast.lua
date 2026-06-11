@@ -477,8 +477,14 @@ function AnalyseTable(_toRemoveIndex)
 			DebugMsg(_myName .. 'remove laser from table (marked for removal)|' .. tostring(#laserTable))
 		end
 	end
-	if not (Player(callingPlayer)) then return end
-	invokeClientFunction(Player(callingPlayer), 'SyncToClient', laserTable)
+	if callingPlayer then
+		local cp = Player(callingPlayer)
+		if cp then
+			invokeClientFunction(cp, 'SyncToClient', laserTable)
+		end
+	else
+		broadcastInvokeClientFunction('SyncToClient', laserTable)
+	end
 end
 
 --Checks the relevance of spheres. Submitting an index deletes the corresponding row
@@ -493,8 +499,7 @@ function AnalyseSphereTable(_toRemoveIndex)
 			DebugMsg(_myName .. 'remove sphere from table (marked for removal)|' .. tostring(#sphereTable))
 		end
 	end
-	if not (Player()) then return end
-	broadcastInvokeClientFunction( 'SyncToClient', nil, sphereTable)
+	broadcastInvokeClientFunction('SyncToClient', nil, sphereTable)
 end
 
 function SyncToClient(_table, _sphereTable)

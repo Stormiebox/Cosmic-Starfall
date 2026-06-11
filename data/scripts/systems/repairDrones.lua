@@ -195,8 +195,11 @@ function NanobotsActivate()
 		NanobotsIsWorking =
 			NanobotsOperationTime                                --we set a working time and at the same time tell the handler that the module is running
 		broadcastInvokeClientFunction( "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "NANOBOTS ACTIVE", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "NANOBOTS ACTIVE", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+			end
 		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
@@ -230,8 +233,11 @@ function RepairNetworkActivate()
 			RepairnetworkOperationTime
 		RepairnetworkIsWorking = RepairnetworkOperationTime
 		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "REPAIR NETWORK ENABLED", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "REPAIR NETWORK ENABLED", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+			end
 		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
@@ -262,8 +268,11 @@ function EmergencyActivate()
 		EmergencyHeal = (Durability().maximum / 100) * EmergencyHealingAmount
 		EmergencyIsWorking = EmergencyOperationTime
 		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "EMERGENCY PROTOCOL STANDBY", ColorRGB(1, 1, 0), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "EMERGENCY PROTOCOL STANDBY", ColorRGB(1, 1, 0), "data/sounds/siren.ogg", 2)
+			end
 		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
@@ -455,7 +464,18 @@ function executeDrawInterface(subSysDesc)
 
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeDraw', _table)
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -471,7 +491,18 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 	
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -481,7 +512,18 @@ function executeDelete()
 	local entity = Entity().id
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+					end
+				end
+			end
+		end
 	end
 end
 

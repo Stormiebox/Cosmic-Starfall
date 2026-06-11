@@ -217,8 +217,6 @@ end
 
 function updateServer(timePassed)
 	--Segment "Veils"
-	local _player = Player(callingPlayer)
-	if not (_player) then return end
 	if VeilIsReady > 0 and not (VeilIsWorking) then
 		VeilIsReady = math.max(0, VeilIsReady - timePassed) --direct reduction of rollback
 		executeUpdateProgressbar(1, VeilIsReady / (VeilCooldown - VeilCooldownR * _rarity))
@@ -366,8 +364,11 @@ function VeilActivate()
 		VeilIsWorking = true
 		--Creating an effect icon
 		broadcastInvokeClientFunction( "updateStatusEffects", 0, true)
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "VEIL ACTIVATED", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "VEIL ACTIVATED", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+			end
 		end
 		--Enabling bonuses
 		VeilOperateSetup()
@@ -487,8 +488,11 @@ function RecupActivate()
 
 		--Creating an effect icon
 		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "RECUPERATION ACTIVE", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "RECUPERATION ACTIVE", ColorRGB(0, 1, 0), "data/sounds/siren.ogg", 2)
+			end
 		end
 
 		--Resetting accumulated charge
@@ -631,8 +635,11 @@ function MultiphaseActivate()
 		MultiphaseIsWorking = MultiphaseLength + MultiphaseLengthR * _rarity
 		--Creating an effect icon
 		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "MULTIPHASE SHIELD ENABLED", ColorRGB(1, 1, 0), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "MULTIPHASE SHIELD ENABLED", ColorRGB(1, 1, 0), "data/sounds/siren.ogg", 2)
+			end
 		end
 		--Launch of bonuses
 		MultiphaseOperateSetup()
@@ -766,8 +773,11 @@ function PulsarActivate()
 		PulsarIsWorking = PulsarLength + PulsarLengthR * _rarity
 		--Creating an effect icon
 		broadcastInvokeClientFunction( "updateStatusEffects", 3, true)
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "PROTOCOL: PULSAR ACTIVE", ColorRGB(1, 0, 0), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "PROTOCOL: PULSAR ACTIVE", ColorRGB(1, 0, 0), "data/sounds/siren.ogg", 2)
+			end
 		end
 
 		--Aura generation
@@ -956,7 +966,18 @@ function executeDrawInterface(subSysDesc)
 
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table, _addBars)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table, _addBars)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeDraw', _table, _addBars)
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -971,7 +992,18 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 	
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -982,7 +1014,18 @@ function executeUpdateSecondary(_index, _progress)
 	Debug('executing update secondary from ' .. Entity().name)
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateSecondary', _index, scriptname, entity, _progress)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateSecondary', _index, scriptname, entity, _progress)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeUpdateSecondary', _index, scriptname, entity, _progress)
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -992,7 +1035,18 @@ function executeDelete()
 	local entity = Entity().id
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+					end
+				end
+			end
+		end
 	end
 end
 

@@ -87,7 +87,7 @@ end
 --The main function is the handler for all modules, tied to the game API
 function updateServer(timePassed)
 	-- if not(onlineFlag) then
-	-- Debug('onlineFlag: false for player '..Player(callingPlayer).name)
+	-- Debug('onlineFlag: false for player')
 	-- onlineFlag = true
 	-- executeDrawInterface()
 	-- end
@@ -148,8 +148,11 @@ function pGeneratorActivate()
 			2                                                    --duration depends on the number of pulses
 
 		broadcastInvokeClientFunction( "updateStatusEffects", 0, true) --Enables an icon on the player's top bar
-		if CosmicVaultUI then
-			CosmicVaultUI.ShowCinematicBanner(Player(callingPlayer), "PULSE TRACTOR BEAM ACTIVE", ColorRGB(0, 1, 1), "data/sounds/siren.ogg", 2)
+		if CosmicVaultUI and callingPlayer then
+			local cp = Player(callingPlayer)
+			if cp then
+				CosmicVaultUI.ShowCinematicBanner(cp, "PULSE TRACTOR BEAM ACTIVE", ColorRGB(0, 1, 1), "data/sounds/siren.ogg", 2)
+			end
 		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 
@@ -258,7 +261,18 @@ function executeDrawInterface(subSysDesc)
 
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeDraw', _table)
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -272,7 +286,18 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -281,7 +306,18 @@ function executeDelete()
 	local entity = Entity().id
 	local owner = Owner()
 	if owner then
-		invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+		if owner.isPlayer then
+			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+		elseif owner.isAlliance then
+			local alliance = Alliance(owner.index)
+			if alliance then
+				for _, memberIndex in pairs({alliance:getMembers()}) do
+					if Server():isOnline(memberIndex) and Player(memberIndex) then
+						invokeFactionFunction(memberIndex, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+					end
+				end
+			end
+		end
 	end
 end
 
