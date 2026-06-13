@@ -9,6 +9,9 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## v2.0.0 (CURRENT PROJECT VERSION - NO RELEASE DATE YET!)
 
+### Bug Fixes & Compliance
+- **Multiplayer Synchronization:** Replaced all instances of `math.random` with Avorion's deterministic `random()` engine to prevent massive multiplayer client/server desyncs when generating loot, stats, and enemies.
+
 ### Added
 - **Subsystem Set Bonuses (Synergies)**: Equip specific combinations of Starfall subsystems to unlock hidden buffs!
   - *The Aegis Matrix* (Bastion System + Overpowered Core): +20% Shield Recharge Rate and +10% Shield Durability.

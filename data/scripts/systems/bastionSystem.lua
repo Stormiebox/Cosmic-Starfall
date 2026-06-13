@@ -1073,11 +1073,11 @@ end
 function getBonuses(seed, rarity, permanent)
 	math.randomseed(seed)
 
-	local _shieldBuff = math.random(69, 73) + rarity.value * 2
+	local _shieldBuff = random():getInt(69, 73) + rarity.value * 2
 
-	local _regen = math.random(14, 19) + rarity.value * 3
+	local _regen = random():getInt(14, 19) + rarity.value * 3
 
-	local _timeFactor = math.random(19, 21) + rarity.value * 2
+	local _timeFactor = random():getInt(19, 21) + rarity.value * 2
 
 	return _shieldBuff, _regen, _timeFactor
 end

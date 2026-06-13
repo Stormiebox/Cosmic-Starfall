@@ -14,9 +14,9 @@ local systemname = 'subspacecargo'
 function getBonuses(seed, rarity, permanent)
     math.randomseed(seed)
 
-    local _cargo = (math.random(31, 35) + rarity.value * 4) * 0.01
-    local _energy = (math.random(14, 18) - rarity.value) * -0.01
-    local _shield = (math.random(11, 15) - rarity.value) * -0.01
+    local _cargo = (random():getInt(31, 35) + rarity.value * 4) * 0.01
+    local _energy = (random():getInt(14, 18) - rarity.value) * -0.01
+    local _shield = (random():getInt(11, 15) - rarity.value) * -0.01
 
     if permanent then _cargo = _cargo * 1.4 end
 
