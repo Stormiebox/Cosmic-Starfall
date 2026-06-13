@@ -66,4 +66,20 @@ Yes. As of Update v2.0.0, Starfall has been heavily audited. Weapons scale fairl
 Absolutely. Cosmic Starfall utilizes strict Virtual File System (VFS) hooks and has been optimized specifically to prevent desyncs and UI crashes on dedicated servers.
 
 ---
-*Now get out there, Commander, and light up the stars!*
+
+## v3.0.0 Update Additions
+
+### Subsystem Synergies (Set Bonuses)
+Cosmic Starfall now supports hidden set bonuses. By installing specific combinations of Starfall subsystems, you can unlock massive, permanent buffs for your ship:
+*   **The Aegis Matrix** (Bastion System + Overpowered Core): Counteracts the Bastion's native recharge penalty. Grants +20% Shield Recharge Rate and +10% Shield Durability.
+*   **The Drone-Weaver Network** (Repair Drones + Pulse Tractor Beam): Grants +25% Hull Repair Speed and +2 Max Fighters.
+*   **The Void-Runner Configuration** (Xperimental Hypergenerator + Subspace Cargo): Grants +20% Hyperspace Jump Range and +15% Velocity.
+
+### Turret Synergies (Fleet Doctrines)
+To reward players who heavily specialize their ships, equipping 5 or more of the same turret type (Vanilla or Modded) will unlock "Fleet Doctrine" set bonuses.
+*   **Mining Doctrine (5+ Miners):** +15% Energy Generation, +15% Cargo Capacity.
+*   **Salvage Doctrine (5+ Salvagers):** +20% Shield Durability.
+*   **Point Defense Doctrine (5+ PDCs/Anti-Fighter):** +15% Dodge Chance, +10% Velocity.
+*   **Artillery Doctrine (5+ Cannons/Mortars/Railguns):** +25% Weapon Range, +10% Damage.
+*   **Energy Doctrine (5+ Lasers/Plasma):** +15% Shield Penetration/Damage.
+*   **Launcher Doctrine (5+ Launchers/Bolters):** +20% Fire Rate.

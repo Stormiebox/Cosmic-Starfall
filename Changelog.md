@@ -10,9 +10,20 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 ## v2.0.0 (CURRENT PROJECT VERSION - NO RELEASE DATE YET!)
 
 ### Added
+- **Subsystem Set Bonuses (Synergies)**: Equip specific combinations of Starfall subsystems to unlock hidden buffs!
+  - *The Aegis Matrix* (Bastion System + Overpowered Core): +20% Shield Recharge Rate and +10% Shield Durability.
+  - *The Drone-Weaver Network* (Repair Drones + Pulse Tractor Beam): +25% Hull Repair Speed and +2 Max Fighters.
+  - *The Void-Runner Configuration* (Xperimental Hypergenerator + Subspace Cargo): +20% Hyperspace Jump Range and +15% Velocity.
+- **Turret Set Bonuses (Fleet Doctrines)**: Specialize your ship by equipping 5 or more of the same turret type (Vanilla or Modded) to unlock powerful Fleet Doctrines!
+  - *Mining Doctrine* (5+ Miners): +15% Energy Generation, +15% Cargo Capacity.
+  - *Salvage Doctrine* (5+ Salvagers): +20% Shield Durability.
+  - *Point Defense Doctrine* (5+ PDCs/Anti-Fighter): +15% Dodge Chance, +10% Velocity.
+  - *Artillery Doctrine* (5+ Cannons/Mortars/Railguns): +25% Weapon Range, +10% Damage.
+  - *Laser/Plasma Doctrine* (5+ Lasers/Plasma): +15% Shield Penetration/Damage.
+  - *Launcher Doctrine* (5+ Launchers/Bolters): +20% Fire Rate.
+- **Active Set Bonus UI**: Added a dedicated HUD element that dynamically displays your currently active Set Bonuses and Doctrines directly on your screen!
 - **Legendary Vault DoTs**: Integrated the new `CosmicVaultCombat` DoT framework into Legendary weapon generation.
 - **Combat Injection Handler**: Legendary Plasma and AntiMatter weapons now correctly tag targets with `[Burn]` and `[Melt]` applying localized tick damage.
-
 - Fully integrated with the Cosmic Vault API framework.
 - Swept codebase for legacy callbacks and implemented safe pcall fallbacks.
 
