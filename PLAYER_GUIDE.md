@@ -40,7 +40,7 @@ Cosmic Starfall introduces over a dozen new weapon types. Here are some of the h
 ## 🛡️ Advanced Subsystems
 Cosmic Starfall provides several new permanent ship upgrade modules (Systems) that offer unique, high-tier bonuses.
 
-### The Bastion System
+### ⚙️ The Bastion System
 A defensive powerhouse. When installed, it massively multiplies your total **Shield Durability** (up to +83% at Legendary!). However, this sheer power draws heavily from your reactor, causing a massive reduction in shield recharge speed. Best used on heavy dreadnoughts that need to survive massive burst damage.
 
 ### The Overpowered Core
@@ -67,9 +67,9 @@ Absolutely. Cosmic Starfall utilizes strict Virtual File System (VFS) hooks and 
 
 ---
 
-## v3.0.0 Update Additions
+## 📈 v3.0.0 Update Additions
 
-### Subsystem Synergies (Set Bonuses)
+### ⚙️ Subsystem Synergies (Set Bonuses)
 Cosmic Starfall now supports hidden set bonuses. By installing specific combinations of Starfall subsystems, you can unlock massive, permanent buffs for your ship:
 *   **The Aegis Matrix** (Bastion System + Overpowered Core): Counteracts the Bastion's native recharge penalty. Grants +20% Shield Recharge Rate and +10% Shield Durability.
 *   **The Drone-Weaver Network** (Repair Drones + Pulse Tractor Beam): Grants +25% Hull Repair Speed and +2 Max Fighters.
@@ -83,3 +83,25 @@ To reward players who heavily specialize their ships, equipping 5 or more of the
 *   **Artillery Doctrine (5+ Cannons/Mortars/Railguns):** +25% Weapon Range, +10% Damage.
 *   **Energy Doctrine (5+ Lasers/Plasma):** +15% Shield Penetration/Damage.
 *   **Launcher Doctrine (5+ Launchers/Bolters):** +20% Fire Rate.
+
+*All active set bonuses are now clearly visible on your main HUD.*
+
+
+---
+
+## 🔗 Cosmic Series Integration & Audit 3.0 Updates
+<details>
+<summary><b>Click to expand</b></summary>
+
+During the Cosmic Series Final QA Audit (v3.0+), several massive backend systems were standardized across all mods:
+
+### 📖 Cosmic Codex Integration
+All deep lore, stat blocks, and dynamic recipes have been fully integrated into the in-game **Cosmic Codex**. You no longer need to tab out of the game to read these features; they will natively update and unlock inside your Codex UI as you progress!
+
+### 🔒 Network Safety & Anti-Cheat
+- **Math.Random Fix:** We systematically replaced all unstable Lua `math.random` calls with Avorion's deterministic `random():getInt()` generation sequence. This guarantees 100% synchronization on Multiplayer Dedicated Servers and prevents cascading desyncs during massive fleet spawns.
+- **Callable Validation:** UI and background scripts have been fully hardened. Malicious clients can no longer spoof "free" remote calls; the server actively verifies execution contexts before processing any requests, sealing multiple Arbitrary Code Execution (ACE) vulnerabilities.
+
+### 🛠️ Vanilla Bug Fixes
+- **Scout Mission Fix:** We patched a massive, long-standing vanilla bug where Scout Missions would completely skip and ignore Faction Headquarters sectors because the native dialogue trees were missing the template definition.
+</details>

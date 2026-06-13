@@ -1,69 +1,30 @@
-# Cosmic Starfall
+# 🌌 Cosmic Starfall
 
-[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+*A massive balance and progression overhaul for high-tier weaponry and systems.*
 
-**Cosmic Starfall** is a complete, foundation-up modernization and continuation of the original Starfall concept for Avorion.
+## 📖 Overview
+Cosmic Starfall is a ground-up continuation of the original Starfall concept, modernized for current Avorion mod stacks. It focuses on preserving high-tech identity and flavor while replacing legacy overpowered behavior with balanced, strategic mechanics. Expect new Ascendant subsystems, fleet doctrines, and powerful synergies.
 
-As of **v2.0.0**, Cosmic Starfall is natively integrated into the **Cosmic Series** ecosystem. It requires the [Cosmic Vault](https://steamcommunity.com/sharedfiles/filedetails/?id=3727542782) framework to operate.
+## ✨ Features
+<details>
+<summary><b>Click to expand features</b></summary>
 
-This project focuses on:
-- **Native Cosmic Vault APIs:** Utilizing modern UI hooks, asynchronous processing, and dynamic economy events.
-- **Anti-OP Rebalance:** Ground-up tuning of all high-impact systems for strategic fairness.
-- **Extreme Script Hardening:** Zero crash guarantee in multiplayer heavy combat scenarios.
+- **Subsystem Synergies:** Hidden set bonuses for combining specific Ascendant subsystems.
+- **Fleet Doctrines:** Equip multiple identical turrets to unlock specialized fleet-wide buffs.
+- **Total Balance Overhaul:** Rebalanced Bastion, Overpowered Core, and Macrofield projectors for competitive multiplayer.
+- **QA Hardened:** 100% crash-free stability through asynchronous processing and direct security hardening.
+</details>
 
----
+## ⚙️ Requirements
+- Avorion v2.0+
+- Dependencies: **Cosmic Vault**
 
-## Full Documentation
-
-For complete feature details and architecture notes, see:
-
-- **`Cosmic_Starfall_Wiki.md`**
-
-For full revision history and parameter-level change detail, see:
-
-- **`Cosmic_Starfall_CHANGELOG.md`**
-
----
-
-## Quick Highlights
-
-- Major rebalance pass on high-impact systems to reduce runaway dominance loops.
-- Reliability fixes in high-risk scripts for safer long-session behavior.
-- Added compatibility helper layer for optional ecosystem bridge usage.
-
----
-
-## Installation
-
-1. Place folder in:
+## 🚀 Installation
+1. Place the folder in:
    - **Windows:** `%AppData%\Avorion\mods\`
    - **Linux:** `~/.avorion/mods/`
 2. Enable **Cosmic Starfall** in **Settings -> Mods**.
 3. Restart Avorion when prompted.
 
----
-
-## Notes
-
-- Active WIP: runtime balancing and long-session validation continue.
-- In larger stacks, validate load order and monitor logs for lifecycle edge cases.
-
----
-
-## License & Credits
-
-**Cosmic Starfall** is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
-
-*Cosmic Starfall is a ground-up rework, modernization, and continuation of the original "Starfall" mod. Full credit and respect are given to the original creator, **Neltharaku**, for the foundational concept and legacy design. All new code and implementation are copyright (c) 2026 Stormbox.*
-
-**Under this license, you are free to:**
-
-- **Share** — copy and redistribute the material in any medium or format.
-- **Adapt** — remix, transform, and build upon the material.
-
-**Under the following terms:**
-
-- **Attribution** — You must give appropriate credit to Stormbox and Neltharaku, provide a link to the license, and indicate if changes were made.
-- **NonCommercial** — You may not use the material for commercial purposes (e.g., no monetization, selling, or locking behind paywalls).
-
-*(See the `LICENSE.md` file for the full legal text.)*
+## 📚 Documentation
+For detailed mechanics, guides, and lore, please refer to the in-game **Cosmic Codex**, or check the included `WIKI.md` and `PLAYER_GUIDE.md` files.
