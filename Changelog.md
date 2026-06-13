@@ -9,6 +9,10 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## v2.0.0 (CURRENT PROJECT VERSION - NO RELEASE DATE YET!)
 
+### Added
+- **Legendary Vault DoTs**: Integrated the new `CosmicVaultCombat` DoT framework into Legendary weapon generation.
+- **Combat Injection Handler**: Legendary Plasma and AntiMatter weapons now correctly tag targets with `[Burn]` and `[Melt]` applying localized tick damage.
+
 - Fully integrated with the Cosmic Vault API framework.
 - Swept codebase for legacy callbacks and implemented safe pcall fallbacks.
 
