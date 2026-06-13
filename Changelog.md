@@ -9,7 +9,9 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## v2.0.0 (CURRENT PROJECT VERSION - NO RELEASE DATE YET!)
 
-### Bug Fixes & Compliance
+### Bug Fixes
+- **Performance & TPS Optimization:** Drastically reduced server load. Injected a hardcoded `getUpdateInterval` throttle (1.0s) into `starfall_setbonuses.lua` to prevent the engine from recalculating player set bonuses 60 times a second.
+- **Desyncs & Hazards:** Replaced `math.random` with `random():getInt()` inside `starfall_spawnanomaly.lua` and other event generators. This prevents physics desyncs and invisible collisions in multiplayer when an anomaly spawns.
 - **Multiplayer Synchronization:** Replaced all instances of `math.random` with Avorion's deterministic `random()` engine to prevent massive multiplayer client/server desyncs when generating loot, stats, and enemies.
 
 ### Added

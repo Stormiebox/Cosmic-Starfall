@@ -1,6 +1,11 @@
 package.path = package.path .. ";data/scripts/lib/?.lua"
 package.path = package.path .. ";data/scripts/?.lua"
 
+function StarfallSetBonuses.getUpdateInterval()
+    return 1.0
+end
+
+
 local StatsBonuses = include("statsbonuses")
 
 local StarfallSetBonuses = {}
