@@ -997,3 +997,18 @@ generatorFunction[WeaponType.MAGNETICMORTAR] = WeaponGenerator.generateMagneticm
 generatorFunction[WeaponType.TRANSPHASIC] = WeaponGenerator.generateTRANSPHASIC
 generatorFunction[WeaponType.PLASMAFLAK] = WeaponGenerator.generatePLASMAFLAK
 
+-- [[ Cosmic Starfall: Legendary Weapon DoT Hooks ]] --
+local cv_old_adaptWeapon = WeaponGenerator.adaptWeapon
+function WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
+    if cv_old_adaptWeapon then
+        cv_old_adaptWeapon(rand, weapon, tech, material, rarity)
+    end
+    
+    if rarity and rarity.value == RarityType.Legendary then
+        if weapon.damageType == DamageType.Plasma then
+            weapon.prefix = "[Burn] "%_t .. (weapon.prefix or "")
+        elseif weapon.damageType == DamageType.AntiMatter then
+            weapon.prefix = "[Melt] "%_t .. (weapon.prefix or "")
+        end
+    end
+end
