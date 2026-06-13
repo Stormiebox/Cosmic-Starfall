@@ -185,7 +185,7 @@ end
 
 --The function is called before onInstalled, so here you also need to add rarity.value to display the correct value in the module description
 function getBonuses(seed, rarity, permanent)
-	math.randomseed(seed)
+	local rand = Random(Seed(seed))
 
 	local _bonus1 = 10 -- They only affect the price
 	local _bonus2 = 10 -- Same

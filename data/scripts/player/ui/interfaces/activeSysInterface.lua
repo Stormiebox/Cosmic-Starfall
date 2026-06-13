@@ -1437,3 +1437,8 @@ function activeSysInterface.resetPBcolors()
 
 	toSave(4)
 end
+
+function onRemove()
+    if Player() then Player():unregisterCallback("onShipChanged", "showInterface") end
+    if Player() then Player():unregisterCallback("onShipChanged", "showInterface") end
+end

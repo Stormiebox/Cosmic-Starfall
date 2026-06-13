@@ -777,3 +777,12 @@ function combatGroup.resetInvintationIcons()
 		_rows[2]:hide()
 	end
 end
+
+function UIE.onRemove()
+    if Player() then Player():unregisterCallback("onPlayerLogIn", "getOnlinePwayers") end
+    if Player() then Player():unregisterCallback("onPlayerLogOff", "getOnlinePwayers") end
+    if Player() then Player():unregisterCallback("onGroupChanged", "getOnlinePwayers") end
+    if Player() then Player():unregisterCallback("onGroupLeaderChanged", "getOnlinePwayers") end
+    if Player() then Player():unregisterCallback("onPlayerEnteredGroup", "getOnlinePwayers") end
+    if Player() then Player():unregisterCallback("onPlayerLeftGroup", "getOnlinePwayers") end
+end

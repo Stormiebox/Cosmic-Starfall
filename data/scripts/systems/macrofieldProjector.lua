@@ -1226,7 +1226,7 @@ function UIplaysound(_type)
 end
 
 function getBonuses(seed, rarity, permanent)
-	math.randomseed(seed)
+	local rand = Random(Seed(seed))
 	local _eRegen = (ModuleBonusEnergy + rarity.value * ModuleBonusEnergyRARMP) / 100
 	local _eAmount = (ModuleBonusAccum + rarity.value * ModuleBonusAccumRARMP) / 100
 

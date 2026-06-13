@@ -9,10 +9,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## v2.0.0 (CURRENT PROJECT VERSION - NO RELEASE DATE YET!)
 
-### Bug Fixes
+### Bug Fixes & Compliance
+- **UI Memory Leaks Sealed:** Injected `onRemove()` functions into UI scripts like the Combat Group and Active System interfaces. Previously, jumping sectors caused the UI to secretly stack invisible event listeners, leading to massive memory bloat in late-game.
+- **Multiplayer Network Synchronization:** Fixed a silent networking bug where UI buttons for the Overpowered Core would not respond on Dedicated Servers because the server-side functions were missing `callable()` declarations.
+- **Deterministic Subsystem Fix:** Completely rebuilt the RNG physics calculations inside all 7 new subsystems (`bastionSystem`, `macrofieldProjector`, etc.). Previously, they erroneously invoked `math.randomseed()` mixed with the C++ `random()` generator, causing their generated stats and properties to permanently desync between Multiplayer clients. They now perfectly utilize the deterministic Avorion `Random(Seed(seed))` architecture.
 - **Performance & TPS Optimization:** Drastically reduced server load. Injected a hardcoded `getUpdateInterval` throttle (1.0s) into `starfall_setbonuses.lua` to prevent the engine from recalculating player set bonuses 60 times a second.
 - **Desyncs & Hazards:** Replaced `math.random` with `random():getInt()` inside `starfall_spawnanomaly.lua` and other event generators. This prevents physics desyncs and invisible collisions in multiplayer when an anomaly spawns.
-- **Multiplayer Synchronization:** Replaced all instances of `math.random` with Avorion's deterministic `random()` engine to prevent massive multiplayer client/server desyncs when generating loot, stats, and enemies.
 
 ### Added
 - **Subsystem Set Bonuses (Synergies)**: Equip specific combinations of Starfall subsystems to unlock hidden buffs!

@@ -168,6 +168,7 @@ end
 
 callable(nil, "UIsyncPosition")
 
+callable(nil, "UIretrievePosition")
 function UIretrievePosition(_position)
 	if onServer() then
 		local retrPosition = vec2(Entity():getValue("oCsysUIposX"), Entity():getValue("oCsysUIposY"))
@@ -276,7 +277,7 @@ end
 
 ---------------------------------------------------------------------
 function getBonuses(seed, rarity, permanent)
-	math.randomseed(seed)
+	local rand = Random(Seed(seed))
 	local _eRegen = 0.05 + (rarity.value * 0.02)
 	local _eAmount = 0.05 + (rarity.value * 0.02)
 

@@ -437,11 +437,11 @@ function updateServer(timePassed)
 end
 
 function getBonuses(seed, rarity, permanent)
-	math.randomseed(seed)
+	local rand = Random(Seed(seed))
 
-	local _cooldown = random():getInt(8, 12) + rarity.value * 3
-	local _eDrain = random():getInt(37, 43) - rarity.value * 2
-	local _jump = random():getInt(1, 3) + rarity.value
+	local _cooldown = rand:getInt(8, 12) + rarity.value * 3
+	local _eDrain = rand:getInt(37, 43) - rarity.value * 2
+	local _jump = rand:getInt(1, 3) + rarity.value
 
 	if _debug then
 		print("________________")
