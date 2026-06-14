@@ -27,4 +27,4 @@ Cosmic Starfall is a ground-up continuation of the original Starfall concept, mo
 3. Restart Avorion when prompted.
 
 ## 📚 Documentation
-For detailed mechanics, guides, and lore, please refer to the in-game **Cosmic Codex**, or check the included `WIKI.md` and `PLAYER_GUIDE.md` files.
+For detailed mechanics, guides, and lore, please refer to the included `WIKI.md` and `PLAYER_GUIDE.md` files, or use the dedicated in-game Player Wiki UI Tab.

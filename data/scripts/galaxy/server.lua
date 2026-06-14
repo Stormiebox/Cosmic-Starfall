@@ -8,12 +8,6 @@ function StarfallServer.initialize()
     end
 end
 
-function StarfallServer.onPlayerLogIn(playerIndex)
-    local player = Player(playerIndex)
-    if player then
-        player:addScriptOnce("data/scripts/player/starfallcodex.lua")
-    end
-end
 
 if onServer() then
     local oldInit = initialize or function() end

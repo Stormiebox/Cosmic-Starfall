@@ -57,7 +57,7 @@ For the economic moguls. Installing a Megacomplex core allows you to vastly stre
 ## 🛠️ Frequently Asked Questions (FAQ)
 
 **Does this mod require Cosmic Overhaul or Cosmic Vault?**
-Yes! As of v2.0.0, Cosmic Starfall natively integrates with the Cosmic Series ecosystem. It **requires Cosmic Vault** to run. This allows the mod to utilize advanced API features like dynamic market crashes, cinematic UI banners, async performance processing, server-authoritative CCM configurations, and the global Cosmic Codex ecosystem.
+Yes! As of v2.0.0, Cosmic Starfall natively integrates with the Cosmic Series ecosystem. It **requires Cosmic Vault** to run. This allows the mod to utilize advanced API features like dynamic market crashes, cinematic UI banners and async performance processing.
 
 **Is it balanced for late-game?**
 Yes. As of Update v2.0.0, Starfall has been heavily audited. Weapons scale fairly into the late-game Ogonite/Avorion tiers, and modules use dynamic rarity scaling so you are always rewarded for hunting down Legendary (Violet) drops.
@@ -94,9 +94,6 @@ To reward players who heavily specialize their ships, equipping 5 or more of the
 <summary><b>Click to expand</b></summary>
 
 During the Cosmic Series Final QA Audit (v3.0+), several massive backend systems were standardized across all mods:
-
-### 📖 Cosmic Codex Integration
-All deep lore, stat blocks, and dynamic recipes have been fully integrated into the in-game **Cosmic Codex**. You no longer need to tab out of the game to read these features; they will natively update and unlock inside your Codex UI as you progress!
 
 ### 🔒 Network Safety & Anti-Cheat
 - **Math.Random Fix:** We systematically replaced all unstable Lua `math.random` calls with Avorion's deterministic `random():getInt()` generation sequence. This guarantees 100% synchronization on Multiplayer Dedicated Servers and prevents cascading desyncs during massive fleet spawns.
