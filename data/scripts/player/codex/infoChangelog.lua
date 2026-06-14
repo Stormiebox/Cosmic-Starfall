@@ -101,7 +101,8 @@ entities['0.3'] = {
 
 
 function infoChangelog_injectToCodex()
-    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_changelog', 'Starfall Changelog'%_t, 'data/textures/icons/scroll-unfurled.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_cat', 'Cosmic Starfall'%_t, 'data/textures/icons/vortex.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addChapter', 'sf_cat', 'sf_changelog', 'Starfall Changelog'%_t)
 
     for key, data in pairs(entities) do
         local name = data[1] or "Unknown"

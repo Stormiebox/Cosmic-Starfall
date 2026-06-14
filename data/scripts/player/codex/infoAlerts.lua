@@ -32,7 +32,8 @@ entities['weapons'] = {
 }
 
 function infoAlerts_injectToCodex()
-    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_alerts', 'Starfall Alerts'%_t, 'data/textures/icons/hazard-sign.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_cat', 'Cosmic Starfall'%_t, 'data/textures/icons/vortex.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addChapter', 'sf_cat', 'sf_alerts', 'Starfall Alerts'%_t)
 
     for key, data in pairs(entities) do
         local name = data[1] or "Unknown"

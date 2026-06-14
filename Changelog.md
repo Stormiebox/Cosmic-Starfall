@@ -15,6 +15,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - **Native CCM Integration:** Stripped out the legacy Mod Configuration Menu (MCM) intercept scripts. Configurations now natively run through the new server-authoritative Cosmic Configuration Menu (CCM) module inside Cosmic Vault.
 
 ### ✨ Added
+- **UI Integration & Migration:** Retired Starfall's deprecated wiki UI. The massive array of Starfall lore (Weapons, Stations, etc.) has been natively ported and attached to the new 3-level Chapter system inside the Cosmic Codex.
 - **Subsystem Set Bonuses (Synergies):** Equip specific combinations of Starfall subsystems to unlock hidden buffs!
   - *The Aegis Matrix* (Bastion System + Overpowered Core): +20% Shield Recharge Rate and +10% Shield Durability.
   - *The Drone-Weaver Network* (Repair Drones + Pulse Tractor Beam): +25% Hull Repair Speed and +2 Max Fighters.

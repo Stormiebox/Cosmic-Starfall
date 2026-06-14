@@ -290,7 +290,8 @@ entities['subspaceCargo'] = {
 
 
 function infoSystems_injectToCodex()
-    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_systems', 'Starfall Systems'%_t, 'data/textures/icons/circuitry.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_cat', 'Cosmic Starfall'%_t, 'data/textures/icons/vortex.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addChapter', 'sf_cat', 'sf_systems', 'Starfall Systems'%_t)
 
     for key, data in pairs(entities) do
         local icon = data[1] or ""

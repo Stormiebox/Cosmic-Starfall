@@ -126,7 +126,8 @@ entities['megacomplex'] = {
 }
 
 function infoStations_injectToCodex()
-    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_stations', 'Starfall Stations'%_t, 'data/textures/icons/station.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_cat', 'Cosmic Starfall'%_t, 'data/textures/icons/vortex.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addChapter', 'sf_cat', 'sf_stations', 'Starfall Stations'%_t)
 
     for key, data in pairs(entities) do
         local name = data[1] or "Unknown"

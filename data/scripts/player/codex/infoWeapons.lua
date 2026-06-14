@@ -799,7 +799,8 @@ entities['transphasic'] = {
 
 
 function infoWeapons_injectToCodex()
-    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_weapons', 'Starfall Weapons'%_t, 'data/textures/icons/missile-pod.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_cat', 'Cosmic Starfall'%_t, 'data/textures/icons/vortex.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addChapter', 'sf_cat', 'sf_weapons', 'Starfall Weapons'%_t)
 
     for key, data in pairs(entities) do
         local icon = data[1] or ""

@@ -241,7 +241,8 @@ entities['asiinfo'] = {
 }
 
 function infoInterfaces_injectToCodex()
-    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_interfaces', 'Starfall Interfaces'%_t, 'data/textures/icons/cog.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addCategory', 'sf_cat', 'Cosmic Starfall'%_t, 'data/textures/icons/vortex.png')
+    Player():invokeFunction('ui/cosmiccodex', 'addChapter', 'sf_cat', 'sf_interfaces', 'Starfall Interfaces'%_t)
 
     for key, data in pairs(entities) do
         local name = data[1] or "Unknown"
