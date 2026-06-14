@@ -10,6 +10,8 @@ local _debug = false
 
 --Types: desc,picture,iconinfo,mainlabel
 
+entities = entities or {}
+
 entities['combatgroupgeneral'] = {
 	--Name
 	'General info'%_t,

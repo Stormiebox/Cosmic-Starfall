@@ -8,6 +8,64 @@ infoWeapons = {}
 
 local _debug = false
 -----------------------------[VANILEK DATA]------------------------------------------
+local entities = {}
+--1 icon
+--2 name
+--3 distance
+--4 accuracy
+--5 fireSpeed
+--6 damageType
+--7 desc/info
+--8 changes(table)
+--9 mod
+
+local icons = {}
+	icons['class'] = 'data/textures/icons/ASSAULTBLASTER.png'
+	icons['dtype'] = 'data/textures/icons/ammo-box.png'
+	icons['accuracy'] = 'data/textures/icons/weaponInfo/uiAim.png'
+	icons['projSpeed'] = 'data/textures/icons/PARTICLEACCELERATOR.png'
+	icons['distance'] = 'data/textures/icons/adopt.png'
+	icons['firerate'] = 'data/textures/icons/bullets.png'
+
+local rangeType = {}
+	rangeType['s'] = 'small'%_t
+	rangeType['s-m'] = 'small to medium'%_t
+	rangeType['m'] = 'medium'%_t
+	rangeType['m-h'] = 'medium to high'%_t
+	rangeType['h'] = 'high'%_t
+	rangeType['h+'] = 'very high'%_t
+	rangeType['h++'] = 'extremely high'%_t
+	
+local accuracyType = {}
+	accuracyType['l'] = 'poor'%_t
+	accuracyType['m'] = 'medium'%_t
+	accuracyType['h'] = 'good'%_t
+	accuracyType['ho'] = 'homing'%_t
+	accuracyType['m-ho'] = 'medium to homing'%_t
+	accuracyType['va'] = 'very accurate'%_t
+	
+local fireRateType = {}
+	fireRateType['ul'] = 'ultra low'%_t
+	fireRateType['l'] = 'low'%_t
+	fireRateType['m'] = 'medium'%_t
+	fireRateType['m-h'] = 'medium to high'%_t
+	fireRateType['h'] = 'high'%_t
+	fireRateType['h+'] = 'very high'%_t
+	
+local damageType = {}
+	damageType['phys'] = 'physical'%_t
+	damageType['am'] = 'anti-matter'%_t
+	damageType['elec'] = 'electric'%_t
+	damageType['plasma'] = 'plasma'%_t
+	damageType['ener'] = 'energy'%_t
+	damageType['part'] = 'particles'%_t
+	damageType['no'] = 'no'%_t
+	
+local descDetails = {}
+	descDetails['inc'] = 'increased'%_t
+	descDetails['dec'] = 'decreased'%_t
+	
+
 entities['chaingun'] = {
 	--Icon
 	"data/textures/icons/chaingun.png",

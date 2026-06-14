@@ -11,6 +11,8 @@ local _debug = false
 
 --Types: desc,picture,iconinfo,mainlabel
 
+entities = entities or {}
+
 entities['megacomplex'] = {
 	--Name
 	getStationName('mx'),

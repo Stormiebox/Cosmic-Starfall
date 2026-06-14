@@ -9,6 +9,8 @@ local _debug = false
 -----------------------------[DATA: MOD]----------------------------
 
 --Types: desc,picture,iconinfo,mainlabel
+entities = entities or {}
+
 entities['weapons'] = {
 	--Name
 	'The turret is destroyed'%_t,

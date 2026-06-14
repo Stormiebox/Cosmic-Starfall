@@ -1,4 +1,5 @@
 package.path = package.path .. ";data/scripts/lib/?.lua"
+package.path = package.path .. ";data/scripts/?.lua"
 
 include("utility")
 
@@ -9,18 +10,18 @@ function initialize()
 end
 
 function onCosmicCodexGatherData()
-    include("codex/infoWeapons")
+    include("player/codex/infoWeapons")
     infoWeapons_injectToCodex()
-    include("codex/infoGeneral")
+    include("player/codex/infoGeneral")
     infoGeneral_injectToCodex()
-    include("codex/infoSystems")
+    include("player/codex/infoSystems")
     infoSystems_injectToCodex()
-    include("codex/infoStations")
+    include("player/codex/infoStations")
     infoStations_injectToCodex()
-    include("codex/infoInterfaces")
+    include("player/codex/infoInterfaces")
     infoInterfaces_injectToCodex()
-    include("codex/infoAlerts")
+    include("player/codex/infoAlerts")
     infoAlerts_injectToCodex()
-    include("codex/infoChangelog")
+    include("player/codex/infoChangelog")
     infoChangelog_injectToCodex()
 end

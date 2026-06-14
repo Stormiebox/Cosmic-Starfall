@@ -12,6 +12,8 @@ local _debug = false
 
 --Types: desc,picture,iconinfo,mainlabel
 
+entities = entities or {}
+
 entities['weaponclasses'] = {
 	--Name
 	'Weapon class '%_t,

@@ -9,6 +9,8 @@ infoSystems = {}
 
 local _debug = false
 -----------------------------[DATA: ACTIVE]------------------------------------------
+entities = entities or {}
+
 entities['bastionSystem'] = {
 	--Icon
 	getTechIcon('bastionsystem'),
