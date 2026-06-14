@@ -5,7 +5,7 @@ if onServer() then
     player:addScriptOnce("data/scripts/player/ui/alertCore.lua")
     player:addScriptOnce("data/scripts/player/ui/auraCore.lua")
     player:addScriptOnce("data/scripts/player/ui/combatGroup.lua")
-    player:addScriptOnce("data/scripts/player/starfallcodex.lua")
+    player:addScriptOnce("data/scripts/player/ui/infoTab/infoTabCore.lua")
     player:addScriptOnce("data/scripts/player/ui/interfaces/activeSysInterface.lua")
     
     -- [[ Cosmic Vault: Legendary DoT Hooks ]] --

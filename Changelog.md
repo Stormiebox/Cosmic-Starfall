@@ -11,11 +11,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### 🚀 Major Overhaul Features
 - **Native Cosmic Vault Integration:** Cosmic Starfall has been officially integrated into the Cosmic Series ecosystem. It now natively requires `Cosmic Vault` to run. Completely removed the obsolete `cosmicstarfalllib` bridge.
-- **Encyclopedia Codification:** Removed the legacy in-game encyclopedia UI entirely. Cosmic Starfall lore, item descriptions, and feature alerts are now fully integrated and injected directly into the central `Cosmic Codex` ecosystem UI tab.
+- **In-Game Wiki Updates:** Updated the in-game wiki with relevant changes done to systems, turrets, and set bonuses. Updated weapon tooltips and stats to reflect current overhaul changes.
 - **Native CCM Integration:** Stripped out the legacy Mod Configuration Menu (MCM) intercept scripts. Configurations now natively run through the new server-authoritative Cosmic Configuration Menu (CCM) module inside Cosmic Vault.
 
 ### ✨ Added
-- **UI Integration & Migration:** Retired Starfall's deprecated wiki UI. The massive array of Starfall lore (Weapons, Stations, etc.) has been natively ported and attached to the new 3-level Chapter system inside the Cosmic Codex.
+- **UI Integration:** The massive array of Starfall lore (Weapons, Stations, etc.) has been updated and structured natively.
 - **Subsystem Set Bonuses (Synergies):** Equip specific combinations of Starfall subsystems to unlock hidden buffs!
   - *The Aegis Matrix* (Bastion System + Overpowered Core): +20% Shield Recharge Rate and +10% Shield Durability.
   - *The Drone-Weaver Network* (Repair Drones + Pulse Tractor Beam): +25% Hull Repair Speed and +2 Max Fighters.
@@ -41,7 +41,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - **English Translation & Localization:** Translated all Russian UI labels, tooltips, logs, and variables into English. Wrote a Python script to aggressively purge redundant/orphaned translations, reducing memory footprint.
 
 ### 🐛 Bug Fixes & Optimization
-- **Cosmic Codex Loading Crash:** Fixed missing global definitions (`rangeType`, `accuracyType`, etc.) in `infoWeapons.lua` that prevented the weapons codex from loading correctly and crashed the UI.
+- **In-Game Wiki Loading Crash:** Fixed missing global definitions (`rangeType`, `accuracyType`, etc.) in `infoWeapons.lua` that prevented the weapons wiki from loading correctly and crashed the UI.
 - **UI Memory Leaks Sealed:** Injected `onRemove()` functions into UI scripts like the Combat Group and Active System interfaces. Previously, jumping sectors caused the UI to secretly stack invisible event listeners, leading to massive memory bloat in late-game.
 - **Deterministic Subsystem Fix:** Completely rebuilt the RNG physics calculations inside all 7 new subsystems (`bastionSystem`, `macrofieldProjector`, etc.). Previously, they erroneously invoked `math.randomseed()` mixed with the C++ `random()` generator, causing their generated stats and properties to permanently desync between Multiplayer clients. They now perfectly utilize the deterministic Avorion `Random(Seed(seed))` architecture.
 - **Multiplayer Network Synchronization:** Fixed a silent networking bug where UI buttons for the Overpowered Core would not respond on Dedicated Servers because the server-side functions were missing `callable()` declarations.
