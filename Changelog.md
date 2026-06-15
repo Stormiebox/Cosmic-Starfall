@@ -12,7 +12,6 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 ### 🚀 Major Overhaul Features
 - **Native Cosmic Vault Integration:** Cosmic Starfall has been officially integrated into the Cosmic Series ecosystem. It now natively requires `Cosmic Vault` to run. Completely removed the obsolete `cosmicstarfalllib` bridge.
 - **In-Game Wiki Updates:** Updated the in-game wiki with relevant changes done to systems, turrets, and set bonuses. Updated weapon tooltips and stats to reflect current overhaul changes.
-- **Native CCM Integration:** Stripped out the legacy Mod Configuration Menu (MCM) intercept scripts. Configurations now natively run through the new server-authoritative Cosmic Configuration Menu (CCM) module inside Cosmic Vault.
 
 ### ✨ Added
 - **UI Integration:** The massive array of Starfall lore (Weapons, Stations, etc.) has been updated and structured natively.
