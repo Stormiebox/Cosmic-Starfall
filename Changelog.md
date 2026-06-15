@@ -41,6 +41,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - **English Translation & Localization:** Translated all Russian UI labels, tooltips, logs, and variables into English. Wrote a Python script to aggressively purge redundant/orphaned translations, reducing memory footprint.
 
 ### 🐛 Bug Fixes & Optimization
+- **Redundant Vault Injections:** Scrubbed obsolete Vault UI code (`cosmicconfig`, `cosmiccodex`) that was illegally injected inside the Starfall mod namespace, avoiding UI overlap bugs.
 - **In-Game Wiki Loading Crash:** Fixed missing global definitions (`rangeType`, `accuracyType`, etc.) in `infoWeapons.lua` that prevented the weapons wiki from loading correctly and crashed the UI.
 - **UI Memory Leaks Sealed:** Injected `onRemove()` functions into UI scripts like the Combat Group and Active System interfaces. Previously, jumping sectors caused the UI to secretly stack invisible event listeners, leading to massive memory bloat in late-game.
 - **Deterministic Subsystem Fix:** Completely rebuilt the RNG physics calculations inside all 7 new subsystems (`bastionSystem`, `macrofieldProjector`, etc.). Previously, they erroneously invoked `math.randomseed()` mixed with the C++ `random()` generator, causing their generated stats and properties to permanently desync between Multiplayer clients. They now perfectly utilize the deterministic Avorion `Random(Seed(seed))` architecture.
