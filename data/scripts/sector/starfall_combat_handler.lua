@@ -9,14 +9,13 @@ function initialize()
 end
 
 local inflictorCache = {}
-local cacheTimer = 0
 
-function update(timeStep)
-    cacheTimer = cacheTimer + timeStep
-    if cacheTimer > 5 then
-        inflictorCache = {} 
-        cacheTimer = 0
-    end
+function getUpdateInterval()
+    return 5
+end
+
+function updateServer(timeStep)
+    inflictorCache = {} 
 end
 
 function onDamaged(objectIndex, amount, inflictor, damageSource, damageType)
