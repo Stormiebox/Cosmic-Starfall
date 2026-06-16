@@ -7,7 +7,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
-## v2.0.0 (CURRENT PROJECT VERSION - NO RELEASE DATE YET!)
+## v2.0.0 UNRELEASED WORKSHOP VERSION (PROJECT UNDER DEVELOPMENT)
 
 ### 🚀 Major Overhaul Features
 - **Native Cosmic Vault Integration:** Cosmic Starfall has been officially integrated into the Cosmic Series ecosystem. It now natively requires `Cosmic Vault` to run. Completely removed the obsolete `cosmicstarfalllib` bridge.
@@ -52,3 +52,4 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - **Player Alliance Compatibility:** Hardened script owner resolution logic to explicitly query `player.allianceIndex`. Active subsystem user interfaces will no longer crash or fail to render when players pilot an Alliance-owned vessel.
 - **Combat Injection Handler:** Legendary Plasma and AntiMatter weapons now correctly tag targets with `[Burn]` and `[Melt]`, applying localized tick damage.
 - **SoundLib Linux Crash Fixes:** Resolved widespread weapon audio crashes on Linux-based dedicated servers by batch-renaming all physical audio `.wav` files and subdirectories to be strictly lowercase.
+- **Invalid API Sweeps**: Scrubbed all invalid API enums (like `StatsBonuses.Damage`, `StatsBonuses.ShieldCapacity`, `StatsBonuses.CargoCapacity`, `StatsBonuses.Fighters`) from `starfall_setbonuses.lua`. The set bonuses and doctrines will now actually grant their intended buffs properly natively via the engine.

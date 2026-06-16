@@ -103,16 +103,23 @@ function StarfallSetBonuses.recalculateBonuses()
         end
     end
 
+    local function applyDamageBuff(value, isMultiplier)
+        local damageBonuses = {StatsBonuses.EnergyDamage, StatsBonuses.ElectricDamage, StatsBonuses.PlasmaDamage, StatsBonuses.AntiMatterDamage, StatsBonuses.FragmentsDamage, StatsBonuses.PhysicalDamage}
+        for _, stat in pairs(damageBonuses) do
+            applyBuff(stat, value, isMultiplier)
+        end
+    end
+
     -- EVALUATE SUBSYSTEM SETS
     if sysCount["data/scripts/systems/bastionSystem.lua"] and sysCount["data/scripts/systems/overpoweredCore.lua"] then
         table.insert(newlyActiveSets, "Aegis Matrix (Bastion + Overpowered)")
         applyBuff(StatsBonuses.ShieldRecharge, 0.2, false)
-        applyBuff(StatsBonuses.ShieldCapacity, 0.1, false)
+        applyBuff(StatsBonuses.ShieldDurability, 0.1, false)
     end
 
     if sysCount["data/scripts/systems/repairDrones.lua"] and sysCount["data/scripts/systems/pulseTractorBeamGenerator.lua"] then
         table.insert(newlyActiveSets, "Drone-Weaver Network (Repair + Tractor)")
-        applyBuff(StatsBonuses.Fighters, 2, false)
+        applyBuff(StatsBonuses.FighterSquads, 2, false)
     end
 
     if sysCount["data/scripts/systems/XperimentalHypergenerator.lua"] and sysCount["data/scripts/systems/subspaceCargo.lua"] then
@@ -125,12 +132,12 @@ function StarfallSetBonuses.recalculateBonuses()
     if turretCount.miner >= 5 then
         table.insert(newlyActiveSets, "Mining Doctrine (5+ Miners)")
         applyBuff(StatsBonuses.GeneratedEnergy, 0.15, false)
-        applyBuff(StatsBonuses.CargoCapacity, 0.15, false)
+        applyBuff(StatsBonuses.CargoHold, 0.15, false)
     end
 
     if turretCount.salvager >= 5 then
         table.insert(newlyActiveSets, "Salvage Doctrine (5+ Salvagers)")
-        applyBuff(StatsBonuses.ShieldCapacity, 0.20, false)
+        applyBuff(StatsBonuses.ShieldDurability, 0.20, false)
     end
 
     if turretCount.pdc >= 5 then
@@ -140,12 +147,12 @@ function StarfallSetBonuses.recalculateBonuses()
 
     if turretCount.artillery >= 5 then
         table.insert(newlyActiveSets, "Artillery Doctrine (5+ Cannons)")
-        applyBuff(StatsBonuses.Damage, 0.10, false)
+        applyDamageBuff(0.10, false)
     end
 
     if turretCount.laser >= 5 then
         table.insert(newlyActiveSets, "Energy Doctrine (5+ Lasers/Plasma)")
-        applyBuff(StatsBonuses.Damage, 0.15, false)
+        applyDamageBuff(0.15, false)
     end
 
     if turretCount.launcher >= 5 then
