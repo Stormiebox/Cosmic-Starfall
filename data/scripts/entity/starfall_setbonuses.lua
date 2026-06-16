@@ -1,11 +1,6 @@
 package.path = package.path .. ";data/scripts/lib/?.lua"
 package.path = package.path .. ";data/scripts/?.lua"
 
-function StarfallSetBonuses.getUpdateInterval()
-    return 1.0
-end
-
-
 local StatsBonuses = include("statsbonuses")
 
 local StarfallSetBonuses = {}
@@ -18,6 +13,10 @@ local activeModifiers = {}
 function StarfallSetBonuses.initialize()
     if onServer() then
         Entity():registerCallback("onInstalledUpgradesChanged", "onUpgradesChanged")
+        Entity():registerCallback("onTurretAdded", "onUpgradesChanged")
+        Entity():registerCallback("onTurretDestroyed", "onUpgradesChanged")
+        Entity():registerCallback("onTurretRemoved", "onUpgradesChanged")
+        Entity():registerCallback("onTurretRemovedByPlayer", "onUpgradesChanged")
         StarfallSetBonuses.recalculateBonuses()
     else
         -- Client side for UI rendering
@@ -28,14 +27,6 @@ end
 -- SERVER SIDE LOGIC
 function StarfallSetBonuses.onUpgradesChanged()
     StarfallSetBonuses.recalculateBonuses()
-end
-
-function StarfallSetBonuses.updateServer(timeStep)
-    lastCheckTime = lastCheckTime + timeStep
-    if lastCheckTime > 5.0 then
-        lastCheckTime = 0
-        StarfallSetBonuses.recalculateBonuses()
-    end
 end
 
 function StarfallSetBonuses.recalculateBonuses()
