@@ -786,3 +786,14 @@ function UIE.onRemove()
     if Player() then Player():unregisterCallback("onPlayerEnteredGroup", "getOnlinePwayers") end
     if Player() then Player():unregisterCallback("onPlayerLeftGroup", "getOnlinePwayers") end
 end
+
+
+function initialize(...)
+    if combatGroup.initialize then return combatGroup.initialize(...) end
+end
+function getUpdateInterval(...)
+    if combatGroup.getUpdateInterval then return combatGroup.getUpdateInterval(...) end
+end
+function update(...)
+    if combatGroup.update then return combatGroup.update(...) end
+end

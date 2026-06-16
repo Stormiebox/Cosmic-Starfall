@@ -120,3 +120,8 @@ function mainCaliber.onDontShowPress(_button)
     _button.active = false
     DoNotShowAlert = true
 end
+
+
+function initialize(...)
+    if mainCaliber.initialize then return mainCaliber.initialize(...) end
+end

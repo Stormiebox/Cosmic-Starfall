@@ -419,3 +419,14 @@ function auraCore.isAuraToUpdate(_table)
 		end
 	end
 end
+
+
+function initialize(...)
+    if auraCore.initialize then return auraCore.initialize(...) end
+end
+function getUpdateInterval(...)
+    if auraCore.getUpdateInterval then return auraCore.getUpdateInterval(...) end
+end
+function update(...)
+    if auraCore.update then return auraCore.update(...) end
+end

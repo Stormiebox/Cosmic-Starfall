@@ -302,3 +302,11 @@ function aC.alertSelfTest(_table)
 
 	return true
 end
+
+
+function getUpdateInterval(...)
+    if aC.getUpdateInterval then return aC.getUpdateInterval(...) end
+end
+function update(...)
+    if aC.update then return aC.update(...) end
+end

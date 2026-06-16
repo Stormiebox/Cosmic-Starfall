@@ -667,12 +667,12 @@ function activeSysInterface.renderColorPickLine(yPos, cont, paddX, paddY, lblShi
 
 	for _out, _rows in pairs(colorsToPick) do
 		yShift = btnSize + yShift
-		
+
 		-- Use horizontal splitter for colors
 		local colorsLineRect = Rect(paddX, yShift, paddX + (#_rows * btnSize) + ((#_rows - 1) * paddX), yShift + btnSize)
 		local props = {}
 		for i = 1, #_rows do table.insert(props, btnSize) end
-		
+
 		local colorSplitter = CosmicUIHorizontalProportionalSplitter(colorsLineRect, paddX, 0, props)
 
 		local buttons_group = {}
@@ -680,7 +680,7 @@ function activeSysInterface.renderColorPickLine(yPos, cont, paddX, paddY, lblShi
 			local cRect = colorSplitter[_in]
 			local colorPickerRect = Rect(cRect.lower.x, cRect.lower.y + btnSize * 0.3, cRect.upper.x, cRect.lower.y + btnSize * 0.6)
 			local colorBckgRect = Rect(colorPickerRect.lower.x, colorPickerRect.lower.y - rUnit * 0.02, colorPickerRect.upper.x, colorPickerRect.upper.y + rUnit * 0.02)
-			
+
 			local frame = cont:createFrame(colorBckgRect)
 			frame.backgroundColor = getColor(_rows2)
 			local resultButton = cont:createButton(colorPickerRect, '', nil)
@@ -1441,4 +1441,15 @@ end
 function onRemove()
     if Player() then Player():unregisterCallback("onShipChanged", "showInterface") end
     if Player() then Player():unregisterCallback("onShipChanged", "showInterface") end
+end
+
+
+function initialize(...)
+    if activeSysInterface.initialize then return activeSysInterface.initialize(...) end
+end
+function getUpdateInterval(...)
+    if activeSysInterface.getUpdateInterval then return activeSysInterface.getUpdateInterval(...) end
+end
+function updateClient(...)
+    if activeSysInterface.updateClient then return activeSysInterface.updateClient(...) end
 end

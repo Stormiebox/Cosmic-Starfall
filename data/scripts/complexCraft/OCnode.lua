@@ -356,3 +356,11 @@ function OCore.createRect(_table)
 	local resultRect = Rect(Anchor, Point)
 	return resultRect
 end
+
+
+function secure(...)
+    if OCore.secure then return OCore.secure(...) end
+end
+function restore(...)
+    if OCore.restore then return OCore.restore(...) end
+end

@@ -164,7 +164,7 @@ end
 
 function StarfallSetBonuses.onPreRenderHud()
     if #activeSets == 0 then return end
-    
+
     local res = getResolution()
     local x = res.x - 350
     local y = 200
@@ -177,5 +177,10 @@ function StarfallSetBonuses.onPreRenderHud()
         y = y + 20
     end
 end
+
+function initialize(...)
+    if StarfallSetBonuses.initialize then return StarfallSetBonuses.initialize(...) end
+end
+
 
 return StarfallSetBonuses

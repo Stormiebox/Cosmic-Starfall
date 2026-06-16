@@ -65,3 +65,11 @@ function eA.alertTurretDamage()
 end
 
 callable(eA, 'alertTurretDamage')
+
+
+function getUpdateInterval(...)
+    if eA.getUpdateInterval then return eA.getUpdateInterval(...) end
+end
+function update(...)
+    if eA.update then return eA.update(...) end
+end

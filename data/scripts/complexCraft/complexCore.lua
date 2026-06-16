@@ -1492,7 +1492,7 @@ function MX.ServerSendResourses(_table)
 		if _toRemoveValue > _amount then
 			CargoBay(_from):removeCargo(_good, _toRemoveValue)
 			--MX.DebugMsg('ServerResourseTransfer: deleted '..tostring(_toRemoveValue)..' of '..getGoodAttribute(_good,'name')..' from '..Entity(_from).name)
-			
+
 			-- Hook into CosmicVaultEconomy: Market crash when a megacomplex dumps excess goods
 			if CosmicVaultEconomy and CosmicVaultEconomy.TriggerMarketEvent and Sector() then
 				local goodName = getGoodAttribute(_good, 'name')
@@ -1774,3 +1774,23 @@ function MX.adaptiveSync()
 end
 
 callable(MX, 'adaptiveSync')
+
+
+function getUpdateInterval(...)
+    if MX.getUpdateInterval then return MX.getUpdateInterval(...) end
+end
+function updateServer(...)
+    if MX.updateServer then return MX.updateServer(...) end
+end
+function updateClient(...)
+    if MX.updateClient then return MX.updateClient(...) end
+end
+function initialize(...)
+    if MX.initialize then return MX.initialize(...) end
+end
+function secure(...)
+    if MX.secure then return MX.secure(...) end
+end
+function restore(...)
+    if MX.restore then return MX.restore(...) end
+end

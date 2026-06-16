@@ -226,3 +226,14 @@ function mainCaliber.onDontShowPress(_button)
 	_button.active = false
 	DoNotShowAlert = true
 end
+
+
+function getUpdateInterval(...)
+    if mainCaliber.getUpdateInterval then return mainCaliber.getUpdateInterval(...) end
+end
+function update(...)
+    if mainCaliber.update then return mainCaliber.update(...) end
+end
+function initialize(...)
+    if mainCaliber.initialize then return mainCaliber.initialize(...) end
+end
