@@ -882,3 +882,6 @@ generatorFunction[WeaponType.PRD] = TurretGenerator.generatePRDTurret
 generatorFunction[WeaponType.MAGNETICMORTAR] = TurretGenerator.generateMAGNETICMORTARTurret
 generatorFunction[WeaponType.TRANSPHASIC] = TurretGenerator.generateTRANSPHASICturret
 generatorFunction[WeaponType.PLASMAFLAK] = TurretGenerator.generatePLASMAFLAKturret
+
+
+return TurretGenerator

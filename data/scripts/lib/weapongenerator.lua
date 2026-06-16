@@ -1012,3 +1012,6 @@ function WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
         end
     end
 end
+
+
+return WeaponGenerator

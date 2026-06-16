@@ -320,3 +320,6 @@ TurretIngredients[WeaponType.PLASMAFLAK] =
     { name = "Steel",       amount = 5,  investable = 10, minimum = 3, },
     { name = "Aluminum",    amount = 7,  investable = 5,  minimum = 3, },
 }
+
+
+return TurretIngredients
