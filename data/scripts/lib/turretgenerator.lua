@@ -883,5 +883,4 @@ generatorFunction[WeaponType.MAGNETICMORTAR] = TurretGenerator.generateMAGNETICM
 generatorFunction[WeaponType.TRANSPHASIC] = TurretGenerator.generateTRANSPHASICturret
 generatorFunction[WeaponType.PLASMAFLAK] = TurretGenerator.generatePLASMAFLAKturret
 
-
-return TurretGenerator
+-- [Cosmic Starfall] Append ends here. Vanilla already returns TurretGenerator above.

@@ -1013,5 +1013,4 @@ function WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
     end
 end
 
-
-return WeaponGenerator
+-- [Cosmic Starfall] Append ends here. Vanilla already returns WeaponGenerator above.

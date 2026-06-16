@@ -321,5 +321,4 @@ TurretIngredients[WeaponType.PLASMAFLAK] =
     { name = "Aluminum",    amount = 7,  investable = 5,  minimum = 3, },
 }
 
-
-return TurretIngredients
+-- [Cosmic Starfall] Append ends here. Vanilla already returns TurretIngredients above.

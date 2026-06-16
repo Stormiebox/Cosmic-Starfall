@@ -22,4 +22,4 @@ weaponProbabilities[WeaponType.MAGNETICMORTAR] = {d = 0.7, p = 0.8}
 weaponProbabilities[WeaponType.TRANSPHASIC] = {d = 0.6, p = 0.2}
 
 
-return Galaxy
+-- [Cosmic Starfall] Append ends here. Vanilla already returns Galaxy above.
