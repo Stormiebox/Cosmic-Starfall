@@ -8,6 +8,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 ## Never remove, overwrite or write above this
 
 ## v2.0.0 UNRELEASED WORKSHOP VERSION (PROJECT UNDER DEVELOPMENT)
+- **Updated:** Global Compliance and API updates across various scripts.
 
 ### 🚀 Major Overhaul Features
 - **Native Cosmic Vault Integration:** Cosmic Starfall has been officially integrated into the Cosmic Series ecosystem. It now natively requires `Cosmic Vault` to run. Completely removed the obsolete `cosmicstarfalllib` bridge.

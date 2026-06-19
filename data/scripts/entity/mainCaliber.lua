@@ -237,3 +237,12 @@ end
 function initialize(...)
     if mainCaliber.initialize then return mainCaliber.initialize(...) end
 end
+
+
+-- Global Event Callbacks
+function checkWeaponsDeleted(...)
+    if mainCaliber.checkWeaponsDeleted then return mainCaliber.checkWeaponsDeleted(...) end
+end
+function checkWeaponsAdded(...)
+    if mainCaliber.checkWeaponsAdded then return mainCaliber.checkWeaponsAdded(...) end
+end

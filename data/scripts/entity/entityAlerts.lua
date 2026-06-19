@@ -73,3 +73,9 @@ end
 function update(...)
     if eA.update then return eA.update(...) end
 end
+
+
+-- Global Event Callbacks
+function alertTurretDamage(...)
+    if eA.alertTurretDamage then return eA.alertTurretDamage(...) end
+end

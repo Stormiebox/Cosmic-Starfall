@@ -182,5 +182,10 @@ function initialize(...)
     if StarfallSetBonuses.initialize then return StarfallSetBonuses.initialize(...) end
 end
 
-
-return StarfallSetBonuses
+-- Global Event Callbacks
+function onUpgradesChanged(...)
+    if StarfallSetBonuses.onUpgradesChanged then return StarfallSetBonuses.onUpgradesChanged(...) end
+end
+function onPreRenderHud(...)
+    if StarfallSetBonuses.onPreRenderHud then return StarfallSetBonuses.onPreRenderHud(...) end
+end

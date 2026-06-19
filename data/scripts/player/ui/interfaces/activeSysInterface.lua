@@ -1453,3 +1453,9 @@ end
 function updateClient(...)
     if activeSysInterface.updateClient then return activeSysInterface.updateClient(...) end
 end
+
+
+-- Global Event Callbacks
+function showInterface(...)
+    if activeSysInterface.showInterface then return activeSysInterface.showInterface(...) end
+end

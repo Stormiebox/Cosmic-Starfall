@@ -797,3 +797,9 @@ end
 function update(...)
     if combatGroup.update then return combatGroup.update(...) end
 end
+
+
+-- Global Event Callbacks
+function getOnlinePwayers(...)
+    if combatGroup.getOnlinePwayers then return combatGroup.getOnlinePwayers(...) end
+end

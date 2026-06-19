@@ -1,6 +1,6 @@
 package.path = package.path .. ";data/scripts/lib/?.lua"
 
-local cv_success, CosmicVaultCombat = pcall(include, "cosmicvaultcombat")
+local CosmicVaultCombat = include("cosmicvaultcombat")
 
 function initialize()
     if onServer() then

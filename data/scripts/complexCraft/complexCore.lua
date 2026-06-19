@@ -1794,3 +1794,9 @@ end
 function restore(...)
     if MX.restore then return MX.restore(...) end
 end
+
+
+-- Global Event Callbacks
+function analyse(...)
+    if MX.analyse then return MX.analyse(...) end
+end
