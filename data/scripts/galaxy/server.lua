@@ -16,3 +16,5 @@ if onServer() then
         StarfallServer.initialize()
     end
 end
+
+function onPlayerLogIn(playerIndex) end

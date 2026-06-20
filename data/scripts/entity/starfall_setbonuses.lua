@@ -1,8 +1,5 @@
 package.path = package.path .. ";data/scripts/lib/?.lua"
 package.path = package.path .. ";data/scripts/?.lua"
-
-local StatsBonuses = include("statsbonuses")
-
 local StarfallSetBonuses = {}
 local activeSets = {}
 
@@ -45,7 +42,7 @@ function StarfallSetBonuses.recalculateBonuses()
     }
 
     -- 1. Check Subsystems
-    local systemUpgrades = entity:getSystemUpgrades()
+    local systemUpgrades = ShipSystem(entity.index):getUpgrades()
     for _, upgrade in pairs(systemUpgrades) do
         sysCount[upgrade.script] = true
     end

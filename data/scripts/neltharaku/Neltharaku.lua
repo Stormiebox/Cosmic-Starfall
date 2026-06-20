@@ -487,3 +487,5 @@ end
 function Neltharaku.innerContainer(element)
 	return element:createContainer(Rect(element.size))
 end
+
+return Neltharaku

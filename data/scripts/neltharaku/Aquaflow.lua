@@ -43,3 +43,5 @@ end
 function initialize(...)
     if Aquaflow.initialize then return Aquaflow.initialize(...) end
 end
+
+return Aquaflow

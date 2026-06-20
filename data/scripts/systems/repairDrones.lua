@@ -705,3 +705,5 @@ function initialize()
 		initializeUI()
 	end
 end
+
+function UIsyncPosition(pos) end

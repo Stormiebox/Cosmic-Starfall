@@ -1195,4 +1195,5 @@ function initialize()
 	end
 end
 
-
+function UIshowhide() end
+function UIsyncPosition(pos) end

@@ -1800,3 +1800,5 @@ end
 function analyse(...)
     if MX.analyse then return MX.analyse(...) end
 end
+
+return MX

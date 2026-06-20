@@ -364,3 +364,5 @@ end
 function restore(...)
     if OCore.restore then return OCore.restore(...) end
 end
+
+return OCore

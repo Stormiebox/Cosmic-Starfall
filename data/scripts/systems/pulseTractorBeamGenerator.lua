@@ -436,3 +436,5 @@ function initialize()
 		initializeUI()
 	end
 end
+
+function UIshowhide() end
