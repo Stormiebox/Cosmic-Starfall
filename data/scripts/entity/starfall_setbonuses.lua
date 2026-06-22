@@ -49,15 +49,17 @@ function StarfallSetBonuses.recalculateBonuses()
 
     -- 2. Check Turrets
     for _, turret in pairs(turrets) do
-        local weapons = {turret:getWeapons()}
-        if #weapons > 0 then
-            local wType = weapons[1].weaponType
-            local wCat = weapons[1].weaponCategory
+        local template = TurretTemplate(turret)
+        if template then
+            local weapons = {template:getWeapons()}
+            if #weapons > 0 then
+                local wType = weapons[1].weaponType
+                local wCat = weapons[1].weaponCategory
 
-            if wType == WeaponType.MiningLaser or wType == WeaponType.RawMiningLaser then
-                turretCount.miner = turretCount.miner + 1
-            elseif wType == WeaponType.SalvagingLaser or wType == WeaponType.RawSalvagingLaser then
-                turretCount.salvager = turretCount.salvager + 1
+                if wType == WeaponType.MiningLaser or wType == WeaponType.RawMiningLaser then
+                    turretCount.miner = turretCount.miner + 1
+                elseif wType == WeaponType.SalvagingLaser or wType == WeaponType.RawSalvagingLaser then
+                    turretCount.salvager = turretCount.salvager + 1
             elseif wType == WeaponType.PointDefenseLaser or wType == WeaponType.PointDefenseChaingun or wType == WeaponType.AntiFighter then
                 turretCount.pdc = turretCount.pdc + 1
             elseif wType == WeaponType.Cannon or wType == WeaponType.RailGun then
@@ -67,6 +69,7 @@ function StarfallSetBonuses.recalculateBonuses()
             elseif wType == WeaponType.RocketLauncher or wType == WeaponType.Bolter then
                 turretCount.launcher = turretCount.launcher + 1
             end
+        end
         end
     end
 
