@@ -161,6 +161,7 @@ end
 function StarfallSetBonuses.updateClientSets(sets)
     activeSets = sets
 end
+callable(StarfallSetBonuses, "updateClientSets")
 
 function StarfallSetBonuses.onPreRenderHud()
     if #activeSets == 0 then return end
