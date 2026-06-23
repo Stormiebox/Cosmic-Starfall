@@ -60,7 +60,7 @@ function mainCaliber.initialize()
 		local self = Entity()
 		self:registerCallback('onTurretDestroyed', 'checkWeaponsDeleted')
 		self:registerCallback('onTurretRemoved', 'checkWeaponsDeleted')
-		self:registerCallback('onTurretonTurretRemovedByPlayerDestroyed', 'checkWeaponsDeleted')
+		self:registerCallback('onTurretDestroyed', 'checkWeaponsDeleted')
 		self:registerCallback('onTurretAdded', 'checkWeaponsAdded')
 	end
 	_icon = getWeaponPath('cyclone')

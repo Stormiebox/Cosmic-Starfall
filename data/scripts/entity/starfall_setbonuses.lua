@@ -9,11 +9,11 @@ local activeModifiers = {}
 
 function StarfallSetBonuses.initialize()
     if onServer() then
-        Entity():registerCallback("onInstalledUpgradesChanged", "onUpgradesChanged")
-        Entity():registerCallback("onTurretAdded", "onUpgradesChanged")
-        Entity():registerCallback("onTurretDestroyed", "onUpgradesChanged")
-        Entity():registerCallback("onTurretRemoved", "onUpgradesChanged")
-        Entity():registerCallback("onTurretRemovedByPlayer", "onUpgradesChanged")
+        Entity():registerCallback("onSystemsChanged", "onSystemsChanged")
+        Entity():registerCallback("onTurretAdded", "onSystemsChanged")
+        Entity():registerCallback("onTurretDestroyed", "onSystemsChanged")
+        Entity():registerCallback("onTurretRemoved", "onSystemsChanged")
+        Entity():registerCallback("onTurretRemovedByPlayer", "onSystemsChanged")
         StarfallSetBonuses.recalculateBonuses()
     else
         -- Client side for UI rendering
@@ -22,7 +22,7 @@ function StarfallSetBonuses.initialize()
 end
 
 -- SERVER SIDE LOGIC
-function StarfallSetBonuses.onUpgradesChanged()
+function StarfallSetBonuses.onSystemsChanged()
     StarfallSetBonuses.recalculateBonuses()
 end
 
@@ -78,20 +78,20 @@ function StarfallSetBonuses.recalculateBonuses()
     activeSets = {}
 
     -- Clear old modifiers
-    for k, v in pairs(activeModifiers) do
-        entity:removeMultiplier(k, v)
-        entity:removeMultiplyableBias(k, v)
+    for _, key in pairs(activeModifiers) do
+        entity:removeBonus(key)
     end
     activeModifiers = {}
 
     local function applyBuff(stat, value, isMultiplier)
-        local key = tostring(stat)
-        activeModifiers[stat] = value
+        local key
         if isMultiplier then
-            entity:addMultiplier(stat, value)
+            key = entity:addMultiplier(stat, value)
         else
-            entity:addMultiplyableBias(stat, value)
+            key = entity:addMultiplyableBias(stat, value)
         end
+        -- Store the key so it can be removed later
+        table.insert(activeModifiers, key)
     end
 
     local function applyDamageBuff(value, isMultiplier)
@@ -184,8 +184,8 @@ function initialize(...)
 end
 
 -- Global Event Callbacks
-function onUpgradesChanged(...)
-    if StarfallSetBonuses.onUpgradesChanged then return StarfallSetBonuses.onUpgradesChanged(...) end
+function onSystemsChanged(...)
+    if StarfallSetBonuses.onSystemsChanged then return StarfallSetBonuses.onSystemsChanged(...) end
 end
 function onPreRenderHud(...)
     if StarfallSetBonuses.onPreRenderHud then return StarfallSetBonuses.onPreRenderHud(...) end
