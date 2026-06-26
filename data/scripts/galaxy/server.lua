@@ -1,3 +1,4 @@
+include("data/scripts/galaxy/server.lua")
 package.path = package.path .. ";data/scripts/lib/?.lua"
 
 local StarfallServer = {}
@@ -17,4 +18,7 @@ if onServer() then
     end
 end
 
-function onPlayerLogIn(playerIndex) end
+local old_onPlayerLogIn = onPlayerLogIn
+function onPlayerLogIn(playerIndex)
+    if old_onPlayerLogIn then old_onPlayerLogIn(playerIndex) end
+end

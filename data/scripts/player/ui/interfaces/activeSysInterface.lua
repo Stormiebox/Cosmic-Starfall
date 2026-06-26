@@ -1028,6 +1028,18 @@ function activeSysInterface.executeActivation(_command, _script, _source)
 		local name = Entity(_source).name
 		Debug(sf('Script %s activation (command = %s) for entity |%s|', _script, _command, name))
 	else
+		-- SECURITY PATCH: Prevent "Puppeteer" exploit (ACE - Arbitrary Code Execution). Ensure the calling player actually owns the target entity!
+		if callingPlayer and _source then
+			local targetEntity = Entity(_source)
+			if targetEntity then
+				local caller = Player(callingPlayer)
+				if caller and targetEntity.factionIndex ~= caller.index and targetEntity.factionIndex ~= caller.allianceIndex then
+					print("activeSysInterface: Blocked malicious client from invoking function on unowned entity!")
+					return
+				end
+			end
+		end
+
 		--Invoke faction function(faction().index,false, script)
 		local x, y = Sector():getCoordinates()
 		Debug(_source)

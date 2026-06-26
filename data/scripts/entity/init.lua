@@ -1,3 +1,4 @@
+include("data/scripts/entity/init.lua")
 if onServer() then
     local thisShip = Entity()
     local thisOwner = Owner(thisShip.id)

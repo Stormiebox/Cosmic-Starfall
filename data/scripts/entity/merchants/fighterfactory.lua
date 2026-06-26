@@ -120,7 +120,8 @@ function FighterFactory.makeFighter(type, plan, turret, sizePoints, durabilityPo
     local fighter = FighterTemplate()
 
     local scale = diameter + lerp(diameter, fighter.minFighterDiameter, fighter.maxFighterDiameter, 0, 1.5)
-    scale = scale / (plan.radius * 2)
+    local safeRadius = math.max(plan.radius, 0.001)
+    scale = scale / (safeRadius * 2)
     plan:scale(vec3(scale, scale, scale))
     fighter.plan = plan
 
@@ -139,35 +140,37 @@ function FighterFactory.makeFighter(type, plan, turret, sizePoints, durabilityPo
         end
 
         for _, weapon in pairs({ turret:getWeapons() }) do
+            local safeSlots = math.max(turret.slots, 1)
+            
             if weapon.damage ~= 0 then
                 if isTurretLight(nil, weapon) then
-                    weapon.damage = weapon.damage * 1.05 / turret.slots
+                    weapon.damage = weapon.damage * 1.05 / safeSlots
                 else
-                    weapon.damage = weapon.damage * 0.4 / turret.slots
+                    weapon.damage = weapon.damage * 0.4 / safeSlots
                 end
             end
 
             if weapon.shieldRepair ~= 0 then
                 if isTurretLight(nil, weapon) then
-                    weapon.shieldRepair = weapon.shieldRepair * 0.8 / turret.slots
+                    weapon.shieldRepair = weapon.shieldRepair * 0.8 / safeSlots
                 else
-                    weapon.shieldRepair = weapon.shieldRepair * 0.4 / turret.slots
+                    weapon.shieldRepair = weapon.shieldRepair * 0.4 / safeSlots
                 end
             end
 
             if weapon.hullRepair ~= 0 then
                 if isTurretLight(nil, weapon) then
-                    weapon.hullRepair = weapon.hullRepair * 0.8 / turret.slots
+                    weapon.hullRepair = weapon.hullRepair * 0.8 / safeSlots
                 else
-                    weapon.hullRepair = weapon.hullRepair * 0.4 / turret.slots
+                    weapon.hullRepair = weapon.hullRepair * 0.4 / safeSlots
                 end
             end
 
             if weapon.holdingForce ~= 0 then
                 if isTurretLight(nil, weapon) then
-                    weapon.holdingForce = weapon.holdingForce * 0.8 / turret.slots
+                    weapon.holdingForce = weapon.holdingForce * 0.8 / safeSlots
                 else
-                    weapon.holdingForce = weapon.holdingForce * 0.4 / turret.slots
+                    weapon.holdingForce = weapon.holdingForce * 0.4 / safeSlots
                 end
             end
 

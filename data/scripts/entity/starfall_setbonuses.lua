@@ -14,7 +14,9 @@ function StarfallSetBonuses.initialize()
         Entity():registerCallback("onTurretDestroyed", "onSystemsChanged")
         Entity():registerCallback("onTurretRemoved", "onSystemsChanged")
         Entity():registerCallback("onTurretRemovedByPlayer", "onSystemsChanged")
-        StarfallSetBonuses.recalculateBonuses()
+        -- recalculateBonuses() is intentionally omitted here.
+        -- It should be called during onRestore or onSystemsChanged to ensure it only runs 
+        -- AFTER activeModifiers has been properly restored.
     else
         -- Client side for UI rendering
         Player():registerCallback("onPreRenderHud", "onPreRenderHud")
@@ -23,6 +25,17 @@ end
 
 -- SERVER SIDE LOGIC
 function StarfallSetBonuses.onSystemsChanged()
+    StarfallSetBonuses.recalculateBonuses()
+end
+
+function StarfallSetBonuses.secure()
+    return {
+        activeModifiers = activeModifiers
+    }
+end
+
+function StarfallSetBonuses.restore(data)
+    activeModifiers = data.activeModifiers or {}
     StarfallSetBonuses.recalculateBonuses()
 end
 
@@ -95,7 +108,7 @@ function StarfallSetBonuses.recalculateBonuses()
     end
 
     local function applyDamageBuff(value, isMultiplier)
-        local damageBonuses = {StatsBonuses.EnergyDamage, StatsBonuses.ElectricDamage, StatsBonuses.PlasmaDamage, StatsBonuses.AntiMatterDamage, StatsBonuses.FragmentsDamage, StatsBonuses.PhysicalDamage}
+        local damageBonuses = {StatsBonuses.ArmedTurrets, StatsBonuses.ArbitraryTurrets}
         for _, stat in pairs(damageBonuses) do
             applyBuff(stat, value, isMultiplier)
         end
@@ -189,4 +202,10 @@ function onSystemsChanged(...)
 end
 function onPreRenderHud(...)
     if StarfallSetBonuses.onPreRenderHud then return StarfallSetBonuses.onPreRenderHud(...) end
+end
+function secure()
+    if StarfallSetBonuses.secure then return StarfallSetBonuses.secure() end
+end
+function restore(data)
+    if StarfallSetBonuses.restore then return StarfallSetBonuses.restore(data) end
 end
