@@ -1,4 +1,4 @@
-include("data/scripts/galaxy/server.lua")
+
 package.path = package.path .. ";data/scripts/lib/?.lua"
 
 local StarfallServer = {}
