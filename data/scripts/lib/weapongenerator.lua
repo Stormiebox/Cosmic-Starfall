@@ -232,7 +232,7 @@ function WeaponGenerator.generateASSAULTBLASTER(rand, dps, tech, material, rarit
     local weapon = Weapon()
     weapon:setProjectile()
 
-    dps = dps * 1.5
+    dps = dps * 1.15
 
     local fireDelay = rand:getFloat(0.2, 0.4)
     local reach = rand:getFloat(500, 780)
@@ -282,7 +282,7 @@ function WeaponGenerator.generateHEPT(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-    dps = dps * (1.5 + tech * 0.01)
+    dps = dps * (1.15 + tech * 0.01)
 
     local fireDelay = rand:getFloat(0.4, 0.6)
     local reach = rand:getFloat(600, 850) + tech
@@ -326,11 +326,11 @@ function WeaponGenerator.generatePULSELASER(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-    dps = dps
+    dps = dps * 1.15
 
     local fireDelay = rand:getFloat(0.05, 0.1)
     local reach = rand:getFloat(400, 500)
-    local damage = dps * fireDelay
+    local damage = (dps * fireDelay) / 2
     local speed = rand:getFloat(600, 800)
     local existingTime = reach / speed
 
@@ -368,11 +368,11 @@ function WeaponGenerator.generateMANTIS(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-    dps = dps * 1.7
+    dps = dps * 1.15
 
     local fireDelay = 4
-    local reach = rand:getFloat(2000, 2800)
-    local damage = dps
+    local reach = rand:getFloat(1500, 2000)
+    local damage = (dps * fireDelay) / 2
     local speed = rand:getFloat(150, 180)
     local existingTime = reach / speed
 
@@ -403,7 +403,7 @@ function WeaponGenerator.generateMANTIS(rand, dps, tech, material, rarity)
     weapon.pvelocity = speed
     weapon.pcolor = ColorHSV(180, 6, 100)
     weapon.pshape = ProjectileShape.Rocket
-    weapon.shotsFired = 4
+    weapon.shotsFired = 2
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -419,7 +419,7 @@ function WeaponGenerator.generatePHOTON(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-    dps = dps * 2
+    dps = dps * 1.25
 
     --local fireDelay = rand:getFloat(1.4, 2.2)
     local fireDelay = 1
@@ -467,7 +467,7 @@ function WeaponGenerator.generateHYPERKINETIC(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-    dps = dps * 1.6
+    dps = dps * 1.25
 
     local fireDelay = 6
     local reach = rand:getFloat(1400, 2000)
@@ -601,7 +601,7 @@ function WeaponGenerator.generateTRANSPHASIC(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-    dps = dps * 2
+    dps = dps * 1.15
 
     local fireDelay = 0.2 -- always the same with beams, does not really matter
     local reach = rand:getFloat(780, 920)
@@ -692,7 +692,7 @@ function WeaponGenerator.generatePRD(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setBeam()
 
-    dps = dps * 1.5
+    dps = dps * 1.15
 
     local fireDelay = rand:getFloat(1.4, 1.8)
     local reach = rand:getFloat(600, 750)
@@ -739,11 +739,11 @@ function WeaponGenerator.generateAVALANCHE(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-    dps = dps * 2.3
+    dps = dps * 1.35
 
     local fireDelay = 10
     local reach = rand:getFloat(700, 745)
-    local damage = dps
+    local damage = (dps * fireDelay) / 8
     local speed = rand:getFloat(90, 110)
     local existingTime = reach / speed
 
@@ -774,7 +774,7 @@ function WeaponGenerator.generateAVALANCHE(rand, dps, tech, material, rarity)
     weapon.pvelocity = speed
     --_colorC = ColorHSV(264, 60, 100)
     weapon.pshape = ProjectileShape.Plasma
-    weapon.shotsFired = 2
+    weapon.shotsFired = 8
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -790,11 +790,11 @@ function WeaponGenerator.generateCYCLONE(rand, dps, tech, material, rarity)
     local weapon = Weapon()
     weapon:setProjectile()
 
-    --dps = dps *1.9
+    dps = dps * 1.15
 
     local fireDelay = 3
     local reach = rand:getFloat(1700, 1900)
-    local damage = dps
+    local damage = (dps * fireDelay) / 5
     local speed = rand:getFloat(180, 200)
     local existingTime = reach / speed
 
@@ -838,7 +838,7 @@ function WeaponGenerator.generateMagneticmortar(rand, dps, tech, material, rarit
     local weapon = Weapon()
     weapon:setProjectile()
 
-    dps = dps * 1.75
+    dps = dps * 1.25
 
     local fireDelay = rand:getFloat(2.8, 3.2)
     local reach = rand:getFloat(700, 850)

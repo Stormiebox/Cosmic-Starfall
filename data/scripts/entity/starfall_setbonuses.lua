@@ -7,6 +7,7 @@ local activeSets = {}
 -- Cached tracking variables
 local lastCheckTime = 0
 local activeModifiers = {}
+local currentDamageBuff = 1.0
 
 function StarfallSetBonuses.initialize()
     if onServer() then
@@ -31,12 +32,14 @@ end
 
 function StarfallSetBonuses.secure()
     return {
-        activeModifiers = activeModifiers
+        activeModifiers = activeModifiers,
+        currentDamageBuff = currentDamageBuff
     }
 end
 
 function StarfallSetBonuses.restore(data)
     activeModifiers = data.activeModifiers or {}
+    currentDamageBuff = data.currentDamageBuff or 1.0
     StarfallSetBonuses.recalculateBonuses()
 end
 
@@ -91,6 +94,12 @@ function StarfallSetBonuses.recalculateBonuses()
     local previouslyActiveSets = activeSets
     activeSets = {}
 
+    -- Remove previous damage buff safely to preserve AI difficulty scaling
+    if currentDamageBuff > 1.0 then
+        entity.damageMultiplier = entity.damageMultiplier / currentDamageBuff
+    end
+    local newDamageBuff = 1.0
+
     -- Clear old modifiers
     for _, key in pairs(activeModifiers) do
         entity:removeBonus(key)
@@ -106,13 +115,6 @@ function StarfallSetBonuses.recalculateBonuses()
         end
         -- Store the key so it can be removed later
         table.insert(activeModifiers, key)
-    end
-
-    local function applyDamageBuff(value, isMultiplier)
-        local damageBonuses = {StatsBonuses.ArmedTurrets, StatsBonuses.ArbitraryTurrets}
-        for _, stat in pairs(damageBonuses) do
-            applyBuff(stat, value, isMultiplier)
-        end
     end
 
     -- EVALUATE SUBSYSTEM SETS
@@ -148,22 +150,31 @@ function StarfallSetBonuses.recalculateBonuses()
     if turretCount.pdc >= 5 then
         table.insert(newlyActiveSets, "Point Defense Doctrine (5+ PDCs)")
         applyBuff(StatsBonuses.Velocity, 0.10, false)
+        applyBuff(StatsBonuses.FighterDodge, 0.15, false)
     end
 
     if turretCount.artillery >= 5 then
         table.insert(newlyActiveSets, "Artillery Doctrine (5+ Cannons)")
-        applyDamageBuff(0.10, false)
+        applyBuff(StatsBonuses.Velocity, 0.10, false)
+        newDamageBuff = newDamageBuff + 0.15
     end
 
     if turretCount.laser >= 5 then
         table.insert(newlyActiveSets, "Energy Doctrine (5+ Lasers/Plasma)")
-        applyDamageBuff(0.15, false)
+        applyBuff(StatsBonuses.ShieldRecharge, 0.15, false)
+        newDamageBuff = newDamageBuff + 0.15
     end
 
     if turretCount.launcher >= 5 then
         table.insert(newlyActiveSets, "Launcher Doctrine (5+ Launchers/Bolters)")
         applyBuff(StatsBonuses.FireRate, 0.20, false)
     end
+
+    -- Apply new damage buff securely
+    if newDamageBuff > 1.0 then
+        entity.damageMultiplier = entity.damageMultiplier * newDamageBuff
+    end
+    currentDamageBuff = newDamageBuff
 
     activeSets = newlyActiveSets
 

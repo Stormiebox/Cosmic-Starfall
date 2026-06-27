@@ -315,7 +315,10 @@ local updateLines = {}
 	}
 	updateLines['2.0.0'] = {
 		"Updated the in-game wiki with relevant changes done to systems, turrets, and set bonuses.",
-		"Updated weapon tooltips and stats to reflect current overhaul changes.",
+		"Global Weapon Balance Pass: Normalized all custom Starfall weapon DPS multipliers to properly fit the vanilla tech curve (+15-25%).",
+		"Fixed severe multi-projectile math logic bugs on Avalanche, Pulse Laser, and Cyclone that previously doubled intended DPS.",
+		"Bastion System: Fully reversed the faulty mathematical logic. Natively scales positively (+69% up to +83% shield durability) and boosts recharge rate.",
+		"Overpowered Core: Standardized rarity scaling (+5% up to +15% energy capacity and generation).",
 		"General balance tweaks and backend structural optimizations."
 	}
 	

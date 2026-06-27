@@ -950,7 +950,7 @@ entities['mantis'] = {
 	--Damage type
 	damageType['elec'],
 	--Description
-	'Created on the basis of a rocket launcher, this gun launches four high-speed homing projectiles at the target, capable of quickly covering a long distance. Despite the fact that the Mantis loses to most weapons systems in terms of damage per second, it is excellent for eliminating small and medium-sized remote targets'%_t,
+	'Created on the basis of a rocket launcher, this gun launches two high-speed homing projectiles at the target, capable of quickly covering a long distance. Despite the fact that the Mantis loses to most weapons systems in terms of damage per second, it is excellent for eliminating small and medium-sized remote targets'%_t,
 	--Changes
 	{
 		'The gun has a large alpha damage, but its rate of fire is significantly reduced'%_t,
@@ -1083,7 +1083,7 @@ entities['avalanche'] = {
 	--Damage type
 	damageType['phys'],
 	--Description
-	'Heavy bomber gun. Shoots at a short distance in volleys of two slow projectiles. Deals crushing damage to the target if it hits'%_t,
+	'Heavy bomber gun. Shoots at a short distance in massive volleys of eight slow projectiles. Deals crushing damage to the target if it hits'%_t,
 	--Changes
 	{
 		'Weapon reveals the maximum potential during assembly at the station'%_t,

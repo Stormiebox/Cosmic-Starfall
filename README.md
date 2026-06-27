@@ -12,6 +12,7 @@ Cosmic Starfall is a ground-up continuation of the original Starfall concept, mo
 - **Subsystem Synergies:** Hidden set bonuses for combining specific Ascendant subsystems.
 - **Fleet Doctrines:** Equip multiple identical turrets to unlock specialized fleet-wide buffs.
 - **Total Balance Overhaul:** Rebalanced Bastion, Overpowered Core, and Macrofield projectors for competitive multiplayer.
+- **Global Weapon Balance Pass:** Weapon math errors and excessive exponential DPS multipliers have been scrubbed to properly adhere to the vanilla progression curve (+15-25%).
 - **QA Hardened:** 100% crash-free stability through asynchronous processing and direct security hardening.
 </details>
 

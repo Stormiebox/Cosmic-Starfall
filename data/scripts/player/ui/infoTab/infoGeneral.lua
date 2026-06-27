@@ -994,7 +994,7 @@ entities['setbonuses'] = {
 		{
 			'desc', -- Element type
 			6, -- Height (nil for iconname/mainlabel)
-			"Requires 5 or more turrets of the specified class equipped on the ship to activate.\n\nMining Doctrine (5+ Miners): +15% Generated Energy, +15% Cargo Capacity\nSalvage Doctrine (5+ Salvagers): +20% Shield Capacity\nPoint Defense Doctrine (5+ PDCs/Anti-Fighter): +10% Velocity\nArtillery Doctrine (5+ Cannons/Railguns): +10% Damage\nEnergy Doctrine (5+ Lasers/Plasma/Lightning): +15% Damage\nLauncher Doctrine (5+ Launchers/Bolters): +20% Fire Rate"%_t, -- Content. Text or path to picture.
+			"Requires 5 or more turrets of the specified class equipped on the ship to activate.\n\nMining Doctrine (5+ Miners): +15% Generated Energy, +15% Cargo Capacity\nSalvage Doctrine (5+ Salvagers): +20% Shield Capacity\nPoint Defense Doctrine (5+ PDCs/Anti-Fighter): +15% Fighter Dodge, +10% Velocity\nArtillery Doctrine (5+ Cannons/Railguns): +15% Damage, +10% Velocity\nEnergy Doctrine (5+ Lasers/Plasma/Lightning): +15% Damage, +15% Shield Recharge Rate\nLauncher Doctrine (5+ Launchers/Bolters): +20% Fire Rate"%_t, -- Content. Text or path to picture.
 		},
 	},
 }

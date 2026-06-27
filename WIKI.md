@@ -15,10 +15,11 @@ Welcome to the **Cosmic Starfall** official wiki! This page contains the full, d
 - Architecture Direction
 - Full Feature Breakdown
   - 1) Major Balance Revamp (Anti-OP Strategy)
-  - 2) Reliability & QA Hardening Pass
-  - 3) Security & Anti-Exploit Overhaul
-  - 4) Compatibility Helper Layer (Ecosystem Bridge)
-  - 5) Deep-Dive Script Corrections & Hygiene
+  - 2) Subsystem Synergies & Fleet Doctrines
+  - 3) Reliability & QA Hardening Pass
+  - 4) Security & Anti-Exploit Overhaul
+  - 5) Compatibility Helper Layer (Ecosystem Bridge)
+  - 6) Deep-Dive Script Corrections & Hygiene
 - Ecosystem & Server Considerations
 - Installation & Troubleshooting
 - Development Status
@@ -52,16 +53,18 @@ The mod combines three core pillars:
 - `data/scripts/systems/bastionSystem.lua`
 - `data/scripts/systems/macrofieldProjector.lua`
 - `data/scripts/systems/pulseTractorBeamGenerator.lua`
+- `data/scripts/systems/overpoweredCore.lua`
+- `data/scripts/lib/weapongenerator.lua`
 
 **Intent:**
 Reduce runaway power spikes while preserving each system’s gameplay identity.
 
 **High-Level Outcomes:**
-- Lower passive sustain ceilings.
-- Longer cooldown commitment windows.
-- Reduced burst-heal and shield spike throughput.
-- More meaningful energy and cost tradeoffs.
-- Reduced persistent control-zone pressure.
+- Normalized all custom weapon DPS multipliers (previously up to 2.3x) down to a strict +15% to +25% margin over vanilla weapons.
+- Fixed severe multi-projectile bugs on Avalanche, Pulse Laser, and Cyclone that previously doubled unintended damage.
+- Stripped flat global exponential modifiers from vanilla Chainguns and Bolters.
+- Reversed faulty Bastion System math and standardized Overpowered Core rarity scaling.
+- Lower passive sustain ceilings on support modules.
 
 **Gameplay Impact:**
 - Fewer “always best” loadout outcomes.
@@ -71,7 +74,26 @@ Reduce runaway power spikes while preserving each system’s gameplay identity.
 *For full numeric old-vs-new value tables and rationale, please refer to the `Cosmic_Starfall_CHANGELOG.md` file.*
 </details>
 
-### 🛡️ 2) Reliability & QA Hardening Pass
+### 2) Subsystem Synergies & Fleet Doctrines
+**Intent:**
+Reward players for specializing their ships and experimenting with specific loadouts.
+
+**Subsystem Synergies:**
+Equip specific combinations of Starfall subsystems to unlock hidden buffs.
+- **The Aegis Matrix** (Bastion System + Overpowered Core): +20% Shield Recharge Rate and +10% Shield Durability.
+- **The Drone-Weaver Network** (Repair Drones + Pulse Tractor Beam): +25% Hull Repair Speed and +2 Max Fighters.
+- **The Void-Runner Configuration** (Xperimental Hypergenerator + Subspace Cargo): +20% Hyperspace Jump Range and +15% Velocity.
+
+**Turret Set Bonuses (Fleet Doctrines):**
+Equip 5 or more of the same turret type (Vanilla or Modded) to unlock powerful Fleet Doctrines.
+- **Mining Doctrine** (5+ Miners): +15% Energy Generation, +15% Cargo Capacity.
+- **Salvage Doctrine** (5+ Salvagers): +20% Shield Durability.
+- **Point Defense Doctrine** (5+ PDCs/Anti-Fighter): +15% Fighter Dodge, +10% Velocity.
+- **Artillery Doctrine** (5+ Cannons/Mortars/Railguns): +15% Damage, +10% Velocity.
+- **Energy Doctrine** (5+ Lasers/Plasma): +15% Damage, +15% Shield Recharge Rate.
+- **Launcher Doctrine** (5+ Launchers/Bolters): +20% Fire Rate.
+
+### 🛡️ 3) Reliability & QA Hardening Pass
 <details>
 <summary><b>Click to expand details</b></summary>
 

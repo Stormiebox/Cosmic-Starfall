@@ -40,8 +40,8 @@ Cosmic Starfall introduces over a dozen new weapon types. Here are some of the h
 ## 🛡️ Advanced Subsystems
 Cosmic Starfall provides several new permanent ship upgrade modules (Systems) that offer unique, high-tier bonuses.
 
-### ⚙️ The Bastion System
-A defensive powerhouse. When installed, it massively multiplies your total **Shield Durability** (up to +83% at Legendary!). However, this sheer power draws heavily from your reactor, causing a massive reduction in shield recharge speed. Best used on heavy dreadnoughts that need to survive massive burst damage.
+### 🛡️ The Bastion System
+A defensive powerhouse. Not only does it massively multiply your **Shield Durability** (up to +83% at Legendary!), but it also significantly increases your **Shield Recharge Rate** and dramatically reduces the time before your shields begin recharging after taking a hit. It is the ultimate defensive upgrade for heavy dreadnoughts that need to survive immense burst damage.
 
 ### The Overpowered Core
 A hyper-efficient reactor enhancement. It provides a pure, unadulterated boost to both **Generated Energy** and **Energy Capacity** (scaling from +5% to +15% based on rarity). A must-have for ships running energy-hungry weapon setups.
@@ -71,7 +71,7 @@ Absolutely. Cosmic Starfall utilizes strict Virtual File System (VFS) hooks and 
 
 ### ⚙️ Subsystem Synergies (Set Bonuses)
 Cosmic Starfall now supports hidden set bonuses. By installing specific combinations of Starfall subsystems, you can unlock massive, permanent buffs for your ship:
-*   **The Aegis Matrix** (Bastion System + Overpowered Core): Counteracts the Bastion's native recharge penalty. Grants +20% Shield Recharge Rate and +10% Shield Durability.
+*   **The Aegis Matrix** (Bastion System + Overpowered Core): Further amplifies the Bastion's incredible defensive stats. Grants an additional +20% Shield Recharge Rate and +10% Shield Durability.
 *   **The Drone-Weaver Network** (Repair Drones + Pulse Tractor Beam): Grants +25% Hull Repair Speed and +2 Max Fighters.
 *   **The Void-Runner Configuration** (Xperimental Hypergenerator + Subspace Cargo): Grants +20% Hyperspace Jump Range and +15% Velocity.
 
@@ -79,9 +79,9 @@ Cosmic Starfall now supports hidden set bonuses. By installing specific combinat
 To reward players who heavily specialize their ships, equipping 5 or more of the same turret type (Vanilla or Modded) will unlock "Fleet Doctrine" set bonuses.
 *   **Mining Doctrine (5+ Miners):** +15% Energy Generation, +15% Cargo Capacity.
 *   **Salvage Doctrine (5+ Salvagers):** +20% Shield Durability.
-*   **Point Defense Doctrine (5+ PDCs/Anti-Fighter):** +15% Dodge Chance, +10% Velocity.
-*   **Artillery Doctrine (5+ Cannons/Mortars/Railguns):** +25% Weapon Range, +10% Damage.
-*   **Energy Doctrine (5+ Lasers/Plasma):** +15% Shield Penetration/Damage.
+*   **Point Defense Doctrine (5+ PDCs/Anti-Fighter):** +15% Fighter Dodge, +10% Velocity.
+*   **Artillery Doctrine (5+ Cannons/Mortars/Railguns):** +15% Damage, +10% Velocity.
+*   **Energy Doctrine (5+ Lasers/Plasma):** +15% Damage, +15% Shield Recharge Rate.
 *   **Launcher Doctrine (5+ Launchers/Bolters):** +20% Fire Rate.
 
 *All active set bonuses are now clearly visible on your main HUD.*

@@ -23,9 +23,9 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - **Turret Set Bonuses (Fleet Doctrines):** Specialize your ship by equipping 5 or more of the same turret type (Vanilla or Modded) to unlock powerful Fleet Doctrines!
   - *Mining Doctrine* (5+ Miners): +15% Energy Generation, +15% Cargo Capacity.
   - *Salvage Doctrine* (5+ Salvagers): +20% Shield Durability.
-  - *Point Defense Doctrine* (5+ PDCs/Anti-Fighter): +15% Dodge Chance, +10% Velocity.
-  - *Artillery Doctrine* (5+ Cannons/Mortars/Railguns): +25% Weapon Range, +10% Damage.
-  - *Laser/Plasma Doctrine* (5+ Lasers/Plasma): +15% Shield Penetration/Damage.
+  - *Point Defense Doctrine* (5+ PDCs/Anti-Fighter): +15% Fighter Dodge, +10% Velocity.
+  - *Artillery Doctrine* (5+ Cannons/Mortars/Railguns): +15% Damage, +10% Velocity.
+  - *Laser/Plasma Doctrine* (5+ Lasers/Plasma): +15% Damage, +15% Shield Recharge Rate.
   - *Launcher Doctrine* (5+ Launchers/Bolters): +20% Fire Rate.
 - **Active Set Bonus UI:** Added a dedicated HUD element that dynamically displays your currently active Set Bonuses and Doctrines directly on your screen!
 - **Legendary Vault DoTs:** Integrated the new `CosmicVaultCombat` DoT framework into Legendary weapon generation.
@@ -36,6 +36,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
   - *Overpowered Core:* Stripped out the broken hardcoded stat values. It now utilizes true dynamic rarity scaling (+5% up to +15% energy stats).
   - *Bastion System:* Fully reversed the faulty mathematical logic. The system now natively scales positively (+69% up to +83% shield), and the UI tooltip was patched to properly display a buff (+XX%) instead of a negative penalty.
   - *Vanilla Power Creep:* Nerfed the flat exponential global damage multipliers applied to vanilla Chainguns (1.25x -> 1.10x) and Bolters (1.15x -> 1.05x) to restore late-game TTK balance.
+  - *Global Weapon Balance Pass:* Normalized all custom Starfall weapon DPS multipliers (previously up to 2.3x) down to +15-25% over vanilla to eliminate power creep. Fixed broken multi-projectile engine math on the Pulse Laser, Cyclone, and Avalanche that was causing unintended DPS doubling. Rebalanced the MANTIS rockets to reduce visual spam and normalize damage output.
 - **Cinematic UI & QoL Overhaul:** Active systems now use `CosmicVaultUI.ShowCinematicBanner` for stunning on-screen feedback. Custom UI tabs now utilize proportional splitters for perfect scaling.
 - **Architecture Restructure:** Renamed all experimental `V2` scripts back to their canonical names, eradicated legacy UI scripts, and updated 70+ internal pathways.
 - **English Translation & Localization:** Translated all Russian UI labels, tooltips, logs, and variables into English. Wrote a Python script to aggressively purge redundant/orphaned translations, reducing memory footprint.

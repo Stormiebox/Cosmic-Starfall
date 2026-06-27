@@ -3,7 +3,7 @@ weaponProbabilities[WeaponType.PLASMAFLAK] = {d = 0.7, p = 0.9}
 weaponProbabilities[WeaponType.ASSAULTCANNON] = {p = 2.4}
 weaponProbabilities[WeaponType.PARTICLEACCELERATOR] = {d = 0.9, p = 1.5}
 weaponProbabilities[WeaponType.ASSAULTBLASTER] = {d = 0.8, p = 1.2}
-weaponProbabilities[WeaponType.MANTIS] = {d = 0.75, p = 0.9}
+weaponProbabilities[WeaponType.MANTIS] = {d = 0.75, p = 0.45}
 weaponProbabilities[WeaponType.HEPT] = {d = 0.7, p = 1}
 weaponProbabilities[WeaponType.PULSELASER] = {d = 0.7, p = 1}
 

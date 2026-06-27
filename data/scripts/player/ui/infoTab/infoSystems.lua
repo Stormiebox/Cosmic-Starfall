@@ -33,6 +33,7 @@ local order = {
 	{locNames['interactive'],'pulseTractorBeamGenerator',0.1},
 	--Passive
 	{locNames['noninteractive'],'subspaceCargo',0.1},
+	{locNames['noninteractive'],'overpoweredCore',0.1},
 }
 
 local entities = {}
@@ -332,7 +333,7 @@ entities['bastionSystem'] = {
 	},
 	--Passive bonuses / penalties
 	{
-		{"data/textures/icons/health-normal.png","Shield Durability"%_t,'- (rand(27,31) - R * 2)%'},
+		{"data/textures/icons/health-normal.png","Shield Durability"%_t,'+ (rand(69,73) + R * 2)%'},
 		{"data/textures/icons/shield-charge.png","Shield Recharge Rate"%_t,'+ (rand(14,19) + R * 3)%'},
 		{"data/textures/icons/recharge-time.png","Time Until Recharge"%_t,'- (rand(19,21) + R * 2)%'},
 	},
@@ -586,6 +587,25 @@ entities['subspaceCargo'] = {
 		{'data/textures/icons/crate.png',"Cargo Hold (relative)"%_t,'+ (rand(31,35) + R * 4)%'},
 		{"data/textures/icons/electric.png","Generated Energy"%_t,'- (rand(14,18) - R)%'},
 		{"data/textures/icons/health-normal.png","Shield Durability"%_t,'- (rand(11,15) - R)%'},
+	},
+	--Active effects
+	nil,
+}
+
+entities['overpoweredCore'] = {
+	--Icon
+	"data/textures/icons/SUBSYSmacroPulsar.png",
+	--Name
+	"Overcharged Quantum Core"%_t,
+	--Description
+	{
+	"A hyper-efficient reactor enhancement. It provides a pure, unadulterated boost to both Generated Energy and Energy Capacity. A must-have for ships running energy-hungry weapon setups."%_t,
+	1, -- modifier for description window height from standard
+	},
+	--Passive bonuses / penalties
+	{
+		{"data/textures/icons/electric.png","Generated Energy"%_t,'+ (5 + R * 2)%'},
+		{"data/textures/icons/battery-pack-alt.png","Energy Capacity"%_t,'+ (5 + R * 2)%'},
 	},
 	--Active effects
 	nil,
