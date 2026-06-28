@@ -247,6 +247,91 @@ Cosmic Starfall is currently an **active WIP** with ongoing runtime validation a
 
 ---
 
+### 7) Expanded Arsenal (Custom Weapons & Vanilla Overhauls)
+
+Cosmic Starfall dramatically expands the combat sandbox by introducing 18 fully custom weapon types alongside a rigorous rebalancing of the 11 base vanilla weapons.
+
+<details>
+<summary><b>Vanilla Weapon Rebalances (Statistical Overhauls)</b></summary>
+
+To bring legacy weaponry up to par with endgame Cosmic threats, native Avorion weapons receive precise statistical modifiers during their generation sequence:
+
+- **Chaingun:** +10% Damage, scaling Reach based on Tech Level. Gains a 7.5% chance to roll with Antimatter, Plasma, or Electric elemental damage.
+- **Bolter:** +5% Base Damage, permanently converted to **Antimatter** base damage type with a secondary high-roll chance for extra Antimatter multipliers.
+- **Pulse Cannon:** +5% Damage. 10% chance to roll Antimatter bonus damage.
+- **Laser:** Massive **+110% Base Damage** scalar to compensate for short range. 10% chance to roll Plasma bonus damage.
+- **Railgun:** -15% Base Damage (Nerf) to bring excessive long-range sniping into balance. 10% chance to roll Antimatter bonus damage.
+- **Rocket Launcher:** +5% Base Damage. 10% chance to roll Antimatter bonus damage.
+- **Cannon:** +10% Base Damage, +25% Base Shield Damage Multiplier, and +45% Hull Damage Multiplier.
+- **Tesla Gun:** Massive **+150% Base Damage** scalar. Shield Damage Multiplier is natively increased by +31%.
+- **Lightning Gun:** +43.75% Base Damage. 10% chance to roll Plasma bonus damage.
+- **Plasma Gun:** Dynamic scaling damage (+30% to +130% scalar based on Tech Level), permanently set to Plasma damage.
+- **Repair Beam:** Shield and Hull Repair outputs scale exponentially based on Tech Level (up to +160% repair rate at high tech).
+
+</details>
+
+<details>
+<summary><b>Custom Starfall Weaponry (The 18 New Classes)</b></summary>
+
+The following 18 weapon archetypes are seamlessly injected into the loot pool and Turret Factories:
+
+1. **Pulse Gun:** Rapid-fire projectile weapon scaling with Tech. High suppression, medium range.
+2. **Particle Accelerator:** Long-range, hyper-velocity projectile weapon with a slight base damage reduction to account for its accuracy.
+3. **Assault Blaster:** +15% Damage medium-range heavy repeater.
+4. **HEPT (High Energy Plasma Thrower):** High-impact, scaling damage (+15% base + tech scalars) plasma volley weapon.
+5. **Pulse Laser:** +15% Damage beam/projectile hybrid. 
+6. **Mantis:** Rapid-fire anti-shield projector (+15% Damage).
+7. **Photon:** High-burst kinetic projector (+25% Damage).
+8. **Hyper Kinetic:** Massive +25% Damage beam weapon designed for sustained target painting.
+9. **Nano Repair:** Upgraded version of vanilla repair beams, starting with an innate +35% healing output scalar.
+10. **Charging Beam:** +75% Base Damage beam weapon that takes a moment to spool up but absolutely melts targets.
+11. **Transphasic:** +15% Damage beam weapon. Natively has a 20% chance to roll with the "Less Energy Consumption" specialty.
+12. **Assault Cannon:** +20% Damage upgrade over standard cannons.
+13. **PRD (Point Defense):** Highly accurate, fast-tracking +15% Damage anti-fighter/anti-torpedo system.
+14. **Avalanche:** +35% Base Damage, high-impact heavy projectile system. 10% chance to roll the "High Damage" specialty.
+15. **Cyclone:** Rapid-fire suppression cannon with +15% Base Damage and a 20% chance to roll the "High Damage" specialty.
+16. **Magnetic Mortar:** Massive +25% Base Damage artillery weapon. Always scales with Coaxial modifiers (up to 3x damage multiplier if rolled as Coaxial).
+17. **Solar Torpedo:** Extremely high-yield siege weapon. **Always generated as a Coaxial weapon**, guaranteeing massive slot usage but devastating planetary-scale damage output.
+18. **Plasma Flak:** Point Defense weapon with massive blast radii. 10% chance to roll High Range, High Fire Rate, or High Damage specialties.
+
+</details>
+
+### 8) Expanding the Core: Custom Subsystems
+
+In addition to weapons, Cosmic Starfall deeply expands the internal systems you can install on your ship, injecting 7 fully custom, highly specialized upgrade modules into the loot pool and equipment docks.
+
+*Note: Starfall currently does not apply direct mathematical overrides to standard Vanilla subsystems (like Battery Boosters or Cargo Extensions), choosing instead to provide compelling endgame alternatives through these 7 custom drops.*
+
+<details>
+<summary><b>Custom Starfall Subsystems (The 7 Modules)</b></summary>
+
+1. **Aegis Shield Matrix (Bastion System):** 
+   - Massive defensive module. 
+   - Grants between `+69%` to `+73%` Base Shield Durability (scaling up with Rarity).
+   - Grants between `+14%` to `+19%` Shield Recharge Rate (scaling up with Rarity).
+   - Grants an active invincibility time-factor mechanism upon reaching zero shields.
+2. **Macrofield Projector:**
+   - Massive reactor booster.
+   - Increases Energy Generation and Energy Capacity significantly based on internal scalars.
+3. **Overcharged Quantum Core:**
+   - High-tier reactor component that grants flat percentage multipliers to both Energy Regeneration and Maximum Energy Capacity (`+5%` base, scaling upwards by `+2%` per rarity tier).
+4. **Pulse Tractor Beam Generator:**
+   - Greatly enhances salvaging operations by scaling maximum tractor beam pulses and decreasing energy costs.
+5. **Repair Drones:**
+   - Active hull-repair system.
+   - Grants flat Hull Durability multipliers (+3% per rarity tier).
+   - Activates automated passive hull repair thresholds (scales dynamically with rarity).
+6. **Subspace Cargo Extension:**
+   - Grants massive cargo hold expansions (`+31%` to `+35%` base, scaling to over `+50%` with rarity and permanent installation).
+   - **Tradeoff:** Drains Energy (`-14%`) and Shields (`-11%`) due to subspace mass constraints.
+7. **Experimental Hypergenerator:**
+   - Re-engineers your jump drive.
+   - Reduces Hyperspace Cooldown by up to `-12%`.
+   - Increases Hyperspace Jump Range natively.
+   - **Tradeoff:** Heavily drains base Energy capacity to maintain the experimental drive core.
+
+</details>
+
 ## 🔗 Cosmic Series Integration & Audit 3.0 Updates
 <details>
 <summary><b>Click to expand</b></summary>
@@ -263,3 +348,4 @@ During the Cosmic Series Final QA Audit (v3.0+), several massive backend systems
 ### 🛠️ Vanilla Bug Fixes
 - **Scout Mission Fix:** We patched a massive, long-standing vanilla bug where Scout Missions would completely skip and ignore Faction Headquarters sectors because the native dialogue trees were missing the template definition.
 </details>
+

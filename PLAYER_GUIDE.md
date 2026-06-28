@@ -89,6 +89,55 @@ To reward players who heavily specialize their ships, equipping 5 or more of the
 
 ---
 
+### Expanding the Arsenal: New & Buffed Weapons
+
+Cosmic Starfall breathes new life into the Avorion combat sandbox. Not only do we introduce **18 entirely new custom weapon classes**, but we've completely overhauled the original **11 vanilla weapons** so they stay competitive in the late game!
+
+<details>
+<summary><b>Vanilla Weapon Buffs (Overview)</b></summary>
+
+Vanilla weapons are no longer useless in the late game!
+- **Close Range Kings (Laser & Tesla):** Have received absolutely massive damage buffs (over +100% damage output) to reward players brave enough to dogfight up close.
+- **Heavy Hitters (Cannons):** Deal significantly more bonus damage against shields and hulls.
+- **The Elements:** Weapons like Chainguns, Pulse Cannons, and Lightning Guns now have a chance to naturally roll with rare elemental damage properties (Antimatter, Plasma).
+- **Railgun Adjustment:** Railguns received a very slight damage nerf to balance out their extreme safety at ultra-long range.
+
+</details>
+
+<details>
+<summary><b>The 18 Custom Weapons (Overview)</b></summary>
+
+Keep your eyes open for these brand new drops in the galaxy!
+1. **Pulse Gun & Particle Accelerator:** Highly accurate, rapid-fire kinetics.
+2. **Assault Blaster & Assault Cannon:** Medium-range heavy hitters built for raw DPS.
+3. **HEPT & Plasma Flak:** Devastating plasma volleys and energy-based point defense.
+4. **Pulse Laser, Photon, & Mantis:** Beam and projectile energy hybrids designed to strip shields.
+5. **Hyper Kinetic & Charging Beam:** Extreme sustained-damage lasers that melt targets if you can keep them on target.
+6. **Nano Repair:** A significantly upgraded version of the standard repair beam.
+7. **Transphasic & PRD:** Extremely energy-efficient beams and specialized point defense networks.
+8. **Avalanche & Cyclone:** Heavy suppression kinetics that barrage the enemy in steel.
+9. **Magnetic Mortar & Solar Torpedo:** The ultimate siege weapons. These often generate as **Coaxial** variants, locking them to your ship's spine but granting them apocalyptic damage multipliers.
+
+</details>
+
+### Expanding the Core: Custom Subsystems
+
+Alongside the new weapons, Cosmic Starfall introduces **7 Custom Subsystem Modules** that you can install in your ship's upgrade slots. These provide extremely specialized endgame capabilities!
+
+*Note: Starfall doesn't nerf or change vanilla subsystems like your standard Cargo Extensions or Battery Boosters, so they remain as reliable as ever.*
+
+<details>
+<summary><b>The 7 Custom Subsystems (Overview)</b></summary>
+
+1. **Aegis Shield Matrix (Bastion System):** The ultimate defense module. Grants massive percentage buffs to Shield Durability and Recharge Rate, making your ship incredibly tanky.
+2. **Macrofield Projector & Overcharged Quantum Core:** Huge upgrades to your ship's Reactor, boosting both maximum energy capacity and passive energy regeneration.
+3. **Pulse Tractor Beam Generator:** Boosts salvaging operations by enhancing your ship's ability to lock onto and reel in debris.
+4. **Repair Drones:** Automatically repairs your hull when out of combat and actively grants a raw percentage buff to your overall Hull Durability.
+5. **Subspace Cargo Extension:** Grants massive amounts of cargo space by folding space itself, but severely drains your energy and shields as a tradeoff.
+6. **Experimental Hypergenerator:** Reduces your hyperspace cooldown and boosts your jump range, but requires a significant chunk of your ship's energy to maintain.
+
+</details>
+
 ## 🔗 Cosmic Series Integration & Audit 3.0 Updates
 <details>
 <summary><b>Click to expand</b></summary>
@@ -102,3 +151,4 @@ During the Cosmic Series Final QA Audit (v3.0+), several massive backend systems
 ### 🛠️ Vanilla Bug Fixes
 - **Scout Mission Fix:** We patched a massive, long-standing vanilla bug where Scout Missions would completely skip and ignore Faction Headquarters sectors because the native dialogue trees were missing the template definition.
 </details>
+
