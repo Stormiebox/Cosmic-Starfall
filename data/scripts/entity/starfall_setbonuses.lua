@@ -60,7 +60,7 @@ function StarfallSetBonuses.recalculateBonuses()
 
     -- 1. Check Subsystems
     local systemUpgrades = ShipSystem(entity.index):getUpgrades()
-    for upgrade, _ in pairs(systemUpgrades) do
+    for _, upgrade in pairs(systemUpgrades) do
         if type(upgrade) == "userdata" and upgrade.script then
             sysCount[upgrade.script] = true
         elseif type(upgrade) == "table" and upgrade.script then
