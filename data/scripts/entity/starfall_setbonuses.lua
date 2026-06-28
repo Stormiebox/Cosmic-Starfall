@@ -60,8 +60,12 @@ function StarfallSetBonuses.recalculateBonuses()
 
     -- 1. Check Subsystems
     local systemUpgrades = ShipSystem(entity.index):getUpgrades()
-    for _, upgrade in pairs(systemUpgrades) do
-        sysCount[upgrade.script] = true
+    for upgrade, _ in pairs(systemUpgrades) do
+        if type(upgrade) == "userdata" and upgrade.script then
+            sysCount[upgrade.script] = true
+        elseif type(upgrade) == "table" and upgrade.script then
+            sysCount[upgrade.script] = true
+        end
     end
 
     -- 2. Check Turrets
@@ -220,4 +224,7 @@ function secure()
 end
 function restore(data)
     if StarfallSetBonuses.restore then return StarfallSetBonuses.restore(data) end
+end
+function updateClientSets(sets)
+    if StarfallSetBonuses.updateClientSets then return StarfallSetBonuses.updateClientSets(sets) end
 end
