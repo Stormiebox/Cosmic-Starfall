@@ -1,9 +1,9 @@
 WeaponSounds = {
     sounds = {
-        "weapon/Assault01",
-		"weapon/Assault02",
-		"weapon/Assault03",
-		"weapon/Assault04",
+        "weapon/assault01",
+		"weapon/assault02",
+		"weapon/assault03",
+		"weapon/assault04",
     },
     range = 300,
     volume = 0.30,

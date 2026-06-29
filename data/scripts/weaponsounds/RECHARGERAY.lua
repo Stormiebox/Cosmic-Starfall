@@ -5,7 +5,7 @@ WeaponSounds = {
     range = 150,
     volume = 1,
     loop = {
-        sound = "weapon/light/rechargingRayLoop",
+        sound = "weapon/light/rechargingrayloop",
         range = 300,
         volume = 0.6,
     }
