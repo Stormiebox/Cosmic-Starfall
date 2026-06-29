@@ -423,10 +423,16 @@ function RepairWaveOperate()
 		broadcastInvokeClientFunction( "RepairWaveOperateClient", RepairWaveEnergyConsumptionCV)
 
 		local function pulseTask()
-			local ShipsInSector = { Sector():getEntitiesByType(EntityType.Ship) }
+			local rawShips = { Sector():getEntitiesByType(EntityType.Ship) }
+			local shipIds = {}
+			for _, s in pairs(rawShips) do
+				table.insert(shipIds, s.id)
+			end
+
 			local processed = 0
-			for n, ship in pairs(ShipsInSector) do
-				if ship.playerOrAllianceOwned and ship.isShip and isInRangeV3(ship.translationf, Entity().translationf, RepairWaveRange) then
+			for n, sid in pairs(shipIds) do
+				local ship = Entity(sid)
+				if ship and ship.playerOrAllianceOwned and ship.isShip and isInRangeV3(ship.translationf, Entity().translationf, RepairWaveRange) then
 					if _debug then
 						print(ship.name)
 						print("Heal tick: ", RepairWaveHealAmount)
@@ -453,6 +459,7 @@ function RepairWaveOperate()
 				processed = processed + 1
 				if processed % 15 == 0 then
 					if CosmicVaultTask then CosmicVaultTask.Yield() end
+					if not Entity() then return end
 				end
 			end
 			
