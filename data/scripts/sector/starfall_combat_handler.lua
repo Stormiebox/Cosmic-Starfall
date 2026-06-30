@@ -19,7 +19,7 @@ function updateServer(timeStep)
 end
 
 function onDamaged(objectIndex, amount, inflictor, damageSource, damageType)
-    if not cv_success or not CosmicVaultCombat then return end
+    if not CosmicVaultCombat then return end
     if not inflictor then return end
     if damageSource ~= DamageSource.Turret then return end
 
