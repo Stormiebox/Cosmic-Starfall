@@ -21,7 +21,6 @@ end
 function onDamaged(objectIndex, amount, inflictor, damageSource, damageType)
     if not CosmicVaultCombat then return end
     if not inflictor then return end
-    if damageSource ~= DamageSource.Turret then return end
 
     if damageType ~= DamageType.Plasma and damageType ~= DamageType.AntiMatter then return end
 
