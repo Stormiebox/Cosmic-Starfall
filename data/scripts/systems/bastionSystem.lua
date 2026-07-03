@@ -77,9 +77,21 @@ end
 function CheckForEnemy(me, target)
 	--Check if torpedo
 	if target.type == EntityType.Torpedo then
-		local SC = Entity(Torpedo(target.index).shootingCraft)
-		local torpedoTarget = Entity(TorpedoAI(target.index).target)
-		if Owner(me):getRelationValue(Owner(SC).factionIndex) < -95000 or torpedoTarget.index == Entity().index then
+		local meOwner = Owner(me)
+		local targetFaction = target.factionIndex
+		local rel = 0
+		if meOwner and targetFaction then
+			rel = meOwner:getRelationValue(targetFaction)
+		end
+		
+		local isTargetingMe = false
+		if target.target and Entity(target.target) then
+			if Entity(target.target).index == me.index then
+				isTargetingMe = true
+			end
+		end
+
+		if rel < -95000 or isTargetingMe then
 			return true
 		else
 			return false
@@ -100,8 +112,8 @@ callable(nil, "DoServerMeow")
 
 function DamageTarget() --for debug
 	local tgtId = Entity().selectedObject
-	Durability(tgtId).durability = Durability(tgtId).durability - 100000
-	Shield(tgtId).durability = Shield(tgtId).durability - 400000
+	Entity(tgtId).durability = Entity(tgtId).durability - 100000
+	Entity(tgtId).shieldDurability = Entity(tgtId).shieldDurability - 400000
 end
 
 callable(nil, "DamageTarget")
@@ -255,7 +267,7 @@ function updateServer(timePassed)
 			DebugMsg("Multiphase: trying to 'MultiphaseOperateSetup'")
 		end
 		--Handles shield shutdown
-		if Shield().durability == 0 then
+		if Entity().shieldDurability == 0 then
 			DebugMsg("serverUpdate_Multiphase: shields down, deactivating")
 			MultiphaseIsWorking = 0
 			MultiphaseOperateSetup()
@@ -318,7 +330,7 @@ function updateStatusEffects(_type, _status)
 end
 
 function getVeilRepairAmount()
-	local _result = math.floor((Shield().maximum * VeilRepair * 0.01) + 0.5)
+	local _result = math.floor((Entity().shieldMaximum * VeilRepair * 0.01) + 0.5)
 	DebugMsg('getVeilRepairAmount is ' .. tostring(_result))
 	return _result
 end
@@ -326,7 +338,7 @@ end
 ----------------------------------------------------------------------------------------------------------------
 
 function VeilActivate()
-	if Shield().durability == 0 then
+	if Entity().shieldDurability == 0 then
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
@@ -413,7 +425,7 @@ function VeilOperate()
 	--Bug cut-off
 	if Entity() == nil or VeilRepairAmount <= 0 then return end
 	--Shutdown when shield falls
-	if not (Shield().isActive) or Shield().durability == 0 then
+	if not (Entity():hasComponent(ComponentType.Shield)) or Entity().shieldDurability == 0 then
 		VeilTurnToFalse()
 		VeilOperateSetup()
 		DebugMsg("Veil: shield offline, deactivating")
@@ -421,7 +433,7 @@ function VeilOperate()
 	end
 	--Case repair with an active module
 	if VeilIsWorking then
-		Durability():healDamage(VeilRepairAmount, Entity().id)
+		Entity().durability = math.min(Entity().maxDurability, Entity().durability + VeilRepairAmount)
 		DebugMsg("Veil: ship repaired for " .. tostring(VeilRepairAmount))
 
 		--Aura generation
@@ -473,7 +485,7 @@ end
 ----------------------------------------------------------------------------------------------------------------
 
 function RecupActivate()
-	if RecupIsReady == 0 and Entity():getValue("RecupStoredAmount") and Shield().durability > 0 then
+	if RecupIsReady == 0 and Entity():getValue("RecupStoredAmount") and Entity().shieldDurability > 0 then
 		DebugMsg("Recup: activate")
 
 		--Setting cooldown
@@ -532,7 +544,7 @@ function RecupOperate()
 	--Bug cut-off
 	if Entity() == nil or RecupHealAmount <= 0 then return end
 	--Shutdown when shield falls
-	if not (Shield().isActive) or Shield().durability == 0 then
+	if not (Entity():hasComponent(ComponentType.Shield)) or Entity().shieldDurability == 0 then
 		DebugMsg("Recup: shield offline, cant work")
 		RecupIsWorking = 0
 		broadcastInvokeClientFunction( "onFinishWork", RecupIsWorking, 1)
@@ -540,7 +552,7 @@ function RecupOperate()
 	end
 	--Shield repair
 	if RecupIsWorking then
-		Shield():healDamage(RecupHealAmount, Entity().id)
+		Entity().shieldDurability = math.min(Entity().shieldMaximum, Entity().shieldDurability + RecupHealAmount)
 		DebugMsg("Recup: shield repaired for " .. tostring(RecupHealAmount))
 	end
 end
@@ -551,7 +563,7 @@ function RecupInitiation()
 	Entity():registerCallback("onShieldDamaged", "RecupStoreCharge")
 	--Checking the maximum volume
 	if RecupMaximumAmount == 0 then
-		RecupMaximumAmount = Shield().maximum * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
+		RecupMaximumAmount = Entity().shieldMaximum * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
 		DebugMsg("Current capacitor amount is: " .. tostring(RecupMaximumAmount))
 	end
 	--Checking the presence of custom
@@ -578,7 +590,7 @@ function RecupStoreCharge(_id, _damage, _type, _inflictor)
 		end
 		--Checking the maximum volume
 		if RecupMaximumAmount == 0 then
-			RecupMaximumAmount = Shield().maximum * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
+			RecupMaximumAmount = Entity().shieldMaximum * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
 			DebugMsg("Current capacitor amount is: " .. tostring(RecupMaximumAmount))
 		end
 		--Updating Energy Reserve Value
@@ -602,7 +614,7 @@ end
 ----------------------------------------------------------------------------------------------------------------
 
 function MultiphaseActivate()
-	if Shield().durability == 0 then
+	if Entity().shieldDurability == 0 then
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
@@ -686,25 +698,25 @@ function MultiphaseOperateSetup()
 	if MultiphaseIsWorking > 0 then
 		DebugMsg("Multiphase: activate")
 		--Installation of an impenetrable shield
-		MultiphaseAlreadyImp = Shield().impenetrable
+		MultiphaseAlreadyImp = Entity().invincible
 		if MultiphaseAlreadyImp and _debug then
 			DebugMsg("Multiphase - already impenetrable")
 		end
 		if not (MultiphaseAlreadyImp) then
 			DebugMsg("Multiphase: set up imp status")
-			Shield().impenetrable = true
+			Entity().invincible = true
 		end
 		--Setting the time before rollback
-		DebugMsg("MultiphaseOperateSetup| timeUntilRechargeAfterHit: " .. tostring(Shield().timeUntilRechargeAfterHit))
+		DebugMsg("MultiphaseOperateSetup| timeUntilRechargeAfterHit: " .. tostring(Entity().shieldTimeUntilRechargeAfterHit))
 
-		Entity():setValue("BastionMultiphaseRestoreTimer", Shield().timeUntilRechargeAfterHit)
+		Entity():setValue("BastionMultiphaseRestoreTimer", Entity().shieldTimeUntilRechargeAfterHit)
 
-		local _reValue = (Shield().timeUntilRechargeAfterHit) * -1
+		local _reValue = (Entity().shieldTimeUntilRechargeAfterHit) * -1
 		DebugMsg("MultiphaseOperateSetup| _reValue is " .. tostring(_reValue))
 		Entity():addMultiplyableBias(StatsBonuses.ShieldTimeUntilRechargeAfterHit, _reValue)
 		--Entity():add multiplyable bias(stats bonuses.shield time until recharge after hit,2)
 		DebugMsg("MultiphaseOperateSetup| afterTimeUntilRechargeAfterHit: " ..
-			tostring(Shield().timeUntilRechargeAfterHit))
+			tostring(Entity().shieldTimeUntilRechargeAfterHit))
 
 		return
 	end
@@ -712,9 +724,9 @@ function MultiphaseOperateSetup()
 	if MultiphaseIsWorking == 0 then
 		DebugMsg("Multiphase: deactivate")
 		--Impenetrable shield rollback
-		if not (MultiphaseAlreadyImp) and Shield().impenetrable then
+		if not (MultiphaseAlreadyImp) and Entity().invincible then
 			DebugMsg("Multiphase: set up imp status to false")
-			Shield().impenetrable = false
+			Entity().invincible = false
 		end
 		--Reset graphics
 		MultiphaseTurnToFalse()
@@ -745,7 +757,7 @@ function MultiphaseStreamingChargeSwitchOff()
 	Entity():addMultiplyableBias(StatsBonuses.ShieldTimeUntilRechargeAfterHit, _value)
 	Entity():setValue("BastionMultiphaseRestoreTimer", nil)
 	DebugMsg("MultiphaseStreamingChargeSwitchOff| TimeUntilRechargeAfterHit: " ..
-		tostring(Shield().timeUntilRechargeAfterHit))
+		tostring(Entity().shieldTimeUntilRechargeAfterHit))
 end
 
 function ActivateTransferMP()
@@ -756,11 +768,11 @@ end
 
 function PulsarActivate()
 	-- if _debug then
-	-- Shield().durability = Shield().maximum
+	-- Entity().shieldDurability = Entity().shieldMaximum
 	-- end
 
 	--Activation cutoff if shield is below limit
-	if Shield().durability < PulsarTreshold * 0.01 then
+	if Entity().shieldDurability < PulsarTreshold * 0.01 then
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
@@ -805,7 +817,7 @@ callable(nil, "PulsarActivate")
 
 function PulsarOperate()
 	--Shutdown when shield charge is low
-	if Shield().durability < PulsarTreshold * 0.01 then
+	if Entity().shieldDurability < PulsarTreshold * 0.01 then
 		DebugMsg('PulsarOperate: shields too low, deactivating!')
 		PulsarIsWorking = 1
 		broadcastInvokeClientFunction( 'UIplaysound', 1)
@@ -826,8 +838,7 @@ function PulsarOperate()
 		if CheckForEnemy(Entity(), _torpedo) and isInRangeV3(Entity().translationf, _torpedo.translationf, PulsarRange + PulsarRangeR * _rarity) then
 			table.insert(targets, _torpedo.translationf)
 			DebugMsg('PulsarOperate: attempt to destroy ' .. tostring(_torpedo.id))
-			local TE = TorpedoAI(_torpedo.id).entity
-			Durability(TE.index).durability = 0
+			_torpedo.durability = 0
 			--TE:destroy(Entity().id,Weaponry,Fragments)
 			--Torpedo(_torpedo.id):startDetonation()
 		else
@@ -1106,10 +1117,10 @@ end
 
 function onUninstalled(seed, rarity, permanent)
 	--Cutting off
-	if not (Shield()) or not (Entity()) then return end
+	if not (Entity():hasComponent(ComponentType.Shield)) or not (Entity()) then return end
 
 	-- SpawnUtility.resetResistance(Entity())
-	-- Shield().damageFactor = 1
+	-- Entity().shieldDamageFactor = 1
 	if onServer() then
 		executeDelete()
 		Entity():removeScriptBonuses()

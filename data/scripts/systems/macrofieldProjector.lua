@@ -148,31 +148,31 @@ function CalculateRepairAmount(_type)
 	--Shield Booster
 	if _type == 0 then
 		local _energyConsumpt = ConvertToJ(EnergySystem().capacity * (RepairWaveEnergyConsumption * 0.01), true)
-		local _baseHealMultiplier = round((Durability().maximum / 100) * _energyConsumpt * RepairWaveHealingAmount)
+		local _baseHealMultiplier = round((Entity().maxDurability / 100) * _energyConsumpt * RepairWaveHealingAmount)
 		DebugMsg("Repair amount (repair wave): " .. tostring(_baseHealMultiplier))
 		return _baseHealMultiplier
 	end
 	if _type == 1 then
 		local _energyConsumptRR = ConvertToJ(EnergySystem().capacity * (RenovatingRayEnergyConsumption * 0.01), true)
-		local _baseHealMultiplierRR = round((Durability().maximum / 100) * _energyConsumptRR * RenovatingRayHealingAmount)
+		local _baseHealMultiplierRR = round((Entity().maxDurability / 100) * _energyConsumptRR * RenovatingRayHealingAmount)
 		return _baseHealMultiplierRR
 	end
 	if _type == 2 then
 		local _energyConsumptSB = ConvertToJ(EnergySystem().capacity * (ShieldBoosterEnergyConsumption * 0.01), true)
-		local _baseHealMultiplierSB = round((Shield().maximum / 100) * _energyConsumptSB * ShieldBoosterHealingAmount)
+		local _baseHealMultiplierSB = round((Entity().shieldMaximum / 100) * _energyConsumptSB * ShieldBoosterHealingAmount)
 		return _baseHealMultiplierSB
 	end
 	if _type == 3 then
-		local selfPercent = Shield().filledPercentage
-		local otherPercent = Shield(ShieldSynchronizerTarget.id).filledPercentage
+		local selfPercent = (Entity().shieldDurability / Entity().shieldMaximum)
+		local otherPercent = (Entity(ShieldSynchronizerTarget.id).shieldDurability / Entity(ShieldSynchronizerTarget.id).shieldMaximum)
 		local midPercent = (selfPercent + otherPercent) / 2
 		DebugMsg("MidPercent is " .. tostring(midPercent))
 		--If your shield is larger, pumps 0.2%
 		if selfPercent > midPercent + ShieldSynchronizerAmount * 0.01 then
-			return Shield().maximum * (ShieldSynchronizerAmount * 0.01)
+			return Entity().shieldMaximum * (ShieldSynchronizerAmount * 0.01)
 		end
 		if otherPercent > midPercent + ShieldSynchronizerAmount * 0.01 then
-			return Shield(ShieldSynchronizerTarget.id).maximum * (ShieldSynchronizerAmount * 0.01) * -1
+			return Entity(ShieldSynchronizerTarget.id).shieldMaximum * (ShieldSynchronizerAmount * 0.01) * -1
 		else
 			return 0
 		end
@@ -243,8 +243,8 @@ callable(nil, "RestoreEnergy")
 
 function DamageTarget() --for debug
 	local tgtId = Entity().selectedObject
-	--Durability(tgtId).durability = Durability(tgtId).durability -100000
-	Shield(tgtId).durability = Shield(tgtId).durability - 400000
+	--Entity(tgtId).durability = Entity(tgtId).durability -100000
+	Entity(tgtId).shieldDurability = Entity(tgtId).shieldDurability - 400000
 end
 
 callable(nil, "DamageTarget")
@@ -437,7 +437,7 @@ function RepairWaveOperate()
 						print(ship.name)
 						print("Heal tick: ", RepairWaveHealAmount)
 					end
-					Durability(ship.id):healDamage(RepairWaveHealAmount, Entity().id)
+					Entity(ship.id).durability = math.min(Entity(ship.id).maxDurability, Entity(ship.id).durability + RepairWaveHealAmount)
 
 					--Aura
 					local target = ship
@@ -467,7 +467,7 @@ function RepairWaveOperate()
 				local selfHealMult = (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) * 0.01 + 1
 				DebugMsg("SelfHealIs: " ..
 					tostring(RepairWaveHealAmount * selfHealMult) .. " where selfMult is " .. tostring(selfHealMult - 1))
-				Durability(Entity().id):healDamage(RepairWaveHealAmount * selfHealMult, Entity().id)
+				Entity().durability = math.min(Entity().maxDurability, Entity().durability + (RepairWaveHealAmount * selfHealMult))
 			end
 		end
 
@@ -558,7 +558,7 @@ function RenovationRayOperate()
 		RepairWaveRange + RenovatingRayRangeRARMP * _rarity)
 
 	--Monitoring the state of the target
-	local repairNeeded = (Durability(RenovatingRayTarget.id).filledPercentage < 1)
+	local repairNeeded = ((Entity(RenovatingRayTarget.id).durability / Entity(RenovatingRayTarget.id).maxDurability) < 1)
 
 	--Status icon control
 	if RenovatingRayInRange then
@@ -573,7 +573,7 @@ function RenovationRayOperate()
 	if RenovatingRayInRange and repairNeeded then
 		if EnergySystem().energy >= RenovatingRayEnergyConsumptionCV then
 			SyncEnergyRemove(RenovatingRayEnergyConsumptionCV)
-			Durability(RenovatingRayTarget.id):healDamage(RenovatingRayAmount, Entity().id)
+			Entity(RenovatingRayTarget.id).durability = math.min(Entity(RenovatingRayTarget.id).maxDurability, Entity(RenovatingRayTarget.id).durability + RenovatingRayAmount)
 			DebugMsg("Ship '" .. RenovatingRayTarget.name .. "' healed for " .. tostring(RenovatingRayAmount))
 
 			--Aura
@@ -679,7 +679,7 @@ function ShieldBoosterOperate()
 	if ShieldBoosterIsWorking == false then return end
 
 	--Check goals
-	if ShieldBoosterTarget == nil or ShieldBoosterTarget.isShip == false or Shield(ShieldBoosterTarget.id).filledPercentage < 0.1 then
+	if ShieldBoosterTarget == nil or ShieldBoosterTarget.isShip == false or (Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaximum) < 0.1 then
 		ShieldBoosterTurnToFalse()
 		DebugMsg("ShieldBooster: cannot find target (missing or destroyed)")
 		return
@@ -690,7 +690,7 @@ function ShieldBoosterOperate()
 		ShieldBoosterRange + ShieldBoosterRangeRARMP * _rarity)
 
 	--Monitoring the state of the target
-	local repairNeeded = (Shield(ShieldBoosterTarget.id).filledPercentage < 1)
+	local repairNeeded = ((Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaximum) < 1)
 
 	--Status icon control
 	if ShieldBoosterInRange then
@@ -707,9 +707,9 @@ function ShieldBoosterOperate()
 	if ShieldBoosterInRange and repairNeeded then
 		if EnergySystem().energy >= ShieldBoosterEnergyConsumptionCV then
 			SyncEnergyRemove(ShieldBoosterEnergyConsumptionCV)
-			Shield(ShieldBoosterTarget.id):healDamage(ShieldBoosterHealAmount, Entity().id)
+			Entity(ShieldBoosterTarget.id).shieldDurability = math.min(Entity(ShieldBoosterTarget.id).shieldMaximum, Entity(ShieldBoosterTarget.id).shieldDurability + ShieldBoosterHealAmount)
 			DebugMsg("Ship '" .. ShieldBoosterTarget.name .. "' healed for " .. tostring(ShieldBoosterHealAmount))
-			DebugMsg("Percent is: " .. tostring(Shield(ShieldBoosterTarget.id).filledPercentage))
+			DebugMsg("Percent is: " .. tostring((Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaximum)))
 
 			--Aura
 			local target = ShieldBoosterTarget
@@ -829,8 +829,8 @@ function ShieldSyncOperate()
 	if ShieldSynchronizerInRange then
 		local _amount = CalculateRepairAmount(3)
 		local _treshold = (ShieldSynchronizerValueTreshold - ShieldSynchronizerValueTresholdRARMP * _rarity) * 0.01
-		local _myPercent = Shield().filledPercentage < _treshold
-		local _otherPercent = Shield(ShieldSynchronizerTarget.id).filledPercentage < _treshold
+		local _myPercent = (Entity().shieldDurability / Entity().shieldMaximum) < _treshold
+		local _otherPercent = (Entity(ShieldSynchronizerTarget.id).shieldDurability / Entity(ShieldSynchronizerTarget.id).shieldMaximum) < _treshold
 
 		--Aura on target
 		local target = ShieldSynchronizerTarget
@@ -869,8 +869,8 @@ function ShieldSyncOperate()
 			return
 		end
 		--If the return value is positive, the shield moves from you to the target, negative -vice versa
-		Shield().durability = Shield().durability - _amount
-		Shield(ShieldSynchronizerTarget.id).durability = Shield(ShieldSynchronizerTarget.id).durability + _amount
+		Entity().shieldDurability = Entity().shieldDurability - _amount
+		Entity(ShieldSynchronizerTarget.id).shieldDurability = Entity(ShieldSynchronizerTarget.id).shieldDurability + _amount
 	end
 end
 
@@ -912,7 +912,7 @@ function onFinishWork(_time, _type)
 			UIplaysound(1)
 		end
 		updateStatusEffects(_type, false)
-		--print (Durability().filledPercentage)
+		--print ((Entity().durability / Entity().maxDurability))
 		--Durability().invincibility = Durability().invincibility -0.5
 	else
 		return

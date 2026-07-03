@@ -115,8 +115,8 @@ end
 --The main function is the handler for all modules, tied to the game API
 function updateServer(timePassed)
 	--passive effect segment
-	if Durability().filledPercentage < (PassiveRepairTreshhold / 100) then
-		Entity().durability = Entity().durability + (Durability().maximum / 100 * PassiveRepairAmount)
+	if (Entity().durability / Entity().maxDurability) < (PassiveRepairTreshhold / 100) then
+		Entity().durability = Entity().durability + (Entity().maxDurability / 100 * PassiveRepairAmount)
 		--Aura on yourself
 		local _aura = {
 			'selfrepairpassiveaura',
@@ -140,7 +140,7 @@ function updateServer(timePassed)
 	end
 	if NanobotsIsWorking > 0 then
 		NanobotsIsWorking = NanobotsIsWorking - timePassed
-		if Durability().filledPercentage < (NanobotsHealingTreshhold / 100) then --Doesn't work if body strength is above cap
+		if (Entity().durability / Entity().maxDurability) < (NanobotsHealingTreshhold / 100) then --Doesn't work if body strength is above cap
 			Entity().durability = Entity().durability + NanobotsHealingSpeed
 		end
 		broadcastInvokeClientFunction( "onFinishWork", NanobotsIsWorking, 0) --Catch the moment when the module ends
@@ -164,7 +164,7 @@ function updateServer(timePassed)
 	if EmergencyIsWorking > 0 then
 		EmergencyIsWorking = EmergencyIsWorking - timePassed
 		executeUpdateProgressbar(3, 0, true)
-		if Durability().filledPercentage < EmergencyActivationTreshhold / 100 then
+		if (Entity().durability / Entity().maxDurability) < EmergencyActivationTreshhold / 100 then
 			EmergencyIsWorking = 0
 			broadcastInvokeClientFunction( "onFinishWork", EmergencyIsWorking, 2)
 			Entity().durability = Entity().durability + EmergencyHeal
@@ -190,7 +190,7 @@ end
 function NanobotsActivate()
 	if NanobotsIsReady == 0 then
 		NanobotsIsReady = NanobotsCooldown                       --starts rollback
-		NanobotsHealingSpeed = (Durability().maximum / 100 * NanobotsHealingAmount) /
+		NanobotsHealingSpeed = (Entity().maxDurability / 100 * NanobotsHealingAmount) /
 			NanobotsOperationTime                                --assigns the amount of repair per unit of time (1 sec)
 		NanobotsIsWorking =
 			NanobotsOperationTime                                --we set a working time and at the same time tell the handler that the module is running
@@ -221,7 +221,7 @@ function NanobotsActivate()
 		print("Cooldown not finished! Remaining", NanobotsIsReady, "seconds")
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
-	if _debug then print(Durability().maxDurabilityFactor, "maxDurFactor current") end
+	if _debug then print(Entity().maxDurabilityFactor, "maxDurFactor current") end
 end
 
 callable(nil, "NanobotsActivate")
@@ -229,7 +229,7 @@ callable(nil, "NanobotsActivate")
 function RepairNetworkActivate()
 	if RepairnetworkIsReady == 0 then
 		RepairnetworkIsReady = RepairnetworkCooldown
-		RepairnetworkHealingSpeed = (Durability().maximum / 100 * RepairnetworkHealingAmount) /
+		RepairnetworkHealingSpeed = (Entity().maxDurability / 100 * RepairnetworkHealingAmount) /
 			RepairnetworkOperationTime
 		RepairnetworkIsWorking = RepairnetworkOperationTime
 		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
@@ -265,7 +265,7 @@ callable(nil, "RepairNetworkActivate")
 function EmergencyActivate()
 	if EmergencyIsReady == 0 then
 		EmergencyIsReady = EmergencyCooldown
-		EmergencyHeal = (Durability().maximum / 100) * EmergencyHealingAmount
+		EmergencyHeal = (Entity().maxDurability / 100) * EmergencyHealingAmount
 		EmergencyIsWorking = EmergencyOperationTime
 		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
 		if CosmicVaultUI and callingPlayer then
@@ -377,7 +377,7 @@ function onInstalled(seed, rarity, permanent)
 	--Checks to see if a similar bonus already exists. It is necessary so that when the game starts, the bonus is not applied again (when the game starts, the onInstalled function is triggered automatically for all entities where the module is already installed)
 	if _cv == 0 or _cv == false then
 		Entity():setValue("isRepairDrones", true)
-		Durability().maxDurabilityFactor = (Durability().maxDurabilityFactor + ModuleBonusDurability / 100)
+		Entity().maxDurabilityFactor = (Entity().maxDurabilityFactor + ModuleBonusDurability / 100)
 		if _debug then print("Hull successfully increased on module install") end
 	end
 
@@ -597,7 +597,7 @@ function onFinishWork(_time, _type)
 			--print("Emergency stabilizer has completed its overload phase")
 			updateStatusEffects(_type, false)
 		end
-		--print (Durability().filledPercentage)
+		--print ((Entity().durability / Entity().maxDurability))
 		--Durability().invincibility = Durability().invincibility -0.5
 	else
 		return

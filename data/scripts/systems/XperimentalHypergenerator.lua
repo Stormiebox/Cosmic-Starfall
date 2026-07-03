@@ -114,32 +114,34 @@ function xFocusActivateTransfer()
 end
 
 function xFocusActivate()
-	if FocusedIsReady == 0 and HyperspaceEngine().currentCooldown == 0 then
+	local hse = HyperspaceEngine()
+	if not hse then return end
+	if FocusedIsReady == 0 and hse.currentCooldown == 0 then
 		FocusedCanRecharge = false
 		FocusedIsReady = FocusedCooldown
 		--Invoke client function(player(),"update u ibars",focused cooldown,focused is ready,2)
 		executeUpdateProgressbar(3, 1)
 		broadcastInvokeClientFunction( "updateStatusEffects", 2, true)
 		if FocusedChargeReduction > 0 and FocusedChargeReduction < 100 then
-			FocusedChargeReductionTimer = HyperspaceEngine().cooldown / 100 * (100 - FocusedChargeReduction)
+			FocusedChargeReductionTimer = hse.cooldown / 100 * (100 - FocusedChargeReduction)
 		else
 			print("FocusedChargeReductionTimer is invalid, returning default 40")
-			FocusedChargeReductionTimer = HyperspaceEngine().cooldown / 100 * 60
+			FocusedChargeReductionTimer = hse.cooldown / 100 * 60
 		end
 
 		DebugMsg(tostring(FocusedChargeReductionTimer) .. "FocusedChargeReductionTimer")
-		DebugMsg(tostring(HyperspaceEngine().cooldown) .. "HyperspaceEngine().cooldown")
-		DebugMsg(tostring(HyperspaceEngine().range) .. "HyperspaceEngine().range")
+		DebugMsg(tostring(hse.cooldown) .. "hse.cooldown")
+		DebugMsg(tostring(hse.range) .. "hse.range")
 
-		HyperspaceEngine().currentCooldown = HyperspaceEngine().cooldown
-		HyperspaceEngine().currentCooldown = HyperspaceEngine().currentCooldown - FocusedChargeReductionTimer
-		FocusedBonusRange = HyperspaceEngine().range / 100 * FocusedIncrease
+		hse.currentCooldown = hse.cooldown
+		hse.currentCooldown = hse.currentCooldown - FocusedChargeReductionTimer
+		FocusedBonusRange = hse.range / 100 * FocusedIncrease
 
 		DebugMsg(tostring(FocusedBonusRange) .. "FocusedBonusRange")
 
 		addMultiplyableBias(StatsBonuses.HyperspaceReach, FocusedBonusRange)
 
-		DebugMsg(tostring(HyperspaceEngine().range) .. "HyperspaceEngine().range after conversion")
+		DebugMsg(tostring(hse.range) .. "hse.range after conversion")
 
 		Entity():registerCallback("onHyperspaceEntered", "xFocusJump")
 
@@ -162,7 +164,10 @@ function xFocusJump()
 	Entity():unregisterCallback("onHyperspaceEntered", "xFocusJump")
 	FocusedCanRecharge = true
 	addMultiplyableBias(StatsBonuses.HyperspaceReach, -FocusedBonusRange)
-	DebugMsg(tostring(HyperspaceEngine().range) .. "HyperspaceEngine().range after jump")
+	local hse = HyperspaceEngine()
+	if hse then
+		DebugMsg(tostring(hse.range) .. "hse.range after jump")
+	end
 	onJumpFinished(FocusedBonusRange * FocusedJumpCooldown)
 	broadcastInvokeClientFunction( "updateStatusEffects", 2, false)
 end
@@ -179,7 +184,7 @@ function xQuantumActivate()
 		--Invoke client function(player(),"update u ibars",quantum cooldown,quantum is ready,0)
 		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
 		--QuantumIsWorking = QuantumWorkingTimer
-		QuantumHealDelta = Shield():getMaxDurability(true) / 100 * QuantumShieldHeal
+		QuantumHealDelta = Entity().shieldMaximum / 100 * QuantumShieldHeal
 		Entity():registerCallback("onJumpRouteCalculationStarted", "xQuantumTrigger")
 		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
 		if CosmicVaultUI and callingPlayer then
@@ -199,13 +204,15 @@ end
 callable(nil, "xQuantumActivate")
 
 function xDestabilizerActivate()
+	local hse = HyperspaceEngine()
+	if not hse then return end
 	if DestabilizerIsReady == 0 then
 		DestabilizerIsReady = DestabilizerCooldown
 		--Invoke client function(player(),"update u ibars",100,1,1)
 		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
 		DestabilizerIsWorking = DestabilizerWorkingTimeBase + _rarity
-		DestabilizerDamageToHull = Durability().maximum / 100 * DestabilizerChargeDestruction
-		DestabilizerSpeedUp = HyperspaceEngine().currentCooldown / HyperspaceEngine().cooldownSpeed / 100 *
+		DestabilizerDamageToHull = Entity().maxDurability / 100 * DestabilizerChargeDestruction
+		DestabilizerSpeedUp = hse.currentCooldown / hse.cooldownSpeed / 100 *
 			DestabilizerChargeBoost
 
 		--Aura (charge)
@@ -226,7 +233,7 @@ function xDestabilizerActivate()
 		--Aura (destruction)
 		local _aura = {
 			getSubtechSignature(systemname, 2) .. 'destruction',
-			string.format("-%i/s", (Durability().maximum / 100 * DestabilizerChargeDestruction)),
+			string.format("-%i/s", (Entity().maxDurability / 100 * DestabilizerChargeDestruction)),
 			DestabilizerIsWorking,
 			getTechAuraDesc('hulldamage'),
 			'debuff',
@@ -239,9 +246,9 @@ function xDestabilizerActivate()
 		callTechAuraSelf(_aura)
 
 		if _debug then
-			print(HyperspaceEngine().cooldownSpeed, "HyperspaceEngine().cooldownSpeed")
-			print(HyperspaceEngine().currentCooldown, "HyperspaceEngine().currentCooldown")
-			local _a = HyperspaceEngine().currentCooldown / HyperspaceEngine().cooldownSpeed
+			print(hse.cooldownSpeed, "hse.cooldownSpeed")
+			print(hse.currentCooldown, "hse.currentCooldown")
+			local _a = hse.currentCooldown / hse.cooldownSpeed
 			print(_a, "_a")
 			print("______________________")
 			print(_rarity, "_rarity")
@@ -400,9 +407,9 @@ function updateServer(timePassed)
 
 	if QuantumIsWorking > 0 then
 		QuantumIsWorking = math.max(0, QuantumIsWorking - timePassed)
-		Shield():healDamage(QuantumHealDelta)
+		Entity().shieldDurability = math.min(Entity().shieldMaximum, Entity().shieldDurability + QuantumHealDelta)
 		if QuantumIsWorking == 0 then
-			broadcastInvokeClientFunction( "updateStatusEffects", 0, false)
+			broadcastInvokeClientFunction( "updateStatusEffects")
 		end
 	end
 	--Destabilizer segment
@@ -414,13 +421,16 @@ function updateServer(timePassed)
 		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
 		DestabilizerIsWorking = math.max(0, DestabilizerIsWorking - timePassed)
 
-		if Durability().filledPercentage > DestabilizerChargeDestructionTreshold / 100 and Shield().filledPercentage < DestabilizerShieldTreshold / 100 then
-			Durability().durability = Durability().durability - DestabilizerDamageToHull
-			HyperspaceEngine().currentCooldown = HyperspaceEngine().currentCooldown - DestabilizerSpeedUp
+		if (Entity().durability / Entity().maxDurability) > DestabilizerChargeDestructionTreshold / 100 and (Entity().shieldDurability / Entity().shieldMaximum) < DestabilizerShieldTreshold / 100 then
+			Entity().durability = Entity().durability - DestabilizerDamageToHull
+			local hse = HyperspaceEngine()
+			if hse then
+				hse.currentCooldown = hse.currentCooldown - DestabilizerSpeedUp
+			end
 		else
-			if _debug and Durability().filledPercentage < DestabilizerChargeDestructionTreshold / 100 then
+			if _debug and (Entity().durability / Entity().maxDurability) < DestabilizerChargeDestructionTreshold / 100 then
 				DebugMsg("Hull indicator below acceptable limit")
-			elseif _debug and Shield().filledPercentage > DestabilizerShieldTreshold / 100 then
+			elseif _debug and (Entity().shieldDurability / Entity().shieldMaximum) > DestabilizerShieldTreshold / 100 then
 				DebugMsg("Shield indicator above acceptable limit")
 			end
 		end
@@ -529,7 +539,7 @@ function updateStatusEffects(_type, _status)
 		local _name = "Xdestabilizer"
 		if _status then
 			local _line = getSubtechName(systemname, 2) .. ' - ' .. getTechInfo('active')
-			if Shield().filledPercentage < DestabilizerShieldTreshold / 100 and Durability().filledPercentage > DestabilizerChargeDestructionTreshold / 100 then
+			if (Entity().shieldDurability / Entity().shieldMaximum) < DestabilizerShieldTreshold / 100 and (Entity().durability / Entity().maxDurability) > DestabilizerChargeDestructionTreshold / 100 then
 				DebugMsg("Correct tick - destabilizer")
 				removeShipProblem(_name, Entity().id)
 				addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(150, 64, 100), false)

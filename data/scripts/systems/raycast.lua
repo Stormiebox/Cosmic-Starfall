@@ -308,7 +308,7 @@ function isEntityCorrect(_entity)
 		return false
 	end
 	--HP check
-	if Durability(_entity.id).durability == 0 then
+	if Entity(_entity.id).durability == 0 then
 		Debug(eroro .. 'zero durability')
 		return false
 	end
