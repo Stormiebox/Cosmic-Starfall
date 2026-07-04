@@ -75,7 +75,7 @@ function ApplyDebug()
 	if onClient() then
 		invokeServerFunction('ApplyDebug')
 	else
-		Entity():addScript("lib/entitydbg.lua")
+		Entity():addScriptOnce("lib/entitydbg.lua")
 		DebugMsg('ApplyDebug')
 	end
 end
@@ -86,7 +86,7 @@ function ApplyOCC()
 	if onClient() then
 		invokeServerFunction('ApplyOCC')
 	else
-		Entity():addScript("complexCraft/OCnode.lua")
+		Entity():addScriptOnce("complexCraft/OCnode.lua")
 		DebugMsg('ApplyOCC')
 	end
 end

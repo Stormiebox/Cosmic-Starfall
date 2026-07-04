@@ -7,11 +7,8 @@ include("randomext")
 include("tooltipmaker")
 include("Tech")
 
-local CosmicVaultUI = nil
-pcall(function() CosmicVaultUI = include("cosmicvaultui") end)
-
-local CosmicVaultTask = nil
-pcall(function() CosmicVaultTask = include("cosmicvaulttask") end)
+local CosmicVaultUI = include("cosmicvaultui")
+local CosmicVaultTask = include("cosmicvaulttask")
 local _prototype = true
 local BSwindow
 local updateSW = false

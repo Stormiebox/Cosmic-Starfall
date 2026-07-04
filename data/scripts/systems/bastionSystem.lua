@@ -8,12 +8,9 @@ include("utility")
 include("randomext")
 include("Tech")
 
-local CosmicVaultBuffs = nil
-pcall(function() CosmicVaultBuffs = include("cosmicvaultbuffs") end)
-local CosmicVaultData = nil
-pcall(function() CosmicVaultData = include("cosmicvaultdata") end)
-local CosmicVaultUI = nil
-pcall(function() CosmicVaultUI = include("cosmicvaultui") end)
+local CosmicVaultBuffs = include("cosmicvaultbuffs")
+local CosmicVaultData = include("cosmicvaultdata")
+local CosmicVaultUI = include("cosmicvaultui")
 
 local SpawnUtility = include("spawnutility")
 

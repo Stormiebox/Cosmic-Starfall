@@ -6,8 +6,7 @@ include('callable')
 include('goods')
 include('Stations')
 
-local CosmicVaultEconomy = nil
-pcall(function() CosmicVaultEconomy = include("cosmicvaulteconomy") end)
+local CosmicVaultEconomy = include("cosmicvaulteconomy")
 
 local TradingUtility = include("tradingutility")
 

@@ -6,8 +6,7 @@ include("utility")
 include("randomext")
 include("Tech")
 
-local CosmicVaultUI = nil
-pcall(function() CosmicVaultUI = include("cosmicvaultui") end)
+local CosmicVaultUI = include("cosmicvaultui")
 
 local _debug = false
 local _prototype = true
