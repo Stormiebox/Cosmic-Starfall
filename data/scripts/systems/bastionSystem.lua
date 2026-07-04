@@ -710,7 +710,7 @@ function MultiphaseOperateSetup()
 
 		local _reValue = (Entity().shieldTimeUntilRechargeAfterHit) * -1
 		DebugMsg("MultiphaseOperateSetup| _reValue is " .. tostring(_reValue))
-		Entity():addMultiplyableBias(StatsBonuses.ShieldTimeUntilRechargeAfterHit, _reValue)
+		CosmicVaultBuffs.applyBuff(Entity().id, "ShieldTimeUntilRechargeAfterHit", _reValue, MultiphaseLength + MultiphaseLengthR * _rarity, "BastionMultiphaseRechargeTimer")
 		--Entity():add multiplyable bias(stats bonuses.shield time until recharge after hit,2)
 		DebugMsg("MultiphaseOperateSetup| afterTimeUntilRechargeAfterHit: " ..
 			tostring(Entity().shieldTimeUntilRechargeAfterHit))
@@ -744,14 +744,8 @@ function MultiphaseTurnToFalse()
 end
 
 function MultiphaseStreamingChargeSwitchOff()
-	local _value = Entity():getValue("BastionMultiphaseRestoreTimer")
-	if _value == nil then
-		--DebugMsg("MultiphaseStreamingChargeSwitchOff| cant fing 'BastionMultiphaseRestoreTimer'")
-		return
-	end
-	DebugMsg("MultiphaseStreamingChargeSwitchOff| _value: " .. tostring(_value))
 	DebugMsg("MultiphaseStreamingChargeSwitchOff| deleting bonus once")
-	Entity():addMultiplyableBias(StatsBonuses.ShieldTimeUntilRechargeAfterHit, _value)
+	CosmicVaultBuffs.terminateBuff(Entity().id, "BastionMultiphaseRechargeTimer")
 	Entity():setValue("BastionMultiphaseRestoreTimer", nil)
 	DebugMsg("MultiphaseStreamingChargeSwitchOff| TimeUntilRechargeAfterHit: " ..
 		tostring(Entity().shieldTimeUntilRechargeAfterHit))

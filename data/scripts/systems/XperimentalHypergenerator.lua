@@ -7,6 +7,7 @@ include("randomext")
 include("Tech")
 
 local CosmicVaultUI = include("cosmicvaultui")
+local CosmicVaultBuffs = include("cosmicvaultbuffs")
 
 local _debug = false
 local _prototype = true
@@ -138,7 +139,7 @@ function xFocusActivate()
 
 		DebugMsg(tostring(FocusedBonusRange) .. "FocusedBonusRange")
 
-		addMultiplyableBias(StatsBonuses.HyperspaceReach, FocusedBonusRange)
+		CosmicVaultBuffs.applyBuff(Entity().id, "HyperspaceReach", FocusedBonusRange, 99999, "XH_FocusedBonusRange")
 
 		DebugMsg(tostring(hse.range) .. "hse.range after conversion")
 
@@ -162,7 +163,7 @@ callable(nil, "xFocusActivate")
 function xFocusJump()
 	Entity():unregisterCallback("onHyperspaceEntered", "xFocusJump")
 	FocusedCanRecharge = true
-	addMultiplyableBias(StatsBonuses.HyperspaceReach, -FocusedBonusRange)
+	CosmicVaultBuffs.terminateBuff(Entity().id, "XH_FocusedBonusRange")
 	local hse = HyperspaceEngine()
 	if hse then
 		DebugMsg(tostring(hse.range) .. "hse.range after jump")
@@ -307,7 +308,7 @@ function xQuantumTrigger()
 	callTechAuraSelf(_aura)
 
 	--Fire rate penalty
-	Entity():addBaseMultiplier(StatsBonuses.FireRate, -QuantumFirerateSlow / 100)
+	CosmicVaultBuffs.applyBuff(Entity().id, "FireRate", -QuantumFirerateSlow / 100, QuantumWorkingTimer, "XH_QuantumFirerateSlow")
 	broadcastInvokeClientFunction( 'UIplaysound', 0)
 end
 
@@ -319,7 +320,7 @@ function XQuantumJump()
 	broadcastInvokeClientFunction( "updateStatusEffects", 3, false)
 	broadcastInvokeClientFunction( "updateStatusEffects", 0, false)
 	QuantumCanRecharge = true
-	Entity():addBaseMultiplier(StatsBonuses.FireRate, QuantumFirerateSlow / 100)
+	CosmicVaultBuffs.terminateBuff(Entity().id, "XH_QuantumFirerateSlow")
 	QuantumIsWorking = 0
 	broadcastInvokeClientFunction( "updateStatusEffects", 0, false)
 	onJumpFinished(QuantumJumpCooldown)

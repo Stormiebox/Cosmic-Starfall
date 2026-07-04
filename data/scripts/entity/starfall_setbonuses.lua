@@ -38,7 +38,8 @@ function StarfallSetBonuses.secure()
 end
 
 function StarfallSetBonuses.restore(data)
-    activeModifiers = data.activeModifiers or {}
+    -- Keys are volatile and invalid after restart; do not restore them
+    activeModifiers = {}
     currentDamageBuff = data.currentDamageBuff or 1.0
     StarfallSetBonuses.recalculateBonuses()
 end
@@ -104,10 +105,8 @@ function StarfallSetBonuses.recalculateBonuses()
     end
     local newDamageBuff = 1.0
 
-    -- Clear old modifiers
-    for _, key in pairs(activeModifiers) do
-        entity:removeBonus(key)
-    end
+    -- Clear old modifiers safely
+    entity:removeScriptBonuses()
     activeModifiers = {}
 
     local function applyBuff(stat, value, isMultiplier)

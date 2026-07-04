@@ -188,12 +188,12 @@ function mainCaliber.serverApplyFirerate(_amount)
 
 	--Bonus purpose
 	if _amount < 0 then
-		self:removeBonus(1001)
-		self:addKeyedAbsoluteBias(StatsBonuses.FireRate, 1001, _amount)
+		self:removeScriptBonuses()
+		self:addAbsoluteBias(StatsBonuses.FireRate, _amount)
 		Debug('Bonus applied')
 	else
 		--Bonus exclusion
-		self:removeBonus(1001)
+		self:removeScriptBonuses()
 		Debug('Bonus removed')
 	end
 end

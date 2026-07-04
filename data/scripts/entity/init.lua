@@ -1,4 +1,3 @@
-
 if onServer() then
     local thisShip = Entity()
     local thisOwner = Owner(thisShip.id)
