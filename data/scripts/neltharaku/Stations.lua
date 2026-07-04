@@ -2,7 +2,7 @@ local _debug = false
 
 function StationDebug(_text)
 	if _debug then
-		print('Station lib|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'Station lib|', _text)
 	end
 end
 

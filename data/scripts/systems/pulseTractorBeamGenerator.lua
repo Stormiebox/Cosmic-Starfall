@@ -46,7 +46,7 @@ end
 
 function DebugMsg(_text)
 	if _debug then
-		print(_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 	end
 end
 
@@ -102,19 +102,19 @@ function updateServer(timePassed)
 
 		GeneratorIsWorking = math.max(0, GeneratorIsWorking - timePassed)
 
-		if _debug then print(GeneratorIsWorking, "- remaining time") end
+		if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", GeneratorIsWorking, "- remaining time") end
 
 		if GeneratorIsWorking > 0 then
 			if _debug then
-				print(_cv, "- value of _cv before pulse")
-				print("Active phase updateServer")
+				include("cosmicvaultdebug").info("Cosmic Starfall", _cv, "- value of _cv before pulse")
+				include("cosmicvaultdebug").info("Cosmic Starfall", "Active phase updateServer")
 			end
 			_ship:setValue("isPulseGenerator", _cv + GeneratorRangePerPulse)
 			_ship:addAbsoluteBias(StatsBonuses.LootCollectionRange, GeneratorRangePerPulse)
 			if _debug then
-				print(Entity():getValue("isPulseGenerator"), "_cv after pulse")
-				print(Entity():getBoostedValue(StatsBonuses.LootCollectionRange, 0), "_ab")
-				print("__________")
+				include("cosmicvaultdebug").info("Cosmic Starfall", Entity():getValue("isPulseGenerator"), "_cv after pulse")
+				include("cosmicvaultdebug").info("Cosmic Starfall", Entity():getBoostedValue(StatsBonuses.LootCollectionRange, 0), "_ab")
+				include("cosmicvaultdebug").info("Cosmic Starfall", "__________")
 			end
 		else
 			Entity():removeScriptBonuses()
@@ -131,18 +131,18 @@ function pGeneratorActivate()
 
 	if GeneratorIsReady == 0 then
 		if _debug then
-			print(_ab, "- lootCollectionRange at start of pGeneratorActivate")
-			print(_cv, "_cv at start of pGeneratorActivate")
+			include("cosmicvaultdebug").info("Cosmic Starfall", _ab, "- lootCollectionRange at start of pGeneratorActivate")
+			include("cosmicvaultdebug").info("Cosmic Starfall", _cv, "_cv at start of pGeneratorActivate")
 		end
 
 		if _cv == nil then
-			if _debug then print("_cv not found, forced to 0") end
+			if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", "_cv not found, forced to 0") end
 			Entity():setValue("isPulseGenerator", 0)
 		end
 		GeneratorIsReady = GeneratorCooldown --starts rollback
 		GeneratorAllowedPulses = GeneratorMaxPulsesBase + GeneratorPulsesPerRarity * (_rarity + 2) +
 			1                          --counts the maximum number of pulses
-		if _debug then print(GeneratorAllowedPulses, "- number of pulses") end
+		if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", GeneratorAllowedPulses, "- number of pulses") end
 		GeneratorIsWorking = GeneratorAllowedPulses *
 			2                                                    --duration depends on the number of pulses
 
@@ -170,7 +170,7 @@ function pGeneratorActivate()
 		}
 		callTechAuraSelf(_aura)
 	else
-		if _debug then print("Cooldown not finished! Remaining", GeneratorIsReady, "seconds") end
+		if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", "Cooldown not finished! Remaining", GeneratorIsReady, "seconds") end
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
@@ -375,9 +375,9 @@ function getTooltipLines(seed, rarity, permanent)
 	local _rangeMax = GeneratorRangePerPulse * _pulses
 
 	if _debug then
-		print(_pulses, "pulses")
-		print(_rangeMin, "rangeMin")
-		print(_rangeMax, "rangeMax")
+		include("cosmicvaultdebug").info("Cosmic Starfall", _pulses, "pulses")
+		include("cosmicvaultdebug").info("Cosmic Starfall", _rangeMin, "rangeMin")
+		include("cosmicvaultdebug").info("Cosmic Starfall", _rangeMax, "rangeMax")
 	end
 
 	local texts = {}

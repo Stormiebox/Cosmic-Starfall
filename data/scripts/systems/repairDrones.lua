@@ -72,7 +72,7 @@ end
 
 function DebugMsg(_text)
 	if _debug then
-		print(_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 	end
 end
 
@@ -217,10 +217,10 @@ function NanobotsActivate()
 		}
 		callTechAuraSelf(_aura)
 	else
-		print("Cooldown not finished! Remaining", NanobotsIsReady, "seconds")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "Cooldown not finished! Remaining", NanobotsIsReady, "seconds")
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
-	if _debug then print(Entity().maxDurabilityFactor, "maxDurFactor current") end
+	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", Entity().maxDurabilityFactor, "maxDurFactor current") end
 end
 
 callable(nil, "NanobotsActivate")
@@ -351,33 +351,33 @@ function onInstalled(seed, rarity, permanent)
 	--local perc, energy, shield = getBonuses(seed, rarity, permanent)
 	local _cv = Entity():getValue("isRepairDrones")
 
-	if _debug then print(_cv, "Value of _cv at start of onInstalled") end
+	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", _cv, "Value of _cv at start of onInstalled") end
 
 	if _cv == 0 and _debug then
-		print("No custom value isRepairDrones")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "No custom value isRepairDrones")
 	end
 
 	Entity():registerCallback("onHullHit", "onHitReact")
 
 	--changes the limit of passively restored hull depending on the current module level (from -1 to +5)
 	PassiveRepairTreshhold = PassiveRepairTreshhold + rarity.value * 2
-	if _debug then print(PassiveRepairTreshhold, "% Repair limit from quality") end
+	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", PassiveRepairTreshhold, "% Repair limit from quality") end
 
 	--Changes the hull bonus depending on the current module level (from -1 to +5)
 	ModuleBonusDurability = ModuleBonusDurability + rarity.value * 3
-	if _debug then print(ModuleBonusDurability, "% Hull bonus") end
+	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", ModuleBonusDurability, "% Hull bonus") end
 
 	--Checks the existence of a custom variable on the ship and if it does not exist, creates it
 	if _cv == nil then
 		Entity():setValue("isRepairDrones", false)
-		if _debug then print("isRepairDrones successfully created") end
+		if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", "isRepairDrones successfully created") end
 	end
 
 	--Checks to see if a similar bonus already exists. It is necessary so that when the game starts, the bonus is not applied again (when the game starts, the onInstalled function is triggered automatically for all entities where the module is already installed)
 	if _cv == 0 or _cv == false then
 		Entity():setValue("isRepairDrones", true)
 		Entity().maxDurabilityFactor = (Entity().maxDurabilityFactor + ModuleBonusDurability / 100)
-		if _debug then print("Hull successfully increased on module install") end
+		if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", "Hull successfully increased on module install") end
 	end
 
 	--Initializing Interface Elements
@@ -391,7 +391,7 @@ function onInstalled(seed, rarity, permanent)
 	end
 
 	if _cv and _debug then
-		print("repairDrones already installed")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "repairDrones already installed")
 	end
 end
 
@@ -578,25 +578,25 @@ end
 function onFinishWork(_time, _type)
 	if _time <= 0 then
 		if _type == 0 then
-			--print("Nanobots have completed the active phase")
+			--include("cosmicvaultdebug").info("Cosmic Starfall", "Nanobots have completed the active phase")
 			updateStatusEffects(_type, false)
 			UIplaysound(1)
 		end
 		if _type == 1 then
-			--print("The repair network has completed its active phase")
+			--include("cosmicvaultdebug").info("Cosmic Starfall", "The repair network has completed its active phase")
 			updateStatusEffects(_type, false)
 			UIplaysound(1)
 		end
 		if _type == 2 then
-			--print("Emergency stabilizer has completed its active phase")
+			--include("cosmicvaultdebug").info("Cosmic Starfall", "Emergency stabilizer has completed its active phase")
 			updateStatusEffects(_type, false)
 			UIplaysound(1)
 		end
 		if _type == 3 then
-			--print("Emergency stabilizer has completed its overload phase")
+			--include("cosmicvaultdebug").info("Cosmic Starfall", "Emergency stabilizer has completed its overload phase")
 			updateStatusEffects(_type, false)
 		end
-		--print ((Entity().durability / Entity().maxDurability))
+		--include("cosmicvaultdebug").info("Cosmic Starfall", (Entity().durability / Entity().maxDurability))
 		--Durability().invincibility = Durability().invincibility -0.5
 	else
 		return
@@ -605,7 +605,7 @@ end
 
 function onHitReact() --Needed for correct completion of the repair network when receiving damage to the hull
 	if RepairnetworkIsWorking > 0 then
-		if _debug then print("Repair network operation interrupted") end
+		if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", "Repair network operation interrupted") end
 		RepairnetworkIsWorking = 0
 		broadcastInvokeClientFunction( "onFinishWork", RepairnetworkIsWorking, 1)
 		RepairnetworkIsReady = RepairnetworkIsReady * 0.4

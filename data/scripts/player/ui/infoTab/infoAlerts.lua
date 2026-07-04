@@ -8,7 +8,7 @@ infoAlerts = {}
 local _debug = false
 function infoAlerts.DebugMsg(_text)
 	if _debug then
-		print('infoAlerts|',_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'infoAlerts|',_text)
 	end
 end
 local Debug = infoAlerts.DebugMsg

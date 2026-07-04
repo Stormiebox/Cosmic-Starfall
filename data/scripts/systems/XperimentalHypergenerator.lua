@@ -27,7 +27,7 @@ end
 
 function DebugMsg(_text)
 	if _debug then
-		print(_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 	end
 end
 
@@ -125,7 +125,7 @@ function xFocusActivate()
 		if FocusedChargeReduction > 0 and FocusedChargeReduction < 100 then
 			FocusedChargeReductionTimer = hse.cooldown / 100 * (100 - FocusedChargeReduction)
 		else
-			print("FocusedChargeReductionTimer is invalid, returning default 40")
+			include("cosmicvaultdebug").info("Cosmic Starfall", "FocusedChargeReductionTimer is invalid, returning default 40")
 			FocusedChargeReductionTimer = hse.cooldown / 100 * 60
 		end
 
@@ -196,7 +196,7 @@ function xQuantumActivate()
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 		QuantumStandbyFlag = true
 	else
-		print("xQuantum - cooling down")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "xQuantum - cooling down")
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
@@ -246,15 +246,15 @@ function xDestabilizerActivate()
 		callTechAuraSelf(_aura)
 
 		if _debug then
-			print(hse.cooldownSpeed, "hse.cooldownSpeed")
-			print(hse.currentCooldown, "hse.currentCooldown")
+			include("cosmicvaultdebug").info("Cosmic Starfall", hse.cooldownSpeed, "hse.cooldownSpeed")
+			include("cosmicvaultdebug").info("Cosmic Starfall", hse.currentCooldown, "hse.currentCooldown")
 			local _a = hse.currentCooldown / hse.cooldownSpeed
-			print(_a, "_a")
-			print("______________________")
-			print(_rarity, "_rarity")
-			print(DestabilizerDamageToHull, "DestabilizerDamageToHull")
+			include("cosmicvaultdebug").info("Cosmic Starfall", _a, "_a")
+			include("cosmicvaultdebug").info("Cosmic Starfall", "______________________")
+			include("cosmicvaultdebug").info("Cosmic Starfall", _rarity, "_rarity")
+			include("cosmicvaultdebug").info("Cosmic Starfall", DestabilizerDamageToHull, "DestabilizerDamageToHull")
 
-			print(DestabilizerSpeedUp, "DestabilizerSpeedUp")
+			include("cosmicvaultdebug").info("Cosmic Starfall", DestabilizerSpeedUp, "DestabilizerSpeedUp")
 		end
 		if CosmicVaultUI and callingPlayer then
 			local cp = Player(callingPlayer)
@@ -264,7 +264,7 @@ function xDestabilizerActivate()
 		end
 		broadcastInvokeClientFunction( 'UIplaysound', 0)
 	else
-		print("xDestabilizer - cooling down")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "xDestabilizer - cooling down")
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 	end
 end
@@ -279,7 +279,7 @@ end
 function xQuantumTrigger()
 	Entity():unregisterCallback("onJumpRouteCalculationStarted", "xQuantumTrigger")
 
-	if _debug then print("xQuantumTrigger caught start of calculation, assigning bonuses and penalties") end
+	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", "xQuantumTrigger caught start of calculation, assigning bonuses and penalties") end
 
 	executeUpdateProgressbar(1, 1)
 
@@ -315,7 +315,7 @@ end
 --Waiting to make a hyperjump in order to roll back penalties
 function XQuantumJump()
 	Entity():unregisterCallback("onHyperspaceEntered", "XQuantumJump")
-	if _debug then print("XQuantumJump worked, removing penalties") end
+	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", "XQuantumJump worked, removing penalties") end
 	QuantumDebuffFlag = false
 	broadcastInvokeClientFunction( "updateStatusEffects", 3, false)
 	broadcastInvokeClientFunction( "updateStatusEffects", 0, false)
@@ -329,7 +329,7 @@ end
 
 --Adds additional time to PD cooldown when called
 function onJumpFinished(_time)
-	if _debug then print("Jump complete, applying changes") end
+	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", "Jump complete, applying changes") end
 	Entity().hyperspaceCooldown = Entity().hyperspaceCooldown + _time
 	broadcastInvokeClientFunction( 'UIplaysound', 1)
 	FocusedChargedFlag = false
@@ -454,11 +454,11 @@ function getBonuses(seed, rarity, permanent)
 	local _jump = rand:getInt(1, 3) + rarity.value
 
 	if _debug then
-		print("________________")
-		print(_cooldown, "_cooldown, getBonuses")
-		print(_eDrain, "_eDrain, getBonuses")
-		print(_jump, "_jump, getBonuses")
-		print("________________")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "________________")
+		include("cosmicvaultdebug").info("Cosmic Starfall", _cooldown, "_cooldown, getBonuses")
+		include("cosmicvaultdebug").info("Cosmic Starfall", _eDrain, "_eDrain, getBonuses")
+		include("cosmicvaultdebug").info("Cosmic Starfall", _jump, "_jump, getBonuses")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "________________")
 	end
 
 	return _cooldown, _eDrain, _jump
@@ -479,11 +479,11 @@ function onInstalled(seed, rarity, permanent)
 	addBaseMultiplier(StatsBonuses.HyperspaceChargeEnergy, _eDrain / 100)
 
 	if _debug and onServer() then
-		print("________________")
-		print(-_cooldown / 100, "cooldown percent bonus")
-		print(_eDrain / 100, "energy drain percent penalty")
-		print(_jump, "jump range bonus")
-		print("________________")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "________________")
+		include("cosmicvaultdebug").info("Cosmic Starfall", -_cooldown / 100, "cooldown percent bonus")
+		include("cosmicvaultdebug").info("Cosmic Starfall", _eDrain / 100, "energy drain percent penalty")
+		include("cosmicvaultdebug").info("Cosmic Starfall", _jump, "jump range bonus")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "________________")
 	end
 
 	Player():registerCallback("onStateChanged", "UIshowhide")

@@ -9,7 +9,7 @@ infoStations = {}
 local _debug = false
 function infoStations.DebugMsg(_text)
 	if _debug then
-		print('infoStations|',_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'infoStations|',_text)
 	end
 end
 local Debug = infoStations.DebugMsg

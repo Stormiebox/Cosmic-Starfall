@@ -14,12 +14,12 @@ function Aquaflow.initialize()
 end
 
 function Aquaflow.loadData(_name)
-	print("[Cosmic Starfall] Security Warning: Aquaflow.loadData is deprecated and disabled.")
+	include("cosmicvaultdebug").info("Cosmic Starfall", "[Cosmic Starfall] Security Warning: Aquaflow.loadData is deprecated and disabled.")
 	return nil
 end
 
 function Aquaflow.saveData(_name, _data)
-	print("[Cosmic Starfall] Security Warning: Aquaflow.saveData is deprecated and disabled.")
+	include("cosmicvaultdebug").info("Cosmic Starfall", "[Cosmic Starfall] Security Warning: Aquaflow.saveData is deprecated and disabled.")
 	return false
 end
 

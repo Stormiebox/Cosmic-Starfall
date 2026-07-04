@@ -8,7 +8,7 @@ infoLib = {}
 local _debug = false
 function infoLib.DebugMsg(_text)
 	if _debug then
-		print('infoLib|',_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'infoLib|',_text)
 	end
 end
 local Debug = infoLib.DebugMsg

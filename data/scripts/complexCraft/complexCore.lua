@@ -74,7 +74,7 @@ local _colorC = ColorHSV(264, 60, 100)
 
 function MX.DebugMsg(_text)
 	if _debug then
-		print('MX(' .. Entity().name .. ')|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'MX(' .. Entity().name .. ')|', _text)
 	end
 end
 
@@ -108,9 +108,9 @@ function MX.TSRre(_value, _level)
 		MX.DebugMsg('TSRre: ' .. _lines)
 	else
 		if _value ~= nil then
-			print(type(_value), '|', _value)
+			include("cosmicvaultdebug").info("Cosmic Starfall", type(_value), '|', _value)
 		else
-			print('Empty')
+			include("cosmicvaultdebug").info("Cosmic Starfall", 'Empty')
 		end
 	end
 end
@@ -121,10 +121,10 @@ function MX.TSRbase(_value)
 			local _text = 'TSRre:position ' .. tostring(_index) .. ' - '
 			if type(_row) == 'table' then
 				_text = _text .. 'table(' .. tostring(#_row) .. ')'
-				print(_text)
+				include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 			else
 				text = _text .. 'non-table|'
-				print(_text, _row)
+				include("cosmicvaultdebug").info("Cosmic Starfall", _text, _row)
 			end
 		end
 	else

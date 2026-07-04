@@ -8,7 +8,7 @@ infoInterfaces = {}
 local _debug = false
 function infoInterfaces.DebugMsg(_text)
 	if _debug then
-		print('infoInterfaces|',_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'infoInterfaces|',_text)
 	end
 end
 local Debug = infoInterfaces.DebugMsg

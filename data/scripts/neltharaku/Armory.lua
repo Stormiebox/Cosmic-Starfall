@@ -92,7 +92,7 @@ local _debug = false
 
 function Debug(_text)
 	if _debug then
-		print('Armory lib|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'Armory lib|', _text)
 	end
 end
 

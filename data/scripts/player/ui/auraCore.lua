@@ -13,7 +13,7 @@ auraCore = {}
 local _debug = false
 function auraCore.DebugMsg(_text)
 	if _debug then
-		print('auraCore|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'auraCore|', _text)
 	end
 end
 

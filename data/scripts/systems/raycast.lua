@@ -45,7 +45,7 @@ end
 
 function DebugMsg(_text)
 	if _debug then
-		print(_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 	end
 end
 
@@ -74,7 +74,7 @@ local fxsTable = {}
 
 function tableSelfReport(_table)
 	for _index, _value in pairs(_table) do
-		print(_myName, _index, ' | ', _value)
+		include("cosmicvaultdebug").info("Cosmic Starfall", _myName, _index, ' | ', _value)
 	end
 end
 

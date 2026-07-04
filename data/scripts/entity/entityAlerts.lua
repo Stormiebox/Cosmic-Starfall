@@ -19,7 +19,7 @@ _colorC = ColorHSV(264, 60, 100)
 local _debug = true
 function eA.DebugMsg(_text)
 	if _debug then
-		print(_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 	end
 end
 

@@ -17,7 +17,7 @@ _colorC = ColorHSV(264, 60, 100)
 
 function Neltharaku.DebugMsg(_text)
 	if _debug then
-		print('Neltharaku lib|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'Neltharaku lib|', _text)
 	end
 end
 
@@ -31,11 +31,11 @@ function Neltharaku.TableSelfReport(_table, _name)
 	if _name then
 		_headline = 'TableSelfReport(' .. _name .. '): called]------------------------------------'
 	end
-	print(_headline)
+	include("cosmicvaultdebug").info("Cosmic Starfall", _headline)
 	Neltharaku.TSRbase(_table)
-	print('TableSelfReport: EndOfBaseLevel]----------------------------')
+	include("cosmicvaultdebug").info("Cosmic Starfall", 'TableSelfReport: EndOfBaseLevel]----------------------------')
 	Neltharaku.TSRre(_table)
-	print('TableSelfReport: finish]------------------------------------')
+	include("cosmicvaultdebug").info("Cosmic Starfall", 'TableSelfReport: finish]------------------------------------')
 	--End
 end
 
@@ -46,16 +46,16 @@ function Neltharaku.TSRre(_value, _level)
 		_lines = _lines .. '------'
 	end
 	if type(_value) == 'table' then
-		print('TSRre: ' .. _lines)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'TSRre: ' .. _lines)
 		for _index, _row in pairs(_value) do
 			Neltharaku.TSRre(_row, _level + 1)
 		end
-		print('TSRre: ' .. _lines)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'TSRre: ' .. _lines)
 	else
 		if _value ~= nil then
-			print(type(_value), '|', _value)
+			include("cosmicvaultdebug").info("Cosmic Starfall", type(_value), '|', _value)
 		else
-			print('Empty')
+			include("cosmicvaultdebug").info("Cosmic Starfall", 'Empty')
 		end
 	end
 end
@@ -66,21 +66,21 @@ function Neltharaku.TSRbase(_value)
 			local _text = 'TSRre:position ' .. tostring(_index) .. ' - '
 			if type(_row) == 'table' then
 				_text = _text .. 'table(' .. tostring(#_row) .. ')'
-				print(_text)
+				include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 			else
 				text = _text .. 'non-table|'
-				print(_text, _row)
+				include("cosmicvaultdebug").info("Cosmic Starfall", _text, _row)
 			end
 		end
 	else
-		print('TSRre: this isnt a table')
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'TSRre: this isnt a table')
 	end
 end
 
 function Neltharaku.ReportRect(rect, text)
 	local str = '----[Rect report]----'
 	if text then str = '----[Rect report(' .. text .. ')]----' end
-	print(str)
+	include("cosmicvaultdebug").info("Cosmic Starfall", str)
 
 	if rect then
 		local TL = rect.topLeft
@@ -89,25 +89,25 @@ function Neltharaku.ReportRect(rect, text)
 		local TLY = tostring(round(TL.y, 3))
 		local BRX = tostring(round(BR.x, 3))
 		local BRY = tostring(round(BR.y, 3))
-		print('TL: ' .. TLX .. '|' .. TLY)
-		print('BR: ' .. BRX .. '|' .. BRY)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'TL: ' .. TLX .. '|' .. TLY)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'BR: ' .. BRX .. '|' .. BRY)
 	else
-		print('FAILURE: rect is nil')
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'FAILURE: rect is nil')
 	end
 
-	print('----[Finished]----')
+	include("cosmicvaultdebug").info("Cosmic Starfall", '----[Finished]----')
 end
 
 function Neltharaku.ReportVec2(vec)
-	print('----[Vec2 report]----')
+	include("cosmicvaultdebug").info("Cosmic Starfall", '----[Vec2 report]----')
 
 	if vec then
-		print('Result: ' .. tostring(vec.x) .. '|' .. tostring(vec.y))
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'Result: ' .. tostring(vec.x) .. '|' .. tostring(vec.y))
 	else
-		print('FAILURE: vec2 is nil')
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'FAILURE: vec2 is nil')
 	end
 
-	print('----[Finished]----')
+	include("cosmicvaultdebug").info("Cosmic Starfall", '----[Finished]----')
 end
 
 local Debug = Neltharaku.DebugMsg
@@ -325,8 +325,8 @@ function Neltharaku.ShrinkRect(_rect, _value)
 	local _pos2 = _rect.bottomRight
 	local _newPos1 = vec2(_pos1.x + _value, _pos1.y + _value)
 	local _newPos2 = vec2(_pos2.x - _value, _pos2.y - _value)
-	--print(_pos1.x,_pos1.y,'|',_pos2.x,_pos2.y)
-	--print(_newPos1.x,_newPos1.y,'|',_newPos2.x,_newPos2.y)
+	--include("cosmicvaultdebug").info("Cosmic Starfall", _pos1.x,_pos1.y,'|',_pos2.x,_pos2.y)
+	--include("cosmicvaultdebug").info("Cosmic Starfall", _newPos1.x,_newPos1.y,'|',_newPos2.x,_newPos2.y)
 	return Rect(_newPos1, _newPos2)
 end
 
@@ -447,7 +447,7 @@ function Neltharaku.debugFrame(baseElement, element, a)
 			debugRect.backgroundColor = _colorG
 		end
 	else
-		print('Neltharaku.debugFrame failure')
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'Neltharaku.debugFrame failure')
 	end
 end
 

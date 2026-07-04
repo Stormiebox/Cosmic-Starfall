@@ -54,7 +54,7 @@ local LVsplitter = nil
 local _debug = false
 function iT.DebugMsg(_text)
 	if _debug then
-		print('infoTabCore|',_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'infoTabCore|',_text)
 	end
 end
 local Debug = iT.DebugMsg

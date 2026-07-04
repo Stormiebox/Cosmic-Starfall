@@ -49,7 +49,7 @@ end
 
 function DebugMsg(_text)
 	if _debug then
-		print('overpoweredCore(' .. Entity().name .. ')| ', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'overpoweredCore(' .. Entity().name .. ')| ', _text)
 	end
 end
 

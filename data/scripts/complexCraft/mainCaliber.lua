@@ -27,7 +27,7 @@ local _colorR = ColorHSV(16, 97, 84)
 
 function mainCaliber.DebugMsg(_text)
     if _debug then
-        print('Main Caliber|', _text)
+        include("cosmicvaultdebug").info("Cosmic Starfall", 'Main Caliber|', _text)
     end
 end
 

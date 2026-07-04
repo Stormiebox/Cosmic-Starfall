@@ -8,7 +8,7 @@ infoWeapons = {}
 local _debug = false
 function infoWeapons.DebugMsg(_text)
 	if _debug then
-		print('infoWeapons|',_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'infoWeapons|',_text)
 	end
 end
 local Debug = infoWeapons.DebugMsg

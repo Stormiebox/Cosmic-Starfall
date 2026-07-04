@@ -119,8 +119,8 @@ end
 
 function isHere(_entity)
 	if _debug then
-		print(_entity.id)
-		print(_entity.name)
+		include("cosmicvaultdebug").info("Cosmic Starfall", _entity.id)
+		include("cosmicvaultdebug").info("Cosmic Starfall", _entity.name)
 	end
 
 	if _entity then
@@ -199,13 +199,13 @@ end
 
 function DebugMsg(_text)
 	if _debug then
-		print(_text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 	end
 end
 
 function DoMeow()
 	if _debug then
-		print("Meow")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "Meow")
 	end
 end
 
@@ -431,8 +431,8 @@ function RepairWaveOperate()
 				local ship = Entity(sid)
 				if ship and ship.playerOrAllianceOwned and ship.isShip and isInRangeV3(ship.translationf, Entity().translationf, RepairWaveRange) then
 					if _debug then
-						print(ship.name)
-						print("Heal tick: ", RepairWaveHealAmount)
+						include("cosmicvaultdebug").info("Cosmic Starfall", ship.name)
+						include("cosmicvaultdebug").info("Cosmic Starfall", "Heal tick: ", RepairWaveHealAmount)
 					end
 					Entity(ship.id).durability = math.min(Entity(ship.id).maxDurability, Entity(ship.id).durability + RepairWaveHealAmount)
 
@@ -897,19 +897,19 @@ function onFinishWork(_time, _type)
 			UIplaysound(1)
 		end
 		if _type == 1 then
-			--print("The repair network has completed its active phase")
+			--include("cosmicvaultdebug").info("Cosmic Starfall", "The repair network has completed its active phase")
 			UIplaysound(1)
 		end
 		if _type == 2 then
-			--print("The shield booster has completed its active phase")
+			--include("cosmicvaultdebug").info("Cosmic Starfall", "The shield booster has completed its active phase")
 			UIplaysound(1)
 		end
 		if _type == 3 then
-			--print("Emergency stabilizer has completed its overload phase")
+			--include("cosmicvaultdebug").info("Cosmic Starfall", "Emergency stabilizer has completed its overload phase")
 			UIplaysound(1)
 		end
 		updateStatusEffects(_type, false)
-		--print ((Entity().durability / Entity().maxDurability))
+		--include("cosmicvaultdebug").info("Cosmic Starfall", (Entity().durability / Entity().maxDurability))
 		--Durability().invincibility = Durability().invincibility -0.5
 	else
 		return
@@ -1097,9 +1097,9 @@ function onInstalled(seed, rarity, permanent)
 	_rarity = rarity.value
 	--Adds passive bonuses upon installation
 	addBaseMultiplier(StatsBonuses.GeneratedEnergy, _eRegen)
-	if _debug then print(_eRegen * 100, "% Regen bonus") end
+	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", _eRegen * 100, "% Regen bonus") end
 	addBaseMultiplier(StatsBonuses.EnergyCapacity, _eValue)
-	if _debug then print(_eValue * 100, "% Battery bonus") end
+	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", _eValue * 100, "% Battery bonus") end
 
 	--Initializing hooks
 	if onServer() then

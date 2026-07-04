@@ -27,7 +27,7 @@ local _alertWindows = {}
 local _debug = false
 function aC.DebugMsg(_text)
 	if _debug then
-		print('alertCore|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'alertCore|', _text)
 	end
 end
 

@@ -155,7 +155,7 @@ local _debug = false
 
 function TechDebug(_text)
 	if _debug then
-		print('Tech lib|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'Tech lib|', _text)
 	end
 end
 

@@ -27,7 +27,7 @@ local colorV
 
 function OCore.DebugMsg(_text)
 	if _debug then
-		print('OCore(' .. Entity().name .. ')| ', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'OCore(' .. Entity().name .. ')| ', _text)
 	end
 end
 
@@ -270,7 +270,7 @@ function OCore.ScanShips()
 			OCore.DebugMsg(_entity.name)
 			OCore.DebugMsg('Can pass rifts: ' .. tostring(_descriptor.canPassRifts))
 
-			--print('Position: ',_descriptor.position.position.x,_descriptor.position.position.y,_descriptor.position.position.z)
+			--include("cosmicvaultdebug").info("Cosmic Starfall", 'Position: ',_descriptor.position.position.x,_descriptor.position.position.y,_descriptor.position.position.z)
 			local _resultScan = false
 			OCore.DebugMsg('___________________')
 		end
@@ -319,11 +319,11 @@ end
 
 function OCore.fullID()
 	if onClient() then
-		print(Player().fullLogId)
+		include("cosmicvaultdebug").info("Cosmic Starfall", Player().fullLogId)
 		invokeServerFunction('fullID')
 	else
-		print(Player().fullLogId)
-		print(Faction().fullLogId)
+		include("cosmicvaultdebug").info("Cosmic Starfall", Player().fullLogId)
+		include("cosmicvaultdebug").info("Cosmic Starfall", Faction().fullLogId)
 	end
 end
 

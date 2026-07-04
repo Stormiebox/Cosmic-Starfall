@@ -6,7 +6,7 @@ local _debug = false
 
 local function Debug(_text)
     if _debug then
-        print('Fighter factory|', _text)
+        include("cosmicvaultdebug").info("Cosmic Starfall", 'Fighter factory|', _text)
     end
 end
 

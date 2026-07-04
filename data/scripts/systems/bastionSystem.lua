@@ -39,7 +39,7 @@ Unique = true
 
 function DebugMsg(_text)
 	if _debug then
-		print('bastionSystem|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'bastionSystem|', _text)
 	end
 end
 
@@ -57,15 +57,15 @@ end
 
 function DoMeow()
 	if _debug then
-		print("Meow")
+		include("cosmicvaultdebug").info("Cosmic Starfall", "Meow")
 		--invokeServerFunction('PulsarClearLasersInit')
-		--print(Owner(Entity()).name)
+		--include("cosmicvaultdebug").info("Cosmic Starfall", Owner(Entity()).name)
 		local battleships = { Sector():getEntitiesByType(EntityType.Ship) }
 		for _, _ship in pairs(battleships) do
 			if Entity() ~= _ship then
-				print(_ship.name, '(', Owner(_ship).name, ') relation - ',
+				include("cosmicvaultdebug").info("Cosmic Starfall", _ship.name, '(', Owner(_ship).name, ') relation - ',
 					Owner(_ship):getRelationValue(Owner(Entity()).factionIndex))
-				print()
+				include("cosmicvaultdebug").info("Cosmic Starfall", )
 			end
 		end
 	end
@@ -205,7 +205,7 @@ if _debug then
 	MultiphaseCooldown = 15
 	--MultiphaseLength = 5
 	PulsarCooldown = 16
-	--print("Permanent is turned off")
+	--include("cosmicvaultdebug").info("Cosmic Starfall", "Permanent is turned off")
 else
 	PermanentInstallationOnly = true
 end
@@ -883,11 +883,11 @@ function onFinishWork(_time, _type)
 			UIplaysound(1)
 		end
 		if _type == 1 then
-			print("Repair network completed active phase")
+			include("cosmicvaultdebug").info("Cosmic Starfall", "Repair network completed active phase")
 			UIplaysound(1)
 		end
 		if _type == 3 then
-			print("Protocol completed work")
+			include("cosmicvaultdebug").info("Cosmic Starfall", "Protocol completed work")
 			UIplaysound(1)
 		end
 		updateStatusEffects(_type, false)

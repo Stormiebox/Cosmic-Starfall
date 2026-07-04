@@ -76,7 +76,7 @@ local colorsToPick = {
 local _debug = false
 function activeSysInterface.DebugMsg(_text)
 	if _debug then
-		print('activeSysInterface|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'activeSysInterface|', _text)
 	end
 end
 
@@ -332,7 +332,7 @@ function activeSysInterface.applyLoadChanges(data)
 			local name = data[i][1]
 			local pos = vec2(data[i][2], data[i][3])
 			if _debug then
-				print('name: ', data[i][1], '| pos: ', pos)
+				include("cosmicvaultdebug").info("Cosmic Starfall", 'name: ', data[i][1], '| pos: ', pos)
 			end
 			anchorContainers[name].position = pos
 		end
@@ -1034,7 +1034,7 @@ function activeSysInterface.executeActivation(_command, _script, _source)
 			if targetEntity then
 				local caller = Player(callingPlayer)
 				if caller and targetEntity.factionIndex ~= caller.index and targetEntity.factionIndex ~= caller.allianceIndex then
-					print("activeSysInterface: Blocked malicious client from invoking function on unowned entity!")
+					include("cosmicvaultdebug").info("Cosmic Starfall", "activeSysInterface: Blocked malicious client from invoking function on unowned entity!")
 					return
 				end
 			end

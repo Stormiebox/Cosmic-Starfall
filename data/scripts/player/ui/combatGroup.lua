@@ -46,7 +46,7 @@ local UIE = {}
 local _debug = false
 function combatGroup.DebugMsg(_text)
 	if _debug then
-		print('combatGroup|', _text)
+		include("cosmicvaultdebug").info("Cosmic Starfall", 'combatGroup|', _text)
 	end
 end
 
