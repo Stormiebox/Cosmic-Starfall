@@ -11,11 +11,11 @@ local _prototype = true
 local BSwindow
 local updateSW = false
 local _rarity = 0
-local _colorG = ColorHSV(150, 64, 100)
-local _colorY = ColorHSV(60, 94, 78)
-local _colorR = ColorHSV(16, 97, 84)
-local _colorB = ColorHSV(240, 40, 100)
-local _colorC = ColorHSV(264, 60, 100)
+local _colorG = ColorHSV(150, 0.64, 1)
+local _colorY = ColorHSV(60, 0.94, 0.78)
+local _colorR = ColorHSV(16, 0.97, 0.84)
+local _colorB = ColorHSV(240, 0.4, 1)
+local _colorC = ColorHSV(264, 0.6, 1)
 local soundPath = '/systems/'
 
 local buttonCooldown = 5
@@ -25,11 +25,7 @@ local testTable = {}
 --Interface Variables
 local progressBars = {}
 
---Variable graphics
-local LaserRR = nil    --repair beam variable
-local LaserSB = nil    --shield amplifier variable
-local LaserSS = nil    --synchronizer variable
-local RefrSphere = nil --repair wave sphere
+
 
 -- optimization so that energy requirement doesn't have to be read every frame
 FixedEnergyRequirement = true
@@ -75,6 +71,11 @@ function ApplyDebug()
 	if onClient() then
 		invokeServerFunction('ApplyDebug')
 	else
+		if callingPlayer then
+			local player = Player(callingPlayer)
+			local owner = Owner(Entity())
+			if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		end
 		Entity():addScriptOnce("lib/entitydbg.lua")
 		DebugMsg('ApplyDebug')
 	end
@@ -86,6 +87,11 @@ function ApplyOCC()
 	if onClient() then
 		invokeServerFunction('ApplyOCC')
 	else
+		if callingPlayer then
+			local player = Player(callingPlayer)
+			local owner = Owner(Entity())
+			if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		end
 		Entity():addScriptOnce("complexCraft/OCnode.lua")
 		DebugMsg('ApplyOCC')
 	end
@@ -147,52 +153,17 @@ function initializeUI()
 	-- btnModule03 = BSwindow:createRoundButton(button3, "data/textures/icons/GRAVITON.png", "RestoreTable")
 	-- btnModule03.tooltip = "Check table"
 
-	-- progressBars[0] = BSwindow:createProgressBar (bar1,ColorHSV(150, 64, 100))
+	-- progressBars[0] = BSwindow:createProgressBar (bar1,ColorHSV(150, 0.64, 1))
 	-- progressBars[0].progress = 1
-	-- progressBars[1] = BSwindow:createProgressBar (bar2,ColorHSV(150, 64, 100))
+	-- progressBars[1] = BSwindow:createProgressBar (bar2,ColorHSV(150, 0.64, 1))
 	-- progressBars[1].progress = 1
-	-- progressBars[2] = BSwindow:createProgressBar (bar3,ColorHSV(150, 64, 100))
+	-- progressBars[2] = BSwindow:createProgressBar (bar3,ColorHSV(150, 0.64, 1))
 	-- progressBars[2].progress = 1
-	-- progressBars[3] = BSwindow:createProgressBar (bar4,ColorHSV(150, 64, 100))
+	-- progressBars[3] = BSwindow:createProgressBar (bar4,ColorHSV(150, 0.64, 1))
 	-- progressBars[3].progress = 1
-
-	invokeServerFunction("UIretrievePosition")
 
 	UIshowhide()
 end
-
-function UIsyncPosition(_position)
-	Entity():setValue("oCsysUIposX", _position.x)
-	Entity():setValue("oCsysUIposY", _position.y)
-end
-
-callable(nil, "UIsyncPosition")
-
-callable(nil, "UIretrievePosition")
-function UIretrievePosition(_position)
-	if onServer() then
-		local retrPosition = vec2(Entity():getValue("oCsysUIposX"), Entity():getValue("oCsysUIposY"))
-		DebugMsg(tostring(retrPosition) .. " - retrPos")
-		if retrPosition ~= vec2(0, 0) then
-			broadcastInvokeClientFunction( 'UIretrievePosition', retrPosition)
-		end
-	else
-		if _position ~= nil then
-			if _position.x > (getResolution().x * 0.97) then
-				_position.x = getResolution().x * 0.5
-				DebugMsg("Wrong x position for oC: x>" .. tostring(getResolution().x * 0.97))
-			end
-			if _position.y > (getResolution().y * 0.97) then
-				_position.y = getResolution().y * 0.7
-				DebugMsg("Wrong y position for oC: y>" .. tostring(getResolution().y * 0.97))
-			end
-			BSwindow.position = _position
-			DebugMsg("position retrieved")
-		end
-	end
-end
-
-callable(nil, 'UIretrievePosition')
 
 function UIshowhide()
 	if onServer() then return end
@@ -238,9 +209,7 @@ end
 
 function onUninstalled(seed, rarity, permanent)
 	if onServer() then
-		-- Store reasonable defaults; resolution is client-only.
-		Entity():setValue("oCsysUIposX", 0)
-		Entity():setValue("oCsysUIposY", 0)
+
 	end
 end
 
@@ -294,7 +263,7 @@ function getIcon(seed, rarity)
 end
 
 function getPrice(seed, rarity)
-	local _eRegen, _eValue = getBonuses(seed, rarity, permanent)
+	local _eRegen, _eValue = getBonuses(seed, rarity)
 	local price = 300 * 50 * (_eRegen + rarity.value);
 	return (price * 2.0 ^ rarity.value) * 10
 end
@@ -326,42 +295,7 @@ function getTooltipLines(seed, rarity, permanent)
 			boosted = permanent
 		})
 
-	table.insert(texts,
-		{
-			ltext = "Repair Wave"%_t,
-			rtext = "Yes",
-			rcolor = ColorRGB(0.3, 1.0, 0.3),
-			icon =
-			"data/textures/icons/SUBSYSrepairwave.png",
-			boosted = permanent
-		})
-	table.insert(texts,
-		{
-			ltext = "Renovating Ray"%_t,
-			rtext = "Yes",
-			rcolor = ColorRGB(0.3, 1.0, 0.3),
-			icon =
-			"data/textures/icons/SUBSYSrenovationray.png",
-			boosted = permanent
-		})
-	table.insert(texts,
-		{
-			ltext = "Shield Booster"%_t,
-			rtext = "Yes",
-			rcolor = ColorRGB(0.3, 1.0, 0.3),
-			icon =
-			"data/textures/icons/SUBSYSshieldbooster.png",
-			boosted = permanent
-		})
-	table.insert(texts,
-		{
-			ltext = "Shield Synchronizer"%_t,
-			rtext = "Yes",
-			rcolor = ColorRGB(0.3, 1.0, 0.3),
-			icon =
-			"data/textures/icons/SUBSYSshieldsynchronizer.png",
-			boosted = permanent
-		})
+
 	return texts, bonuses
 end
 
@@ -373,7 +307,7 @@ function getDescriptionLines(seed, rarity, permanent)
 end
 
 function getComparableValues(seed, rarity)
-	local _eRegen, _eValue = getBonuses(seed, rarity, permanent)
+	local _eRegen, _eValue = getBonuses(seed, rarity)
 
 	local base = {}
 	local bonus = {}
@@ -388,7 +322,7 @@ function getComparableValues(seed, rarity)
 			})
 	end
 
-	if charge ~= 0 then
+	if _eValue ~= 0 then
 		table.insert(base,
 			{
 				name = "Recharge Rate"%_t,

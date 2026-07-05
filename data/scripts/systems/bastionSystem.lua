@@ -22,11 +22,11 @@ local _prototype = true
 local BSwindow
 local updateSW = false
 local _rarity = 0
-local _colorG = ColorHSV(150, 64, 100)
-local _colorY = ColorHSV(60, 94, 78)
-local _colorR = ColorHSV(16, 97, 84)
-local _colorB = ColorHSV(240, 40, 100)
-local _colorC = ColorHSV(264, 60, 100)
+local _colorG = ColorHSV(150, 0.64, 1)
+local _colorY = ColorHSV(60, 0.94, 0.78)
+local _colorR = ColorHSV(16, 0.97, 0.84)
+local _colorB = ColorHSV(240, 0.4, 1)
+local _colorC = ColorHSV(264, 0.6, 1)
 local updateAccum = 0
 local soundPath = '/systems/'
 local systemname = 'bastionsystem'
@@ -65,7 +65,7 @@ function DoMeow()
 			if Entity() ~= _ship then
 				include("cosmicvaultdebug").info("Cosmic Starfall", _ship.name, '(', Owner(_ship).name, ') relation - ',
 					Owner(_ship):getRelationValue(Owner(Entity()).factionIndex))
-				include("cosmicvaultdebug").info("Cosmic Starfall", )
+				include("cosmicvaultdebug").info("Cosmic Starfall")
 			end
 		end
 	end
@@ -126,15 +126,7 @@ function ReportResult(exitCode)
 	return "Something broke again"
 end
 
-function isInRangeV3(v1, v2, range)
-	local modRange = (range * 100) * (range * 100)
-	local calcDist2 = distance2(v1, v2) * 0.85
-	if calcDist2 <= modRange and calcDist2 > 0 then
-		return true
-	else
-		return false
-	end
-end
+
 
 ----------------------------------------------------------------------------------------------------------------
 
@@ -215,10 +207,6 @@ function getUpdateInterval()
 end
 
 function update(timeStep)
-	if onClient() and updateSW and BSwindow and updateAccum == 1 then
-		updateAccum = 0
-		invokeServerFunction("UIsyncPosition", BSwindow.position)
-	end
 	if onClient() and Entity() then
 		updateAccum = updateAccum + 0.5
 	end
@@ -569,12 +557,11 @@ function RecupInitiation()
 	end
 	--Setting the charge
 	local _value = Entity():getValue("RecupStoredAmount")
-	if _value and Player() then
+	if _value then
 		broadcastInvokeClientFunction( "updateUIrecup", RecupStoredAmount, RecupMaximumAmount)
 	end
 end
 
-callable(nil, "RecupInitiation")
 
 function RecupStoreCharge(_id, _damage, _type, _inflictor)
 	if _damage <= 0 then return end
@@ -598,11 +585,6 @@ function RecupStoreCharge(_id, _damage, _type, _inflictor)
 	end
 end
 
-callable(nil, "RecupStoreCharge")
-
-function RecupStoreChargeInit(_damage, _type)
-	invokeServerFunction("RecupStoreCharge", _damage, _type)
-end
 
 function ActivateTransferRC()
 	invokeServerFunction("RecupActivate")
@@ -850,7 +832,6 @@ function PulsarOperate()
 	end
 end
 
-callable(nil, 'PulsarOperate')
 
 --Laser rendering
 function PulsarGraphics(_entity, _targets)
@@ -921,6 +902,13 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
+	
+	if type(subSysDesc) ~= "table" then return end
 	if not Entity() or not Owner() then return end
 
 	local subsys = {}
@@ -1198,4 +1186,3 @@ function initialize()
 end
 
 function UIshowhide() end
-function UIsyncPosition(pos) end

@@ -23,7 +23,7 @@ locLines['overload'] =
     "Overload of weapon systems! Weapons of the 'main caliber' class are set to exceed the safe limit. The rate of fire of the weapons is reduced by " %
     _t
 
-local _colorR = ColorHSV(16, 97, 84)
+local _colorR = ColorHSV(16, 0.97, 0.84)
 
 function mainCaliber.DebugMsg(_text)
     if _debug then

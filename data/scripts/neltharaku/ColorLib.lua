@@ -1,33 +1,33 @@
 -- colors = {}
-	-- colors['darkgray'] = ColorHSV(50,0.1,0.2)
-	-- colors['lightgray'] = ColorHSV(50,0.1,0.4)
-	-- colors['white'] = ColorHSV(240, 0, 100)
-	-- colors['green'] = ColorHSV(125,1,1)
-	-- colors['purple'] = ColorHSV(300,1,1)
-	-- colors['brown'] = ColorHSV(25,0.8,0.7)
+	-- colors['darkgray'] = ColorHSV(50, 0.1, 0.2)
+	-- colors['lightgray'] = ColorHSV(50, 0.1, 0.4)
+	-- colors['white'] = ColorHSV(240, 0, 1)
+	-- colors['green'] = ColorHSV(125, 1, 1)
+	-- colors['purple'] = ColorHSV(300, 1, 1)
+	-- colors['brown'] = ColorHSV(25, 0.8, 0.7)
 	
-	-- colors['aqua'] = ColorHSV(200,1,1)
-	-- colors['grass'] = ColorHSV(150,1,1)
-	-- colors['radiate'] = ColorHSV(75,1,1)
-	-- colors['sand'] = ColorHSV(50,1,1)
-	-- colors['danger'] = ColorHSV(50,1,1)
-	-- colors['cake'] = ColorHSV(325,1,1)
-	-- colors['avorion'] = ColorHSV(350,1,1)
-	-- colors['frozenbear'] = ColorHSV(25,0.4,0.7)
-	-- colors['frozengrass'] = ColorHSV(75,0.4,0.7)
-	-- colors['ice'] = ColorHSV(170,0.8,0.9)
+	-- colors['aqua'] = ColorHSV(200, 1, 1)
+	-- colors['grass'] = ColorHSV(150, 1, 1)
+	-- colors['radiate'] = ColorHSV(75, 1, 1)
+	-- colors['sand'] = ColorHSV(50, 1, 1)
+	-- colors['danger'] = ColorHSV(50, 1, 1)
+	-- colors['cake'] = ColorHSV(325, 1, 1)
+	-- colors['avorion'] = ColorHSV(350, 1, 1)
+	-- colors['frozenbear'] = ColorHSV(25, 0.4, 0.7)
+	-- colors['frozengrass'] = ColorHSV(75, 0.4, 0.7)
+	-- colors['ice'] = ColorHSV(170, 0.8, 0.9)
 	
-	-- colors['weaponclass_heavy'] = ColorHSV(25,0.7,0.6)
-	-- colors['weaponclass_light'] = ColorHSV(175,0.7,0.6)
-	-- colors['weaponclass_MC'] = ColorHSV(5,0.8,0.8)
-	-- colors['auracore_debuff'] = ColorHSV(5,0.8,0.8)
-	-- colors['auracore_buff'] = ColorHSV(85,0.6,0.9)
-	-- colors['auracore_standby'] = ColorHSV(60,0.6,0.9)
-	-- colors['infotabs_updated'] = ColorHSV(180,0.6,0.9)
+	-- colors['weaponclass_heavy'] = ColorHSV(25, 0.7, 0.6)
+	-- colors['weaponclass_light'] = ColorHSV(175, 0.7, 0.6)
+	-- colors['weaponclass_MC'] = ColorHSV(5, 0.8, 0.8)
+	-- colors['auracore_debuff'] = ColorHSV(5, 0.8, 0.8)
+	-- colors['auracore_buff'] = ColorHSV(85, 0.6, 0.9)
+	-- colors['auracore_standby'] = ColorHSV(60, 0.6, 0.9)
+	-- colors['infotabs_updated'] = ColorHSV(180, 0.6, 0.9)
 	
-	-- colors['activeSysInterface_ready'] = ColorHSV(130,0.9,0.9)
-	-- colors['activeSysInterface_working'] = ColorHSV(65,1,1)
-	-- colors['activeSysInterface_notready'] = ColorHSV(10,1,1)
+	-- colors['activeSysInterface_ready'] = ColorHSV(130, 0.9, 0.9)
+	-- colors['activeSysInterface_working'] = ColorHSV(65, 1, 1)
+	-- colors['activeSysInterface_notready'] = ColorHSV(10, 1, 1)
 	
 colorsC = {}
 	colorsC['darkgray'] = {50,0.1,0.2}
@@ -63,7 +63,7 @@ colorsC = {}
 function getColor(_name,a)
 	if colorsC[_name] then
 		local colorCode = colorsC[_name]
-		local color = ColorHSV(colorCode[1],colorCode[2],colorCode[3])
+		local color = ColorHSV(colorCode[1], colorCode[2], colorCode[3])
 		
 		if a then
 			color.a = a

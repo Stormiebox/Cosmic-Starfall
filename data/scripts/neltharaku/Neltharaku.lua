@@ -7,11 +7,11 @@ local _debug = false
 local _defaultBackground = 'data/textures/icons/alert/AlertGreen.png'
 local _defaultIcon = 'data/textures/icons/alert/AlertFederation.png'
 
-_colorG = ColorHSV(150, 64, 100)
-_colorY = ColorHSV(60, 94, 78)
-_colorR = ColorHSV(16, 97, 84)
-_colorB = ColorHSV(240, 40, 100)
-_colorC = ColorHSV(264, 60, 100)
+_colorG = ColorHSV(150, 0.64, 1)
+_colorY = ColorHSV(60, 0.94, 0.78)
+_colorR = ColorHSV(16, 0.97, 0.84)
+_colorB = ColorHSV(240, 0.4, 1)
+_colorC = ColorHSV(264, 0.6, 1)
 
 --------------------------------------------------------------------------------------------
 

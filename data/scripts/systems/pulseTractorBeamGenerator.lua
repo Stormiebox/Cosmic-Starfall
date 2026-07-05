@@ -57,6 +57,7 @@ function UIplaysound(_type)
 	--1 -deactivation
 	--2 -error
 	local soundPath = '/systems/'
+	if Player() and Player().craftIndex ~= Entity().index then return end
 	if _type == 0 then
 		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.5)
 		return
@@ -98,7 +99,7 @@ function updateServer(timePassed)
 		executeUpdateProgressbar(1, GeneratorIsReady / GeneratorCooldown)
 	end
 	if GeneratorIsWorking > 0 then
-		local _cv = Entity():getValue("isPulseGenerator")
+		local _cv = Entity():getValue("isPulseGenerator") or 0
 
 		GeneratorIsWorking = math.max(0, GeneratorIsWorking - timePassed)
 
@@ -118,6 +119,7 @@ function updateServer(timePassed)
 			end
 		else
 			Entity():removeScriptBonuses()
+			Entity():setValue("isPulseGenerator", 0)
 			--_cv = ReverseBonusRange(_cv)
 
 			broadcastInvokeClientFunction( "onFinishWork", GeneratorIsWorking, 0)
@@ -126,7 +128,13 @@ function updateServer(timePassed)
 end
 
 function pGeneratorActivate()
-	local _cv = Entity():getValue("isPulseGenerator")
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
+	
+	local _cv = Entity():getValue("isPulseGenerator") or 0
 	local _ab = Entity():getBoostedValue(StatsBonuses.LootCollectionRange, 0)
 
 	if GeneratorIsReady == 0 then
@@ -233,6 +241,13 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
+	
+	if type(subSysDesc) ~= "table" then return end
 	if not Entity() or not Owner() then return end
 
 	-- local subSysDesc = {
@@ -328,7 +343,7 @@ function updateStatusEffects(_type, _status)
 	if _type == 0 then
 		if _status then
 			local _line = getSubtechName(systemname, 1) .. ' - ' .. getTechInfo('active')
-			addShipProblem("pReactor", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(150, 64, 100), false)
+			addShipProblem("pReactor", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(150, 0.64, 1), false)
 		else
 			removeShipProblem("pReactor", Entity().id)
 		end
@@ -351,7 +366,7 @@ end
 function getName(seed, rarity)
 	local _h, _r = getBonuses(seed, rarity, true)
 
-	return getTechName(systemname) .. " Mk-" .. tostring(_rarity)
+	return getTechName(systemname) .. " Mk-" .. tostring(rarity.value)
 end
 
 function getIcon(seed, rarity)
@@ -422,7 +437,7 @@ function getDescriptionLines(seed, rarity, permanent)
 end
 
 function getComparableValues(seed, rarity) --I don’t understand why this is needed
-	local _h, _r = getBonuses(seed, rarity, permanent)
+	local _h, _r = getBonuses(seed, rarity)
 
 	local base = {}
 	local bonus = {}

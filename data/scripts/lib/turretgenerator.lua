@@ -428,6 +428,8 @@ function TurretGenerator.generateMANTISTurret(rand, dps, tech, material, rarity)
         table.insert(positions, vec3(-0.4, 0.3, 0))
     end
 
+    weapon.fireDelay = weapon.fireDelay * #positions
+
     -- Attach
     for _, position in pairs(positions) do
         weapon.localPosition = position * result.size
@@ -650,7 +652,7 @@ function TurretGenerator.generateAVALANCHETurret(rand, dps, tech, material, rari
     local numWeapons = rand:getInt(2, 2)
 
     local weapon = WeaponGenerator.generateAVALANCHE(rand, dps, tech, material, rarity)
-    weapon.fireDelay = weapon.fireDelay
+    weapon.fireDelay = weapon.fireDelay * numWeapons
 
     -- attach weapons to turret
     TurretGenerator.attachWeapons(rand, result, weapon, numWeapons)
@@ -693,6 +695,8 @@ function TurretGenerator.generateCYCLONETurret(rand, dps, tech, material, rarity
         table.insert(positions, vec3(0.4, 0.3, 0))
         table.insert(positions, vec3(-0.4, 0.3, 0))
     end
+
+    weapon.fireDelay = weapon.fireDelay * #positions
 
     -- Attach
     for _, position in pairs(positions) do
@@ -738,6 +742,8 @@ function TurretGenerator.generatePRDTurret(rand, dps, tech, material, rarity)
         table.insert(positions, vec3(0.4, 0.3, 0))
         table.insert(positions, vec3(-0.4, 0.3, 0))
     end
+
+    weapon.fireDelay = weapon.fireDelay * #positions
 
     -- Attach
     for _, position in pairs(positions) do

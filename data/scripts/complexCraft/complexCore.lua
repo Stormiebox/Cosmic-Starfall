@@ -66,11 +66,11 @@ locLines['linegenerator_tooltip_goodname'] = "Product name"%_t
 locLines['linegenerator_tooltip_goodamount'] = "Stock of goods in the station cargo"%_t
 locLines['linegenerator_tooltip_switcher'] = "Disable/enable this stream"%_t
 
-local _colorG = ColorHSV(150, 64, 100)
-local _colorY = ColorHSV(60, 94, 78)
-local _colorR = ColorHSV(16, 97, 84)
-local _colorB = ColorHSV(240, 40, 100)
-local _colorC = ColorHSV(264, 60, 100)
+local _colorG = ColorHSV(150, 0.64, 1)
+local _colorY = ColorHSV(60, 0.94, 0.78)
+local _colorR = ColorHSV(16, 0.97, 0.84)
+local _colorB = ColorHSV(240, 0.4, 1)
+local _colorC = ColorHSV(264, 0.6, 1)
 
 function MX.DebugMsg(_text)
 	if _debug then

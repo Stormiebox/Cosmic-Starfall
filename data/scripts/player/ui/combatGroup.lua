@@ -59,9 +59,9 @@ local getrect = Neltharaku.createRect
 
 local colors = {}
 colors['buff'] = ColorHSV(90, 0.8, 0.65)
-colors['debuff'] = ColorHSV(16, 97, 84)
-colors['neutral'] = ColorHSV(60, 94, 78)
-colors['st'] = ColorHSV(240, 0, 100)
+colors['debuff'] = ColorHSV(16, 0.97, 0.84)
+colors['neutral'] = ColorHSV(60, 0.94, 0.78)
+colors['st'] = ColorHSV(240, 0, 1)
 
 local rUnit
 local mainContainer

@@ -120,7 +120,7 @@ function OCore.initUI()
 	colorH = OCCwindow:createTextBox(rectPicker[1], 'colorChangeH')
 	colorS = OCCwindow:createTextBox(rectPicker[2], 'colorChangeV')
 	colorV = OCCwindow:createTextBox(rectPicker[3], 'colorChangeS')
-	colorResultRect = OCCwindow:createProgressBar(rectPicker[4], ColorHSV(264, 60, 100))
+	colorResultRect = OCCwindow:createProgressBar(rectPicker[4], ColorHSV(264, 0.6, 1))
 	colorResultRect.progress = 1
 
 	local h = tostring(colorResultRect.color.hue)

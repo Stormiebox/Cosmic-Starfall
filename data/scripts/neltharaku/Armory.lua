@@ -4,7 +4,7 @@ include('ColorLib')
 local weaponIcons = {}
 
 local armoryColors = {}
-armoryColors['Standard'] = ColorHSV(240, 0, 100)
+armoryColors['Standard'] = ColorHSV(240, 0, 1)
 armoryColors['update'] = getColor('infotabs_updated')
 armoryColors['light'] = getColor('weaponclass_light')
 armoryColors['heavy'] = getColor('weaponclass_heavy')

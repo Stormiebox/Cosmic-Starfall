@@ -161,7 +161,7 @@ function WeaponGenerator.generatePULSEGUN(rand, dps, tech, material, rarity)
     weapon.psize = rand:getFloat(0.1, 0.2)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    weapon.pcolor = ColorHSV(16, 97, 84)
+    weapon.pcolor = ColorHSV(16, 0.97, 0.84)
 
     if rand:test(0.05) then
         local shots = { 1, 1, 1, 1, 1, 2, 3 }
@@ -212,7 +212,7 @@ function WeaponGenerator.generatePARTICLEACCELERATOR(rand, dps, tech, material, 
     weapon.psize = rand:getFloat(0.3, 0.4)
     weapon.pmaximumTime = maximumTime
     --local color = Color()
-    weapon.pcolor = ColorHSV(150, 64, 100)
+    weapon.pcolor = ColorHSV(150, 0.64, 1)
 
     if rand:test(0.05) then
         local shots = { 1, 1, 1, 1, 2, 3, 4 }
@@ -258,7 +258,7 @@ function WeaponGenerator.generateASSAULTBLASTER(rand, dps, tech, material, rarit
     weapon.psize = rand:getFloat(0.12, 0.20)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    weapon.pcolor = ColorHSV(240, 0, 100)
+    weapon.pcolor = ColorHSV(240, 0, 1)
 
     weapon.shieldDamageMultiplier = 1 + tech * 0.01
 
@@ -311,8 +311,8 @@ function WeaponGenerator.generateHEPT(rand, dps, tech, material, rarity)
     weapon.psize = rand:getFloat(0.4, 0.5)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    --weapon.pcolor = ColorHSV(114, 82, 29)
-    weapon.pcolor = ColorHSV(0, 100, 100)
+    --weapon.pcolor = ColorHSV(114, 0.82, 0.29)
+    weapon.pcolor = ColorHSV(0, 1, 1)
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -353,7 +353,7 @@ function WeaponGenerator.generatePULSELASER(rand, dps, tech, material, rarity)
     weapon.psize = rand:getFloat(0.2, 0.3)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    weapon.pcolor = ColorHSV(60, 94, 78)
+    weapon.pcolor = ColorHSV(60, 0.94, 0.78)
     weapon.shotsFired = 2
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
@@ -401,7 +401,7 @@ function WeaponGenerator.generateMANTIS(rand, dps, tech, material, rarity)
     weapon.psize = rand:getFloat(0.1, 0.1)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    weapon.pcolor = ColorHSV(180, 6, 100)
+    weapon.pcolor = ColorHSV(180, 0.06, 1)
     weapon.pshape = ProjectileShape.Rocket
     weapon.shotsFired = 2
 
@@ -450,7 +450,7 @@ function WeaponGenerator.generatePHOTON(rand, dps, tech, material, rarity)
     weapon.shotsFired = 1
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    weapon.pcolor = ColorHSV(240, 0, 100)
+    weapon.pcolor = ColorHSV(240, 0, 1)
 
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
@@ -629,7 +629,7 @@ function WeaponGenerator.generateTRANSPHASIC(rand, dps, tech, material, rarity)
         WeaponGenerator.addPlasmaDamage(rand, weapon, rarity, 2, 0.15, 0.2)
     end
 
-    weapon.bouterColor = ColorHSV(60, 94, 78)
+    weapon.bouterColor = ColorHSV(60, 0.94, 0.78)
     weapon.binnerColor = ColorHSV(rand:getFloat(180, 260), rand:getFloat(0.1, 0.5), 1)
     weapon.bshape = BeamShape.Straight
     weapon.bwidth = 1.5
@@ -673,7 +673,7 @@ function WeaponGenerator.generateASSAULTCANNON(rand, dps, tech, material, rarity
     weapon.psize = rand:getFloat(0.7, 1.1)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    weapon.pcolor = ColorHSV(34, 100, 86)
+    weapon.pcolor = ColorHSV(34, 1, 0.86)
 
     if rand:test(0.05) then
         local shots = { 1 }
@@ -724,8 +724,8 @@ function WeaponGenerator.generatePRD(rand, dps, tech, material, rarity)
     weapon.banimationSpeed = 1
     weapon.banimationAcceleration = -2
 
-    weapon.bouterColor = ColorHSV(150, 64, 100)
-    weapon.binnerColor = ColorHSV(240, 0, 100)
+    weapon.bouterColor = ColorHSV(150, 0.64, 1)
+    weapon.binnerColor = ColorHSV(240, 0, 1)
 
     WeaponGenerator.adaptWeapon(rand, weapon, tech, material, rarity)
 
@@ -765,14 +765,14 @@ function WeaponGenerator.generateAVALANCHE(rand, dps, tech, material, rarity)
     weapon.impactExplosion = true
     WeaponGenerator.addAntiMatterDamage(rand, weapon, rarity, 2, 0.15, 0.2)
 
-    --weapon.bouterColor = ColorHSV(150, 64, 100)
-    --weapon.binnerColor = ColorHSV(240, 0, 100)
-    weapon.pcolor = ColorHSV(39, 100, 100)
+    --weapon.bouterColor = ColorHSV(150, 0.64, 1)
+    --weapon.binnerColor = ColorHSV(240, 0, 1)
+    weapon.pcolor = ColorHSV(39, 1, 1)
 
     weapon.psize = 0.7
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    --_colorC = ColorHSV(264, 60, 100)
+    --_colorC = ColorHSV(264, 0.6, 1)
     weapon.pshape = ProjectileShape.Plasma
     weapon.shotsFired = 8
 
@@ -820,7 +820,7 @@ function WeaponGenerator.generateCYCLONE(rand, dps, tech, material, rarity)
     weapon.psize = rand:getFloat(0.2, 0.2)
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    weapon.pcolor = ColorHSV(240, 0, 100)
+    weapon.pcolor = ColorHSV(240, 0, 1)
     weapon.pshape = ProjectileShape.Rocket
     weapon.shotsFired = 5
 
@@ -916,7 +916,7 @@ function WeaponGenerator.generateSOLARTORPEDO(rand, dps, tech, material, rarity)
     weapon.shotsFired = 1
     weapon.pmaximumTime = existingTime
     weapon.pvelocity = speed
-    weapon.pcolor = ColorHSV(180, 66, 100)
+    weapon.pcolor = ColorHSV(180, 0.66, 1)
 
     weapon.shieldDamageMultiplier = tech * 0.03 + 2.1
 

@@ -13,11 +13,11 @@ local _prototype = true
 local BSwindow
 local updateSW = false
 local _rarity = 0
-local _colorG = ColorHSV(150, 64, 100)
-local _colorY = ColorHSV(60, 94, 78)
-local _colorR = ColorHSV(16, 97, 84)
-local _colorB = ColorHSV(240, 40, 100)
-local _colorC = ColorHSV(264, 60, 100)
+local _colorG = ColorHSV(150, 0.64, 1)
+local _colorY = ColorHSV(60, 0.94, 0.78)
+local _colorR = ColorHSV(16, 0.97, 0.84)
+local _colorB = ColorHSV(240, 0.4, 1)
+local _colorC = ColorHSV(264, 0.6, 1)
 local updateAccum = 0
 local soundPath = '/systems/'
 local systemname = 'macrofieldprojector'
@@ -155,11 +155,14 @@ function CalculateRepairAmount(_type)
 		return _baseHealMultiplierRR
 	end
 	if _type == 2 then
+		if not Entity():hasComponent(ComponentType.Shield) or Entity().shieldMaximum == 0 then return 0 end
 		local _energyConsumptSB = ConvertToJ(EnergySystem().capacity * (ShieldBoosterEnergyConsumption * 0.01), true)
 		local _baseHealMultiplierSB = round((Entity().shieldMaximum / 100) * _energyConsumptSB * ShieldBoosterHealingAmount)
 		return _baseHealMultiplierSB
 	end
 	if _type == 3 then
+		if not Entity():hasComponent(ComponentType.Shield) or Entity().shieldMaximum == 0 then return 0 end
+		if not valid(ShieldSynchronizerTarget) or not Entity(ShieldSynchronizerTarget.id):hasComponent(ComponentType.Shield) or Entity(ShieldSynchronizerTarget.id).shieldMaximum == 0 then return 0 end
 		local selfPercent = (Entity().shieldDurability / Entity().shieldMaximum)
 		local otherPercent = (Entity(ShieldSynchronizerTarget.id).shieldDurability / Entity(ShieldSynchronizerTarget.id).shieldMaximum)
 		local midPercent = (selfPercent + otherPercent) / 2
@@ -278,10 +281,6 @@ function getUpdateInterval()
 end
 
 function update(timeStep)
-	if onClient() and updateSW and BSwindow and updateAccum == 1 then
-		updateAccum = 0
-		invokeServerFunction("UIsyncPosition", BSwindow.position)
-	end
 	if onClient() and Entity() then
 		updateAccum = updateAccum + 0.5
 	end
@@ -676,9 +675,9 @@ function ShieldBoosterOperate()
 	if ShieldBoosterIsWorking == false then return end
 
 	--Check goals
-	if ShieldBoosterTarget == nil or ShieldBoosterTarget.isShip == false or (Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaximum) < 0.1 then
+	if ShieldBoosterTarget == nil or ShieldBoosterTarget.isShip == false or not Entity(ShieldBoosterTarget.id):hasComponent(ComponentType.Shield) or Entity(ShieldBoosterTarget.id).shieldMaximum == 0 or (Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaximum) < 0.1 then
 		ShieldBoosterTurnToFalse()
-		DebugMsg("ShieldBooster: cannot find target (missing or destroyed)")
+		DebugMsg("ShieldBooster: cannot find target (missing or destroyed) or target lacks shields")
 		return
 	end
 
@@ -825,6 +824,7 @@ function ShieldSyncOperate()
 	--Shield restoration
 	if ShieldSynchronizerInRange then
 		local _amount = CalculateRepairAmount(3)
+		if _amount == 0 then return end
 		local _treshold = (ShieldSynchronizerValueTreshold - ShieldSynchronizerValueTresholdRARMP * _rarity) * 0.01
 		local _myPercent = (Entity().shieldDurability / Entity().shieldMaximum) < _treshold
 		local _otherPercent = (Entity(ShieldSynchronizerTarget.id).shieldDurability / Entity(ShieldSynchronizerTarget.id).shieldMaximum) < _treshold
@@ -959,6 +959,13 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
+	
+	if type(subSysDesc) ~= "table" then return end
 	if not Entity() or not Owner() then return end
 
 	local subsys = {}
@@ -1145,7 +1152,7 @@ function updateStatusEffects(_type, _status)
 	if _type == 1 then
 		if _status then
 			local _line = getSubtechName(systemname, 2) .. ' - ' .. getTechInfo('active')
-			addShipProblem("RenovationRay", Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(150, 64, 100),
+			addShipProblem("RenovationRay", Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(150, 0.64, 1),
 				false)
 		else
 			removeShipProblem("RenovationRay", Entity().id)
@@ -1315,7 +1322,7 @@ function getComparableValues(seed, rarity)
 			})
 	end
 
-	if charge ~= 0 then
+	if _eValue ~= 0 then
 		table.insert(base,
 			{
 				name = "Recharge Rate"%_t,
@@ -1336,4 +1343,3 @@ function initialize()
 end
 
 function UIshowhide() end
-function UIsyncPosition(pos) end

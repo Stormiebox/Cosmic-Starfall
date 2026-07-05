@@ -8,11 +8,11 @@ include("Neltharaku")
 
 local _debug = false
 local _myName = ''
-local _colorG = ColorHSV(150, 64, 100)
-local _colorY = ColorHSV(60, 94, 78)
-local _colorR = ColorHSV(16, 97, 84)
-local _colorB = ColorHSV(240, 40, 100)
-local _colorC = ColorHSV(264, 60, 100)
+local _colorG = ColorHSV(150, 0.64, 1)
+local _colorY = ColorHSV(60, 0.94, 0.78)
+local _colorR = ColorHSV(16, 0.97, 0.84)
+local _colorB = ColorHSV(240, 0.4, 1)
+local _colorC = ColorHSV(264, 0.6, 1)
 
 local TSR = Neltharaku.TableSelfReport
 
@@ -342,6 +342,7 @@ function update(timeStep)
 		if #sphereTable > 0 then SphereOperate() end
 	else
 		AnalyseTable()
+		AnalyseSphereTable()
 	end
 end
 
@@ -456,6 +457,11 @@ function RemoveSphere(_type)
 		invokeServerFunction('RemoveSphere', _type)
 		return
 	end
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
 	DebugMsg(_myName .. 'removeSphere attempt of type ' .. _type)
 	AnalyseSphereTable(_type)
 end
@@ -465,14 +471,17 @@ callable(nil, 'RemoveSphere')
 
 --The function checks the relevance of lasers and updates the table if necessary. Submitting an index deletes the corresponding row
 function AnalyseTable(_toRemoveIndex)
-	for _index, _rows in pairs(laserTable) do
+	for _index = #laserTable, 1, -1 do
+		local _rows = laserTable[_index]
+		local removed = false
 		--Laser segment
 		if not (isEntityCorrect(_rows[2])) or not (isEntityCorrect(_rows[3])) then
 			DebugMsg(_myName .. 'laser removed from table (incorrect source or target) with type ' .. _rows[1])
 			table.remove(laserTable, _index)
+			removed = true
 		end
 
-		if _toRemoveIndex and (_toRemoveIndex == _rows[1]) then
+		if not removed and _toRemoveIndex and (_toRemoveIndex == _rows[1]) then
 			table.remove(laserTable, _index)
 			DebugMsg(_myName .. 'remove laser from table (marked for removal)|' .. tostring(#laserTable))
 		end
@@ -489,12 +498,15 @@ end
 
 --Checks the relevance of spheres. Submitting an index deletes the corresponding row
 function AnalyseSphereTable(_toRemoveIndex)
-	for _index, _rows in pairs(sphereTable) do
+	for _index = #sphereTable, 1, -1 do
+		local _rows = sphereTable[_index]
+		local removed = false
 		if not (isEntityCorrect(_rows[2])) then
 			DebugMsg(_myName .. 'sphere removed from table (incorrect source)')
 			table.remove(sphereTable, _index)
+			removed = true
 		end
-		if _toRemoveIndex and (_toRemoveIndex == _rows[1]) then
+		if not removed and _toRemoveIndex and (_toRemoveIndex == _rows[1]) then
 			table.remove(sphereTable, _index)
 			DebugMsg(_myName .. 'remove sphere from table (marked for removal)|' .. tostring(#sphereTable))
 		end

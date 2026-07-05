@@ -58,6 +58,8 @@ local EmergencyOverloadIsWorking = 0 --module overload phase status
 local EmergencyIsWorking = 0         --module active phase status
 local EmergencyHeal = 0              --automatically calculated repair volume
 
+local _rarity = 0
+
 --Interface Variables
 local progressBars = {}
 
@@ -81,6 +83,7 @@ function UIplaysound(_type)
 	--1 -deactivation
 	--2 -error
 	local soundPath = '/systems/'
+	if Player() and Player().craftIndex ~= Entity().index then return end
 	if _type == 0 then
 		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.5)
 		return
@@ -187,6 +190,12 @@ end
 --function dataTransferNanobots(cooldown,operationTime,healingAmount)
 
 function NanobotsActivate()
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
+	
 	if NanobotsIsReady == 0 then
 		NanobotsIsReady = NanobotsCooldown                       --starts rollback
 		NanobotsHealingSpeed = (Entity().maxDurability / 100 * NanobotsHealingAmount) /
@@ -226,6 +235,12 @@ end
 callable(nil, "NanobotsActivate")
 
 function RepairNetworkActivate()
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
+	
 	if RepairnetworkIsReady == 0 then
 		RepairnetworkIsReady = RepairnetworkCooldown
 		RepairnetworkHealingSpeed = (Entity().maxDurability / 100 * RepairnetworkHealingAmount) /
@@ -262,6 +277,12 @@ end
 callable(nil, "RepairNetworkActivate")
 
 function EmergencyActivate()
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
+	
 	if EmergencyIsReady == 0 then
 		EmergencyIsReady = EmergencyCooldown
 		EmergencyHeal = (Entity().maxDurability / 100) * EmergencyHealingAmount
@@ -341,8 +362,8 @@ end
 function getBonuses(seed, rarity, permanent)
 	local rand = Random(Seed(seed))
 
-	local hullBonus = ModuleBonusDurability + rarity.value * 3
-	local hullRepairTreshhold = PassiveRepairTreshhold + rarity.value * 2
+	local hullBonus = 6 + rarity.value * 3
+	local hullRepairTreshhold = 10 + rarity.value * 2
 
 	return hullBonus, hullRepairTreshhold
 end
@@ -360,11 +381,11 @@ function onInstalled(seed, rarity, permanent)
 	Entity():registerCallback("onHullHit", "onHitReact")
 
 	--changes the limit of passively restored hull depending on the current module level (from -1 to +5)
-	PassiveRepairTreshhold = PassiveRepairTreshhold + rarity.value * 2
+	PassiveRepairTreshhold = 10 + rarity.value * 2
 	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", PassiveRepairTreshhold, "% Repair limit from quality") end
 
 	--Changes the hull bonus depending on the current module level (from -1 to +5)
-	ModuleBonusDurability = ModuleBonusDurability + rarity.value * 3
+	ModuleBonusDurability = 6 + rarity.value * 3
 	if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", ModuleBonusDurability, "% Hull bonus") end
 
 	--Checks the existence of a custom variable on the ship and if it does not exist, creates it
@@ -397,6 +418,12 @@ end
 
 function onUninstalled(seed, rarity, permanent)
 	if onServer() then
+		local _cv = Entity():getValue("isRepairDrones")
+		if _cv == true then
+			local hullBonus = 6 + rarity.value * 3
+			Entity().maxDurabilityFactor = math.max(0, Entity().maxDurabilityFactor - hullBonus / 100)
+			Entity():setValue("isRepairDrones", false)
+		end
 		Entity():removeScriptBonuses()
 		executeDelete()
 	end
@@ -425,6 +452,13 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
+	
+	if type(subSysDesc) ~= "table" then return end
 	if not Entity() or not Owner() then return end
 
 	local subsys = {}
@@ -537,7 +571,7 @@ function updateStatusEffects(_type, _status)
 	if _type == 0 then
 		if _status then
 			local _line = getSubtechName(systemname, 1) .. ' - ' .. getTechInfo('active')
-			addShipProblem("Nanobots", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(150, 64, 100), false)
+			addShipProblem("Nanobots", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(150, 0.64, 1), false)
 		else
 			removeShipProblem("Nanobots", Entity().id)
 		end
@@ -545,7 +579,7 @@ function updateStatusEffects(_type, _status)
 	if _type == 1 then
 		if _status then
 			local _line = getSubtechName(systemname, 2) .. ' - ' .. getTechInfo('active')
-			addShipProblem("RepairNetwork", Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(150, 64, 100),
+			addShipProblem("RepairNetwork", Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(150, 0.64, 1),
 				false)
 		else
 			removeShipProblem("RepairNetwork", Entity().id)
@@ -554,7 +588,7 @@ function updateStatusEffects(_type, _status)
 	if _type == 2 then
 		if _status then
 			local _line = getSubtechName(systemname, 3) .. ' - ' .. getTechInfo('readystate')
-			addShipProblem("Emergency", Entity().id, _line, getSubtechIcon(systemname, 3), ColorHSV(60, 94, 78), false)
+			addShipProblem("Emergency", Entity().id, _line, getSubtechIcon(systemname, 3), ColorHSV(60, 0.94, 0.78), false)
 		else
 			removeShipProblem("Emergency", Entity().id)
 		end
@@ -562,7 +596,7 @@ function updateStatusEffects(_type, _status)
 	if _type == 3 then
 		if _status then
 			local _line = getSubtechName(systemname, 3) .. ' - ' .. getTechInfo('active')
-			addShipProblem("EmergencyOverload", Entity().id, _line, getSubtechIcon(systemname, 3), ColorHSV(150, 64, 100),
+			addShipProblem("EmergencyOverload", Entity().id, _line, getSubtechIcon(systemname, 3), ColorHSV(150, 0.64, 1),
 				false)
 		else
 			removeShipProblem("EmergencyOverload", Entity().id)
@@ -686,7 +720,7 @@ function getDescriptionLines(seed, rarity, permanent)
 end
 
 function getComparableValues(seed, rarity) --I don’t understand why this is needed
-	local _h, _r = getBonuses(seed, rarity, permanent)
+	local _h, _r = getBonuses(seed, rarity)
 
 	local base = {}
 	local bonus = {}
@@ -706,3 +740,41 @@ function initialize()
 end
 
 function UIsyncPosition(pos) end
+
+function secure()
+	return {
+		NanobotsIsReady = NanobotsIsReady,
+		NanobotsIsWorking = NanobotsIsWorking,
+		NanobotsHealingSpeed = NanobotsHealingSpeed,
+		RepairnetworkIsReady = RepairnetworkIsReady,
+		RepairnetworkIsWorking = RepairnetworkIsWorking,
+		RepairnetworkHealingSpeed = RepairnetworkHealingSpeed,
+		EmergencyIsReady = EmergencyIsReady,
+		EmergencyOverloadIsWorking = EmergencyOverloadIsWorking,
+		EmergencyIsWorking = EmergencyIsWorking,
+		EmergencyHeal = EmergencyHeal,
+		_rarity = _rarity,
+		PassiveRepairTreshhold = PassiveRepairTreshhold,
+		ModuleBonusDurability = ModuleBonusDurability,
+		PassiveRepairAmount = PassiveRepairAmount
+	}
+end
+
+function restore(data_in)
+	if data_in then
+		NanobotsIsReady = data_in.NanobotsIsReady or 0
+		NanobotsIsWorking = data_in.NanobotsIsWorking or 0
+		NanobotsHealingSpeed = data_in.NanobotsHealingSpeed or 0
+		RepairnetworkIsReady = data_in.RepairnetworkIsReady or 0
+		RepairnetworkIsWorking = data_in.RepairnetworkIsWorking or 0
+		RepairnetworkHealingSpeed = data_in.RepairnetworkHealingSpeed or 0
+		EmergencyIsReady = data_in.EmergencyIsReady or 0
+		EmergencyOverloadIsWorking = data_in.EmergencyOverloadIsWorking or 0
+		EmergencyIsWorking = data_in.EmergencyIsWorking or 0
+		EmergencyHeal = data_in.EmergencyHeal or 0
+		_rarity = data_in._rarity or 0
+		PassiveRepairTreshhold = data_in.PassiveRepairTreshhold or 10
+		ModuleBonusDurability = data_in.ModuleBonusDurability or 6
+		PassiveRepairAmount = data_in.PassiveRepairAmount or 0.2
+	end
+end

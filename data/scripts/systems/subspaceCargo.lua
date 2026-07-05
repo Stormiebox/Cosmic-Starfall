@@ -31,7 +31,7 @@ function onInstalled(seed, rarity, permanent)
 
     addBaseMultiplier(StatsBonuses.CargoHold, _cargo)
     addBaseMultiplier(StatsBonuses.GeneratedEnergy, _energy) --reduces energy regen
-    addMultiplier(StatsBonuses.ShieldDurability, 1 + _shield)
+    addBaseMultiplier(StatsBonuses.ShieldDurability, _shield) --reduces shield durability
 end
 
 function onUninstalled(seed, rarity, permanent)
@@ -54,7 +54,7 @@ end
 
 function getPrice(seed, rarity)
     local perc, energy, shield = getBonuses(seed, rarity)
-    local price = perc * energy * shield * 125 * 50000 * 1.7 --Quite crooked pricing
+    local price = math.abs(perc * energy * shield) * 125 * 50000 * 1.7 --Quite crooked pricing
     return price * 2.5 ^ rarity.value
 end
 
@@ -110,16 +110,5 @@ function getDescriptionLines(seed, rarity, permanent)
 end
 
 function getComparableValues(seed, rarity)
-    local perc, energy, shield = getBonuses(seed, rarity, false)
-
-    local base = {}
-    local bonus = {}
-    -- if perc ~= 0 then
-    -- table.insert(base, {name = "Cargo Hold"%_t, key = "cargo_hold_relative", value = round(perc *100), comp = UpgradeComparison.MoreIsBetter})
-    -- table.insert(bonus, {name = "Cargo Hold"%_t, key = "cargo_hold_relative", value = round(perc *0.5 *100), comp = UpgradeComparison.MoreIsBetter})
-    -- table.insert(bonus, {name = "Shield Capacity"%_t, key = "cargo_hold_relative", value = round(shield *0.5 *100), comp = UpgradeComparison.MoreIsBetter})
-    -- table.insert(base, {name = "Reactor Power"%_t, key = "cargo_hold_relative", value = round(energy *100), comp = UpgradeComparison.MoreIsBetter})
-    -- end
-
-    return base, bonus
+    return {}, {}
 end

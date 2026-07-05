@@ -1,6 +1,9 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 include('Armory')
 
+local unarmed = 0
+local armed = 1
+local defensive = 2
 WeaponTypes.addType("PULSEGUN", getWeaponName('pulsegun'), armed)
 WeaponTypes.addType("PARTICLEACCELERATOR", getWeaponName('particleaccelerator') .. " /* Weapon Type */"%_t, armed)
 WeaponTypes.addType("ASSAULTBLASTER", getWeaponName('assaultblaster') .. " /* Weapon Type */"%_t, armed)

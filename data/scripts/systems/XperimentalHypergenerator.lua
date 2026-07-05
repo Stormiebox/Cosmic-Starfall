@@ -36,6 +36,7 @@ function UIplaysound(_type)
 	--1 -deactivation
 	--2 -error
 	local soundPath = '/systems/'
+	if Player() and Player().craftIndex ~= Entity().index then return end
 	if _type == 0 then
 		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.5)
 		return
@@ -114,6 +115,11 @@ function xFocusActivateTransfer()
 end
 
 function xFocusActivate()
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
 	local hse = HyperspaceEngine()
 	if not hse then return end
 	if FocusedIsReady == 0 and hse.currentCooldown == 0 then
@@ -179,8 +185,14 @@ end
 
 --Main activation function
 function xQuantumActivate()
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
 	if QuantumIsReady == 0 then
 		QuantumIsReady = QuantumCooldown
+		QuantumCanRecharge = false
 		--Invoke client function(player(),"update u ibars",quantum cooldown,quantum is ready,0)
 		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
 		--QuantumIsWorking = QuantumWorkingTimer
@@ -204,6 +216,11 @@ end
 callable(nil, "xQuantumActivate")
 
 function xDestabilizerActivate()
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
 	local hse = HyperspaceEngine()
 	if not hse then return end
 	if DestabilizerIsReady == 0 then
@@ -422,7 +439,7 @@ function updateServer(timePassed)
 		DestabilizerIsWorking = math.max(0, DestabilizerIsWorking - timePassed)
 
 		if (Entity().durability / Entity().maxDurability) > DestabilizerChargeDestructionTreshold / 100 and (Entity().shieldDurability / Entity().shieldMaximum) < DestabilizerShieldTreshold / 100 then
-			Entity().durability = Entity().durability - DestabilizerDamageToHull
+			Entity().durability = math.max(1, Entity().durability - DestabilizerDamageToHull)
 			local hse = HyperspaceEngine()
 			if hse then
 				hse.currentCooldown = hse.currentCooldown - DestabilizerSpeedUp
@@ -514,9 +531,9 @@ end
 -- function updateUIbars(_max,_current,index)
 -- progressBars[index].progress = 1 -_current /_max
 -- if progressBars[index].progress == 1 then
--- progressBars[index].color = ColorHSV(150, 64, 100)
+-- progressBars[index].color = ColorHSV(150, 0.64, 1)
 -- else
--- progressBars[index].color = ColorHSV(16, 97, 84)
+-- progressBars[index].color = ColorHSV(16, 0.97, 0.84)
 -- end
 -- end
 
@@ -531,7 +548,7 @@ function updateStatusEffects(_type, _status)
 	if _type == 0 then
 		if _status then
 			local _line = getSubtechName(systemname, 1) .. ' - ' .. getTechInfo('active')
-			addShipProblem("Xquantum", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(150, 64, 100), false)
+			addShipProblem("Xquantum", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(150, 0.64, 1), false)
 		else
 			removeShipProblem("Xquantum", Entity().id)
 		end
@@ -542,12 +559,12 @@ function updateStatusEffects(_type, _status)
 			if (Entity().shieldDurability / Entity().shieldMaximum) < DestabilizerShieldTreshold / 100 and (Entity().durability / Entity().maxDurability) > DestabilizerChargeDestructionTreshold / 100 then
 				DebugMsg("Correct tick - destabilizer")
 				removeShipProblem(_name, Entity().id)
-				addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(150, 64, 100), false)
+				addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(150, 0.64, 1), false)
 			else
 				local _line = getSubtechName(systemname, 2) .. ' - ' .. getTechInfo('inactive')
 				DebugMsg("Incorrect tick - destabilizer")
 				removeShipProblem(_name, Entity().id)
-				addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(16, 97, 84), false)
+				addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(16, 0.97, 0.84), false)
 			end
 		else
 			removeShipProblem(_name, Entity().id)
@@ -555,7 +572,7 @@ function updateStatusEffects(_type, _status)
 	elseif _type == 2 then
 		if _status then
 			local _line = getSubtechName(systemname, 3) .. ' - ' .. getTechInfo('active')
-			addShipProblem("Xfocus", Entity().id, _line, getSubtechIcon(systemname, 3), ColorHSV(150, 64, 100), false)
+			addShipProblem("Xfocus", Entity().id, _line, getSubtechIcon(systemname, 3), ColorHSV(150, 0.64, 1), false)
 		else
 			removeShipProblem("Xfocus", Entity().id)
 		end
@@ -563,7 +580,7 @@ function updateStatusEffects(_type, _status)
 		if _status then
 			local _line = getSubtechName(systemname, 1) .. ' - ' .. getTechInfo('fireratereduced')
 			removeShipProblem("XquantumDebuff", Entity().id)
-			addShipProblem("XquantumDebuff", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(16, 97, 84),
+			addShipProblem("XquantumDebuff", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(16, 0.97, 0.84),
 				false)
 		else
 			removeShipProblem("XquantumDebuff", Entity().id)
@@ -572,7 +589,7 @@ function updateStatusEffects(_type, _status)
 		if _status then
 			local _line = getSubtechName(systemname, 1) .. ' - ' .. getTechInfo('readystate')
 			removeShipProblem("XquantumActive", Entity().id)
-			addShipProblem("XquantumActive", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(60, 94, 78),
+			addShipProblem("XquantumActive", Entity().id, _line, getSubtechIcon(systemname, 1), ColorHSV(60, 0.94, 0.78),
 				false)
 		else
 			removeShipProblem("XquantumActive", Entity().id)
@@ -584,7 +601,7 @@ function updateStatusEffects(_type, _status)
 			local _line = getSubtechName(systemname, 2) .. ' - ' .. getTechInfo('inactive')
 			removeShipProblem(_name, Entity().id)
 			removeShipProblem(_name2, Entity().id)
-			addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(16, 97, 84), false)
+			addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(16, 0.97, 0.84), false)
 		else
 			removeShipProblem(_name, Entity().id)
 		end
@@ -611,6 +628,13 @@ function initializeUI()
 end
 
 function executeDrawInterface(subSysDesc)
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	end
+	
+	if type(subSysDesc) ~= "table" then return end
 	if not Entity() or not Owner() then return end
 
 	local subsys = {}
@@ -842,3 +866,55 @@ end
 
 function UIshowhide() end
 function UIsyncPosition(pos) end
+
+function secure()
+	return {
+		_rarity = _rarity,
+		QuantumIsWorking = QuantumIsWorking,
+		QuantumIsReady = QuantumIsReady,
+		QuantumHealDelta = QuantumHealDelta,
+		QuantumCanRecharge = QuantumCanRecharge,
+		QuantumDebuffFlag = QuantumDebuffFlag,
+		QuantumStandbyFlag = QuantumStandbyFlag,
+		DestabilizerIsWorking = DestabilizerIsWorking,
+		DestabilizerIsReady = DestabilizerIsReady,
+		DestabilizerDamageToHull = DestabilizerDamageToHull,
+		DestabilizerSpeedUp = DestabilizerSpeedUp,
+		FocusedIsReady = FocusedIsReady,
+		FocusedChargeReductionTimer = FocusedChargeReductionTimer,
+		FocusedBonusRange = FocusedBonusRange,
+		FocusedCanRecharge = FocusedCanRecharge,
+		FocusedChargedFlag = FocusedChargedFlag
+	}
+end
+
+function restore(data_in)
+	if data_in then
+		_rarity = data_in._rarity or 0
+		QuantumIsWorking = data_in.QuantumIsWorking or 0
+		QuantumIsReady = data_in.QuantumIsReady or 0
+		QuantumHealDelta = data_in.QuantumHealDelta or 0
+		QuantumCanRecharge = data_in.QuantumCanRecharge or false
+		QuantumDebuffFlag = data_in.QuantumDebuffFlag or false
+		QuantumStandbyFlag = data_in.QuantumStandbyFlag or false
+		DestabilizerIsWorking = data_in.DestabilizerIsWorking or 0
+		DestabilizerIsReady = data_in.DestabilizerIsReady or 0
+		DestabilizerDamageToHull = data_in.DestabilizerDamageToHull or 0
+		DestabilizerSpeedUp = data_in.DestabilizerSpeedUp or 0
+		FocusedIsReady = data_in.FocusedIsReady or 0
+		FocusedChargeReductionTimer = data_in.FocusedChargeReductionTimer or 0
+		FocusedBonusRange = data_in.FocusedBonusRange or 0
+		FocusedCanRecharge = data_in.FocusedCanRecharge or false
+		FocusedChargedFlag = data_in.FocusedChargedFlag or false
+		
+		if FocusedChargedFlag then
+			Entity():registerCallback("onHyperspaceEntered", "xFocusJump")
+		end
+		if QuantumStandbyFlag then
+			Entity():registerCallback("onJumpRouteCalculationStarted", "xQuantumTrigger")
+		end
+		if QuantumDebuffFlag then
+			Entity():registerCallback("onHyperspaceEntered", "XQuantumJump")
+		end
+	end
+end

@@ -27,7 +27,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
   - *Artillery Doctrine* (5+ Cannons/Mortars/Railguns): +15% Damage, +10% Velocity.
   - *Laser/Plasma Doctrine* (5+ Lasers/Plasma): +15% Damage, +15% Shield Recharge Rate.
   - *Launcher Doctrine* (5+ Launchers/Bolters): +20% Fire Rate.
-- **Active Set Bonus UI:** Added a dedicated HUD element that dynamically displays your currently active Set Bonuses and Doctrines directly on your screen!
+- **Active Set Bonus UI:** Radically redesigned the HUD element that dynamically displays your currently active Set Bonuses and Doctrines. It now flawlessly uses the native `addShipProblem` API alongside Cosmic Vault textures to render beautiful, non-obstructive visual indicators instead of manual text rectangles!
 - **Legendary Vault DoTs:** Integrated the new `CosmicVaultCombat` DoT framework into Legendary weapon generation.
 - **Dynamic Economy Hooks:** Megacomplexes are now fully integrated into `CosmicVaultEconomy`. If a Megacomplex over-accumulates resources beyond its configured limits and is forced to dump cargo into space, it now triggers a sector-wide **Market Crash** event!
 
@@ -56,3 +56,6 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - **Invalid Stat API Sweeps:** Scanned and purged the codebase of invalid vanilla API enums (e.g. `StatsBonuses.Damage`, `StatsBonuses.ShieldCapacity`) and replaced them with functional Vanilla Engine equivalents to eliminate silent math failures.
 - **Zero-Overhead Subsystem Synergies:** Completely eradicated the massive 1.0-second background polling loop in `starfall_setbonuses.lua`. Subsystem synergies and Fleet Doctrines are now fully event-driven, relying exclusively on native `onTurretAdded`, `onTurretRemoved`, and `onInstalledUpgradesChanged` hooks to yield mathematically zero TPS overhead during combat.
 - **Memory Leak Patch:** Fixed a critical bug in `starfall_setbonuses.lua` and `XperimentalHypergenerator.lua` where unpurged volatile keys caused infinite stat stacking upon server restart. Replaced with native `Entity():removeScriptBonuses()` for flawless buff cleanup.
+- **PCall Wrapper Purge:** Swept core system scripts (`repairDrones.lua`, `subscapeCargo.lua`, `XperimentalHypergenerator.lua`) and all item generators (`weapongenerator.lua`, `turretgenerator.lua`, etc.) to remove unneeded and dangerous `pcall` wrappers, restoring natural stack trace logging and resolving logical errors.
+- **Generator Math Fixes:** Fixed a game-breaking `ColorHSV` parameter error in `weapongenerator.lua` that was crashing vanilla generation math, and removed an invalid `return TurretIngredients` in `turretingredients.lua` to prevent fatal loading errors.
+- **AI Ship Sync Fixes:** Resolved an issue in `starfall_setbonuses.lua` where `invokeClientFunction` would crash the server when processing AI/NPC ships by swapping to `broadcastInvokeClientFunction` and implementing strict `Player().craftIndex` UI gating.
