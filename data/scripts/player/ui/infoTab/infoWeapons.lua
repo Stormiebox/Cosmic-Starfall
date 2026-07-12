@@ -18,11 +18,11 @@ local dF = Neltharaku.debugFrame
 local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
-local classST = 'Starfall - standart weapons'%_t
+local classST = 'Starfall - standard weapons'%_t
 local classLI = 'Starfall - light weapons'%_t
 local classHE = 'Starfall - heavy weapons'%_t
 local classMC = 'Starfall - main caliber weapons'%_t
-local classVST = 'Vanilla - standart'%_t
+local classVST = 'Vanilla - standard'%_t
 local classVHE = 'Vanilla - heavy'%_t
 
 local order = {
@@ -91,7 +91,7 @@ local rangeType = {}
 	rangeType['h'] = 'high'%_t
 	rangeType['h+'] = 'very high'%_t
 	rangeType['h++'] = 'extremely high'%_t
-	
+
 local accuracyType = {}
 	accuracyType['l'] = 'poor'%_t
 	accuracyType['m'] = 'medium'%_t
@@ -99,7 +99,7 @@ local accuracyType = {}
 	accuracyType['ho'] = 'homing'%_t
 	accuracyType['m-ho'] = 'medium to homing'%_t
 	accuracyType['va'] = 'very accurate'%_t
-	
+
 local fireRateType = {}
 	fireRateType['ul'] = 'ultra low'%_t
 	fireRateType['l'] = 'low'%_t
@@ -107,7 +107,7 @@ local fireRateType = {}
 	fireRateType['m-h'] = 'medium to high'%_t
 	fireRateType['h'] = 'high'%_t
 	fireRateType['h+'] = 'very high'%_t
-	
+
 local damageType = {}
 	damageType['phys'] = 'physical'%_t
 	damageType['am'] = 'anti-matter'%_t
@@ -116,46 +116,46 @@ local damageType = {}
 	damageType['ener'] = 'energy'%_t
 	damageType['part'] = 'particles'%_t
 	damageType['no'] = 'no'%_t
-	
+
 local descDetails = {}
 	descDetails['inc'] = 'increased'%_t
 	descDetails['dec'] = 'decreased'%_t
-	
+
 	descDetails['bonusdamageincrease'] = 'Base damage increased by '%_t
 	descDetails['bonusrangeincrease'] = 'Base range increased by '%_t
 	descDetails['bonusrangedecrease'] = 'Base range decreased by '%_t
 	descDetails['bonusToHull'] = 'Base damage to hull increased by '%_t
 	descDetails['bonusToShields'] = 'Base damage to shields increased by '%_t
 	descDetails['bonusRepair'] = 'Base repair amount increased by '%_t
-	
+
 	descDetails['accemblyDamageByParts'] = 'When assembling, damage bonus from parts '%_t
 	descDetails['accemblyFirerateByParts'] = 'When assembling, rate of fire bonus from parts '%_t
 	descDetails['accemblyRangeByParts'] = 'When assembling, range bonus from parts '%_t
-	
+
 	descDetails['newpartDamageToHull'] = 'When assembling, a new part that adds a bonus damage to the hull'%_t
 	descDetails['newpartDamageToShield'] = 'When assembling, a new part that adds a bonus damage to the shields'%_t
 	descDetails['newpartProjSpeed'] = 'When assembling, a new part that adds a bonus speed to the projectile'%_t
 	descDetails['newpartBattery'] = 'When assembling, a new part that adds a bonus to battery/overheating'%_t
-	
+
 	descDetails['techleveltoprojspeed'] = 'Base projectile speed will increase with the tech level'%_t
 	descDetails['techleveltorange'] = 'Base firing range will increase with the tech level'%_t
 	descDetails['techleveltodamage'] = 'Base damage will increase with the tech level'%_t
 	descDetails['techleveltorepair'] = 'Base repair rate will increase with the tech level'%_t
-	
+
 	descDetails['morepartsDamage'] = 'More parts to damage bonus'%_t
 	descDetails['morepartsRange'] = 'More parts to range bonus'%_t
 	descDetails['morepartsBattery'] = 'More parts to battery/overheat bonus'%_t
-	
+
 	descDetails['lesspartsRange'] = 'Less parts to range bonus'%_t
-	
+
 	descDetails['classToHeavy'] = "Weapon class changed to 'Heavy'"%_t
 	descDetails['cannotRecieveDamageTypeOf'] = 'Cannot take the following type of damage: '%_t
 	descDetails['costDecreased'] = 'Cost decreased'%_t
-	
+
 local self = infoWeapons
 local stIcon = 'data/textures/icons/ASSAULTBLASTER.png'
-local listboxLabelSizeK = 0.5 
-local listboxLabelFontSizeK = 0.32 
+local listboxLabelSizeK = 0.5
+local listboxLabelFontSizeK = 0.32
 
 --Fills the entity tab without using the Vlister
 function infoWeapons.SetEntitiesV2(container,rUnit,gUK)
@@ -165,7 +165,7 @@ function infoWeapons.SetEntitiesV2(container,rUnit,gUK)
 	--Sorting and output order
 	local segments = {}
 	local segmentsLen = {}
-	
+
 	--Fills the segment table (headers) and calculates length
 	for _,_rows in pairs(order) do
 		local name = _rows[1]
@@ -176,58 +176,58 @@ function infoWeapons.SetEntitiesV2(container,rUnit,gUK)
 			segmentsLen[name] = segmentsLen[name] + 1
 		end
 	end
-	
+
 	--Variables
 	local yPos = 0
 	local boxTable = {}
-	
+
 	--UI container creation
 	local listBox = container:createScrollFrame(Rect(container.size))
-	
+
 	--Generate rows in listBox according to segments
 	for i=1,#segments do
-		
+
 		local segment = segments[i]
 		Debug('New segment: '..segment)
 		Debug('Length is '..tostring(segmentsLen[segment]))
-		
+
 		--ListBox window generation
 		local rowHeight = rUnit * 0.4
 		local totalHeight = (segmentsLen[segment]+1) * rowHeight
 		yPos = self.createLabel(yPos,listBox,rUnit,segment)
 		yPos,boxTable[segment] = self.createBox(yPos,listBox,totalHeight,rowHeight)
-		
+
 		--Filling with rows
 		for _,_rows in pairs(order) do
 			if _rows[1] == segment then
-		
+
 				local entryName = _rows[2]
 				local entryGUK = _rows[3]
 				--Debug('entryName is '..entryName)
 				local entityRow = entities[entryName]
 				local name = entityRow[2]
-				
+
 				local color = getTypeColor()
 				if entryGUK>=gUK then color = getTypeColor('update') end
-				
+
 				--Debug('applying '..name..' to '..segment)
-				
+
 				boxTable[segment]:addRow()
 				boxTable[segment]:setEntry(0,boxTable[segment].rows-1,name,false,false,color)
 				boxTable[segment]:setEntryValue(0,boxTable[segment].rows-1,entryName)
-			
+
 			end
 		end
 	end
-	
+
 	return boxTable
-	
+
 end
 
 --Creates a set of entity info panels and returns a table with them
 function infoWeapons.GetInfoContainers(container,rUnit)
 	local _result = {}
-	
+
 	for _key,_rows in pairs(entities) do
 		local wpnType = _key
 		local infobox = self.SetMain(wpnType,container,rUnit)
@@ -243,40 +243,40 @@ function infoWeapons.SetMain(wpnType,baseContainer,rUnit)
 	if not(wpnType) then Debug('Failure: no wpnType') return end
 	if not(baseContainer) then Debug('Failure: no baseContainer') return end
 	if not(rUnit) then Debug('Failure: no rUnit') return end
-	
+
 	--Base container
 	local infobox = baseContainer:createContainer(Rect(baseContainer.size))
-	
+
 	--Base variables
 	local baseSize = infobox.size
 	local weaponTable = entities[wpnType]
-	
+
 	local paddingY = rUnit * 0.5
 	local unitIcon = rUnit * 4
-	
+
 	--Container creation
 
 	--Main info splitter | description scroll
 	local hSplitter = UIHorizontalSplitter(Rect(infobox.size),10,0,0.45)
-	
+
 	--Info container
 	local infoContainer = infobox:createContainer(hSplitter.top)
 		infoContainer:createFrame(Rect(infoContainer.size))
-	
+
 	--Description/changes scroller
 	local otherContainer = infobox:createScrollFrame(hSplitter.bottom)
-	
+
 	--Splitter to separate description and changes
 	local descChangesSplitter = UIHorizontalSplitter(Rect(otherContainer.size),10,0,0.45)
-	
+
 	--Description scroller
 	local descContainer = otherContainer:createScrollFrame(descChangesSplitter.top)
 		--infoContainer:createFrame(Rect(descContainer.size))
-	
+
 	--Square for the changes lister
 	local changesRect = descChangesSplitter.bottom
 
-	
+
 	--Info links
 	local wpnIcon = weaponTable[1]
 	local wpnName = weaponTable[2]
@@ -293,17 +293,17 @@ function infoWeapons.SetMain(wpnType,baseContainer,rUnit)
 	local iconRect = Rect(iconTRanchor,iconSecondPoint)
 	local icon = infoContainer:createPicture(iconRect,wpnIcon)
 		icon.isIcon = true
-		
+
 	--Name
 	local nameAnchor = vec2(rUnit * 1,paddingY)
 	local namePoint = vec2(nameAnchor.x + rUnit * 7,nameAnchor.y + rUnit)
 	local nameRect = Rect(nameAnchor,namePoint)
 	local name = infoContainer:createTextField(nameRect,wpnName)
 		name.fontSize = rUnit * 0.4
-		
+
 	--Weapon class
-	local wpnClass = 'standart'%_t
-	local classColor = getTypeColor('standart')
+	local wpnClass = 'standard'%_t
+	local classColor = getTypeColor('standard')
 	if checkLightPath(wpnIcon) then
 		wpnClass = 'light'%_t
 		classColor = getTypeColor('light')
@@ -316,37 +316,37 @@ function infoWeapons.SetMain(wpnType,baseContainer,rUnit)
 		wpnClass = 'main caliber'%_t
 		classColor = getTypeColor('MC')
 	end
-	
+
 	local _icon,_label,_value = self.InfoLineCreator(0,rUnit,infoContainer)
 		_icon.picture = icons['class']
 		_label.text = 'Weapon class'%_t
 		_value.text = wpnClass
 		_value.fontColor = classColor
-		
+
 	--Damage type
 	_icon,_label,_value = self.InfoLineCreator(1,rUnit,infoContainer)
 		_icon.picture = icons['dtype']
 		_label.text = 'Damage type'%_t
 		_value.text = wpnDamagetype
-		
+
 	--Range
 	_icon,_label,_value = self.InfoLineCreator(2,rUnit,infoContainer)
 		_icon.picture = icons['distance']
 		_label.text = 'Fire range'%_t
 		_value.text = wpnDistance
-		
+
 	--Accuracy
 	_icon,_label,_value = self.InfoLineCreator(3,rUnit,infoContainer)
 		_icon.picture = icons['accuracy']
 		_label.text = 'Accuracy'%_t
 		_value.text = wpnAccuracy
-		
+
 	--Fire rate + Y coordinate
 	_icon,_label,_value,_yPos = self.InfoLineCreator(4,rUnit,infoContainer)
 		_icon.picture = icons['firerate']
 		_label.text = 'Fire rate'%_t
 		_value.text = wpnFirerate
-		
+
 	--Description
 	local descRect = Neltharaku.ShrinkRect(Rect(descContainer.size),rUnit*0.2)
 
@@ -354,10 +354,10 @@ function infoWeapons.SetMain(wpnType,baseContainer,rUnit)
 		descTextBox.editable = false
 		descTextBox.text = wpnDesc
 		descTextBox.setFontSize = rUnit*0.3
-		
+
 	--Features
 	local changesLister = UIVerticalLister(changesRect, 5, 5)
-	
+
 	for _,_rows in pairs(wpnChangesTable) do
 		local resultRow = ' - '.._rows
 		local textRect = changesLister:nextRect(rUnit*0.7)
@@ -366,14 +366,14 @@ function infoWeapons.SetMain(wpnType,baseContainer,rUnit)
 			textBox.text = resultRow
 			textBox.setFontSize = rUnit*0.3
 	end
-	
+
 	infobox:hide()
 	return infobox
 end
 
 --Creates a text line for the info tab (weapon statistics)
 function infoWeapons.InfoLineCreator(index,rUnit,infobox)
-	
+
 	--Variables
 	local staticPadding = rUnit * 1.5
 	local modUnit = rUnit * 0.7
@@ -381,14 +381,14 @@ function infoWeapons.InfoLineCreator(index,rUnit,infobox)
 	local paddingX = rUnit * 0.5
 	local textFieldSqueeze = rUnit*0.05
 	local divX = rUnit * 0.30
-	
+
 	--Icon
 	local iconAnchor = vec2(paddingX,paddingY)
 	local iconPoint = vec2(iconAnchor.x+modUnit,iconAnchor.y+modUnit)
 	local iconRect = Rect(iconAnchor,iconPoint)
 	local icon = infobox:createPicture(iconRect,stIcon)
 		icon.isIcon = true
-		
+
 	--Text - name
 	local labelAnchor = vec2(iconPoint.x + divX,paddingY + textFieldSqueeze)
 	local labelPoint = vec2(labelAnchor.x + modUnit * 4.5,labelAnchor.y + modUnit - textFieldSqueeze)
@@ -396,7 +396,7 @@ function infoWeapons.InfoLineCreator(index,rUnit,infobox)
 	local label = infobox:createTextField(labelRect,'')
 		label.fontSize = rUnit * 0.2
 	--infobox:createFrame(labelRect)
-		
+
 	--Text - value
 	local valueAnchor = vec2(labelPoint.x ,paddingY + textFieldSqueeze)
 	local valuePoint = vec2(valueAnchor.x + modUnit * 4.5,valueAnchor.y + modUnit - textFieldSqueeze)
@@ -404,9 +404,9 @@ function infoWeapons.InfoLineCreator(index,rUnit,infobox)
 	local value = infobox:createTextField(valueRect,'')
 		value.fontSize = rUnit * 0.2
 	--infobox:createFrame(valueRect)
-	
+
 	return icon,label,value,valuePoint.y
-	
+
 end
 
 --Creates a name for the weapon list
@@ -418,7 +418,7 @@ function infoWeapons.createLabel(y,container,rUnit,name)
 	local labelRect = Rect(labelAnchor,labelPoint)
 
 	local label = container:createLabel(labelRect,name,rUnit * listboxLabelFontSizeK)
-	
+
 	return yMod
 end
 
@@ -432,7 +432,7 @@ function infoWeapons.createBox(y,container,height,rowsize)
 	local boxRect = Rect(boxAnchor,boxPoint)
 
 	local label = container:createListBoxEx(boxRect)
-	
+
 	return yMod,label
 end
 

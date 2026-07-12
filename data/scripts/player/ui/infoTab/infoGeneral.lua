@@ -61,7 +61,7 @@ function infoGeneral.SetEntitiesV2(container,rUnit,gUK)
 	--Sorting and output order
 	local segments = {}
 	local segmentsLen = {}
-	
+
 	--Fills the segment (header) table and calculates length
 	for _,_rows in pairs(order) do
 		local name = _rows[1]
@@ -72,51 +72,51 @@ function infoGeneral.SetEntitiesV2(container,rUnit,gUK)
 			segmentsLen[name] = segmentsLen[name] + 1
 		end
 	end
-	
+
 	--Variables
 	local yPos = 0
 	local boxTable = {}
-	
+
 	--Creating UI container
 	local listBox = container:createScrollFrame(Rect(container.size))
-	
+
 	--Generation of lines in listBox according to segments
 	for i=1,#segments do
-		
+
 		local segment = segments[i]
 		Debug('New segment: '..segment)
 		Debug('Length is '..tostring(segmentsLen[segment]))
-		
+
 		--Generation of the listBox window
 		local rowHeight = rUnit * 0.4
 		local totalHeight = (segmentsLen[segment]+1) * rowHeight
 		yPos = self.createLabel(yPos,listBox,rUnit,segment)
 		yPos,boxTable[segment] = self.createBox(yPos,listBox,totalHeight,rowHeight)
-		
+
 		--Filling with rows
 		for _,_rows in pairs(order) do
 			if _rows[1] == segment then
-		
+
 				local entryName = _rows[2]
 				local entryGUK = _rows[3]
 				local entityRow = entities[entryName]
 				local name = entityRow[1]
-				
+
 				local color = getTypeColor()
 				if entryGUK>=gUK then color = getTypeColor('update') end
-				
+
 				Debug('applying '..name..' to '..segment)
-				
+
 				boxTable[segment]:addRow()
 				boxTable[segment]:setEntry(0,boxTable[segment].rows-1,name,false,false,color)
 				boxTable[segment]:setEntryValue(0,boxTable[segment].rows-1,entryName)
-			
+
 			end
 		end
 	end
-	
+
 	return boxTable
-	
+
 end
 
 --Creates a label for the list in LEFT
@@ -128,7 +128,7 @@ function infoGeneral.createLabel(y,container,rUnit,name)
 	local labelRect = Rect(labelAnchor,labelPoint)
 
 	local label = container:createLabel(labelRect,name,rUnit * listboxLabelFontSizeK)
-	
+
 	return yMod
 end
 
@@ -142,14 +142,14 @@ function infoGeneral.createBox(y,container,height,rowsize)
 	local boxRect = Rect(boxAnchor,boxPoint)
 
 	local label = container:createListBoxEx(boxRect)
-	
+
 	return yMod,label
 end
 
 --Creates an infobox list for RIGHT
 function infoGeneral.GetInfoContainers(container,rUnit)
 	local _result = {}
-	
+
 	for _key,_rows in pairs(entities) do
 		local stType = _key
 		local infobox = self.SetMain(stType,container,rUnit)
@@ -168,60 +168,60 @@ function infoGeneral.SetMain(stType,baseContainer,rUnit)
 
 	--Creating container
 	local infobox = baseContainer:createScrollFrame(Rect(baseContainer.size))
-	
+
 	--Base variables
 	local baseSize = infobox.size
 	local chosenTable = entities[stType]
-	
+
 	--Generation of segments
 	local data = chosenTable[3]
 	local name = chosenTable[1]
 	local yMod = 0
-	
+
 	for _index,_rows in pairs(data) do
-		
+
 		local dataType = _rows[1]
 		local dataHeight = _rows[2]
 		local dataInfo = _rows[3] --Description or path to icon
 		local dataLabel = _rows[4] --Only for iconinfo - label content
 
 		if dataType == 'mainlabel' then
-		
+
 			local iconE,nameE
 			iconE,nameE,yMod = self.CreateMainLabel(yMod,infobox,rUnit)
-			
+
 			iconE.picture = dataInfo
 			nameE.caption = name
 			nameE.fontSize = rUnit*0.3
-			
+
 			yMod = self.CreateLine(yMod,infobox,rUnit)
-			
+
 		end
-		
+
 		if dataType == 'desc' then
-		
+
 			local descE
 			descE,yMod = self.CreateDescription(yMod,infobox,dataHeight,rUnit)
-			
+
 			descE.text = dataInfo
-			
+
 			--yMod = infoStations.CreateLine(yMod,baseContainer,rUnit)
-			
+
 		end
-		
+
 		if dataType == 'iconinfo' then
-		
+
 			local iconE,descE
 			iconE,descE,yMod = self.CreateIconLabel(yMod,infobox,rUnit)
-			
+
 			iconE.picture = dataInfo
 			descE.caption = dataLabel
 			descE.fontSize = rUnit*0.25
-			
+
 		end
-		
+
 	end
-	
+
 	infobox:hide()
 	return infobox
 end
@@ -230,7 +230,7 @@ end
 function infoGeneral.CreateDescription(y,container,height,rUnit)
 	local xPadding = rUnit*0.25
 	local yPadding = rUnit*0.25
-	
+
 	local descAnchor = vec2(xPadding,y+yPadding)
 	local descPoint = vec2(container.width - xPadding,descAnchor.y + height * rUnit)
 	local descRect = Rect(descAnchor,descPoint)
@@ -238,7 +238,7 @@ function infoGeneral.CreateDescription(y,container,height,rUnit)
 		descElement.editable = false
 		descElement.setFontSize = rUnit*0.3
 	local yMod = descPoint.y
-	
+
 	return descElement,yMod
 end
 
@@ -246,14 +246,14 @@ end
 function infoGeneral.CreatePicture(y,container,height,rUnit)
 	local xPadding = rUnit*0.25
 	local yPadding = rUnit*0.25
-	
+
 	local baseAnchor = vec2(xPadding,y+yPadding)
 	local basePoint = vec2(container.width - xPadding,baseAnchor.y + height * rUnit)
 	local baseRect = Rect(baseAnchor,basePoint)
 	local baseElement = container:createPicture(baseRect, nil)
 
 	local yMod = basePoint.y
-	
+
 	return baseElement,yMod
 end
 
@@ -263,44 +263,44 @@ function infoGeneral.CreateIconLabel(y,container,rUnit)
 	local yPadding = rUnit*0.25 + y
 	local unitMod = rUnit * 0.7
 	local textFieldSqueeze = rUnit * 0.25
-	
+
 	local iconAnchor = vec2(xPadding,yPadding)
 	local iconPoint = vec2(iconAnchor.x + unitMod,iconAnchor.y + unitMod)
 	local iconRect = Rect(iconAnchor,iconPoint)
 	local iconElement = container:createPicture(iconRect,nil)
 		iconElement.isIcon = true
-	
+
 	local nameAnchor = vec2(iconPoint.x + xPadding * 2,yPadding + textFieldSqueeze)
 	local namePoint = vec2(nameAnchor.x + rUnit * 9,nameAnchor.y + unitMod)
 	local nameRect = Rect(nameAnchor,namePoint)
 	local nameElement = container:createLabel(nameRect,'',10)
-	
+
 	local yMod = iconPoint.y
-	
+
 	return iconElement,nameElement,yMod
 end
 
---Creates a header in the RIGHT tab 
+--Creates a header in the RIGHT tab
 function infoGeneral.CreateMainLabel(y,container,rUnit)
 	local xPadding = rUnit*0.25
 	local yPadding = rUnit*0.25 + y
 	local unitMod = rUnit * 0.9
 	local textFieldSqueeze = rUnit * 0.25
-	
+
 	local iconAnchor = vec2(xPadding,yPadding)
 	local iconPoint = vec2(iconAnchor.x + unitMod,iconAnchor.y + unitMod)
 	local iconRect = Rect(iconAnchor,iconPoint)
 	local iconElement = container:createPicture(iconRect,nil)
 		iconElement.isIcon = true
-	
+
 	local nameAnchor = vec2(iconPoint.x + xPadding * 2,yPadding + textFieldSqueeze)
 	local namePoint = vec2(nameAnchor.x + rUnit * 9,nameAnchor.y + unitMod)
 	local nameRect = Rect(nameAnchor,namePoint)
 	local nameElement = container:createLabel(nameRect,'',10)
 		nameElement.bold = true
-	
+
 	local yMod = iconPoint.y
-	
+
 	return iconElement,nameElement,yMod
 end
 
@@ -337,7 +337,7 @@ entities['weaponclasses'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/weapon/wpnCyclone2.png', -- Content. Text or path to picture.
-			'Weapon class - Main caliber'%_t -- Content for icon info 
+			'Weapon class - Main caliber'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -348,7 +348,7 @@ entities['weaponclasses'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/weapon/wpnMagneticmortar.png', -- Content. Text or path to picture.
-			'Weapon class - light'%_t -- Content for icon info 
+			'Weapon class - light'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -359,7 +359,7 @@ entities['weaponclasses'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/weapon/wpnIonEmitter.png', -- Content. Text or path to picture.
-			'Weapon class - heavy'%_t -- Content for icon info 
+			'Weapon class - heavy'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -370,14 +370,14 @@ entities['weaponclasses'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/weapon/wpnPrd.png', -- Content. Text or path to picture.
-			'Weapon class - standart'%_t -- Content for icon info 
+			'Weapon class - standard'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
 			0.6, -- Height (nil for iconname/mainlabel)
 			'Conventional weapons using standard Avorion rules'%_t, -- Content. Text or path to picture.
 		},
-	},	
+	},
 }
 
 entities['weaponnew'] = {
@@ -401,7 +401,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('pulsegun'), -- Content. Text or path to picture.
-			getWeaponName('pulsegun') -- Content for icon info 
+			getWeaponName('pulsegun') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -412,7 +412,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('particleaccelerator'), -- Content. Text or path to picture.
-			getWeaponName('particleaccelerator') -- Content for icon info 
+			getWeaponName('particleaccelerator') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -423,7 +423,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('assaultblaster'), -- Content. Text or path to picture.
-			getWeaponName('assaultblaster') -- Content for icon info 
+			getWeaponName('assaultblaster') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -434,7 +434,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('hept'), -- Content. Text or path to picture.
-			getWeaponName('hept') -- Content for icon info 
+			getWeaponName('hept') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -445,7 +445,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('mantis'), -- Content. Text or path to picture.
-			getWeaponName('mantis') -- Content for icon info 
+			getWeaponName('mantis') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -456,7 +456,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('prd'), -- Content. Text or path to picture.
-			getWeaponName('prd') -- Content for icon info 
+			getWeaponName('prd') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -467,7 +467,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('plasmaflak'), -- Content. Text or path to picture.
-			getWeaponName('plasmaflak') -- Content for icon info 
+			getWeaponName('plasmaflak') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -478,7 +478,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('pulselaser'), -- Content. Text or path to picture.
-			getWeaponName('pulselaser') -- Content for icon info 
+			getWeaponName('pulselaser') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -489,7 +489,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('assaultcannon'), -- Content. Text or path to picture.
-			getWeaponName('assaultcannon') -- Content for icon info 
+			getWeaponName('assaultcannon') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -500,7 +500,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('magneticmortar'), -- Content. Text or path to picture.
-			getWeaponName('magneticmortar') -- Content for icon info 
+			getWeaponName('magneticmortar') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -511,7 +511,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('nanorepair'), -- Content. Text or path to picture.
-			getWeaponName('nanorepair') -- Content for icon info 
+			getWeaponName('nanorepair') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -522,7 +522,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('chargingbeam'), -- Content. Text or path to picture.
-			getWeaponName('chargingbeam') -- Content for icon info 
+			getWeaponName('chargingbeam') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -533,7 +533,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('photoncannon'), -- Content. Text or path to picture.
-			getWeaponName('photoncannon') -- Content for icon info 
+			getWeaponName('photoncannon') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -544,7 +544,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('ionemitter'), -- Content. Text or path to picture.
-			getWeaponName('ionemitter') -- Content for icon info 
+			getWeaponName('ionemitter') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -555,7 +555,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('hyperkinetic'), -- Content. Text or path to picture.
-			getWeaponName('hyperkinetic') -- Content for icon info 
+			getWeaponName('hyperkinetic') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -566,7 +566,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('avalanche'), -- Content. Text or path to picture.
-			getWeaponName('avalanche') -- Content for icon info 
+			getWeaponName('avalanche') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -577,7 +577,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('cyclone'), -- Content. Text or path to picture.
-			getWeaponName('cyclone') -- Content for icon info 
+			getWeaponName('cyclone') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -588,7 +588,7 @@ entities['weaponnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			getWeaponPath('transphasic'), -- Content. Text or path to picture.
-			getWeaponName('transphasic') -- Content for icon info 
+			getWeaponName('transphasic') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -619,7 +619,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/chaingun.png", -- Content. Text or path to picture.
-			'Chaingun'%_t -- Content for icon info 
+			'Chaingun'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -630,7 +630,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/laser-gun.png", -- Content. Text or path to picture.
-			'Laser'%_t -- Content for icon info 
+			'Laser'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -641,7 +641,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/plasma-gun.png", -- Content. Text or path to picture.
-			'Plasma Gun'%_t -- Content for icon info 
+			'Plasma Gun'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -652,7 +652,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/rocket-launcher.png", -- Content. Text or path to picture.
-			'Rocket Launcher'%_t -- Content for icon info 
+			'Rocket Launcher'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -663,7 +663,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/cannon.png", -- Content. Text or path to picture.
-			'Cannon'%_t -- Content for icon info 
+			'Cannon'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -674,7 +674,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/rail-gun.png", -- Content. Text or path to picture.
-			'Railgun'%_t -- Content for icon info 
+			'Railgun'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -685,7 +685,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/repair-beam.png", -- Content. Text or path to picture.
-			'Repair Laser'%_t -- Content for icon info 
+			'Repair Laser'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -696,7 +696,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/bolter.png", -- Content. Text or path to picture.
-			'Bolter'%_t -- Content for icon info 
+			'Bolter'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -707,7 +707,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/lightning-gun.png", -- Content. Text or path to picture.
-			'Lightning Gun'%_t -- Content for icon info 
+			'Lightning Gun'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -718,7 +718,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/tesla-gun.png", -- Content. Text or path to picture.
-			'Tesla Gun'%_t -- Content for icon info 
+			'Tesla Gun'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -729,7 +729,7 @@ entities['weaponrebalance'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			"data/textures/icons/pulsecannon.png", -- Content. Text or path to picture.
-			'Pulse Cannon'%_t -- Content for icon info 
+			'Pulse Cannon'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -760,7 +760,7 @@ entities['systemnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/SYSrepairDrones.png', -- Content. Text or path to picture.
-			getTechName('repairdrones') -- Content for icon info 
+			getTechName('repairdrones') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -771,7 +771,7 @@ entities['systemnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/SYShypergenerator.png', -- Content. Text or path to picture.
-			getTechName('xperimentalhypergenerator') -- Content for icon info 
+			getTechName('xperimentalhypergenerator') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -782,7 +782,7 @@ entities['systemnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/SYSbastion.png', -- Content. Text or path to picture.
-			getTechName('bastionsystem') -- Content for icon info 
+			getTechName('bastionsystem') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -793,7 +793,7 @@ entities['systemnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/SYSmacrofieldprojector.png', -- Content. Text or path to picture.
-			getTechName('macrofieldprojector') -- Content for icon info 
+			getTechName('macrofieldprojector') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -804,7 +804,7 @@ entities['systemnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/SYSpReactor3.png', -- Content. Text or path to picture.
-			getTechName('pulsetractorbeamgenerator') -- Content for icon info 
+			getTechName('pulsetractorbeamgenerator') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -815,14 +815,14 @@ entities['systemnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/SYSsubspacecargo.png', -- Content. Text or path to picture.
-			getTechName('subspacecargo') -- Content for icon info 
+			getTechName('subspacecargo') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
 			2, -- Height (nil for iconname/mainlabel)
 			'Improves the cargo bay, but reduces energy production and slightly reduces the shields. Always a percentage bonus'%_t, -- Content. Text or path to picture.
 		},
-	},	
+	},
 }
 
 entities['stationnew'] = {
@@ -846,14 +846,14 @@ entities['stationnew'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/MCXmegaComplex.png', -- Content. Text or path to picture.
-			getStationName('mx') -- Content for icon info 
+			getStationName('mx') -- Content for icon info
 		},
 		{
 			'desc', -- Element type
 			2, -- Height (nil for iconname/mainlabel)
 			'Megacomplex is a station that allows you to set up automatic and fast logistics of resources between all docked stations'%_t, -- Content. Text or path to picture.
 		},
-	},	
+	},
 }
 
 entities['alertsystem'] = {
@@ -873,7 +873,7 @@ entities['alertsystem'] = {
 			1.3, -- Height (nil for iconname/mainlabel)
 			'A system of visual and audio alerts. The graphical part in the form of an icon appears on the right side of the screen and unfolds when the cursor is hovered over. The current working types of alerts are indicated in the corresponding tab'%_t, -- Content. Text or path to picture.
 		},
-	},	
+	},
 }
 
 entities['combatgroup'] = {
@@ -893,7 +893,7 @@ entities['combatgroup'] = {
 			1.3, -- Height (nil for iconname/mainlabel)
 			"Graphical interface for working with a group of players. Allows you to search, invite to a group, kick players and transfer leadership without the need to use chat commands. For more information, see the 'interfaces' tab"%_t, -- Content. Text or path to picture.
 		},
-	},	
+	},
 }
 
 entities['asi'] = {
@@ -913,7 +913,7 @@ entities['asi'] = {
 			1.3, -- Height (nil for iconname/mainlabel)
 			"Customizable interface that provides access to the active systems installed on the ship"%_t, -- Content. Text or path to picture.
 		},
-	},	
+	},
 }
 
 entities['auracore'] = {
@@ -933,7 +933,7 @@ entities['auracore'] = {
 			1.3, -- Height (nil for iconname/mainlabel)
 			"An interface that displays active effects from the Starfall mod affecting the ship"%_t, -- Content. Text or path to picture.
 		},
-	},	
+	},
 }
 entities['setbonuses'] = {
 	--Name
@@ -956,7 +956,7 @@ entities['setbonuses'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/SYSbastion.png', -- Content. Text or path to picture.
-			'Aegis Matrix'%_t -- Content for icon info 
+			'Aegis Matrix'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -967,7 +967,7 @@ entities['setbonuses'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/SYSrepairDrones.png', -- Content. Text or path to picture.
-			'Drone-Weaver Network'%_t -- Content for icon info 
+			'Drone-Weaver Network'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -978,7 +978,7 @@ entities['setbonuses'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/SYShypergenerator.png', -- Content. Text or path to picture.
-			'Void-Runner Config'%_t -- Content for icon info 
+			'Void-Runner Config'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
@@ -989,7 +989,7 @@ entities['setbonuses'] = {
 			'iconinfo', -- Element type
 			nil, -- Height (nil for iconname/mainlabel)
 			'data/textures/icons/turret.png', -- Content. Text or path to picture.
-			'Turret Doctrines'%_t -- Content for icon info 
+			'Turret Doctrines'%_t -- Content for icon info
 		},
 		{
 			'desc', -- Element type
