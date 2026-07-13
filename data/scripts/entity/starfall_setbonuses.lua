@@ -5,8 +5,6 @@ local StarfallSetBonuses = {}
 local activeSets = {}
 
 -- Cached tracking variables
-local lastCheckTime = 0
-local activeModifiers = {}
 local currentDamageBuff = 1.0
 
 function StarfallSetBonuses.initialize()
@@ -16,8 +14,7 @@ function StarfallSetBonuses.initialize()
         Entity():registerCallback("onTurretDestroyed", "onSystemsChanged")
         Entity():registerCallback("onTurretRemoved", "onSystemsChanged")
         -- recalculateBonuses() is intentionally omitted here.
-        -- It should be called during onRestore or onSystemsChanged to ensure it only runs 
-        -- AFTER activeModifiers has been properly restored.
+        -- It should be called during onRestore or onSystemsChanged.
     else
         -- Client side UI uses Ship Problems, so we don't need onPreRenderHud
     end
@@ -30,14 +27,12 @@ end
 
 function StarfallSetBonuses.secure()
     return {
-        activeModifiers = activeModifiers,
         currentDamageBuff = currentDamageBuff
     }
 end
 
 function StarfallSetBonuses.restore(data)
     -- Keys are volatile and invalid after restart; do not restore them
-    activeModifiers = {}
     currentDamageBuff = data.currentDamageBuff or 1.0
     StarfallSetBonuses.recalculateBonuses()
 end
@@ -58,7 +53,7 @@ function StarfallSetBonuses.recalculateBonuses()
     }
 
     -- 1. Check Subsystems
-    local systemUpgrades = ShipSystem(entity.index):getUpgrades()
+    local systemUpgrades = ShipSystem():getUpgrades()
     for upgrade, _ in pairs(systemUpgrades) do
         if type(upgrade) == "userdata" and upgrade.script then
             sysCount[upgrade.script] = true
@@ -80,15 +75,15 @@ function StarfallSetBonuses.recalculateBonuses()
                     turretCount.miner = turretCount.miner + 1
                 elseif wType == WeaponType.SalvagingLaser or wType == WeaponType.RawSalvagingLaser then
                     turretCount.salvager = turretCount.salvager + 1
-            elseif wType == WeaponType.PointDefenseLaser or wType == WeaponType.PointDefenseChaingun or wType == WeaponType.AntiFighter then
-                turretCount.pdc = turretCount.pdc + 1
-            elseif wType == WeaponType.Cannon or wType == WeaponType.RailGun then
-                turretCount.artillery = turretCount.artillery + 1
-            elseif wType == WeaponType.Laser or wType == WeaponType.PlasmaGun or wType == WeaponType.LightningGun then
-                turretCount.laser = turretCount.laser + 1
-            elseif wType == WeaponType.RocketLauncher or wType == WeaponType.Bolter then
-                turretCount.launcher = turretCount.launcher + 1
-            end
+                elseif wType == WeaponType.PointDefenseLaser or wType == WeaponType.PointDefenseChainGun or wType == WeaponType.AntiFighter then
+                    turretCount.pdc = turretCount.pdc + 1
+                elseif wType == WeaponType.Cannon or wType == WeaponType.RailGun then
+                    turretCount.artillery = turretCount.artillery + 1
+                elseif wType == WeaponType.Laser or wType == WeaponType.PlasmaGun or wType == WeaponType.LightningGun then
+                    turretCount.laser = turretCount.laser + 1
+                elseif wType == WeaponType.RocketLauncher or wType == WeaponType.Bolter then
+                    turretCount.launcher = turretCount.launcher + 1
+                end
         end
         end
     end
@@ -97,25 +92,18 @@ function StarfallSetBonuses.recalculateBonuses()
     local previouslyActiveSets = activeSets
     activeSets = {}
 
-    -- Remove previous damage buff safely to preserve AI difficulty scaling
-    if currentDamageBuff > 1.0 then
-        entity.damageMultiplier = entity.damageMultiplier / currentDamageBuff
-    end
+    -- Removed manual damageMultiplier division
     local newDamageBuff = 1.0
 
     -- Clear old modifiers safely
     entity:removeScriptBonuses()
-    activeModifiers = {}
 
     local function applyBuff(stat, value, isMultiplier)
-        local key
         if isMultiplier then
-            key = entity:addMultiplier(stat, value)
+            entity:addMultiplier(stat, value)
         else
-            key = entity:addMultiplyableBias(stat, value)
+            entity:addMultiplyableBias(stat, value)
         end
-        -- Store the key so it can be removed later
-        table.insert(activeModifiers, key)
     end
 
     -- EVALUATE SUBSYSTEM SETS
@@ -170,7 +158,7 @@ function StarfallSetBonuses.recalculateBonuses()
 
     -- Apply new damage buff securely
     if newDamageBuff > 1.0 then
-        entity.damageMultiplier = entity.damageMultiplier * newDamageBuff
+        applyBuff(StatsBonuses.FireRate, newDamageBuff - 1.0, false)
     end
     currentDamageBuff = newDamageBuff
 
