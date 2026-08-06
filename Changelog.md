@@ -7,7 +7,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
-## v2.0.0 UNRELEASED WORKSHOP VERSION (PROJECT UNDER DEVELOPMENT)
+## v2.0.0
 
 ### ✨ New Features & 📦 Content Additions
 - [Feature] **UI Integration:** The massive array of Starfall lore (Weapons, Stations, etc.) has been updated and structured natively.

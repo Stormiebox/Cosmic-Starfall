@@ -279,7 +279,7 @@ The following 18 weapon archetypes are seamlessly injected into the loot pool an
 2. **Particle Accelerator:** Long-range, hyper-velocity projectile weapon with a slight base damage reduction to account for its accuracy.
 3. **Assault Blaster:** +15% Damage medium-range heavy repeater.
 4. **HEPT (High Energy Plasma Thrower):** High-impact, scaling damage (+15% base + tech scalars) plasma volley weapon.
-5. **Pulse Laser:** +15% Damage beam/projectile hybrid. 
+5. **Pulse Laser:** +15% Damage beam/projectile hybrid.
 6. **Mantis:** Rapid-fire anti-shield projector (+15% Damage).
 7. **Photon:** High-burst kinetic projector (+25% Damage).
 8. **Hyper Kinetic:** Massive +25% Damage beam weapon designed for sustained target painting.
@@ -305,8 +305,8 @@ In addition to weapons, Cosmic Starfall deeply expands the internal systems you 
 <details>
 <summary><b>Custom Starfall Subsystems (The 7 Modules)</b></summary>
 
-1. **Aegis Shield Matrix (Bastion System):** 
-   - Massive defensive module. 
+1. **Aegis Shield Matrix (Bastion System):**
+   - Massive defensive module.
    - Grants between `+69%` to `+73%` Base Shield Durability (scaling up with Rarity).
    - Grants between `+14%` to `+19%` Shield Recharge Rate (scaling up with Rarity).
    - Grants an active invincibility time-factor mechanism upon reaching zero shields.
@@ -342,10 +342,10 @@ During the Cosmic Series Final QA Audit (v3.0+), several massive backend systems
 - All deep lore, stat blocks, and dynamic recipes are available via in-game wiki Player UI Tab for Cosmic Starfall. You no longer need to tab out of the game to read these features; they will natively update and unlock inside your `Cosmic Starfall` playe ui tab.
 
 ### 🔒 Network Safety & Anti-Cheat
-- **Math.Random Fix:** We systematically replaced all unstable Lua `math.random` calls with Avorion's deterministic `random():getInt()` generation sequence. This guarantees 100% synchronization on Multiplayer Dedicated Servers and prevents cascading desyncs during massive fleet spawns.
+- **Math.Random Fix:** Systematically replaced all unstable Lua `math.random` calls with Avorion's deterministic `random():getInt()` generation sequence. This guarantees 100% synchronization on Multiplayer Dedicated Servers and prevents cascading desyncs during massive fleet spawns.
 - **Callable Validation:** UI and background scripts have been fully hardened. Malicious clients can no longer spoof "free" remote calls; the server actively verifies execution contexts before processing any requests, sealing multiple Arbitrary Code Execution (ACE) vulnerabilities.
 
 ### 🛠️ Vanilla Bug Fixes
-- **Scout Mission Fix:** We patched a massive, long-standing vanilla bug where Scout Missions would completely skip and ignore Faction Headquarters sectors because the native dialogue trees were missing the template definition.
+- **Scout Mission Fix:** Patched a massive, long-standing vanilla bug where Scout Missions would completely skip and ignore Faction Headquarters sectors because the native dialogue trees were missing the template definition.
 </details>
 

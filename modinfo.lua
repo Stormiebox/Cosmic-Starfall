@@ -45,7 +45,7 @@ meta =
     -- },
     dependencies = {
         { id = "2977686775", incompatible = true }, -- Starfall
-        { id = "3727542782", min = "2.0.0" }, -- Cosmic Vault
+        { id = "3727542782", min = "1.0.0" }, -- Cosmic Vault
         { id = "Avorion",    min = "2.0", max = "*.*" }
     },
 
