@@ -7,6 +7,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.1] - Patch
+
+### 🐛 Bug Fix
+- [Bugfixed] Fixed a critical server-side initialization error causing activatable equipment icons (such as Bastion System or Repair Drones) to fail to render on the player's UI.
+
 ## v2.0.0
 
 ### ✨ New Features & 📦 Content Additions

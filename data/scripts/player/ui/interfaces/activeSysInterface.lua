@@ -712,7 +712,7 @@ end
 function activeSysInterface.executeDraw(_table, _addElement)
 	--Debug('executeDraw: attempt')
 	if onServer() then
-		invokeClientFunction(Player(callingPlayer), 'executeDraw', _table, _addElement)
+		invokeClientFunction(Player(), 'executeDraw', _table, _addElement)
 		return
 	else
 		--Check duplicates
@@ -935,7 +935,7 @@ end
 
 function activeSysInterface.executeDelete(_scriptName, _entityID)
 	if onServer() then
-		invokeClientFunction(Player(callingPlayer), 'executeDelete', _scriptName, _entityID)
+		invokeClientFunction(Player(), 'executeDelete', _scriptName, _entityID)
 		return
 	else
 		Debug('executeDelete attempt')
