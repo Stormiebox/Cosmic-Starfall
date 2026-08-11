@@ -7,6 +7,17 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.3] - Patch
+
+### 🐛 Bug Fix
+- [Bugfixed] **Repair System T-V**: Fixed an initialization logic error where the module would permanently skip applying the hull stat bonuses upon first installation.
+- [Bugfixed] **Backwards Compatibility**: Added a script injection hook to the server's `onPlayerLogIn` event. Players continuing on an existing save file will now properly receive the `activeSysInterface.lua` script, ensuring the UI correctly appears for active modules like the Bastion System and Macrofield Projector.
+
+## [v2.0.2] - Patch
+
+### 🐛 Bug Fix
+- [Bugfixed] Fixed a UI bounding box issue in `activeSysInterface.lua` where action buttons for multi-ability items (like the Repair Drones module) were drawn outside of the clickable container space. They are now fully clickable and usable.
+
 ## [v2.0.1] - Patch
 
 ### 🐛 Bug Fix

@@ -391,6 +391,7 @@ function onInstalled(seed, rarity, permanent)
 	--Checks the existence of a custom variable on the ship and if it does not exist, creates it
 	if _cv == nil then
 		Entity():setValue("isRepairDrones", false)
+		_cv = false
 		if _debug then include("cosmicvaultdebug").info("Cosmic Starfall", "isRepairDrones successfully created") end
 	end
 

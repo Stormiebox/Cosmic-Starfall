@@ -364,8 +364,8 @@ function activeSysInterface.initInterface()
 	for _index, _rows in pairs(getASIinfo()) do
 		local anchor_container = {
 			res.x * 0.2, res.y * 0.4 + rUnit * (1.2 * _index),
-			rUnit * 1,
-			rUnit * 1
+			rUnit * 8,
+			rUnit * 2
 		}
 		anchorContainers[_rows] = Hud():createContainer(getrect(anchor_container))
 
@@ -379,7 +379,7 @@ function activeSysInterface.initInterface()
 	--Creating a settings menu
 	local main_container = {
 		mainAnchor.x, mainAnchor.y,
-		rUnit * 1,
+		rUnit * 2,
 		rUnit * 3
 	}
 
@@ -750,7 +750,7 @@ function activeSysInterface.executeDraw(_table, _addElement)
 		--Main window
 		local main_window = {
 			0, 0,
-			rUnit * 2,
+			rUnit * 8,
 			rUnit * 2
 		}
 
