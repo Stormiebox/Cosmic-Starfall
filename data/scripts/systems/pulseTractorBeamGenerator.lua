@@ -1,6 +1,7 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 package.path = package.path .. ";data/scripts/systems/?.lua"
 package.path = package.path .. ";data/scripts/lib/?.lua"
+include("stringutility")
 include("basesystem")
 include("utility")
 include("randomext")
@@ -131,7 +132,7 @@ function pGeneratorActivate()
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
 	
 	local _cv = Entity():getValue("isPulseGenerator") or 0
@@ -192,7 +193,7 @@ end
 
 --The function is called before onInstalled, so here you also need to add rarity.value to display the correct value in the module description
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(Seed(seed))
+	local rand = Random(seed)
 
 	local _bonus1 = 10 -- They only affect the price
 	local _bonus2 = 10 -- Same
@@ -244,7 +245,7 @@ function executeDrawInterface(subSysDesc)
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
 	
 	if type(subSysDesc) ~= "table" then return end
@@ -276,9 +277,9 @@ function executeDrawInterface(subSysDesc)
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDraw', _table)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -301,9 +302,9 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -321,9 +322,9 @@ function executeDelete()
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then

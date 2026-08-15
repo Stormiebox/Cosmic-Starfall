@@ -460,7 +460,7 @@ function RemoveSphere(_type)
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
 	DebugMsg(_myName .. 'removeSphere attempt of type ' .. _type)
 	AnalyseSphereTable(_type)

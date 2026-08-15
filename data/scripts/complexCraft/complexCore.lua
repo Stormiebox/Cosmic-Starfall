@@ -1,6 +1,7 @@
 package.path = package.path .. ";data/scripts/complexCraft/?.lua"
 package.path = package.path .. ";data/scripts/lib/?.lua"
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
+include("stringutility")
 include("utility")
 include('callable')
 include('goods')

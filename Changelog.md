@@ -7,6 +7,17 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.4] - Hotfix
+
+### 🐛 Bug Fix
+- [Bugfixed] **Initialization Crash:** Fixed a critical issue where 28 mod scripts were missing the required string utility includes. This prevented the Avorion translation macro (`%_t`) from resolving properly on the server, causing catastrophic script failure and `"attempt to perform arithmetic on a string value"` crashes during the engine's initial script scanning phase.
+- [Bugfixed] **Library Failures:** Resolved cascading errors affecting `weapontype.lua`, `galaxy.lua`, and `weapongenerator.lua`. Because the `Armory.lua` library now successfully loads, functions like `getWeaponName` are correctly registered, preventing the server from silently failing during initial script execution.
+- [Bugfixed] **HUD Rendering Crash:** Fixed an internal API error where subsystems attempted to access a non-existent `Owner.index` property, and crashed silently in the background when checking shield capacities during the initialization phase. Subsystem HUDs (like the Bastion System and Macrofield Projector) will now correctly appear on your screen and are clickable again.
+- [Bugfixed] **Console Log Spam:** Fixed an issue where the game engine would constantly print `Property not found or not readable: Entity.shieldMaximum` to the server console whenever a subsystem script checked a ship that didn't have a shield generator equipped. The scripts now properly check for the presence of a shield component before querying its capacity.
+- [Bugfixed] **Seed Generation Error:** Fixed a background crash where the server would print `Error constructing Seed: tried converting user data to double` when initializing random bonuses for a subsystem. This was caused by the script attempting to cast an existing `Seed` object into another `Seed`.
+- [Bugfixed] **UI Update Error:** Fixed an error in the active subsystem UI manager where the script attempted to broadcast UI progress bar updates without properly specifying the target player, resulting in `Error calling invokeClientFunction: expected 'Player'`.
+
+
 ## [v2.0.3] - Patch
 
 ### 🐛 Bug Fix

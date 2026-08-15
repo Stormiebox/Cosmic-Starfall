@@ -1,6 +1,7 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 package.path = package.path .. ";data/scripts/systems/?.lua"
 package.path = package.path .. ";data/scripts/lib/?.lua"
+include("stringutility")
 
 
 include("basesystem")
@@ -110,7 +111,7 @@ callable(nil, "DoServerMeow")
 function DamageTarget() --for debug
 	local tgtId = Entity().selectedObject
 	Entity(tgtId).durability = Entity(tgtId).durability - 100000
-	Entity(tgtId).shieldDurability = Entity(tgtId).shieldDurability - 400000
+	if Entity(tgtId):hasComponent(ComponentType.Shield) then Entity(tgtId).shieldDurability = Entity(tgtId).shieldDurability - 400000 end
 end
 
 callable(nil, "DamageTarget")
@@ -252,7 +253,7 @@ function updateServer(timePassed)
 			DebugMsg("Multiphase: trying to 'MultiphaseOperateSetup'")
 		end
 		--Handles shield shutdown
-		if Entity().shieldDurability == 0 then
+		if not Entity():hasComponent(ComponentType.Shield) or Entity().shieldDurability == 0 then
 			DebugMsg("serverUpdate_Multiphase: shields down, deactivating")
 			MultiphaseIsWorking = 0
 			MultiphaseOperateSetup()
@@ -315,7 +316,7 @@ function updateStatusEffects(_type, _status)
 end
 
 function getVeilRepairAmount()
-	local _result = math.floor((Entity().shieldMaximum * VeilRepair * 0.01) + 0.5)
+	local _result = math.floor(((Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0) * VeilRepair * 0.01) + 0.5)
 	DebugMsg('getVeilRepairAmount is ' .. tostring(_result))
 	return _result
 end
@@ -323,7 +324,7 @@ end
 ----------------------------------------------------------------------------------------------------------------
 
 function VeilActivate()
-	if Entity().shieldDurability == 0 then
+	if not Entity():hasComponent(ComponentType.Shield) or Entity().shieldDurability == 0 then
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
@@ -470,7 +471,7 @@ end
 ----------------------------------------------------------------------------------------------------------------
 
 function RecupActivate()
-	if RecupIsReady == 0 and Entity():getValue("RecupStoredAmount") and Entity().shieldDurability > 0 then
+	if RecupIsReady == 0 and Entity():getValue("RecupStoredAmount") and Entity():hasComponent(ComponentType.Shield) and Entity().shieldDurability > 0 then
 		DebugMsg("Recup: activate")
 
 		--Setting cooldown
@@ -537,7 +538,7 @@ function RecupOperate()
 	end
 	--Shield repair
 	if RecupIsWorking then
-		Entity().shieldDurability = math.min(Entity().shieldMaximum, Entity().shieldDurability + RecupHealAmount)
+		if Entity():hasComponent(ComponentType.Shield) then Entity().shieldDurability = math.min(Entity().shieldMaxDurability, Entity().shieldDurability + RecupHealAmount) end
 		DebugMsg("Recup: shield repaired for " .. tostring(RecupHealAmount))
 	end
 end
@@ -548,7 +549,7 @@ function RecupInitiation()
 	Entity():registerCallback("onShieldDamaged", "RecupStoreCharge")
 	--Checking the maximum volume
 	if RecupMaximumAmount == 0 then
-		RecupMaximumAmount = Entity().shieldMaximum * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
+		RecupMaximumAmount = (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0) * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
 		DebugMsg("Current capacitor amount is: " .. tostring(RecupMaximumAmount))
 	end
 	--Checking the presence of custom
@@ -574,7 +575,7 @@ function RecupStoreCharge(_id, _damage, _type, _inflictor)
 		end
 		--Checking the maximum volume
 		if RecupMaximumAmount == 0 then
-			RecupMaximumAmount = Entity().shieldMaximum * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
+			RecupMaximumAmount = (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0) * (RecupMaxValue + RecupMaxValueR * _rarity) * 0.01
 			DebugMsg("Current capacitor amount is: " .. tostring(RecupMaximumAmount))
 		end
 		--Updating Energy Reserve Value
@@ -593,7 +594,7 @@ end
 ----------------------------------------------------------------------------------------------------------------
 
 function MultiphaseActivate()
-	if Entity().shieldDurability == 0 then
+	if not Entity():hasComponent(ComponentType.Shield) or Entity().shieldDurability == 0 then
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
@@ -686,16 +687,17 @@ function MultiphaseOperateSetup()
 			Entity().invincible = true
 		end
 		--Setting the time before rollback
-		DebugMsg("MultiphaseOperateSetup| timeUntilRechargeAfterHit: " .. tostring(Entity().shieldTimeUntilRechargeAfterHit))
+		if Entity():hasComponent(ComponentType.Shield) then
+			DebugMsg("MultiphaseOperateSetup| timeUntilRechargeAfterHit: " .. tostring(Shield(Entity().index).timeUntilRechargeAfterHit))
 
-		Entity():setValue("BastionMultiphaseRestoreTimer", Entity().shieldTimeUntilRechargeAfterHit)
+			Entity():setValue("BastionMultiphaseRestoreTimer", Shield(Entity().index).timeUntilRechargeAfterHit)
 
-		local _reValue = (Entity().shieldTimeUntilRechargeAfterHit) * -1
-		DebugMsg("MultiphaseOperateSetup| _reValue is " .. tostring(_reValue))
-		CosmicVaultBuffs.applyBuff(Entity().id, "ShieldTimeUntilRechargeAfterHit", _reValue, MultiphaseLength + MultiphaseLengthR * _rarity, "BastionMultiphaseRechargeTimer")
-		--Entity():add multiplyable bias(stats bonuses.shield time until recharge after hit,2)
-		DebugMsg("MultiphaseOperateSetup| afterTimeUntilRechargeAfterHit: " ..
-			tostring(Entity().shieldTimeUntilRechargeAfterHit))
+			local _reValue = (Shield(Entity().index).timeUntilRechargeAfterHit) * -1
+			DebugMsg("MultiphaseOperateSetup| _reValue is " .. tostring(_reValue))
+			CosmicVaultBuffs.applyBuff(Entity().id, "ShieldTimeUntilRechargeAfterHit", _reValue, MultiphaseLength + MultiphaseLengthR * _rarity, "BastionMultiphaseRechargeTimer")
+			--Entity():add multiplyable bias(stats bonuses.shield time until recharge after hit,2)
+			DebugMsg("MultiphaseOperateSetup| afterTimeUntilRechargeAfterHit: " .. tostring(Shield(Entity().index).timeUntilRechargeAfterHit))
+		end
 
 		return
 	end
@@ -729,8 +731,9 @@ function MultiphaseStreamingChargeSwitchOff()
 	DebugMsg("MultiphaseStreamingChargeSwitchOff| deleting bonus once")
 	CosmicVaultBuffs.terminateBuff(Entity().id, "BastionMultiphaseRechargeTimer")
 	Entity():setValue("BastionMultiphaseRestoreTimer", nil)
-	DebugMsg("MultiphaseStreamingChargeSwitchOff| TimeUntilRechargeAfterHit: " ..
-		tostring(Entity().shieldTimeUntilRechargeAfterHit))
+	if Entity():hasComponent(ComponentType.Shield) then
+		DebugMsg("MultiphaseStreamingChargeSwitchOff| TimeUntilRechargeAfterHit: " .. tostring(Shield(Entity().index).timeUntilRechargeAfterHit))
+	end
 end
 
 function ActivateTransferMP()
@@ -741,11 +744,11 @@ end
 
 function PulsarActivate()
 	-- if _debug then
-	-- Entity().shieldDurability = Entity().shieldMaximum
+	-- Entity().shieldDurability = (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0)
 	-- end
 
 	--Activation cutoff if shield is below limit
-	if Entity().shieldDurability < PulsarTreshold * 0.01 then
+	if not Entity():hasComponent(ComponentType.Shield) or Entity().shieldDurability < PulsarTreshold * 0.01 then
 		broadcastInvokeClientFunction( 'UIplaysound', 2)
 		return
 	end
@@ -790,7 +793,7 @@ callable(nil, "PulsarActivate")
 
 function PulsarOperate()
 	--Shutdown when shield charge is low
-	if Entity().shieldDurability < PulsarTreshold * 0.01 then
+	if not Entity():hasComponent(ComponentType.Shield) or Entity().shieldDurability < PulsarTreshold * 0.01 then
 		DebugMsg('PulsarOperate: shields too low, deactivating!')
 		PulsarIsWorking = 1
 		broadcastInvokeClientFunction( 'UIplaysound', 1)
@@ -905,7 +908,7 @@ function executeDrawInterface(subSysDesc)
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
 	
 	if type(subSysDesc) ~= "table" then return end
@@ -957,9 +960,9 @@ function executeDrawInterface(subSysDesc)
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table, _addBars)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDraw', _table, _addBars)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -983,9 +986,9 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -1005,9 +1008,9 @@ function executeUpdateSecondary(_index, _progress)
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateSecondary', _index, scriptname, entity, _progress)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeUpdateSecondary', _index, scriptname, entity, _progress)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -1026,9 +1029,9 @@ function executeDelete()
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -1061,7 +1064,7 @@ end
 
 ----------------------------------------------------------------------------------------------------------------
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(Seed(seed))
+	local rand = Random(seed)
 
 	local _shieldBuff = rand:getInt(69, 73) + rarity.value * 2
 

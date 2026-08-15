@@ -1,6 +1,7 @@
 package.path = package.path .. ";data/scripts/complexCraft/?.lua"
 package.path = package.path .. ";data/scripts/systems/?.lua"
 package.path = package.path .. ";data/scripts/lib/?.lua"
+include("stringutility")
 include("basesystem")
 include("utility")
 include("randomext")
@@ -74,7 +75,7 @@ function ApplyDebug()
 		if callingPlayer then
 			local player = Player(callingPlayer)
 			local owner = Owner(Entity())
-			if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+			if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 		end
 		Entity():addScriptOnce("lib/entitydbg.lua")
 		DebugMsg('ApplyDebug')
@@ -90,7 +91,7 @@ function ApplyOCC()
 		if callingPlayer then
 			local player = Player(callingPlayer)
 			local owner = Owner(Entity())
-			if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+			if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 		end
 		Entity():addScriptOnce("complexCraft/OCnode.lua")
 		DebugMsg('ApplyOCC')
@@ -104,7 +105,7 @@ function initializeUI()
 	local owner = Owner(Entity())
 	local player = Player()
 
-	if not owner or not player or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+	if not owner or not player or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	DebugMsg('UI initialization')
 	local resolution = getResolution()
 	local windowPoint = vec2(resolution.x * 0.6, resolution.y * 0.7)
@@ -173,7 +174,7 @@ function UIshowhide()
 	if not player then return end
 
 	local owner = Owner(Entity())
-	local ownerMatches = owner and (owner.index == player.index or owner.index == player.allianceIndex)
+	local ownerMatches = owner and (owner.factionIndex == player.index or owner.factionIndex == player.allianceIndex)
 	local isCurrentCraft = Entity().index == player.craftIndex
 
 	if isCurrentCraft and ownerMatches then
@@ -246,7 +247,7 @@ end
 
 ---------------------------------------------------------------------
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(Seed(seed))
+	local rand = Random(seed)
 	local _eRegen = 0.05 + (rarity.value * 0.02)
 	local _eAmount = 0.05 + (rarity.value * 0.02)
 

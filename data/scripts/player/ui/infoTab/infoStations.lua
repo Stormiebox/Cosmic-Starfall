@@ -1,4 +1,5 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
+include("stringutility")
 include('Armory')
 include('Neltharaku')
 include('Stations')

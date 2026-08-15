@@ -1,6 +1,7 @@
 package.path = package.path .. ";data/scripts/systems/?.lua"
 package.path = package.path .. ";data/scripts/lib/?.lua"
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
+include("stringutility")
 include("basesystem")
 include("utility")
 include("randomext")
@@ -155,24 +156,24 @@ function CalculateRepairAmount(_type)
 		return _baseHealMultiplierRR
 	end
 	if _type == 2 then
-		if not Entity():hasComponent(ComponentType.Shield) or Entity().shieldMaximum == 0 then return 0 end
+		if not Entity():hasComponent(ComponentType.Shield) or (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0) == 0 then return 0 end
 		local _energyConsumptSB = ConvertToJ(EnergySystem().capacity * (ShieldBoosterEnergyConsumption * 0.01), true)
-		local _baseHealMultiplierSB = round((Entity().shieldMaximum / 100) * _energyConsumptSB * ShieldBoosterHealingAmount)
+		local _baseHealMultiplierSB = round(((Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0) / 100) * _energyConsumptSB * ShieldBoosterHealingAmount)
 		return _baseHealMultiplierSB
 	end
 	if _type == 3 then
-		if not Entity():hasComponent(ComponentType.Shield) or Entity().shieldMaximum == 0 then return 0 end
-		if not valid(ShieldSynchronizerTarget) or not Entity(ShieldSynchronizerTarget.id):hasComponent(ComponentType.Shield) or Entity(ShieldSynchronizerTarget.id).shieldMaximum == 0 then return 0 end
-		local selfPercent = (Entity().shieldDurability / Entity().shieldMaximum)
-		local otherPercent = (Entity(ShieldSynchronizerTarget.id).shieldDurability / Entity(ShieldSynchronizerTarget.id).shieldMaximum)
+		if not Entity():hasComponent(ComponentType.Shield) or (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0) == 0 then return 0 end
+		if not valid(ShieldSynchronizerTarget) or not Entity(ShieldSynchronizerTarget.id):hasComponent(ComponentType.Shield) or Entity(ShieldSynchronizerTarget.id).shieldMaxDurability == 0 then return 0 end
+		local selfPercent = (Entity().shieldDurability / (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0))
+		local otherPercent = (Entity(ShieldSynchronizerTarget.id).shieldDurability / Entity(ShieldSynchronizerTarget.id).shieldMaxDurability)
 		local midPercent = (selfPercent + otherPercent) / 2
 		DebugMsg("MidPercent is " .. tostring(midPercent))
 		--If your shield is larger, pumps 0.2%
 		if selfPercent > midPercent + ShieldSynchronizerAmount * 0.01 then
-			return Entity().shieldMaximum * (ShieldSynchronizerAmount * 0.01)
+			return (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0) * (ShieldSynchronizerAmount * 0.01)
 		end
 		if otherPercent > midPercent + ShieldSynchronizerAmount * 0.01 then
-			return Entity(ShieldSynchronizerTarget.id).shieldMaximum * (ShieldSynchronizerAmount * 0.01) * -1
+			return Entity(ShieldSynchronizerTarget.id).shieldMaxDurability * (ShieldSynchronizerAmount * 0.01) * -1
 		else
 			return 0
 		end
@@ -244,7 +245,7 @@ callable(nil, "RestoreEnergy")
 function DamageTarget() --for debug
 	local tgtId = Entity().selectedObject
 	--Entity(tgtId).durability = Entity(tgtId).durability -100000
-	Entity(tgtId).shieldDurability = Entity(tgtId).shieldDurability - 400000
+	if Entity(tgtId):hasComponent(ComponentType.Shield) then Entity(tgtId).shieldDurability = Entity(tgtId).shieldDurability - 400000 end
 end
 
 callable(nil, "DamageTarget")
@@ -675,7 +676,7 @@ function ShieldBoosterOperate()
 	if ShieldBoosterIsWorking == false then return end
 
 	--Check goals
-	if ShieldBoosterTarget == nil or ShieldBoosterTarget.isShip == false or not Entity(ShieldBoosterTarget.id):hasComponent(ComponentType.Shield) or Entity(ShieldBoosterTarget.id).shieldMaximum == 0 or (Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaximum) < 0.1 then
+	if ShieldBoosterTarget == nil or ShieldBoosterTarget.isShip == false or not Entity(ShieldBoosterTarget.id):hasComponent(ComponentType.Shield) or Entity(ShieldBoosterTarget.id).shieldMaxDurability == 0 or (Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaxDurability) < 0.1 then
 		ShieldBoosterTurnToFalse()
 		DebugMsg("ShieldBooster: cannot find target (missing or destroyed) or target lacks shields")
 		return
@@ -686,7 +687,7 @@ function ShieldBoosterOperate()
 		ShieldBoosterRange + ShieldBoosterRangeRARMP * _rarity)
 
 	--Monitoring the state of the target
-	local repairNeeded = ((Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaximum) < 1)
+	local repairNeeded = ((Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaxDurability) < 1)
 
 	--Status icon control
 	if ShieldBoosterInRange then
@@ -703,9 +704,9 @@ function ShieldBoosterOperate()
 	if ShieldBoosterInRange and repairNeeded then
 		if EnergySystem().energy >= ShieldBoosterEnergyConsumptionCV then
 			SyncEnergyRemove(ShieldBoosterEnergyConsumptionCV)
-			Entity(ShieldBoosterTarget.id).shieldDurability = math.min(Entity(ShieldBoosterTarget.id).shieldMaximum, Entity(ShieldBoosterTarget.id).shieldDurability + ShieldBoosterHealAmount)
+			Entity(ShieldBoosterTarget.id).shieldDurability = math.min(Entity(ShieldBoosterTarget.id).shieldMaxDurability, Entity(ShieldBoosterTarget.id).shieldDurability + ShieldBoosterHealAmount)
 			DebugMsg("Ship '" .. ShieldBoosterTarget.name .. "' healed for " .. tostring(ShieldBoosterHealAmount))
-			DebugMsg("Percent is: " .. tostring((Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaximum)))
+			DebugMsg("Percent is: " .. tostring((Entity(ShieldBoosterTarget.id).shieldDurability / Entity(ShieldBoosterTarget.id).shieldMaxDurability)))
 
 			--Aura
 			local target = ShieldBoosterTarget
@@ -826,8 +827,8 @@ function ShieldSyncOperate()
 		local _amount = CalculateRepairAmount(3)
 		if _amount == 0 then return end
 		local _treshold = (ShieldSynchronizerValueTreshold - ShieldSynchronizerValueTresholdRARMP * _rarity) * 0.01
-		local _myPercent = (Entity().shieldDurability / Entity().shieldMaximum) < _treshold
-		local _otherPercent = (Entity(ShieldSynchronizerTarget.id).shieldDurability / Entity(ShieldSynchronizerTarget.id).shieldMaximum) < _treshold
+		local _myPercent = (Entity().shieldDurability / (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0)) < _treshold
+		local _otherPercent = (Entity(ShieldSynchronizerTarget.id).shieldDurability / Entity(ShieldSynchronizerTarget.id).shieldMaxDurability) < _treshold
 
 		--Aura on target
 		local target = ShieldSynchronizerTarget
@@ -866,8 +867,12 @@ function ShieldSyncOperate()
 			return
 		end
 		--If the return value is positive, the shield moves from you to the target, negative -vice versa
-		Entity().shieldDurability = Entity().shieldDurability - _amount
-		Entity(ShieldSynchronizerTarget.id).shieldDurability = Entity(ShieldSynchronizerTarget.id).shieldDurability + _amount
+		if Entity():hasComponent(ComponentType.Shield) then
+			Entity().shieldDurability = Entity().shieldDurability - _amount
+		end
+		if Entity(ShieldSynchronizerTarget.id):hasComponent(ComponentType.Shield) then
+			Entity(ShieldSynchronizerTarget.id).shieldDurability = Entity(ShieldSynchronizerTarget.id).shieldDurability + _amount
+		end
 	end
 end
 
@@ -962,7 +967,7 @@ function executeDrawInterface(subSysDesc)
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
 	
 	if type(subSysDesc) ~= "table" then return end
@@ -1010,9 +1015,9 @@ function executeDrawInterface(subSysDesc)
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDraw', _table)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -1036,9 +1041,9 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -1057,9 +1062,9 @@ function executeDelete()
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -1237,7 +1242,7 @@ function UIplaysound(_type)
 end
 
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(Seed(seed))
+	local rand = Random(seed)
 	local _eRegen = (ModuleBonusEnergy + rarity.value * ModuleBonusEnergyRARMP) / 100
 	local _eAmount = (ModuleBonusAccum + rarity.value * ModuleBonusAccumRARMP) / 100
 

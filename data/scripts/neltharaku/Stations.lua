@@ -1,3 +1,4 @@
+include("stringutility")
 local _debug = false
 
 function StationDebug(_text)

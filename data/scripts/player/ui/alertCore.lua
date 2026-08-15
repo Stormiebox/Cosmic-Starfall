@@ -1,5 +1,6 @@
 package.path = package.path .. ";data/scripts/lib/?.lua"
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
+include("stringutility")
 
 include("callable")
 include('Neltharaku')
@@ -248,7 +249,7 @@ callable(aC, 'entityGroupInviteOperate')
 
 function aC.entityGroupInviteBroadcast(_name)
 	if onServer() then
-		broadcastInvokeClientFunction('entityGroupInviteBroadcast')
+		invokeClientFunction(Player(), 'entityGroupInviteBroadcast')
 	else
 		if Player().name == _name then
 			aC.entityGroupInvite()

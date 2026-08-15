@@ -1,6 +1,7 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 package.path = package.path .. ";data/scripts/systems/?.lua"
 package.path = package.path .. ";data/scripts/lib/?.lua"
+include("stringutility")
 include("basesystem")
 include("utility")
 include("randomext")
@@ -193,9 +194,9 @@ function NanobotsActivate()
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
-	
+
 	if NanobotsIsReady == 0 then
 		NanobotsIsReady = NanobotsCooldown                       --starts rollback
 		NanobotsHealingSpeed = (Entity().maxDurability / 100 * NanobotsHealingAmount) /
@@ -238,9 +239,9 @@ function RepairNetworkActivate()
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
-	
+
 	if RepairnetworkIsReady == 0 then
 		RepairnetworkIsReady = RepairnetworkCooldown
 		RepairnetworkHealingSpeed = (Entity().maxDurability / 100 * RepairnetworkHealingAmount) /
@@ -280,9 +281,9 @@ function EmergencyActivate()
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
-	
+
 	if EmergencyIsReady == 0 then
 		EmergencyIsReady = EmergencyCooldown
 		EmergencyHeal = (Entity().maxDurability / 100) * EmergencyHealingAmount
@@ -324,7 +325,7 @@ function EmergencyOverloadActivate()
 	broadcastInvokeClientFunction( "updateStatusEffects", 3, true)
 	local owner = Owner()
 	if owner and owner.isPlayer and CosmicVaultUI then
-		CosmicVaultUI.ShowCinematicBanner(Player(owner.index), "EMERGENCY PROTOCOL TRIGGERED", ColorRGB(1, 0, 0), "data/sounds/siren.ogg", 2)
+		CosmicVaultUI.ShowCinematicBanner(Player(owner.factionIndex), "EMERGENCY PROTOCOL TRIGGERED", ColorRGB(1, 0, 0), "data/sounds/siren.ogg", 2)
 	end
 	broadcastInvokeClientFunction( 'UIplaysound', 0)
 	--Aura on yourself
@@ -360,7 +361,7 @@ end
 
 --The function is called before onInstalled, so here you also need to add rarity.value to display the correct value in the module description
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(Seed(seed))
+	local rand = Random(seed)
 
 	local hullBonus = 6 + rarity.value * 3
 	local hullRepairTreshhold = 10 + rarity.value * 2
@@ -456,9 +457,9 @@ function executeDrawInterface(subSysDesc)
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
-	
+
 	if type(subSysDesc) ~= "table" then return end
 	if not Entity() or not Owner() then return end
 
@@ -499,9 +500,9 @@ function executeDrawInterface(subSysDesc)
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDraw', _table)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -522,13 +523,13 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 	--local selfIndex = Faction().index
 
 	if not (_isStandby) then _isStandby = false end
-	
+
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -547,9 +548,9 @@ function executeDelete()
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then

@@ -1,6 +1,7 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 package.path = package.path .. ";data/scripts/systems/?.lua"
 package.path = package.path .. ";data/scripts/lib/?.lua"
+include("stringutility")
 include("basesystem")
 include("utility")
 include("randomext")
@@ -118,7 +119,7 @@ function xFocusActivate()
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
 	local hse = HyperspaceEngine()
 	if not hse then return end
@@ -188,7 +189,7 @@ function xQuantumActivate()
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
 	if QuantumIsReady == 0 then
 		QuantumIsReady = QuantumCooldown
@@ -196,7 +197,7 @@ function xQuantumActivate()
 		--Invoke client function(player(),"update u ibars",quantum cooldown,quantum is ready,0)
 		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
 		--QuantumIsWorking = QuantumWorkingTimer
-		QuantumHealDelta = Entity().shieldMaximum / 100 * QuantumShieldHeal
+		QuantumHealDelta = (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 0) / 100 * QuantumShieldHeal
 		Entity():registerCallback("onJumpRouteCalculationStarted", "xQuantumTrigger")
 		broadcastInvokeClientFunction( "updateStatusEffects", 4, true)
 		if CosmicVaultUI and callingPlayer then
@@ -219,7 +220,7 @@ function xDestabilizerActivate()
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
 	local hse = HyperspaceEngine()
 	if not hse then return end
@@ -424,7 +425,7 @@ function updateServer(timePassed)
 
 	if QuantumIsWorking > 0 then
 		QuantumIsWorking = math.max(0, QuantumIsWorking - timePassed)
-		Entity().shieldDurability = math.min(Entity().shieldMaximum, Entity().shieldDurability + QuantumHealDelta)
+		if Entity():hasComponent(ComponentType.Shield) then Entity().shieldDurability = math.min(Entity().shieldMaxDurability, Entity().shieldDurability + QuantumHealDelta) end
 		if QuantumIsWorking == 0 then
 			broadcastInvokeClientFunction( "updateStatusEffects")
 		end
@@ -438,7 +439,7 @@ function updateServer(timePassed)
 		broadcastInvokeClientFunction( "updateStatusEffects", 1, true)
 		DestabilizerIsWorking = math.max(0, DestabilizerIsWorking - timePassed)
 
-		if (Entity().durability / Entity().maxDurability) > DestabilizerChargeDestructionTreshold / 100 and (Entity().shieldDurability / Entity().shieldMaximum) < DestabilizerShieldTreshold / 100 then
+		if (Entity().durability / Entity().maxDurability) > DestabilizerChargeDestructionTreshold / 100 and ((Entity():hasComponent(ComponentType.Shield) and Entity().shieldDurability or 0) / (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 1)) < DestabilizerShieldTreshold / 100 then
 			Entity().durability = math.max(1, Entity().durability - DestabilizerDamageToHull)
 			local hse = HyperspaceEngine()
 			if hse then
@@ -447,7 +448,7 @@ function updateServer(timePassed)
 		else
 			if _debug and (Entity().durability / Entity().maxDurability) < DestabilizerChargeDestructionTreshold / 100 then
 				DebugMsg("Hull indicator below acceptable limit")
-			elseif _debug and (Entity().shieldDurability / Entity().shieldMaximum) > DestabilizerShieldTreshold / 100 then
+			elseif _debug and ((Entity():hasComponent(ComponentType.Shield) and Entity().shieldDurability or 0) / (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 1)) > DestabilizerShieldTreshold / 100 then
 				DebugMsg("Shield indicator above acceptable limit")
 			end
 		end
@@ -464,7 +465,7 @@ function updateServer(timePassed)
 end
 
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(Seed(seed))
+	local rand = Random(seed)
 
 	local _cooldown = rand:getInt(8, 12) + rarity.value * 3
 	local _eDrain = rand:getInt(37, 43) - rarity.value * 2
@@ -556,7 +557,7 @@ function updateStatusEffects(_type, _status)
 		local _name = "Xdestabilizer"
 		if _status then
 			local _line = getSubtechName(systemname, 2) .. ' - ' .. getTechInfo('active')
-			if (Entity().shieldDurability / Entity().shieldMaximum) < DestabilizerShieldTreshold / 100 and (Entity().durability / Entity().maxDurability) > DestabilizerChargeDestructionTreshold / 100 then
+			if ((Entity():hasComponent(ComponentType.Shield) and Entity().shieldDurability or 0) / (Entity():hasComponent(ComponentType.Shield) and Entity().shieldMaxDurability or 1)) < DestabilizerShieldTreshold / 100 and (Entity().durability / Entity().maxDurability) > DestabilizerChargeDestructionTreshold / 100 then
 				DebugMsg("Correct tick - destabilizer")
 				removeShipProblem(_name, Entity().id)
 				addShipProblem(_name, Entity().id, _line, getSubtechIcon(systemname, 2), ColorHSV(150, 0.64, 1), false)
@@ -631,9 +632,9 @@ function executeDrawInterface(subSysDesc)
 	if callingPlayer then
 		local player = Player(callingPlayer)
 		local owner = Owner(Entity())
-		if not player or not owner or (owner.index ~= player.index and owner.index ~= player.allianceIndex) then return end
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 	end
-	
+
 	if type(subSysDesc) ~= "table" then return end
 	if not Entity() or not Owner() then return end
 
@@ -673,9 +674,9 @@ function executeDrawInterface(subSysDesc)
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDraw', _table)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDraw', _table)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -695,13 +696,13 @@ function executeUpdateProgressbar(_index, _progress, _isStandby)
 	local entity = Entity().id
 
 	if not (_isStandby) then _isStandby = false end
-	
+
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeUpdateProgress', _index, scriptname, entity, _progress, _isStandby)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -720,9 +721,9 @@ function executeDelete()
 	local owner = Owner()
 	if owner then
 		if owner.isPlayer then
-			invokeFactionFunction(owner.index, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
+			invokeFactionFunction(owner.factionIndex, false, 'activeSysInterface', 'executeDelete', scriptname, entity)
 		elseif owner.isAlliance then
-			local alliance = Alliance(owner.index)
+			local alliance = Alliance(owner.factionIndex)
 			if alliance then
 				for _, memberIndex in pairs({alliance:getMembers()}) do
 					if Server():isOnline(memberIndex) and Player(memberIndex) then
@@ -906,7 +907,7 @@ function restore(data_in)
 		FocusedBonusRange = data_in.FocusedBonusRange or 0
 		FocusedCanRecharge = data_in.FocusedCanRecharge or false
 		FocusedChargedFlag = data_in.FocusedChargedFlag or false
-		
+
 		if FocusedChargedFlag then
 			Entity():registerCallback("onHyperspaceEntered", "xFocusJump")
 		end

@@ -1,5 +1,6 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 package.path = package.path .. ";data/scripts/lib/?.lua"
+include("stringutility")
 include('callable')
 include('ColorLib')
 include('Tech')
@@ -880,7 +881,7 @@ end
 
 function activeSysInterface.executeUpdateProgress(_index, _scriptName, _entityID, _progress, _isStandby)
 	if onServer() then
-		broadcastInvokeClientFunction( 'executeUpdateProgress', _index, _scriptName, _entityID, _progress, _isStandby)
+		invokeClientFunction(Player(), 'executeUpdateProgress', _index, _scriptName, _entityID, _progress, _isStandby)
 	else
 		local buttonTable = self.getButtonTable(_index, _scriptName, _entityID)
 
@@ -908,7 +909,7 @@ end
 
 function activeSysInterface.executeUpdateSecondary(_index, _scriptName, _entityID, _progress)
 	if onServer() then
-		broadcastInvokeClientFunction( 'executeUpdateSecondary', _index, _scriptName, _entityID, _progress)
+		invokeClientFunction(Player(), 'executeUpdateSecondary', _index, _scriptName, _entityID, _progress)
 	else
 		local buttonTable = self.getButtonTable(_index, _scriptName, _entityID)
 

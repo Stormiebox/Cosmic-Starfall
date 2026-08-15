@@ -1,4 +1,5 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
+include("stringutility")
 include('Neltharaku')
 include('ColorLib')
 
@@ -240,7 +241,7 @@ end
 --Checks and adds the effect to the general table
 function auraCore.ApplyAura(_table)
 	if onServer() then
-		broadcastInvokeClientFunction( 'ApplyAura', _table)
+		invokeClientFunction(Player(), 'ApplyAura', _table)
 		return
 	end
 
@@ -265,7 +266,7 @@ end
 --Interrupts the effect of the aura
 function auraCore.InterruptAura(signature, sourcename)
 	if onServer() then
-		broadcastInvokeClientFunction( 'InterruptAura', signature, sourcename)
+		invokeClientFunction(Player(), 'InterruptAura', signature, sourcename)
 	end
 
 	for _ind, _rows in pairs(activeAuras) do
