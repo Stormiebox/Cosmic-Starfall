@@ -228,21 +228,4 @@ function mainCaliber.onDontShowPress(_button)
 end
 
 
-function getUpdateInterval(...)
-    if mainCaliber.getUpdateInterval then return mainCaliber.getUpdateInterval(...) end
-end
-function update(...)
-    if mainCaliber.update then return mainCaliber.update(...) end
-end
-function initialize(...)
-    if mainCaliber.initialize then return mainCaliber.initialize(...) end
-end
 
-
--- Global Event Callbacks
-function checkWeaponsDeleted(...)
-    if mainCaliber.checkWeaponsDeleted then return mainCaliber.checkWeaponsDeleted(...) end
-end
-function checkWeaponsAdded(...)
-    if mainCaliber.checkWeaponsAdded then return mainCaliber.checkWeaponsAdded(...) end
-end

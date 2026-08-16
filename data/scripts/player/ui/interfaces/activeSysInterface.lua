@@ -1451,24 +1451,6 @@ function activeSysInterface.resetPBcolors()
 	toSave(4)
 end
 
-function onRemove()
+function activeSysInterface.onRemove()
     if Player() then Player():unregisterCallback("onShipChanged", "showInterface") end
-    if Player() then Player():unregisterCallback("onShipChanged", "showInterface") end
-end
-
-
-function initialize(...)
-    if activeSysInterface.initialize then return activeSysInterface.initialize(...) end
-end
-function getUpdateInterval(...)
-    if activeSysInterface.getUpdateInterval then return activeSysInterface.getUpdateInterval(...) end
-end
-function updateClient(...)
-    if activeSysInterface.updateClient then return activeSysInterface.updateClient(...) end
-end
-
-
--- Global Event Callbacks
-function showInterface(...)
-    if activeSysInterface.showInterface then return activeSysInterface.showInterface(...) end
 end

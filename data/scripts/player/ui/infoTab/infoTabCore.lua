@@ -390,6 +390,3 @@ end
 end
 
 
-function initialize(...)
-    if iT.initialize then return iT.initialize(...) end
-end

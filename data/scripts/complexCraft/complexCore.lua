@@ -1774,31 +1774,3 @@ function MX.adaptiveSync()
 end
 
 callable(MX, 'adaptiveSync')
-
-
-function getUpdateInterval(...)
-    if MX.getUpdateInterval then return MX.getUpdateInterval(...) end
-end
-function updateServer(...)
-    if MX.updateServer then return MX.updateServer(...) end
-end
-function updateClient(...)
-    if MX.updateClient then return MX.updateClient(...) end
-end
-function initialize(...)
-    if MX.initialize then return MX.initialize(...) end
-end
-function secure(...)
-    if MX.secure then return MX.secure(...) end
-end
-function restore(...)
-    if MX.restore then return MX.restore(...) end
-end
-
-
--- Global Event Callbacks
-function analyse(...)
-    if MX.analyse then return MX.analyse(...) end
-end
-
-return MX

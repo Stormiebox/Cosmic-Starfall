@@ -1,7 +1,8 @@
 package.path = package.path .. ";data/scripts/lib/?.lua"
 package.path = package.path .. ";data/scripts/?.lua"
 include("callable")
-local StarfallSetBonuses = {}
+-- namespace StarfallSetBonuses
+StarfallSetBonuses = {}
 local activeSets = {}
 
 -- Cached tracking variables
@@ -184,21 +185,5 @@ function StarfallSetBonuses.updateClientSets(sets)
     end
 end
 
-function initialize(...)
-    if StarfallSetBonuses.initialize then return StarfallSetBonuses.initialize(...) end
-end
+callable(StarfallSetBonuses, "updateClientSets")
 
--- Global Event Callbacks
-function onSystemsChanged(...)
-    if StarfallSetBonuses.onSystemsChanged then return StarfallSetBonuses.onSystemsChanged(...) end
-end
-function updateClientSets(sets)
-    if StarfallSetBonuses.updateClientSets then return StarfallSetBonuses.updateClientSets(sets) end
-end
-callable(nil, "updateClientSets")
-function secure()
-    if StarfallSetBonuses.secure then return StarfallSetBonuses.secure() end
-end
-function restore(data)
-    if StarfallSetBonuses.restore then return StarfallSetBonuses.restore(data) end
-end

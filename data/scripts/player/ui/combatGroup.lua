@@ -779,28 +779,11 @@ function combatGroup.resetInvintationIcons()
 	end
 end
 
-function UIE.onRemove()
+function combatGroup.onRemove()
     if Player() then Player():unregisterCallback("onPlayerLogIn", "getOnlinePwayers") end
     if Player() then Player():unregisterCallback("onPlayerLogOff", "getOnlinePwayers") end
     if Player() then Player():unregisterCallback("onGroupChanged", "getOnlinePwayers") end
     if Player() then Player():unregisterCallback("onGroupLeaderChanged", "getOnlinePwayers") end
     if Player() then Player():unregisterCallback("onPlayerEnteredGroup", "getOnlinePwayers") end
     if Player() then Player():unregisterCallback("onPlayerLeftGroup", "getOnlinePwayers") end
-end
-
-
-function initialize(...)
-    if combatGroup.initialize then return combatGroup.initialize(...) end
-end
-function getUpdateInterval(...)
-    if combatGroup.getUpdateInterval then return combatGroup.getUpdateInterval(...) end
-end
-function update(...)
-    if combatGroup.update then return combatGroup.update(...) end
-end
-
-
--- Global Event Callbacks
-function getOnlinePwayers(...)
-    if combatGroup.getOnlinePwayers then return combatGroup.getOnlinePwayers(...) end
 end

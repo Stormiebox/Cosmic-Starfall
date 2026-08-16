@@ -122,12 +122,4 @@ function mainCaliber.onDontShowPress(_button)
 end
 
 
-function initialize(...)
-    if mainCaliber.initialize then return mainCaliber.initialize(...) end
-end
 
-
--- Global Event Callbacks
-function checkWeapons(...)
-    if mainCaliber.checkWeapons then return mainCaliber.checkWeapons(...) end
-end
