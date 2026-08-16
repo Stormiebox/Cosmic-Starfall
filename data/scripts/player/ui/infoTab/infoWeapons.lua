@@ -1,3 +1,4 @@
+if onServer() then return end
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 include("stringutility")
 include('Armory')

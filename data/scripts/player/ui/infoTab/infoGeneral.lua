@@ -22,11 +22,13 @@ local ApplyBorder = Neltharaku.GLapplyBorderFrame
 local TSR = Neltharaku.TableSelfReport
 
 local locNames = {}
+if onClient() then
 	locNames['weaponsnew'] = 'Weapons - new'%_t
 	locNames['weaponsvanilla'] = 'Weapons - vannila changes'%_t
 	locNames['systemsnew'] = 'Systems - new'%_t
 	locNames['stationssnew'] = 'Stations - new'%_t
 	locNames['uinew'] = 'Interface - new'%_t
+end
 
 local order = {
 	--name,ID,IDupdate
