@@ -361,7 +361,9 @@ end
 
 --The function is called before onInstalled, so here you also need to add rarity.value to display the correct value in the module description
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(seed)
+	local _seed = seed
+	if type(_seed) == "number" or type(_seed) == "string" then _seed = Seed(_seed) end
+	local rand = Random(_seed)
 
 	local hullBonus = 6 + rarity.value * 3
 	local hullRepairTreshhold = 10 + rarity.value * 2

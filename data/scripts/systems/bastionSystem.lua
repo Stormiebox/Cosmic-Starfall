@@ -231,7 +231,7 @@ function updateServer(timePassed)
 	if RecupIsWorking > 0 then
 		RecupIsWorking = math.max(0, RecupIsWorking - timePassed)
 		RecupOperate()
-		invokeClientFunction(_player, "onFinishWork", RecupIsWorking, 1) --Catch the moment when the module ends
+		broadcastInvokeClientFunction("onFinishWork", RecupIsWorking, 1) --Catch the moment when the module ends
 	else
 		--DebugMsg("Attempt to call updateUIrecup")
 		local _value = Entity():getValue("RecupStoredAmount")
@@ -246,7 +246,7 @@ function updateServer(timePassed)
 	end
 	if MultiphaseIsWorking > 0 then
 		MultiphaseIsWorking = math.max(0, MultiphaseIsWorking - timePassed)
-		invokeClientFunction(_player, "onFinishWork", MultiphaseIsWorking, 2) --Catch the moment when the module ends
+		broadcastInvokeClientFunction("onFinishWork", MultiphaseIsWorking, 2) --Catch the moment when the module ends
 		--Resets bonuses when finishing work
 		if MultiphaseIsWorking == 0 then
 			MultiphaseOperateSetup()
@@ -271,7 +271,7 @@ function updateServer(timePassed)
 	if PulsarIsWorking > 0 then
 		PulsarIsWorking = math.max(0, PulsarIsWorking - timePassed)
 		PulsarOperate()
-		invokeClientFunction(_player, "onFinishWork", PulsarIsWorking, 3) --Catch the moment when the module ends
+		broadcastInvokeClientFunction("onFinishWork", PulsarIsWorking, 3) --Catch the moment when the module ends
 	end
 end
 
@@ -1064,7 +1064,9 @@ end
 
 ----------------------------------------------------------------------------------------------------------------
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(seed)
+	local _seed = seed
+	if type(_seed) == "number" or type(_seed) == "string" then _seed = Seed(_seed) end
+	local rand = Random(_seed)
 
 	local _shieldBuff = rand:getInt(69, 73) + rarity.value * 2
 

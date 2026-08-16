@@ -13,7 +13,9 @@ local systemname = 'subspacecargo'
 
 --Assigns a work bonus as a percentage only (all other functions that call this are also changed to receive only one argument)
 function getBonuses(seed, rarity, permanent)
-    local rand = Random(seed)
+    local _seed = seed
+	if type(_seed) == "number" or type(_seed) == "string" then _seed = Seed(_seed) end
+	local rand = Random(_seed)
 
     local _cargo = (rand:getInt(31, 35) + rarity.value * 4) * 0.01
     local _energy = (rand:getInt(14, 18) - rarity.value) * -0.01

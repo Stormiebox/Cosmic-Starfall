@@ -247,7 +247,9 @@ end
 
 ---------------------------------------------------------------------
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(seed)
+	local _seed = seed
+	if type(_seed) == "number" or type(_seed) == "string" then _seed = Seed(_seed) end
+	local rand = Random(_seed)
 	local _eRegen = 0.05 + (rarity.value * 0.02)
 	local _eAmount = 0.05 + (rarity.value * 0.02)
 

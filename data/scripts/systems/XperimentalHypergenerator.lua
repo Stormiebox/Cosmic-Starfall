@@ -465,7 +465,9 @@ function updateServer(timePassed)
 end
 
 function getBonuses(seed, rarity, permanent)
-	local rand = Random(seed)
+	local _seed = seed
+	if type(_seed) == "number" or type(_seed) == "string" then _seed = Seed(_seed) end
+	local rand = Random(_seed)
 
 	local _cooldown = rand:getInt(8, 12) + rarity.value * 3
 	local _eDrain = rand:getInt(37, 43) - rarity.value * 2

@@ -21,29 +21,24 @@ local weaponFigherBonuses = {}
 --UNIT
 
 local weaponNames = {}
-if onClient() then
-	weaponNames['pulsegun'] = "Pulse Gun"%_t
-	weaponNames['particleaccelerator'] = "Particle Accelerator"%_t
-	weaponNames['assaultblaster'] = "Photon Blaster"%_t
-	weaponNames['hept'] = "Vortex Cannon"%_t
-	weaponNames['pulselaser'] = "Pulse Laser"%_t
-	weaponNames['assaultcannon'] = "Assault Cannon"%_t
-	weaponNames['magneticmortar'] = "Magnetic Mortar"%_t
-	weaponNames['chargingbeam'] = "Charging Beam"%_t
-	weaponNames['nanorepair'] = "Nano Repair Beam"%_t
-	weaponNames['mantis'] = "'Mantis' launcher"%_t
-	weaponNames['photoncannon'] = "Photon Cannon"%_t
-	weaponNames['ionemitter'] = "Ion Emitter"%_t
-	weaponNames['prd'] = "Plasma Beam Disintegrator"%_t
-	weaponNames['plasmaflak'] = "Plasma Flak Cannon"%_t
-	weaponNames['hyperkinetic'] = "Hyperkinetic Artillery"%_t
-	weaponNames['avalanche'] = "'Avalanche' Gravity Cannon"%_t
-	weaponNames['cyclone'] = "'Cyclone' Missile Battery"%_t
-	weaponNames['transphasic'] = "Transphasic Laser"%_t
-
-	-- local fighterProdLines = {}
-	-- fighterProdLines['cant_produce_heavy'] = ""%_t
-end
+weaponNames['pulsegun'] = "Pulse Gun"
+weaponNames['particleaccelerator'] = "Particle Accelerator"
+weaponNames['assaultblaster'] = "Photon Blaster"
+weaponNames['hept'] = "Vortex Cannon"
+weaponNames['pulselaser'] = "Pulse Laser"
+weaponNames['assaultcannon'] = "Assault Cannon"
+weaponNames['magneticmortar'] = "Magnetic Mortar"
+weaponNames['chargingbeam'] = "Charging Beam"
+weaponNames['nanorepair'] = "Nano Repair Beam"
+weaponNames['mantis'] = "'Mantis' launcher"
+weaponNames['photoncannon'] = "Photon Cannon"
+weaponNames['ionemitter'] = "Ion Emitter"
+weaponNames['prd'] = "Plasma Beam Disintegrator"
+weaponNames['plasmaflak'] = "Plasma Flak Cannon"
+weaponNames['hyperkinetic'] = "Hyperkinetic Artillery"
+weaponNames['avalanche'] = "'Avalanche' Gravity Cannon"
+weaponNames['cyclone'] = "'Cyclone' Missile Battery"
+weaponNames['transphasic'] = "Transphasic Laser" 
 
 ----------------icons
 --Standard
@@ -177,7 +172,7 @@ end
 
 function getWeaponName(_name)
 	if weaponNames[_name] then
-		return weaponNames[_name]
+		if onClient() then return weaponNames[_name]%_t else return weaponNames[_name] end
 	else
 		return 'nothing'
 	end
