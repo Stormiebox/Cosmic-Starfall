@@ -429,7 +429,7 @@ function RepairWaveOperate()
 			local processed = 0
 			for n, sid in pairs(shipIds) do
 				local ship = Entity(sid)
-				if ship and ship.playerOrAllianceOwned and ship.isShip and isInRangeV3(ship.translationf, Entity().translationf, RepairWaveRange) then
+				if valid(ship) and valid(Entity()) and ship.playerOrAllianceOwned and ship.isShip and isInRangeV3(ship.translationf, Entity().translationf, RepairWaveRange) then
 					if _debug then
 						include("cosmicvaultdebug").info("Cosmic Starfall", ship.name)
 						include("cosmicvaultdebug").info("Cosmic Starfall", "Heal tick: ", RepairWaveHealAmount)
@@ -456,11 +456,11 @@ function RepairWaveOperate()
 				processed = processed + 1
 				if processed % 15 == 0 then
 					if CosmicVaultTask then CosmicVaultTask.Yield() end
-					if not Entity() then return end
+					if not valid(Entity()) then return end
 				end
 			end
 			
-			if Entity() then
+			if valid(Entity()) then
 				local selfHealMult = (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) * 0.01 + 1
 				DebugMsg("SelfHealIs: " ..
 					tostring(RepairWaveHealAmount * selfHealMult) .. " where selfMult is " .. tostring(selfHealMult - 1))
