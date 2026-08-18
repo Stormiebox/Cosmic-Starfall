@@ -34,7 +34,12 @@ function onDamaged(objectIndex, amount, inflictor, damageSource, damageType)
         if valid(inflictorEntity) and inflictorEntity.hasComponent and inflictorEntity:hasComponent(ComponentType.Turrets) then
             local turrets = {inflictorEntity:getTurrets()}
             for _, turret in pairs(turrets) do
-                local prefix = turret.prefix or ""
+                local weapons = Weapons(turret)
+                local prefix = ""
+                if weapons then
+                    prefix = weapons.weaponPrefix or ""
+                end
+                
                 if string.find(prefix, "%[Burn%]") then
                     hasBurn = true
                 end
