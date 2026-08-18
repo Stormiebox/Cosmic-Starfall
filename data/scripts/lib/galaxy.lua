@@ -1,3 +1,5 @@
+include("weapontype")
+
 weaponProbabilities[WeaponType.PULSEGUN] = {p = 2}
 weaponProbabilities[WeaponType.PLASMAFLAK] = {d = 0.7, p = 0.9}
 weaponProbabilities[WeaponType.ASSAULTCANNON] = {p = 2.4}

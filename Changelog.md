@@ -7,6 +7,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.5] - Engine Hardening Hotfix
+
+### 🐛 Bug Fix
+- [Bugfix] **VFS Load Order Corruption:** Resolved a game-breaking architecture bug where `Cosmic Starfall` would silently corrupt vanilla export tables (like `galaxy.lua` and `turretingredients.lua`). When Avorion's Virtual File System merged Starfall's weapon probability injections, the engine occasionally parsed them *before* `weapontype.lua` was loaded. This caused the new custom weapons (e.g. `WeaponType.PULSEGUN`) to evaluate as `nil`, triggering a silent syntax error that wiped the entire `Galaxy` export from memory.
+- [Bugfix] **Cross-Mod Compatibility:** By strictly enforcing `weapontype.lua` includes within appended library files, `Cosmic Starfall` will no longer crash or destabilize background scripts in other Cosmic mods (such as the "MineableBy is a nil value" crash in `Cosmic Overhaul`).
+
 ## [v2.0.4] - Hotfix
 
 ### 🐛 Bug Fix

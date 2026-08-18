@@ -1,6 +1,7 @@
 package.path = package.path .. ";data/scripts/neltharaku/?.lua"
 include("stringutility")
 include('Armory')
+include("weapontype")
 
 --===========================[Vanilla Weapon Buff Hooks]==========================================
 local old_generateChaingun = WeaponGenerator.generateChaingun
