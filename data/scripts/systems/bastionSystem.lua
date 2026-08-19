@@ -393,15 +393,17 @@ function VeilOperateSetup()
 
 	--Installing bonuses upon activation
 	if VeilIsWorking then
-		CosmicVaultBuffs.applyBuff(entityId, "DamageReduction", VeilResistance * 0.01, VeilCooldown)
-		CosmicVaultBuffs.applyBuff(entityId, "FireRate", -VeilFireRate * 0.01, VeilCooldown)
+		CosmicVaultBuffs.terminateBuff(entityId, "BastionDamageReduction")
+		CosmicVaultBuffs.terminateBuff(entityId, "BastionFireRate")
+		CosmicVaultBuffs.applyBuff(entityId, "DamageReduction", VeilResistance * 0.01, VeilCooldown, "BastionDamageReduction")
+		CosmicVaultBuffs.applyBuff(entityId, "FireRate", -VeilFireRate * 0.01, VeilCooldown, "BastionFireRate")
 		return
 	end
 	
 	--Cancellation of bonuses upon deactivation
 	if not (VeilIsWorking) then
-		CosmicVaultBuffs.removeBuff(entityId, "DamageReduction")
-		CosmicVaultBuffs.removeBuff(entityId, "FireRate")
+		CosmicVaultBuffs.terminateBuff(entityId, "BastionDamageReduction")
+		CosmicVaultBuffs.terminateBuff(entityId, "BastionFireRate")
 		return
 	end
 	return

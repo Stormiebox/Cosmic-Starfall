@@ -7,6 +7,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.7] - Bastion System Hotfix
+
+### 🐛 Bug Fix
+- [Bugfix] **Bastion Module Stats:** Fixed an issue where the Bastion System's Veil module could stack its stats infinitely if toggled rapidly. It now properly applies its strict buff IDs and cleanly terminates them when the module is deactivated.
+
 ## [v2.0.6] - Combat Handler Hotfix
 
 ### 🐛 Bug Fix
