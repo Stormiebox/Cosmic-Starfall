@@ -1086,7 +1086,7 @@ function onInstalled(seed, rarity, permanent)
 		_rarity = rarity.value
 	--Adds passive bonuses upon installation
 	addBaseMultiplier(StatsBonuses.ShieldRecharge, _regen / 100)
-	addMultiplier(StatsBonuses.ShieldDurability, _shield / 100)
+	addBaseMultiplier(StatsBonuses.ShieldDurability, _shield / 100)
 	addBaseMultiplier(StatsBonuses.ShieldTimeUntilRechargeAfterHit, -(_timeFactor / 100))
 
 	--Initializing Interface Elements

@@ -7,6 +7,14 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.8] - Module Stats Bugfix Patch
+
+### 🪲 Bug Fixes
+- [Bugfix] **X-perimental HyperGenerators:** Fixed an engine calculation issue where the base jump range bonus was not being applied properly (switched `addMultiplyableBias` to `addAbsoluteBias`).
+- [Bugfix] **Bastion Systems:** Fixed a bug where shield durability bonuses were not applying properly until a server reload, and were using an unsafe scaling method (switched `addMultiplier` to `addBaseMultiplier`).
+- [Bugfix] **Doctrine Set Bonuses:** Fixed a critical bug where all percentage-based doctrine set bonuses (e.g. +15% Velocity, +20% Shield Durability) were applying as practically zero absolute values (e.g. +0.15 m/s velocity) instead of multiplying the ship's base stats.
+- [Bugfix] **Main Caliber Handlers:** Fixed an issue where main caliber weapon fire rate penalties were being applied as flat number deductions (e.g. -0.1 shots per second) instead of a proper percentage penalty (e.g. -10%).
+
 ## [v2.0.7] - Bastion System Hotfix
 
 ### 🐛 Bug Fix

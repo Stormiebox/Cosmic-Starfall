@@ -88,7 +88,7 @@ function mainCaliber.setRestrictions()
     if difference > 0 then
         local penalty = ASPDpenalty * -0.01 * difference
         self:removeScriptBonuses()
-        self:addAbsoluteBias(StatsBonuses.FireRate, penalty)
+        self:addBaseMultiplier(StatsBonuses.FireRate, penalty)
     else
         self:removeScriptBonuses()
     end

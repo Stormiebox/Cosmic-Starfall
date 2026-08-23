@@ -494,7 +494,7 @@ function onInstalled(seed, rarity, permanent)
 	-- onInstalledUItooltips(rarity.value)
 	-- end
 
-	addMultiplyableBias(StatsBonuses.HyperspaceReach, _jump)
+	addAbsoluteBias(StatsBonuses.HyperspaceReach, _jump)
 	addBaseMultiplier(StatsBonuses.HyperspaceCooldown, -_cooldown / 100)
 	addBaseMultiplier(StatsBonuses.HyperspaceChargeEnergy, _eDrain / 100)
 

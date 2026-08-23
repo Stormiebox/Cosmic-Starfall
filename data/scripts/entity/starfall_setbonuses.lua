@@ -101,7 +101,7 @@ function StarfallSetBonuses.recalculateBonuses()
 
     local function applyBuff(stat, value, isMultiplier)
         if isMultiplier then
-            entity:addMultiplier(stat, value)
+            entity:addBaseMultiplier(stat, value)
         else
             entity:addMultiplyableBias(stat, value)
         end
@@ -110,8 +110,8 @@ function StarfallSetBonuses.recalculateBonuses()
     -- EVALUATE SUBSYSTEM SETS
     if sysCount["data/scripts/systems/bastionSystem.lua"] and sysCount["data/scripts/systems/overpoweredCore.lua"] then
         table.insert(newlyActiveSets, {text = "Aegis Matrix (Bastion + Overpowered)", icon = "data/textures/icons/SYSbastion.png"})
-        applyBuff(StatsBonuses.ShieldRecharge, 0.2, false)
-        applyBuff(StatsBonuses.ShieldDurability, 0.1, false)
+        applyBuff(StatsBonuses.ShieldRecharge, 0.2, true)
+        applyBuff(StatsBonuses.ShieldDurability, 0.1, true)
     end
     if sysCount["data/scripts/systems/repairDrones.lua"] and sysCount["data/scripts/systems/pulseTractorBeamGenerator.lua"] then
         table.insert(newlyActiveSets, {text = "Drone-Weaver Network (Repair + Tractor)", icon = "data/textures/icons/SYSrepairDrones.png"})
@@ -119,36 +119,36 @@ function StarfallSetBonuses.recalculateBonuses()
     end
     if sysCount["data/scripts/systems/XperimentalHypergenerator.lua"] and sysCount["data/scripts/systems/subspaceCargo.lua"] then
         table.insert(newlyActiveSets, {text = "Void-Runner Config (Hyperdrive + Cargo)", icon = "data/textures/icons/SYShypergenerator.png"})
-        applyBuff(StatsBonuses.HyperspaceReach, 0.2, false)
-        applyBuff(StatsBonuses.Velocity, 0.15, false)
+        applyBuff(StatsBonuses.HyperspaceReach, 0.2, true)
+        applyBuff(StatsBonuses.Velocity, 0.15, true)
     end
 
     if turretCount.miner >= 5 then
         table.insert(newlyActiveSets, {text = "Mining Doctrine (5+ Miners)", icon = "data/textures/icons/staDurability.png"})
-        applyBuff(StatsBonuses.GeneratedEnergy, 0.15, false)
-        applyBuff(StatsBonuses.CargoHold, 0.15, false)
+        applyBuff(StatsBonuses.GeneratedEnergy, 0.15, true)
+        applyBuff(StatsBonuses.CargoHold, 0.15, true)
     end
 
     if turretCount.salvager >= 5 then
         table.insert(newlyActiveSets, {text = "Salvage Doctrine (5+ Salvagers)", icon = "data/textures/icons/staDurability.png"})
-        applyBuff(StatsBonuses.ShieldDurability, 0.20, false)
+        applyBuff(StatsBonuses.ShieldDurability, 0.20, true)
     end
 
     if turretCount.pdc >= 5 then
         table.insert(newlyActiveSets, {text = "Point Defense Doctrine (5+ PDCs)", icon = "data/textures/icons/ASSAULTBLASTER.png"})
-        applyBuff(StatsBonuses.Velocity, 0.10, false)
-        applyBuff(StatsBonuses.Acceleration, 0.15, false)
+        applyBuff(StatsBonuses.Velocity, 0.10, true)
+        applyBuff(StatsBonuses.Acceleration, 0.15, true)
     end
 
     if turretCount.artillery >= 5 then
         table.insert(newlyActiveSets, {text = "Artillery Doctrine (5+ Cannons)", icon = "data/textures/icons/WPNassaultCannon.png"})
-        applyBuff(StatsBonuses.Velocity, 0.10, false)
+        applyBuff(StatsBonuses.Velocity, 0.10, true)
         newDamageBuff = newDamageBuff + 0.15
     end
 
     if turretCount.laser >= 5 then
         table.insert(newlyActiveSets, {text = "Energy Doctrine (5+ Lasers/Plasma)", icon = "data/textures/icons/PULSELASER.png"})
-        applyBuff(StatsBonuses.ShieldRecharge, 0.15, false)
+        applyBuff(StatsBonuses.ShieldRecharge, 0.15, true)
         newDamageBuff = newDamageBuff + 0.15
     end
 
@@ -159,7 +159,7 @@ function StarfallSetBonuses.recalculateBonuses()
 
     -- Apply new damage buff securely
     if newDamageBuff > 1.0 then
-        applyBuff(StatsBonuses.FireRate, newDamageBuff - 1.0, false)
+        applyBuff(StatsBonuses.FireRate, newDamageBuff - 1.0, true)
     end
     currentDamageBuff = newDamageBuff
 
