@@ -7,6 +7,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.9] - Library Architecture Hotfix
+
+### 🪲 Bug Fixes
+- [Bugfix] **Custom Library Include Errors:** Fixed widespread errors where the Avorion engine failed to resolve `include` statements for `neltharaku` libraries (like `Tech`, `Armory`, etc.). All custom library files have been relocated into the VFS-compliant `lib/` directory to prevent silent script execution failures.
+
 ## [v2.0.8] - Module Stats Bugfix Patch
 
 ### 🪲 Bug Fixes
@@ -23,7 +28,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 ## [v2.0.6] - Combat Handler Hotfix
 
 ### 🐛 Bug Fix
-- [Bugfix] **API Dereference Crash:** Fixed a critical server crash in `starfall_combat_handler.lua` that spammed the console with `Property not found or not readable: Entity.prefix` every time a ship took damage from Plasma or AntiMatter weapons. 
+- [Bugfix] **API Dereference Crash:** Fixed a critical server crash in `starfall_combat_handler.lua` that spammed the console with `Property not found or not readable: Entity.prefix` every time a ship took damage from Plasma or AntiMatter weapons.
 - [Bugfix] **Turret Components:** The combat handler now correctly queries the `Weapons()` entity component to read `weaponPrefix` instead of attempting to read a non-existent property on the base Turret Entity object. This completely resolves the console spam and restores the intended localized Damage-over-Time effects (`[Burn]` and `[Melt]`) for legendary weapons.
 
 ## [v2.0.5] - Engine Hardening Hotfix

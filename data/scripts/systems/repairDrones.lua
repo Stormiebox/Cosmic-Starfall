@@ -86,7 +86,7 @@ function UIplaysound(_type)
 	local soundPath = '/systems/'
 	if Player() and Player().craftIndex ~= Entity().index then return end
 	if _type == 0 then
-		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.5)
+		playSound(soundPath .. "UI_Activation", SoundType.UI, 1.0)
 		return
 	end
 	if _type == 1 then
@@ -94,7 +94,7 @@ function UIplaysound(_type)
 		return
 	end
 	if _type == 2 then
-		playSound(soundPath .. "UI_Incorrect", SoundType.UI, 1.5)
+		playSound(soundPath .. "UI_Incorrect", SoundType.UI, 1.0)
 		return
 	end
 	return

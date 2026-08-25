@@ -41,7 +41,7 @@ soundLib['invite'] = '/systems/UI_alertInvite'
 function aC.playSound(_type)
 	local sound = soundLib[_type]
 	if sound then
-		playSound(sound, SoundType.UI, 1.5)
+		playSound(sound, SoundType.UI, 1.0)
 	end
 end
 
