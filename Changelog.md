@@ -7,6 +7,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.10] - Macrofield Projector Hotfix
+
+### 🪲 Bug Fixes
+- [Bugfix] **Macrofield Projector Crash:** Fixed a critical server crash that occurred when a player activated an ability of the Macrofield Projector subsystem. The engine was incorrectly passing a raw `Entity` object into the global C++ `Owner()` function, causing a `SIGSEGV` error. The script now correctly extracts and passes the entity's UUID, resolving the crash.
+
 ## [v2.0.9] - Library Architecture Hotfix
 
 ### 🪲 Bug Fixes

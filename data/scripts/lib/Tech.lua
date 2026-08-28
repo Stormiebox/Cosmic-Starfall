@@ -271,7 +271,8 @@ function callTechAuraSelf(_aura)
 end
 
 function callTechAuraTarget(_aura, _targetEntity)
-	local owner = Owner(_targetEntity)
+	local targetId = type(_targetEntity) == "userdata" and _targetEntity.id or _targetEntity
+	local owner = Owner(targetId)
 	if not owner then return end
 	local targetPlayer = owner.factionIndex
 	invokeFactionFunction(targetPlayer, false, 'auraCore', 'ApplyAura', _aura)
