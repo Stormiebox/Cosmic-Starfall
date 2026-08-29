@@ -28,8 +28,11 @@ end
 
 --Returns the thickness of the beam, checking the distance to the target and other parameters
 function inRange(_row)
-	local _posSRC = _row[2].translationf
-	local _posTGT = _row[3].translationf
+	local source = type(_row[2]) == "string" and Entity(_row[2]) or _row[2]
+	local target = type(_row[3]) == "string" and Entity(_row[3]) or _row[3]
+	if not valid(source) or not valid(target) then return 0.1 end
+	local _posSRC = source.translationf
+	local _posTGT = target.translationf
 	local _dist = _row[5]
 	local _bW = _row[6]
 
@@ -80,9 +83,12 @@ end
 
 --Checks if the source and target have the same owner, and if the given object is the target
 function checkDoubleCast(_row)
-	local _sourceID = _row[2].id
-	local _targetID = _row[3].id
-	local isTarget = Entity().id == _row[3].id
+	local source = type(_row[2]) == "string" and Entity(_row[2]) or _row[2]
+	local target = type(_row[3]) == "string" and Entity(_row[3]) or _row[3]
+	if not valid(source) or not valid(target) then return false end
+	local _sourceID = source.id
+	local _targetID = target.id
+	local isTarget = Entity().id == _targetID
 	if (Player(_sourceID).name == Player(_targetID).name) and isTarget then return true end
 	return false
 end
@@ -94,11 +100,13 @@ function LaserTableSelfValid(_row)
 		--DebugMsg(_myName..'laserSelfValid -invalid type')
 		return false
 	end
-	if not (valid(_row[2])) or (_row[2].translationf == nil) then
+	local source = type(_row[2]) == "string" and Entity(_row[2]) or _row[2]
+	if not (valid(source)) or (source.translationf == nil) then
 		--DebugMsg(_myName..'laserSelfValid -invalid source')
 		return false
 	end
-	if not (valid(_row[3])) or (_row[3].translationf == nil) then
+	local target = type(_row[3]) == "string" and Entity(_row[3]) or _row[3]
+	if not (valid(target)) or (target.translationf == nil) then
 		--DebugMsg(_myName..'laserSelfValid -invalid target')
 		return false
 	end
@@ -124,7 +132,8 @@ function SphereTableSelfValid(_row)
 		DebugMsg(_myName .. 'SphereSelfValid - invalid type')
 		return false
 	end
-	if not (valid(_row[2])) or (_row[2].translationf == nil) then
+	local source = type(_row[2]) == "string" and Entity(_row[2]) or _row[2]
+	if not (valid(source)) or (source.translationf == nil) then
 		DebugMsg(_myName .. 'SphereSelfValid - invalid source')
 		--Debug msg( row[2].name)
 		return false
@@ -163,22 +172,26 @@ function LaserOperate()
 		--Checking for the existence of a laser (must be a target, must be a source)
 		if LaserTableSelfValid(_table) then
 			local _type = _table[1]
-			local _posSRC = _table[2].translationf
-			local _posTGT = _table[3].translationf
-			local _distance = _table[5]
-			local _width = _table[6]
-			--Checking for a laser in the list of animations
-			if not (fxTable[_type]) then
-				--Create when necessary (cannot create if the given object is the target and the owners are the same to avoid duplicate lasers)
-				if not (checkDoubleCast(_table)) then
-					Debug('laser created of type ' .. _type .. ' for entity ' .. Entity().name)
-					fxTable[_type] = Sector():createLaser(_posSRC, _posTGT, _table[4] or _colorR, _table[6] or 2)
-					fxTable[_type].collision = false
+			local source = type(_table[2]) == "string" and Entity(_table[2]) or _table[2]
+			local target = type(_table[3]) == "string" and Entity(_table[3]) or _table[3]
+			if valid(source) and valid(target) then
+				local _posSRC = source.translationf
+				local _posTGT = target.translationf
+				local _distance = _table[5]
+				local _width = _table[6]
+				--Checking for a laser in the list of animations
+				if not (fxTable[_type]) then
+					--Create when necessary (cannot create if the given object is the target and the owners are the same to avoid duplicate lasers)
+					if not (checkDoubleCast(_table)) then
+						Debug('laser created of type ' .. _type .. ' for entity ' .. Entity().name)
+						fxTable[_type] = Sector():createLaser(_posSRC, _posTGT, _table[4] or _colorR, _table[6] or 2)
+						fxTable[_type].collision = false
+					end
+				else
+					--Move processing ONLY. Laser thickness etc. is handled in another function
+					fxTable[_type].from = _posSRC
+					fxTable[_type].to = _posTGT
 				end
-			else
-				--Move processing ONLY. Laser thickness etc. is handled in another function
-				fxTable[_type].from = _posSRC
-				fxTable[_type].to = _posTGT
 			end
 			-- else
 			-- if _table[1] then
@@ -207,26 +220,29 @@ function SphereOperate()
 		--local entitity = _rows[2]
 
 		local _type = _rows[1]
-		local _source = _rows[2].position
-		local _radius = _rows[3]
-		local _ivec2radius = _rows[4]
-		local _color = _rows[5]
-		local _intensity = _rows[6]
-		local _reflectivity = _rows[7]
-		local _reflColor = _rows[8]
+		local source = type(_rows[2]) == "string" and Entity(_rows[2]) or _rows[2]
+		if valid(source) then
+			local _source = source.position
+			local _radius = _rows[3]
+			local _ivec2radius = _rows[4]
+			local _color = _rows[5]
+			local _intensity = _rows[6]
+			local _reflectivity = _rows[7]
+			local _reflColor = _rows[8]
 
-		--Checking the existence of a given sphere
-		if fxsTable[_type] == nil then
-			--Create a sphere if not found
-			fxsTable[_type] = Sector():createRefractionSphere(_radius, _ivec2radius)
-			fxsTable[_type].color = _color
-			fxsTable[_type].intensity = _intensity
-			fxsTable[_type].reflectivity = _reflectivity
-			fxsTable[_type].reflectivityColor = _reflColor
-			DebugMsg('sphereOperate: sphere created of type ' .. _type)
-		else
-			--Moving the sphere
-			fxsTable[_type].position = _source
+			--Checking the existence of a given sphere
+			if fxsTable[_type] == nil then
+				--Create a sphere if not found
+				fxsTable[_type] = Sector():createRefractionSphere(_radius, _ivec2radius)
+				fxsTable[_type].color = _color
+				fxsTable[_type].intensity = _intensity
+				fxsTable[_type].reflectivity = _reflectivity
+				fxsTable[_type].reflectivityColor = _reflColor
+				DebugMsg('sphereOperate: sphere created of type ' .. _type)
+			else
+				--Moving the sphere
+				fxsTable[_type].position = _source
+			end
 		end
 	end
 end
@@ -385,7 +401,8 @@ function importDataCheck(_table)
 	end
 	--Checking laser matching via type-target relationship
 	for _, _rows in pairs(laserTable) do
-		if (_rows[1] == _table[1]) and (_rows[3].index == _table[3].index) then
+		local rTarget = type(_rows[3]) == "string" and Entity(_rows[3]) or _rows[3]
+		if valid(rTarget) and (_rows[1] == _table[1]) and (rTarget.index == _table[3].index) then
 			DebugMsg('raycast: laser creation rejected: another laser detected')
 			return false
 		end
@@ -408,12 +425,13 @@ end
 
 --The function initiates an import attempt
 function setLaser(_type, _sourceship, _targetship, _color, _distance, _baseWidth)
-	if onClient() then return end
-	--Setting Variables
-	local _importedRow = { _type, _sourceship, _targetship, _color, _distance, _baseWidth }
-	--Checking the correctness of values ​​and importing into the laser table
-	if importDataCheck(_importedRow) then
-		table.insert(laserTable, _importedRow)
+	local _importedTable = { _type, _sourceship, _targetship, _color, _distance, _baseWidth }
+
+	--Checking the data table for correctness
+	if importDataCheck(_importedTable) then
+		if valid(_sourceship) then _importedTable[2] = _sourceship.id.string end
+		if valid(_targetship) then _importedTable[3] = _targetship.id.string end
+		table.insert(laserTable, _importedTable)
 		DebugMsg(_myName .. 'laser imported successful|' .. tostring(#laserTable))
 		AnalyseTable()
 		return 0
@@ -433,6 +451,7 @@ function setSphere(_type, _source, _radius, _ivec2radius, _color, _intensity, _r
 
 	--Validity check and filling of the table
 	if SphereTableSelfValid(_importedTable) then
+		if valid(_source) then _importedTable[2] = _source.id.string end
 		table.insert(sphereTable, _importedTable)
 		DebugMsg(_myName .. 'sphere imported successful|' .. tostring(#sphereTable))
 		AnalyseSphereTable()
@@ -474,8 +493,11 @@ function AnalyseTable(_toRemoveIndex)
 	for _index = #laserTable, 1, -1 do
 		local _rows = laserTable[_index]
 		local removed = false
+		local source = type(_rows[2]) == "string" and Entity(_rows[2]) or _rows[2]
+		local target = type(_rows[3]) == "string" and Entity(_rows[3]) or _rows[3]
+
 		--Laser segment
-		if not (isEntityCorrect(_rows[2])) or not (isEntityCorrect(_rows[3])) then
+		if not (isEntityCorrect(source)) or not (isEntityCorrect(target)) then
 			DebugMsg(_myName .. 'laser removed from table (incorrect source or target) with type ' .. _rows[1])
 			table.remove(laserTable, _index)
 			removed = true
@@ -501,7 +523,8 @@ function AnalyseSphereTable(_toRemoveIndex)
 	for _index = #sphereTable, 1, -1 do
 		local _rows = sphereTable[_index]
 		local removed = false
-		if not (isEntityCorrect(_rows[2])) then
+		local source = type(_rows[2]) == "string" and Entity(_rows[2]) or _rows[2]
+		if not (isEntityCorrect(source)) then
 			DebugMsg(_myName .. 'sphere removed from table (incorrect source)')
 			table.remove(sphereTable, _index)
 			removed = true

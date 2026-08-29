@@ -299,7 +299,9 @@ function updateServer(timePassed)
 	if RepairWaveIsWorking > 0 then
 		RepairWaveIsWorking = math.max(0, RepairWaveIsWorking - timePassed)
 		RepairWaveOperate()
-		broadcastInvokeClientFunction( "onFinishWork", RepairWaveIsWorking, 0) --Catch the moment when the module ends
+		if RepairWaveIsWorking == 0 then
+			broadcastInvokeClientFunction( "onFinishWork", 0, 0) --Catch the moment when the module ends
+		end
 	end
 	--beam segment
 	if RenovatingRayIsReady > 0 and RenovatingRayIsWorking == false then

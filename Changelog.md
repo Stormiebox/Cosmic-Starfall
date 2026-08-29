@@ -7,6 +7,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.11] - Macrofield Projector Network Sync Crash
+
+### 🪲 Bug Fixes
+- [Bugfix] **Macrofield Projector / Raycast SIGSEGV:** Fixed the root cause of the server crash when activating the Macrofield Projector (or Bastion System). The `raycast.lua` system was illegally inserting raw C++ `Entity` userdata into a Lua table and broadcasting it over the network to all clients (`broadcastInvokeClientFunction`). The Avorion engine would immediately trigger a `SIGSEGV` memory fault while attempting to serialize the userdata. The script now correctly converts entities to string UUIDs before syncing, completely resolving the freezing and crashing.
+- [Optimization] **Macrofield Projector Network Spam:** Fixed a severe bug where `RepairWaveOperate()` would spam `broadcastInvokeClientFunction` every second for the entire duration of the ability, causing unnecessary network congestion. It now correctly only broadcasts when the ability finishes.
+
 ## [v2.0.10] - Macrofield Projector Hotfix
 
 ### 🪲 Bug Fixes
