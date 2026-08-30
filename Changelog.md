@@ -7,6 +7,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.12] - Macrofield Projector Thread Safety
+
+### 🪲 Bug Fixes
+- [Bugfix] **Macrofield Projector SIGSEGV:** Resolved the persisting Heap Corruption/SIGSEGV server crashes associated with the Macrofield Projector. The crash was caused by yielding the `CosmicVaultTask.RunAsync()` coroutine while concurrently modifying C++ physics entities (`ship.durability`), leading to thread-safety violations during the sector update loop. The routine is now completely synchronous and leverages native property access, eliminating the crash entirely.
+- [Optimization] **Macrofield Projector Latency Stalls:** Implemented a new mathematical distance check that runs *before* interacting with the C++ wrapper objects. This drastically reduces the sector tick stall time from ~700ms to less than 1ms when deployed in crowded sectors. (Special thanks to UwagaMangaha!)
+
 ## [v2.0.11] - Macrofield Projector Network Sync Crash
 
 ### 🪲 Bug Fixes

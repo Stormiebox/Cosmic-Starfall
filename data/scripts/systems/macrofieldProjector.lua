@@ -419,28 +419,27 @@ function RepairWaveOperate()
 			return
 		end
 		EnergySystem():removeEnergy(RepairWaveEnergyConsumptionCV)
-		broadcastInvokeClientFunction( "RepairWaveOperateClient", RepairWaveEnergyConsumptionCV)
+		broadcastInvokeClientFunction("RepairWaveOperateClient", RepairWaveEnergyConsumptionCV)
 
-		local function pulseTask()
-			local rawShips = { Sector():getEntitiesByType(EntityType.Ship) }
-			local shipIds = {}
-			for _, s in pairs(rawShips) do
-				table.insert(shipIds, s.id)
-			end
+		broadcastInvokeClientFunction("updateStatusEffects", 0, true)
 
-			local processed = 0
-			for n, sid in pairs(shipIds) do
-				local ship = Entity(sid)
-				if valid(ship) and valid(Entity()) and ship.playerOrAllianceOwned and ship.isShip and isInRangeV3(ship.translationf, Entity().translationf, RepairWaveRange) then
-					if _debug then
-						include("cosmicvaultdebug").info("Cosmic Starfall", ship.name)
-						include("cosmicvaultdebug").info("Cosmic Starfall", "Heal tick: ", RepairWaveHealAmount)
+		local myPosition = Entity().translationf
+		local rawShips = { Sector():getEntitiesByType(EntityType.Ship) }
+		
+		for _, ship in pairs(rawShips) do
+			-- Filter foreign sector ships instantly
+			if valid(ship) and ship.playerOrAllianceOwned and ship.isShip then
+				-- Performance-Fix: Math distance check first before stressing the engine
+				if isInRangeV3(ship.translationf, myPosition, RepairWaveRange) then
+					
+					local currentHp = ship.durability or 0
+					local maxHp = ship.maxDurability or 0
+					
+					if currentHp < maxHp then
+						ship.durability = math.min(maxHp, currentHp + RepairWaveHealAmount)
 					end
-					Entity(ship.id).durability = math.min(Entity(ship.id).maxDurability, Entity(ship.id).durability + RepairWaveHealAmount)
 
-					--Aura
 					local target = ship
-
 					local _aura = {
 						getSubtechSignature(systemname, 1) .. 'remote',
 						string.format("+%i/s", CalculateRepairAmount(0)),
@@ -455,28 +454,24 @@ function RepairWaveOperate()
 					}
 					callTechAuraTarget(_aura, target)
 				end
-				processed = processed + 1
-				if processed % 15 == 0 then
-					if CosmicVaultTask then CosmicVaultTask.Yield() end
-					if not valid(Entity()) then return end
-				end
-			end
-			
-			if valid(Entity()) then
-				local selfHealMult = (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) * 0.01 + 1
-				DebugMsg("SelfHealIs: " ..
-					tostring(RepairWaveHealAmount * selfHealMult) .. " where selfMult is " .. tostring(selfHealMult - 1))
-				Entity().durability = math.min(Entity().maxDurability, Entity().durability + (RepairWaveHealAmount * selfHealMult))
 			end
 		end
-
-		if CosmicVaultTask then
-			CosmicVaultTask.RunAsync("RepairWavePulse_" .. Entity().id.string, pulseTask)
-		else
-			pulseTask()
+		
+		if valid(Entity()) then
+			local myCurrentHp = Entity().durability or 0
+			local myMaxHp = Entity().maxDurability or 0
+			
+			if myCurrentHp < myMaxHp then
+				local selfHealMult = (RepairWaveSelfBonus + RepairWaveSelfBonusRARMP * _rarity) * 0.01 + 1
+				Entity().durability = math.min(myMaxHp, myCurrentHp + (RepairWaveHealAmount * selfHealMult))
+			end
 		end
 		--Turns off the refresh beam
 		-- RenovatingRayTurnToFalse()
+	end
+
+	if onClient() then
+		return
 	end
 end
 
