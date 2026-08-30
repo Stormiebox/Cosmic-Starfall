@@ -1,0 +1,115 @@
+[i]Version 2.0.12[/i]
+[hr][/hr]
+[h1]v2.0.12 🐛 MACROFIELD PROJECTOR THREAD SAFETY 🐛[/h1]
+[hr][/hr]
+[b]🛠️ HOTFIX PATCH[/b]
+[i]This hotfix targets a persisting Heap Corruption server crash associated with the Macrofield Projector in crowded sectors.[/i]
+[i]Special Thanks To: UwagaMangaha (For providing the fix!)[/i]
+
+[b]🪲BUGFIXES[/b]
+[list]
+[*]🐛 [b]Macrofield Projector SIGSEGV:[/b] Resolved the persisting Heap Corruption/SIGSEGV server crashes associated with the Macrofield Projector. The crash was caused by yielding a background coroutine while concurrently modifying C++ physics entities, leading to thread-safety violations during the sector update loop. The routine is now completely synchronous and leverages native property access, eliminating the crash entirely.
+[*]🚀 [b]Macrofield Projector Latency Stalls:[/b] Implemented a new mathematical distance check that runs [i]before[/i] interacting with the heavy C++ wrapper objects. This drastically reduces the sector tick stall time from ~700ms to less than 1ms when deployed in crowded sectors. (Special thanks to UwagaMangaha!)
+[/list]
+
+[i]Version 2.0.11[/i]
+[hr][/hr]
+[h1]v2.0.11 🐛MACROFIELD PROJECTOR NETWORK SYNC CRASH🐛[/h1]
+[hr][/hr]
+[b]🛠️ HOTFIX PATCH[/b]
+[i]This hotfix correctly targets the root cause of the Macrofield Projector server crash. The previous hotfix addressed a related but distinct bug.[/i]
+
+[b]🪲BUGFIXES[/b]
+[list]
+[*]🐛 [b]Macrofield Projector / Raycast SIGSEGV:[/b] Fixed the root cause of the server crash when activating the Macrofield Projector (or Bastion System). The [code]raycast.lua[/code] system was illegally inserting raw C++ [code]Entity[/code] userdata into a Lua table and broadcasting it over the network to all clients ([code]broadcastInvokeClientFunction[/code]). The Avorion engine would immediately trigger a [code]SIGSEGV[/code] memory fault while attempting to serialize the userdata. The script now correctly converts entities to string UUIDs before syncing, completely resolving the freezing and crashing.
+[*]🚀 [b]Macrofield Projector Network Spam:[/b] Fixed a severe bug where [code]RepairWaveOperate()[/code] would spam [code]broadcastInvokeClientFunction[/code] every second for the entire duration of the ability, causing unnecessary network congestion. It now correctly only broadcasts when the ability finishes.
+[/list]
+
+[i]Version 2.0.10[/i]
+[hr][/hr]
+[h1]v2.0.10 🐛MACROFIELD PROJECTOR HOTFIX🐛[/h1]
+[hr][/hr]
+[b]🛠️ HOTFIX PATCH[/b]
+[i]This hotfix targets a critical server crash related to the Macrofield Projector subsystem reported by a player![/i]
+
+[b]🪲BUGFIXES[/b]
+[list]
+[*]🐛 [b]Macrofield Projector Crash:[/b] Fixed a critical server crash that occurred when activating an ability of the Macrofield Projector subsystem. The engine was incorrectly handling a raw object reference; it now correctly extracts the target's ID, preventing the crash.
+[/list]
+
+[i]Version 2.0.9[/i]
+[hr][/hr]
+[h1]v2.0.9 🐛LIBRARY ARCHITECTURE HOTFIX🐛[/h1]
+[hr][/hr]
+[b]🛠️ HOTFIX PATCH[/b]
+[i]This patch fixes a widespread crash on dedicated servers running Linux. Caused by the Virtual File System (VFS) failing to include custom libraries![/i]
+
+[b]🪲BUGFIXES[/b]
+[list]
+[*]🐛 [b]Custom Library Include Errors:[/b] Fixed widespread errors where the Avorion engine failed to resolve include() statements for certain library files. All custom library files have been relocated into the VFS-compliant lib directory to prevent silent script execution failures.
+[/list]
+
+[i]Version 2.0.8[/i]
+[hr][/hr]
+[h1]v2.0.8 🐛BUGFIX UPDATE!🐛[/h1]
+[hr][/hr]
+[b]🛠️ HOTFIX PATCH[/b]
+[i]This hotfix corrects broken math and API scaling with the X-perimental and Bastion systems based on player feedback![/i]
+
+[b]🪲BUGFIXES[/b]
+[list]
+[*]🐛 [b]X-perimental HyperGenerators:[/b] Fixed an engine calculation issue where the base jump range bonus was not being applied properly.
+[*]🐛 [b]Bastion Systems:[/b] Fixed a bug where shield durability bonuses were not applying properly until a server reload, and were using an unsafe scaling method.
+[*]🐛 [b]Doctrine Set Bonuses:[/b] Fixed a critical bug where all percentage-based doctrine set bonuses (e.g. +15% Velocity, +20% Shield Durability) were applying as practically zero absolute values (e.g. +0.15 m/s velocity) instead of multiplying the ship's base stats.
+[*]🐛 [b]Main Caliber Handlers:[/b] Fixed an issue where main caliber weapon fire rate penalties were being applied as flat number deductions (e.g. -0.1 shots per second) instead of a proper percentage penalty (e.g. -10%).
+[/list]
+
+[i]Version 2.0.7[/i]
+[hr][/hr]
+[h1]v2.0.7 🐛BUGFIX UPDATE!🐛[/h1]
+[hr][/hr]
+[b]🛠️ HOTFIX PATCH[/b]
+[i]This hotfix corrects a math error that could cause buffs to stack![/i]
+
+[b]🪲BUGFIXES[/b]
+[list]
+[*]🐛 [b]Bastion Module Stats:[/b] Fixed an issue where the Bastion System's Veil module could stack its stats infinitely if toggled rapidly. It now properly applies its strict buff IDs and cleanly terminates them when the module is deactivated.
+[/list]
+
+[i]Version 2.0.6[/i]
+[hr][/hr]
+[h1]v2.0.6 🐛BUGFIX PATCH UPDATE!🐛[/h1]
+[hr][/hr]
+[b]🛠️ HOTFIX PATCH[/b]
+[i]This small patch fixes a major console spam issue![/i]
+
+[b]🪲BUGFIXES[/b]
+[list]
+[*]🐛 [b]Console Log Spam:[/b] Fixed an issue that spammed the server console with a "Property not found" error every time a ship was hit by Plasma or AntiMatter weapons.
+[*]🐛 [b]Legendary Weapon Effects:[/b] Because of the console error fix, the special [Burn] and [Melt] damage-over-time effects for legendary weapons now work correctly again!
+[/list]
+
+[i]Version 2.0.5[/i]
+[hr][/hr]
+[h1]v2.0.5 🐛CRITICAL BUGFIX PATCH UPDATE!🐛[/h1]
+[hr][/hr]
+[b]🛠️ HOTFIX PATCH[/b]
+[i]This small patch addresses game breaking bugs![/i]
+
+[b]🪲BUGFIXES[/b]
+[list]
+[*]🐛 [b]Cross-Mod Compatibility:[/b] Fixed a game-breaking architectural bug where Cosmic Starfall would occasionally corrupt the vanilla engine's background simulation files upon startup. This resolves issues where running Cosmic Starfall alongside other mods (such as Cosmic Overhaul) would silently break their background scripts (such as the "MineableBy is a nil value" mining crash).
+[*]🐛 [b]Load Order Safety:[/b] Hardened the custom weapon generation scripts against the game's Virtual File System. Starfall's weapon injections will now always wait for the proper libraries to load, ensuring 100% stable integration without causing invisible backend syntax errors.
+[/list]
+
+[i]Version 2.0.1[/i]
+[hr][/hr]
+[h1]v2.0.4 🐛BUGFIX PATCH UPDATE!🐛[/h1]
+[hr][/hr]
+[b]🛠️ HOTFIX PATCH[/b]
+[i]This small patch fixes critical crashes with UI files![/i]
+
+[b]🪲BUGFIXES[/b]
+[list]
+[*]🐛 Fixed a critical crash where the game server would sometimes fail to start when trying to load Starfall's UI files. The server now correctly ignores these client-side visual menus!
+[/list]
