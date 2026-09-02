@@ -8,15 +8,28 @@ function StationDebug(_text)
 end
 
 local stationNames = {}
-stationNames['mx'] = "Megacomplex"%_t --Name
-
 local stationIcons = {}
-stationIcons['mx'] = 'data/textures/icons/MCXmegaComplex.png'
-
 local stationDesc = {}
-stationDesc['mx'] =
-"A megacomplex is a station that allows you to automatically create a logistics of resources between all stations docked to it. In addition, it contains various display and control functionality" %
-_t
+
+-- getStationName()/getStationDesc() are called from entity/stationfounder.lua's
+-- own top-level factory table (both server and client evaluate that file), so
+-- these values are needed on both sides - unlike a pure-UI table, they can't
+-- just be skipped with `if onClient() then`. %_t/%_T at unguarded global scope
+-- crashes a dedicated server on startup (no UI localization metatable
+-- server-side), but is safe inside a function body, so build the table there
+-- and call it once immediately - this keeps identical behavior/timing (values
+-- ready before anything can call the getters) while moving the %_t evaluation
+-- out of the dangerous global scope.
+local function _buildStationText()
+	stationNames['mx'] = "Megacomplex"%_t --Name
+
+	stationIcons['mx'] = 'data/textures/icons/MCXmegaComplex.png'
+
+	stationDesc['mx'] =
+	"A megacomplex is a station that allows you to automatically create a logistics of resources between all stations docked to it. In addition, it contains various display and control functionality" %
+	_t
+end
+_buildStationText()
 
 local stationInnerIcons = {}
 stationInnerIcons['mxoutput'] = 'data/textures/icons/MCXoutput.png'

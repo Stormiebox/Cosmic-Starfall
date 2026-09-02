@@ -27,8 +27,14 @@ local sf = string.format
 
 
 local locLines = {}
-locLines['activeauras'] = "Active effects"%_t
---locLines['sec'] = "s"%_t
+-- Deferred to onClient() because this script is attached to the player via
+-- Player():addScriptOnce() from server-side code - the server evaluates this
+-- file's module scope too, and %_t at unguarded global scope crashes a
+-- dedicated server on startup (no UI localization metatable server-side).
+if onClient() then
+    locLines['activeauras'] = "Active effects"%_t
+    --locLines['sec'] = "s"%_t
+end
 
 local activeAuras = {}
 --1 signature(str)

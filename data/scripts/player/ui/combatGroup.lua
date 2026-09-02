@@ -28,18 +28,24 @@ locIcons['mail'] = 'data/textures/icons/ui/ui_mail.png'
 
 
 local locLines = {}
-locLines['button_tooltip_expand'] = "Expand combat group window"%_t
-locLines['button_tooltip_collapse'] = "Collapse window"%_t
-locLines['button_tooltip_refresh'] = "Refresh window"%_t
+-- Deferred to onClient() because this script is attached to the player via
+-- Player():addScriptOnce() from server-side code - the server evaluates this
+-- file's module scope too, and %_t at unguarded global scope crashes a
+-- dedicated server on startup (no UI localization metatable server-side).
+if onClient() then
+    locLines['button_tooltip_expand'] = "Expand combat group window"%_t
+    locLines['button_tooltip_collapse'] = "Collapse window"%_t
+    locLines['button_tooltip_refresh'] = "Refresh window"%_t
 
-locLines['button_tooltip_collapseLeft'] = "Collapse invitation window"%_t
-locLines['button_tooltip_openadd'] = "Open invitation window"%_t
-locLines['label_caption_invited'] = "You are invited to the group!"%_t
-locLines['label_caption_noplayers'] = "Cannot find players to invite"%_t
-locLines['button_tooltip_leave'] = "Leave the group"%_t
---locLines['button_tooltip_transferleader'] = "Transfer leader"%_t
+    locLines['button_tooltip_collapseLeft'] = "Collapse invitation window"%_t
+    locLines['button_tooltip_openadd'] = "Open invitation window"%_t
+    locLines['label_caption_invited'] = "You are invited to the group!"%_t
+    locLines['label_caption_noplayers'] = "Cannot find players to invite"%_t
+    locLines['button_tooltip_leave'] = "Leave the group"%_t
+    --locLines['button_tooltip_transferleader'] = "Transfer leader"%_t
 
-locLines['window_name'] = "Combat group"%_t
+    locLines['window_name'] = "Combat group"%_t
+end
 
 local UIE = {}
 

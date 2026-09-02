@@ -21,6 +21,13 @@ local _secureSwitch = true --Despite the weird name, it just disables (false) th
 local restoredValue = nil
 
 local locLines = {}
+-- Deferred to onClient() because this script is attached to a station entity
+-- server-side (see entity/stationfounder.lua's complexCraft/complexCore.lua
+-- script entry) - the server evaluates this file's module scope too, and
+-- %_t at unguarded global scope crashes a dedicated server on startup (no UI
+-- localization metatable server-side). Nothing server-side ever reads
+-- locLines, since it only feeds the client-only megacomplex UI below.
+if onClient() then
 locLines['window_label'] = "Megacomplex interface"%_t
 locLines['tabprod_label'] = "Configuring import"%_t
 locLines['tabcons_label'] = "Configuring export"%_t
@@ -66,6 +73,7 @@ locLines['linegenerator_label_stationscargo'] = "Station cargo: "%_t
 locLines['linegenerator_tooltip_goodname'] = "Product name"%_t
 locLines['linegenerator_tooltip_goodamount'] = "Stock of goods in the station cargo"%_t
 locLines['linegenerator_tooltip_switcher'] = "Disable/enable this stream"%_t
+end
 
 local _colorG = ColorHSV(150, 0.64, 1)
 local _colorY = ColorHSV(60, 0.94, 0.78)

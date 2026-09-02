@@ -7,6 +7,14 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.13] - Dedicated Server Crash: Unguarded Translation at Global Scope
+
+### 🪲 Bug Fixes
+
+- [Bugfixed] **Dedicated Server Crash on Player Login (`alertCore.lua`, `auraCore.lua`, `combatGroup.lua`):** All three are attached to every player via `Player():addScriptOnce(...)` from server-side code in `player/init.lua`, and all three built a `locLines` table of UI text using `%_t` directly at module top-level (true global scope, not inside any function or `if onClient()` guard). The server evaluates a script's top-level statements immediately as the file loads - including files it just attached to a player - and the server's Lua state never binds the UI localization metatable those operators dispatch through, so this crashed the server the instant any of the three files loaded for a connecting player. Fixed by wrapping each file's `locLines` population in `if onClient() then ... end` - the table is never needed server-side (it only feeds client-only alert/HUD UI), so skipping it entirely on the server is safe and changes no client-visible behavior.
+- [Bugfixed] **Dedicated Server Crash on Megacomplex Station Placement (`complexCraft/complexCore.lua`):** Same root cause and same fix as above, but attached via an entity factory `scripts = {{script = "..."}}` entry (`entity/stationfounder.lua`) rather than `addScriptOnce` - the server crashed the moment a Megacomplex station was placed, since that's when the entity (and its attached scripts) actually gets created server-side.
+- [Bugfixed] **`Stations.lua`'s Station Name/Description Table Had the Same Unguarded Global-Scope Crash, But Needed a Different Fix:** Unlike the UI-only files above, `stationNames`/`stationDesc` are read from `entity/stationfounder.lua`'s own top-level factory table (`name = getStationName('mx')`), which both the server and client evaluate - so the values are needed on both sides, and `if onClient()` would have silently broken the server-side factory listing. Moved the table's construction into a function (`_buildStationText()`), called once immediately - `%_t`/`%_T` is safe inside a function body regardless of when it's called, only true top-level module code is dangerous (see `Avorion_Modding_Codex.md`'s "UI Development" section for the full mechanism).
+
 ## [v2.0.12] - Macrofield Projector Thread Safety
 
 ### 🪲 Bug Fixes

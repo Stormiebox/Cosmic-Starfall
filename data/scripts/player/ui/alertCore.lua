@@ -12,9 +12,17 @@ aC = {}
 local _initSystem = true
 
 local locLines = {}
-locLines['group_invite'] = "Invitation to a group"%_t
-locLines['group_kick'] = "You were kicked from the group"%_t
-locLines['weapon_turretdead'] = "Your turret is destroyed!"%_t
+-- Deferred to onClient() because this script is attached to the player via
+-- Player():addScriptOnce() from server-side code (see player/init.lua) - the
+-- server evaluates this file's module scope too, and %_t at unguarded global
+-- scope crashes a dedicated server on startup (no UI localization metatable
+-- server-side). Building the table itself is harmless once wrapped; nothing
+-- server-side ever reads locLines, since it only feeds client-only alert UI.
+if onClient() then
+    locLines['group_invite'] = "Invitation to a group"%_t
+    locLines['group_kick'] = "You were kicked from the group"%_t
+    locLines['weapon_turretdead'] = "Your turret is destroyed!"%_t
+end
 
 local _alertWindows = {}
 --1 window
