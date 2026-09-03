@@ -302,7 +302,7 @@ function combatGroup.RenderGroup()
 		buttons['add']:hide()
 	end
 
-	yPos = 0
+	local yPos = 0
 
 	for _, _rows in pairs(partyGuys) do
 		local elements = {}
@@ -660,7 +660,10 @@ end
 --This function is called by the server to create an incoming message.
 function combatGroup.remoteInvite()
 	if onServer() then
-		invokeClientFunction(Player(callingPlayer), 'remoteInvite')
+		-- Reached via invokeFactionFunction from the inviter's side, not a client RPC, so
+		-- callingPlayer isn't set here -- bare Player() means "myself" (matches lib/Tech.lua's
+		-- callTechAuraSelf()/callTechAuraTarget() for the same reason).
+		invokeClientFunction(Player(), 'remoteInvite')
 	else
 		invintationFlag = 40 --button blinking period
 		SLplaysoundUI('combatgroup_invite', 2)

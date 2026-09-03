@@ -77,7 +77,7 @@ function ApplyDebug()
 			local owner = Owner(Entity())
 			if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 		end
-		Entity():addScriptOnce("lib/entitydbg.lua")
+		Entity():addScriptOnce("data/scripts/lib/entitydbg.lua") -- full path per this workspace's addScriptOnce convention
 		DebugMsg('ApplyDebug')
 	end
 end
@@ -93,7 +93,7 @@ function ApplyOCC()
 			local owner = Owner(Entity())
 			if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
 		end
-		Entity():addScriptOnce("complexCraft/OCnode.lua")
+		Entity():addScriptOnce("data/scripts/complexCraft/OCnode.lua") -- full path per this workspace's addScriptOnce convention
 		DebugMsg('ApplyOCC')
 	end
 end

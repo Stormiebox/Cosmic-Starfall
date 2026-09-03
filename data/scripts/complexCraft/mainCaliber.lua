@@ -19,9 +19,13 @@ local MCfound = 0
 local DoNotShowAlert = false
 
 local locLines = {}
-locLines['overload'] =
-    "Overload of weapon systems! Weapons of the 'main caliber' class are set to exceed the safe limit. The rate of fire of the weapons is reduced by " %
-    _t
+-- Deferred to onClient(): %_t at unguarded global scope crashes a dedicated server on
+-- startup.
+if onClient() then
+    locLines['overload'] =
+        "Overload of weapon systems! Weapons of the 'main caliber' class are set to exceed the safe limit. The rate of fire of the weapons is reduced by " %
+        _t
+end
 
 local _colorR = ColorHSV(16, 0.97, 0.84)
 

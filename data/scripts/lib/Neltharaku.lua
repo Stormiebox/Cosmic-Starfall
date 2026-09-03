@@ -68,7 +68,7 @@ function Neltharaku.TSRbase(_value)
 				_text = _text .. 'table(' .. tostring(#_row) .. ')'
 				include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 			else
-				text = _text .. 'non-table|'
+				_text = _text .. 'non-table|'
 				include("cosmicvaultdebug").info("Cosmic Starfall", _text, _row)
 			end
 		end

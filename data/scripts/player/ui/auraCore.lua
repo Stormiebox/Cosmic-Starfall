@@ -273,6 +273,8 @@ end
 function auraCore.InterruptAura(signature, sourcename)
 	if onServer() then
 		invokeClientFunction(Player(), 'InterruptAura', signature, sourcename)
+		-- activeAuras is only ever populated client-side.
+		return
 	end
 
 	for _ind, _rows in pairs(activeAuras) do

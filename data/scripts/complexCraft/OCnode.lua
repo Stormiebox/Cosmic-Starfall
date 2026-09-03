@@ -117,9 +117,11 @@ function OCore.initUI()
 		table.insert(rectPicker, _rectResult)
 	end
 
+	-- Each textbox's callback must match its own letter: colorS with colorChangeS, colorV
+	-- with colorChangeV.
 	colorH = OCCwindow:createTextBox(rectPicker[1], 'colorChangeH')
-	colorS = OCCwindow:createTextBox(rectPicker[2], 'colorChangeV')
-	colorV = OCCwindow:createTextBox(rectPicker[3], 'colorChangeS')
+	colorS = OCCwindow:createTextBox(rectPicker[2], 'colorChangeS')
+	colorV = OCCwindow:createTextBox(rectPicker[3], 'colorChangeV')
 	colorResultRect = OCCwindow:createProgressBar(rectPicker[4], ColorHSV(264, 0.6, 1))
 	colorResultRect.progress = 1
 
@@ -160,7 +162,8 @@ function OCore.aquaSave()
 	-- {'data1','data2'},
 	-- 123
 	-- }
-	Aquaflow.createNewFileC('AquaTest', 'Meow!')
+	-- Uses the same saveData() stub OCore.tryNewFile() already uses below.
+	Aquaflow.saveData('AquaTest', 'Meow!')
 	--Aquaflow.save data('o cnode',test table)
 end
 
@@ -289,12 +292,16 @@ function OCore.inventoryCheck()
 	Debug('inventoryCheck attempt')
 	local _name = 'Assault'
 	local turret = Player():getInventory():find(14)
-	if turret then
-		if turret.flavorText then Debug('turret flavorText: ' .. turret.flavorText) end
-		if turret.category then Debug('turret category: ' .. turret.category) end
-		if turret.weaponName then Debug('turret weaponName: ' .. turret.weaponName) end
-		Debug('turret name: ' .. turret.name)
+	if not turret then
+		-- find(14) returns nil when nothing sits at that inventory slot.
+		Debug('inventoryCheck: no item at inventory slot 14')
+		return
 	end
+	if turret.flavorText then Debug('turret flavorText: ' .. turret.flavorText) end
+	if turret.category then Debug('turret category: ' .. turret.category) end
+	if turret.weaponName then Debug('turret weaponName: ' .. turret.weaponName) end
+	Debug('turret name: ' .. turret.name)
+
 	local wpn = turret:getWeapons()
 	TSR(wpn, 'wpn')
 	local iconpath = wpn.icon

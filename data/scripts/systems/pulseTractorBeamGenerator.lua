@@ -203,12 +203,6 @@ function getBonuses(seed, rarity, permanent)
 	return _bonus1, _bonus2
 end
 
--- function onInstallCheck()
-
--- End
-
-callable(nil, "onInstallCheck")
-
 function onInstalled(seed, rarity, permanent)
 	local _cv = Entity():getValue("isPulseGenerator")
 
@@ -446,6 +440,27 @@ function getComparableValues(seed, rarity) --I don’t understand why this is ne
 	local bonus = {}
 
 	return base, bonus
+end
+
+-- Self-contained state (no cross-ship target/FX, unlike macrofieldProjector.lua), so the
+-- full active-phase state is safe to persist, matching repairDrones.lua/
+-- XperimentalHypergenerator.lua's sibling pattern.
+function secure()
+	return {
+		_rarity = _rarity,
+		GeneratorIsReady = GeneratorIsReady,
+		GeneratorIsWorking = GeneratorIsWorking,
+		GeneratorAllowedPulses = GeneratorAllowedPulses
+	}
+end
+
+function restore(data_in)
+	if data_in then
+		_rarity = data_in._rarity or 0
+		GeneratorIsReady = data_in.GeneratorIsReady or 0
+		GeneratorIsWorking = data_in.GeneratorIsWorking or 0
+		GeneratorAllowedPulses = data_in.GeneratorAllowedPulses or 0
+	end
 end
 
 function initialize()

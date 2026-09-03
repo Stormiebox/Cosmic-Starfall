@@ -132,7 +132,7 @@ function MX.TSRbase(_value)
 				_text = _text .. 'table(' .. tostring(#_row) .. ')'
 				include("cosmicvaultdebug").info("Cosmic Starfall", _text)
 			else
-				text = _text .. 'non-table|'
+				_text = _text .. 'non-table|'
 				include("cosmicvaultdebug").info("Cosmic Starfall", _text, _row)
 			end
 		end
@@ -1534,6 +1534,12 @@ end
 
 --It's just a mess of the council
 function MX.ServerDebugPurge()
+	-- Debug-only RPC; restrict to this megacomplex's own owner/alliance.
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
+	end
 	MX.DebugMsg('PurgeAttempt')
 	local _good = tableToGood(goods['Energy Cell'])
 
@@ -1731,7 +1737,11 @@ end
 function MX.restore(values)
 	MX.DebugMsg('restore attempt')
 
-	local restoredValue = secureTable
+	-- restoredValue is the module-scope local restoreOperate() reads below; values is
+	-- whatever MX.secure() returned, saved as {secureTable = {...}}.
+	if values then
+		restoredValue = values.secureTable
+	end
 	MX.restoreOperate()
 end
 
@@ -1746,19 +1756,19 @@ function MX.restoreOperate()
 
 	--Loading Saved Values
 	if restoredValue then
-		local isProd = restored[1]
-		local isCons = restored[2]
-		local isStor = restored[3]
+		local isProd = restoredValue[1]
+		local isCons = restoredValue[2]
+		local isStor = restoredValue[3]
 
-		if #isProd < 1 and isCons < 1 and isStor < 1 then
+		if #isProd < 1 and #isCons < 1 and #isStor < 1 then
 			Debug('Restore failed: empty tables')
 			return
 		end
 
 		if isProd and isCons and isStor then
-			tableProduction = restored[1]
-			tableConsumption = restored[2]
-			tableStorage = restored[3]
+			tableProduction = isProd
+			tableConsumption = isCons
+			tableStorage = isStor
 			MX.DebugMsg('restore tables: online')
 		end
 	else

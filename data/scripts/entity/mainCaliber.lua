@@ -21,9 +21,14 @@ local DoNotShowAlert = false
 local initSW = true
 
 local locLines = {}
-locLines['overload'] =
-"Overload of weapon systems! Weapons of the 'main caliber' class are set to exceed the safe limit. The rate of fire of the weapons is reduced by " %
-_t
+-- This script runs on the server too (attached to every ship/station via entity/init.lua),
+-- and %_t at unguarded global scope crashes a dedicated server on startup. Safe to defer:
+-- locLines['overload'] is only read from mainCaliber.visuals(), which is client-only.
+if onClient() then
+    locLines['overload'] =
+    "Overload of weapon systems! Weapons of the 'main caliber' class are set to exceed the safe limit. The rate of fire of the weapons is reduced by " %
+    _t
+end
 
 _colorG = ColorHSV(150, 0.64, 1)
 _colorY = ColorHSV(60, 0.94, 0.78)

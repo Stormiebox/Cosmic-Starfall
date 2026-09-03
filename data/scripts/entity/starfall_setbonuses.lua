@@ -1,6 +1,8 @@
 package.path = package.path .. ";data/scripts/lib/?.lua"
 package.path = package.path .. ";data/scripts/?.lua"
 include("callable")
+-- Needed for WeaponTypes.getTypeOfItem() below -- see recalculateBonuses().
+include("weapontypeutility")
 -- namespace StarfallSetBonuses
 StarfallSetBonuses = {}
 local activeSets = {}
@@ -69,8 +71,7 @@ function StarfallSetBonuses.recalculateBonuses()
         if template then
             local weapons = {template:getWeapons()}
             if #weapons > 0 then
-                local wType = weapons[1].weaponType
-                local wCat = weapons[1].weaponCategory
+                local wType = WeaponTypes.getTypeOfItem(weapons[1])
 
                 if wType == WeaponType.MiningLaser or wType == WeaponType.RawMiningLaser then
                     turretCount.miner = turretCount.miner + 1
@@ -90,7 +91,6 @@ function StarfallSetBonuses.recalculateBonuses()
     end
 
     local newlyActiveSets = {}
-    local previouslyActiveSets = activeSets
     activeSets = {}
 
     -- Removed manual damageMultiplier division

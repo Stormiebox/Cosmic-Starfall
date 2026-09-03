@@ -109,6 +109,12 @@ end
 callable(nil, "DoServerMeow")
 
 function DamageTarget() --for debug
+	-- Debug-only RPC; restrict to this ship's own owner/alliance.
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
+	end
 	local tgtId = Entity().selectedObject
 	Entity(tgtId).durability = Entity(tgtId).durability - 100000
 	if Entity(tgtId):hasComponent(ComponentType.Shield) then Entity(tgtId).shieldDurability = Entity(tgtId).shieldDurability - 400000 end
@@ -163,21 +169,20 @@ local PulsarCooldown = 135        --seconds, rollback
 local PulsarTreshold = 10         --percentage, limitation of the minimum volume of the shield for work
 
 --Automatic Variables
+-- Visual feedback runs through updateStatusEffects()'s addShipProblem/removeShipProblem
+-- calls below, not through a live FX object handle.
 local VeilIsReady = 0
 local VeilIsWorking = false
 local VeilRepairAmount = 0
-local VeilRefrFX = nil
 
 local RecupIsReady = 0
 local RecupIsWorking = 0
 local RecupHealAmount = 0
 local RecupStoredAmount = 0
 local RecupMaximumAmount = 0
-local RecupBoxFX = nil
 
 local MultiphaseIsReady = 0
 local MultiphaseIsWorking = 0
-local MultiphaseRefrFX = nil
 local MultiphaseAlreadyImp = false
 local MultiphaseStoredRechargeTime = 0
 
@@ -185,7 +190,6 @@ local PulsarIsReady = 0
 local PulsarIsWorking = 0
 local PulsarOnInnerCooldown = 0
 local PulsarShieldDamage = 0
-local PulsarLaserFX = {}
 
 
 
@@ -1184,6 +1188,51 @@ function getComparableValues(seed, rarity)
 	local bonus = {}
 
 	return base, bonus
+end
+
+-- Persists ability cooldowns/timers across a sector reload or server restart.
+function secure()
+	return {
+		_rarity = _rarity,
+		VeilIsReady = VeilIsReady,
+		VeilIsWorking = VeilIsWorking,
+		VeilRepairAmount = VeilRepairAmount,
+		RecupIsReady = RecupIsReady,
+		RecupIsWorking = RecupIsWorking,
+		RecupHealAmount = RecupHealAmount,
+		RecupStoredAmount = RecupStoredAmount,
+		RecupMaximumAmount = RecupMaximumAmount,
+		MultiphaseIsReady = MultiphaseIsReady,
+		MultiphaseIsWorking = MultiphaseIsWorking,
+		MultiphaseAlreadyImp = MultiphaseAlreadyImp,
+		MultiphaseStoredRechargeTime = MultiphaseStoredRechargeTime,
+		PulsarIsReady = PulsarIsReady,
+		PulsarIsWorking = PulsarIsWorking,
+		PulsarOnInnerCooldown = PulsarOnInnerCooldown,
+		PulsarShieldDamage = PulsarShieldDamage
+	}
+end
+
+function restore(data_in)
+	if data_in then
+		_rarity = data_in._rarity or 0
+		VeilIsReady = data_in.VeilIsReady or 0
+		VeilIsWorking = data_in.VeilIsWorking or false
+		VeilRepairAmount = data_in.VeilRepairAmount or 0
+		RecupIsReady = data_in.RecupIsReady or 0
+		RecupIsWorking = data_in.RecupIsWorking or 0
+		RecupHealAmount = data_in.RecupHealAmount or 0
+		RecupStoredAmount = data_in.RecupStoredAmount or 0
+		RecupMaximumAmount = data_in.RecupMaximumAmount or 0
+		MultiphaseIsReady = data_in.MultiphaseIsReady or 0
+		MultiphaseIsWorking = data_in.MultiphaseIsWorking or 0
+		MultiphaseAlreadyImp = data_in.MultiphaseAlreadyImp or false
+		MultiphaseStoredRechargeTime = data_in.MultiphaseStoredRechargeTime or 0
+		PulsarIsReady = data_in.PulsarIsReady or 0
+		PulsarIsWorking = data_in.PulsarIsWorking or 0
+		PulsarOnInnerCooldown = data_in.PulsarOnInnerCooldown or 0
+		PulsarShieldDamage = data_in.PulsarShieldDamage or 0
+	end
 end
 
 function initialize()

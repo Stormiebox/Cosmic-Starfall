@@ -4,13 +4,18 @@ include("stringutility")
 include('Armory')
 
 local locLines = {}
-locLines['weaponclass'] = "Weapon class"%_t
-locLines['weaponclass_light'] = "Light"%_t
-locLines['weaponclass_heavy'] = "Heavy"%_t
-locLines['weaponclass_mc'] = "Main Caliber"%_t
-locLines['weaponclass_Standard'] = "Standard"%_t
-locLines['projspeed'] = "Projectile speed"%_t
-locLines['instant'] = "Instant"%_t
+-- This lib runs on the server too (include()'d by several systems/ item scripts), and
+-- %_t at unguarded global scope crashes a dedicated server on startup. Safe to defer:
+-- locLines is only read inside makeTurretTooltip(), which is client-only.
+if onClient() then
+    locLines['weaponclass'] = "Weapon class"%_t
+    locLines['weaponclass_light'] = "Light"%_t
+    locLines['weaponclass_heavy'] = "Heavy"%_t
+    locLines['weaponclass_mc'] = "Main Caliber"%_t
+    locLines['weaponclass_Standard'] = "Standard"%_t
+    locLines['projspeed'] = "Projectile speed"%_t
+    locLines['instant'] = "Instant"%_t
+end
 
 local old_makeTurretTooltip = makeTurretTooltip
 function makeTurretTooltip(turret, other, tooltipType)

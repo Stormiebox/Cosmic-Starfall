@@ -541,7 +541,9 @@ function TurretGenerator.generateSOLARTORPEDOTurret(rand, dps, tech, material, r
     local shootingTime = 5
     TurretGenerator.createBatteryChargeCooling(result, rechargeTime, shootingTime)
 
-    TurretGenerator.scale(rand, result, WeaponType.SOLARTORPEDO, tech, 0.5)
+    -- scaleSolar guarantees the coaxial mount at 5+ slots instead of the generic scale()'s
+    -- 25% roll.
+    TurretGenerator.scaleSolar(rand, result, WeaponType.SOLARTORPEDO, tech, 0.5)
     TurretGenerator.addSpecialties(rand, result, WeaponType.SOLARTORPEDO)
 
     result:updateStaticStats()

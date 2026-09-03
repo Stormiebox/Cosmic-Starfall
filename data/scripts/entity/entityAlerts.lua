@@ -6,7 +6,6 @@ include('Neltharaku')
 
 -- namespace eA
 eA = {}
-local _opByPlayer = false
 local _initSystem = true
 
 _colorG = ColorHSV(150, 0.64, 1)
@@ -34,13 +33,6 @@ function eA.update(timeStep)
 	if _initSystem then
 		_initSystem = false
 		eA.initSystem()
-	end
-
-	if not (Player()) or not (Entity()) or Entity().index ~= Player().craftIndex then
-		_opByPlayer = false
-		return
-	else
-		_opByPlayer = true
 	end
 end
 

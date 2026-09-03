@@ -243,6 +243,12 @@ end
 callable(nil, "RestoreEnergy")
 
 function DamageTarget() --for debug
+	-- Debug-only RPC; restrict to this ship's own owner/alliance.
+	if callingPlayer then
+		local player = Player(callingPlayer)
+		local owner = Owner(Entity())
+		if not player or not owner or (owner.factionIndex ~= player.index and owner.factionIndex ~= player.allianceIndex) then return end
+	end
 	local tgtId = Entity().selectedObject
 	--Entity(tgtId).durability = Entity(tgtId).durability -100000
 	if Entity(tgtId):hasComponent(ComponentType.Shield) then Entity(tgtId).shieldDurability = Entity(tgtId).shieldDurability - 400000 end
@@ -1338,6 +1344,32 @@ function getComparableValues(seed, rarity)
 	end
 
 	return base, bonus
+end
+
+-- Only cooldowns persist. Active-phase state (RenovatingRay/ShieldBooster/ShieldSynchronizer
+-- lock onto another ship via a live Entity reference and a cross-ship laser FX from
+-- raycast.lua) doesn't survive a sector reload or server restart -- the target's own
+-- raycast.lua instance resets too, so there is no live FX/target to resume. Resetting those
+-- to idle on restore is correct, not a gap; only the cooldown timers need to persist to close
+-- the reload-to-bypass-cooldown exploit.
+function secure()
+	return {
+		_rarity = _rarity,
+		RepairWaveIsReady = RepairWaveIsReady,
+		RenovatingRayIsReady = RenovatingRayIsReady,
+		ShieldBoosterIsReady = ShieldBoosterIsReady,
+		ShieldSynchronizerIsReady = ShieldSynchronizerIsReady
+	}
+end
+
+function restore(data_in)
+	if data_in then
+		_rarity = data_in._rarity or 0
+		RepairWaveIsReady = data_in.RepairWaveIsReady or 0
+		RenovatingRayIsReady = data_in.RenovatingRayIsReady or 0
+		ShieldBoosterIsReady = data_in.ShieldBoosterIsReady or 0
+		ShieldSynchronizerIsReady = data_in.ShieldSynchronizerIsReady or 0
+	end
 end
 
 function initialize()

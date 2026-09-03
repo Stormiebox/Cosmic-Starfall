@@ -1,14 +1,27 @@
-[i]Version 2.0.13[/i]
+[i]Versions 2.0.13 &  2.0.14[/i]
 [hr][/hr]
-[h1]v2.0.13 🐛BUGFIX UPDATE!🐛[/h1]
+[h1]v2.0.13 - v2.0.14 🐛 FULL BUGFIX & SECURITY PASS 🐛[/h1]
 [hr][/hr]
 [b]🛠️ HOTFIX PATCH[/b]
-[i]This hotfix fixes a dedicated server crash that could happen when a player logged in or placed a Megacomplex station.[/i]
+[i]Combined bugfix patch versions. Fixes a save that silently dropped your Megacomplex setup, restores several set bonuses that never worked, closes a couple of debug commands that any player could abuse, and cleans up a handful of smaller bugs and crashes.[/i]
 
 [b]🪲BUGFIXES[/b]
 [list]
+[*]🐛 [b]Megacomplex Settings Not Saving:[/b] Your Megacomplex's production, consumption, and storage setup was silently thrown away every time the server restarted or you left and came back to the sector. It now actually saves and loads like it was supposed to.
+[*]🔒 [b]Closed Two Debug Commands:[/b] Two leftover debug commands could be triggered by any player, not just the ship's owner — one could delete a Megacomplex's cargo, another could damage a targeted ship for free. Both are now locked to the ship's own owner, matching how the rest of the mod's abilities already work.
+[*]⚔️ [b]Set Bonuses Restored:[/b] The Mining, Salvage, Point Defense, Artillery, Energy, and Launcher Doctrine set bonuses (the "5+ of one weapon type" bonuses) never actually triggered, no matter your loadout. They now work correctly.
+[*]💥 [b]Server Crash Fixes:[/b] Fixed two more scripts that could crash a dedicated server on load — one attached to every ship in the game, one attached to four of the mod's activatable systems. Same root cause as the crash fixed in v2.0.13, just in files that pass missed.
+[*]🎨 [b]Color Picker Fix:[/b] The Saturation and Value sliders in the debug color picker were swapped. Fixed.
+[*]🐛 [b]Various Small Bugs:[/b] Fixed a few crash-on-click bugs in the debug/experimental panel, a wrong-player bug in the group invite system, a missing debug-log line, and some inactive dead code cleanup.
 [*]🐛 [b]Server Crash On Login:[/b] Fixed a dedicated server crash caused by the combat group, aura, and alert HUD scripts every player loads on connect.
 [*]🐛 [b]Server Crash On Megacomplex Placement:[/b] Fixed the same class of crash triggered by placing a Megacomplex station.
+[/list]
+
+[b]🚀 OPTIMIZATION[/b]
+[list]
+[*]🚀 [b]Removed Pointless Per-Second Work:[/b] Every ship in the game was running a small useless calculation once a second whose result was never actually used anywhere. Removed.
+[*]🚀 [b]Bastion System Cooldowns Now Persist:[/b] The Bastion System's four abilities could have their cooldowns reset for free just by leaving and re-entering the sector. Cooldowns now save and load properly, like the mod's other systems already do.
+[*]🚀 [b]Macrofield Projector & Pulse Tractor Beam Cooldowns Now Persist:[/b] Same fix as above, applied to two more systems — their cooldowns can no longer be reset by leaving and re-entering the sector.
 [/list]
 
 [i]Version 2.0.12[/i]

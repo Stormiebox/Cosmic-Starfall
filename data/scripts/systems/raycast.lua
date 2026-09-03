@@ -86,10 +86,11 @@ function checkDoubleCast(_row)
 	local source = type(_row[2]) == "string" and Entity(_row[2]) or _row[2]
 	local target = type(_row[3]) == "string" and Entity(_row[3]) or _row[3]
 	if not valid(source) or not valid(target) then return false end
-	local _sourceID = source.id
 	local _targetID = target.id
 	local isTarget = Entity().id == _targetID
-	if (Player(_sourceID).name == Player(_targetID).name) and isTarget then return true end
+	-- Owner() resolves an entity's controlling faction/player directly from the Entity object;
+	-- Player() only accepts a player index, not an entity Uuid.
+	if (Owner(source).name == Owner(target).name) and isTarget then return true end
 	return false
 end
 
