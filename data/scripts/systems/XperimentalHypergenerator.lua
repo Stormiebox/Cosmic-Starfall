@@ -146,7 +146,12 @@ function xFocusActivate()
 
 		DebugMsg(tostring(FocusedBonusRange) .. "FocusedBonusRange")
 
-		CosmicVaultBuffs.applyBuff(Entity().id, "HyperspaceReach", FocusedBonusRange, 99999, "XH_FocusedBonusRange")
+		-- FocusedBonusRange is an absolute range quantity (also used by the cooldown formula
+		-- below), not a scale factor -- passing it straight into applyBuff produced a
+		-- multiplier in the hundreds (delta = FocusedBonusRange - 1.0), i.e. tens of thousands
+		-- of percent range instead of the advertised +FocusedIncrease%. The scale factor
+		-- applyBuff actually expects is 1 + (percent/100).
+		CosmicVaultBuffs.applyBuff(Entity().id, "HyperspaceReach", 1.0 + FocusedIncrease / 100, 99999, "XH_FocusedBonusRange")
 
 		DebugMsg(tostring(hse.range) .. "hse.range after conversion")
 
@@ -325,8 +330,11 @@ function xQuantumTrigger()
 	}
 	callTechAuraSelf(_aura)
 
-	--Fire rate penalty
-	CosmicVaultBuffs.applyBuff(Entity().id, "FireRate", -QuantumFirerateSlow / 100, QuantumWorkingTimer, "XH_QuantumFirerateSlow")
+	-- Fire rate penalty. CosmicVaultBuffs.applyBuff's multiplier is a scale factor
+	-- (1.0 = unchanged), not a delta -- the negative delta produced a nonsensical negative
+	-- FireRate multiplier instead of the intended -QuantumFirerateSlow%. Correct scale
+	-- factor is 1 - (percent/100).
+	CosmicVaultBuffs.applyBuff(Entity().id, "FireRate", 1.0 - QuantumFirerateSlow / 100, QuantumWorkingTimer, "XH_QuantumFirerateSlow")
 	broadcastInvokeClientFunction( 'UIplaysound', 0)
 end
 

@@ -7,6 +7,15 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.15] - Emergency Hotfix
+
+### 🪲 Bug Fixes
+- [Bugfix] **Set Bonus Recalculation Wiped Every Installed Subsystem's Own Passive Bonuses (starfall_setbonuses.lua):** `recalculateBonuses()` (fires on every turret add/remove/destroy and on every sector reload or server restart) called `entity:removeScriptBonuses()` before reapplying its own doctrine/set-bonus deltas. That call clears every script-added bonus on the entity, not just this script's own — so it was also wiping each individually-installed subsystem's own base passive bonuses (Bastion System's shields, Overpowered Core's energy, etc.), which are applied once at their own install and never reapplied by this file. Since this runs on nearly any loadout change, a ship's subsystem bonuses could vanish the moment a turret was added or removed. Now tracks its own set-bonus keys and removes only those via the scoped `entity:removeBonus(key)`.
+- [Bugfix] **Veil's Fire Rate Penalty Computed a Negative Multiplier (bastionSystem.lua):** `CosmicVaultBuffs.applyBuff`'s multiplier is a scale factor (`1.0` = unchanged), not a raw delta. Veil's "-25% FireRate" passed `-VeilFireRate * 0.01` (`-0.25`) directly, which computed a nonsensical negative FireRate multiplier instead of the intended -25%. Fixed to `1.0 - VeilFireRate * 0.01`.
+- [Bugfix] **Multiphase's Shield Recharge Reset Used a Broken Formula (bastionSystem.lua):** Multiphase tries to make shields recharge instantly after a hit while active. It computed this by negating the ship's current recharge delay and passing that as the buff multiplier, which (same scale-factor-vs-delta issue as above) produced a negative multiplier instead of reliably zeroing the stat out. Replaced with a direct scale factor of `0`.
+- [Bugfix] **Quantum's Fire Rate Penalty Had the Same Negative-Multiplier Bug (XperimentalHypergenerator.lua):** Same fix as Veil's above, applied to the Quantum Field's "-60% FireRate" penalty: `1.0 - QuantumFirerateSlow / 100`.
+- [Bugfix] **Focused Jump Granted Roughly 60,000% Hyperspace Range Instead of +120% (XperimentalHypergenerator.lua):** The buff call passed `FocusedBonusRange`, an absolute range quantity (also used elsewhere by the cooldown formula), directly as the scale factor. Since that value is typically in the hundreds, the resulting multiplier was enormous. Fixed the buff call to pass the correct scale factor (`1.0 + FocusedIncrease / 100`) without touching `FocusedBonusRange` itself, which the cooldown formula still needs unchanged.
+
 ## [v2.0.14] - Full Workspace Bugfix & Optimization Sweep
 
 A full line-by-line pass over all 70 `.lua` files in `data/scripts/`, per this workspace's standing `ReviewCode` protocol. No new features and no breaking API changes to dependent mods; patch-version bump only.

@@ -399,8 +399,15 @@ function VeilOperateSetup()
 	if VeilIsWorking then
 		CosmicVaultBuffs.terminateBuff(entityId, "BastionDamageReduction")
 		CosmicVaultBuffs.terminateBuff(entityId, "BastionFireRate")
+		-- "DamageReduction" is not a real StatsBonuses stat and has no matching case in
+		-- cosmicbuff.lua -- this call is a silent no-op today (no native damage-resistance
+		-- lever exists; implementing this needs a custom flag intercepted at the damage-calc
+		-- site, like the Codex's documented pattern for non-native stats, not this API).
 		CosmicVaultBuffs.applyBuff(entityId, "DamageReduction", VeilResistance * 0.01, VeilCooldown, "BastionDamageReduction")
-		CosmicVaultBuffs.applyBuff(entityId, "FireRate", -VeilFireRate * 0.01, VeilCooldown, "BastionFireRate")
+		-- CosmicVaultBuffs.applyBuff's multiplier is a scale factor (1.0 = unchanged), not a
+		-- delta -- -VeilFireRate*0.01 (-0.25) produced a nonsensical negative FireRate
+		-- multiplier instead of the intended -25%. Correct scale factor is 1 - (percent/100).
+		CosmicVaultBuffs.applyBuff(entityId, "FireRate", 1.0 - VeilFireRate * 0.01, VeilCooldown, "BastionFireRate")
 		return
 	end
 	
@@ -698,10 +705,12 @@ function MultiphaseOperateSetup()
 
 			Entity():setValue("BastionMultiphaseRestoreTimer", Shield(Entity().index).timeUntilRechargeAfterHit)
 
-			local _reValue = (Shield(Entity().index).timeUntilRechargeAfterHit) * -1
-			DebugMsg("MultiphaseOperateSetup| _reValue is " .. tostring(_reValue))
-			CosmicVaultBuffs.applyBuff(Entity().id, "ShieldTimeUntilRechargeAfterHit", _reValue, MultiphaseLength + MultiphaseLengthR * _rarity, "BastionMultiphaseRechargeTimer")
-			--Entity():add multiplyable bias(stats bonuses.shield time until recharge after hit,2)
+			-- Goal is near-instant shield recharge after a hit while Multiphase is active.
+			-- CosmicVaultBuffs.applyBuff's multiplier is a scale factor (1.0 = unchanged), not
+			-- a raw delay value -- negating the current delay and passing it directly produced
+			-- a nonsensical negative multiplier instead of zeroing the stat out. A scale factor
+			-- of 0 correctly reduces ShieldTimeUntilRechargeAfterHit to 0 for the buff's duration.
+			CosmicVaultBuffs.applyBuff(Entity().id, "ShieldTimeUntilRechargeAfterHit", 0, MultiphaseLength + MultiphaseLengthR * _rarity, "BastionMultiphaseRechargeTimer")
 			DebugMsg("MultiphaseOperateSetup| afterTimeUntilRechargeAfterHit: " .. tostring(Shield(Entity().index).timeUntilRechargeAfterHit))
 		end
 

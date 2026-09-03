@@ -9,6 +9,17 @@ local activeSets = {}
 
 -- Cached tracking variables
 local currentDamageBuff = 1.0
+-- Handles for bonuses THIS script added, so recalculateBonuses() can remove exactly its own
+-- set-bonus/doctrine deltas on recompute instead of entity:removeScriptBonuses(), which clears
+-- EVERY script-added bonus on the entity -- including each individually-installed subsystem's
+-- own base passive bonuses (Bastion System's own shield/regen kit, Overpowered Core's own
+-- energy kit, etc., all applied once at their own onInstalled()). Since onSystemsChanged fires
+-- on every turret/subsystem change and restore() fires on every reload, the sweep was silently
+-- wiping every installed subsystem's own stats on nearly any loadout change or server restart.
+-- Same collateral-wipe bug pattern already found and fixed in Cosmic Ascendancy's
+-- ascendantaegis.lua and Cosmic Vault's cosmicbuff.lua/cv_weather_debuff.lua. Not persisted --
+-- see restore()'s own existing comment that bonus keys are volatile across a restart.
+local activeBonusKeys = {}
 
 function StarfallSetBonuses.initialize()
     if onServer() then
@@ -96,15 +107,20 @@ function StarfallSetBonuses.recalculateBonuses()
     -- Removed manual damageMultiplier division
     local newDamageBuff = 1.0
 
-    -- Clear old modifiers safely
-    entity:removeScriptBonuses()
+    -- Clear only this script's own previously-applied set-bonus/doctrine deltas.
+    for _, key in pairs(activeBonusKeys) do
+        entity:removeBonus(key)
+    end
+    activeBonusKeys = {}
 
     local function applyBuff(stat, value, isMultiplier)
+        local key
         if isMultiplier then
-            entity:addBaseMultiplier(stat, value)
+            key = entity:addBaseMultiplier(stat, value)
         else
-            entity:addMultiplyableBias(stat, value)
+            key = entity:addMultiplyableBias(stat, value)
         end
+        table.insert(activeBonusKeys, key)
     end
 
     -- EVALUATE SUBSYSTEM SETS
