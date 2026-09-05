@@ -7,6 +7,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.16]
+
+### 🔗 Cross-Mod Integration
+- [Integration] **Starfall's Shop-Eligible Systems Registered With Cosmic Vault's New Upgrade Category API (`lib/upgradegenerator.lua`):** Registers all 6 of Starfall's shop-generatable systems into Cosmic Vault's new `cosmicvaultupgradecategories.lua` (v3.7.0): `subspaceCargo.lua` → Civilian, `repairDrones.lua` → Military, `bastionSystem.lua` → Military, `macrofieldProjector.lua` → Military, `pulseTractorBeamGenerator.lua` → Misc, `XperimentalHypergenerator.lua` → Misc. Without this, these systems would default to Misc in any category-based shop UI (Cosmic Overhaul's new split Equipment Dock tabs, see that mod's v5.5.0 changelog) instead of showing up under their correct category. Bumped the Cosmic Vault dependency minimum to 3.7.0, since the category API this relies on doesn't exist in earlier versions.
+
 ## [v2.0.15] - Emergency Hotfix
 
 ### 🪲 Bug Fixes
