@@ -1,6 +1,12 @@
 # ⚙️ Cosmic Starfall - Detailed Features
 
+![Version](https://img.shields.io/badge/version-2.0.16-6f42c1?style=flat-square)
+![Avorion](https://img.shields.io/badge/Avorion-2.5.13-2f81f7?style=flat-square)
+
 Welcome to the **Cosmic Starfall** official wiki! This page contains the full, detailed documentation for the mod, a modernization and continuation of the original **Starfall** concept for current Avorion-era mod stacks.
+
+> [!TIP]
+> If you just want a friendly tour of what the mod does, read [`PLAYER_GUIDE.md`](PLAYER_GUIDE.md) instead, or check the in-game **Player Wiki UI Tab**. See [`README.md`](README.md) for installation.
 
 **Cosmic Starfall is focused on:**
 - Preserving high-tech identity and flavor.
@@ -348,4 +354,12 @@ During the Cosmic Series Final QA Audit (v3.0+), several massive backend systems
 ### 🛠️ Vanilla Bug Fixes
 - **Scout Mission Fix:** Patched a massive, long-standing vanilla bug where Scout Missions would completely skip and ignore Faction Headquarters sectors because the native dialogue trees were missing the template definition.
 </details>
+
+---
+
+<div align="center">
+
+[⬆ Back to top](https://github.com/Stormiebox/Cosmic-Starfall/wiki/Features-and-Enhancements) · [🌌 README](https://github.com/Stormiebox/Cosmic-Starfall) · [📘 Player Guide](PLAYER_GUIDE.md)
+
+</div>
 

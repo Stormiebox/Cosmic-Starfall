@@ -1,6 +1,12 @@
-# Cosmic Starfall - Player Guide
+# 📘 Cosmic Starfall - Player Guide
+
+![Version](https://img.shields.io/badge/version-2.0.16-6f42c1?style=flat-square)
+![Avorion](https://img.shields.io/badge/Avorion-2.5.13-2f81f7?style=flat-square)
 
 Welcome to **Cosmic Starfall**, an expansive sci-fi fantasy arsenal and subsystem mod that brings powerful, high-tech weaponry and advanced utility modules to your Avorion universe!
+
+> [!TIP]
+> For exact numbers and mechanic-by-mechanic detail, see [`WIKI.md`](WIKI.md) or the in-game **Player Wiki UI Tab**. See [`README.md`](README.md) for installation.
 
 ## What is Cosmic Starfall?
 Cosmic Starfall adds a massive suite of new, custom-built weapons and starship subsystems designed to look spectacular and offer new ways to conquer the galaxy. Whether you are building an invincible shield-tanking dreadnought, a carrier loaded with nanobot repair beams, or a rapid-fire plasma artillery platform, Starfall provides the tools you need.
@@ -151,4 +157,12 @@ During the Cosmic Series Final QA Audit (v3.0+), several massive backend systems
 ### 🛠️ Vanilla Bug Fixes
 - **Scout Mission Fix:** We patched a massive, long-standing vanilla bug where Scout Missions would completely skip and ignore Faction Headquarters sectors because the native dialogue trees were missing the template definition.
 </details>
+
+---
+
+<div align="center">
+
+[⬆ Back to top](#-cosmic-starfall---player-guide) · [🌌 README](https://github.com/Stormiebox/Cosmic-Starfall) · [⚙️ Wiki](https://github.com/Stormiebox/Cosmic-Starfall/wiki/Features-and-Enhancements)
+
+</div>
 
