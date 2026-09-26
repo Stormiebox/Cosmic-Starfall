@@ -7,6 +7,16 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## Never remove, overwrite or write above this
 
+## [v2.0.17]
+
+### 🪲 Bug Fixes
+- [Bugfix] **Subsystem Passive Bonuses Were Erased on Every Sector Load, Login, and Turret Change (`entity/mainCaliber.lua`, `mainCaliber.serverApplyFirerate`):** `entity/init.lua` attaches this script to every player/alliance ship and station. On the client, `initializationFinished()` and every turret add/remove/destroy run `checkWeaponsDeleted()` -> `setRestrictions()`, and any ship within the two-main-gun allowance sends `serverApplyFirerate(0)`. The server's no-penalty branch then called `self:removeScriptBonuses()`, which clears every script's bonuses on the entity, not only this script's own. Passive bonuses that subsystems apply once from `onInstalled` (Bastion System's shield durability/recharge/recharge delay, Xperimental Hypergenerator's hyperspace reach/cooldown/charge energy, Macrofield Projector's and Overpowered Core's energy generation/capacity, Subspace Cargo's cargo/energy/shield trade-offs) were therefore removed right after being applied, every time a client loaded the ship. v2.0.15 fixed the same collateral wipe in `starfall_setbonuses.lua`; this was a second source of it. The script now keeps the key returned by `addBaseMultiplier` for its own fire rate penalty and removes only that key with `entity:removeBonus(key)`. The key is not persisted (bonus keys reset on restart); the client re-sends its penalty on load.
+- [Bugfix] **Pulse Tractor Beam Generator Cleared Every Other Bonus on the Ship When a Pulse Ended (`systems/pulseTractorBeamGenerator.lua`):** The end of the active phase called `Entity():removeScriptBonuses()` to drop the stacked per-pulse `LootCollectionRange` biases, which also removed other systems' and scripts' bonuses. It now stores each bias key in `pulseBonusKeys` and `clearPulseBonuses()` removes exactly those with `removeBonus(key)`.
+- [Bugfix] **Uninstalling One Subsystem Cleared the Bonuses of Every Other Script on the Ship (`onUninstalled` in `bastionSystem.lua`, `macrofieldProjector.lua`, `XperimentalHypergenerator.lua`, `repairDrones.lua`):** Each called `Entity():removeScriptBonuses()`. The engine already strips a system's own bonuses when its item is uninstalled (vanilla's systems leave `onUninstalled` empty), so the call only ever removed other scripts' bonuses. Removed. `pulseTractorBeamGenerator.lua`'s `onUninstalled` now calls `clearPulseBonuses()` instead, to drop its in-flight pulse biases.
+
+### 🧹 Cleanup
+- [Cleanup] **Removed the Unused `complexCraft/mainCaliber.lua`:** A second, server-authoritative draft of the main caliber script that was added on 2026-05-19 and never attached anywhere: `entity/init.lua` has only ever attached `entity/mainCaliber.lua`, and no `addScriptOnce`, `include`, or `invokeFunction` in any commit referenced the `complexCraft/` copy. It still carried the same `removeScriptBonuses()` pattern fixed above, so it would have reintroduced that bug if anyone had wired it up. The v2.0.14 entry that calls it a dead file is left as written. It remains in git history.
+
 ## [v2.0.16]
 
 ### 🔗 Cross-Mod Integration

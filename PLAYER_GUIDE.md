@@ -1,6 +1,6 @@
 # 📘 Cosmic Starfall - Player Guide
 
-![Version](https://img.shields.io/badge/version-2.0.16-6f42c1?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.0.17-6f42c1?style=flat-square)
 ![Avorion](https://img.shields.io/badge/Avorion-2.5.13-2f81f7?style=flat-square)
 
 Welcome to **Cosmic Starfall**, an expansive sci-fi fantasy arsenal and subsystem mod that brings powerful, high-tech weaponry and advanced utility modules to your Avorion universe!

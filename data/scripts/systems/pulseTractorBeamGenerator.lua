@@ -32,6 +32,7 @@ GeneratorIsWorking = 0     --Module operating status, remaining operating time
 GeneratorIsReady = 0       --Module recharge status, remaining recharge time
 GeneratorAllowedPulses = 0 --Total calculated maximum number of pulses
 _rarity = 0                --Module level
+local pulseBonusKeys = {}  --Handles of this module's per-pulse range bonuses (server only, not persisted)
 
 --Interface Variables
 local progressBars = {}
@@ -85,6 +86,14 @@ function update(timeStep)
 	-- end
 end
 
+--Removes only the range bonuses this module added, leaving every other script's bonuses on the ship intact
+function clearPulseBonuses()
+	for _, key in pairs(pulseBonusKeys) do
+		Entity():removeBonus(key)
+	end
+	pulseBonusKeys = {}
+end
+
 --The main function is the handler for all modules, tied to the game API
 function updateServer(timePassed)
 	-- if not(onlineFlag) then
@@ -112,14 +121,14 @@ function updateServer(timePassed)
 				include("cosmicvaultdebug").info("Cosmic Starfall", "Active phase updateServer")
 			end
 			_ship:setValue("isPulseGenerator", _cv + GeneratorRangePerPulse)
-			_ship:addAbsoluteBias(StatsBonuses.LootCollectionRange, GeneratorRangePerPulse)
+			table.insert(pulseBonusKeys, _ship:addAbsoluteBias(StatsBonuses.LootCollectionRange, GeneratorRangePerPulse))
 			if _debug then
 				include("cosmicvaultdebug").info("Cosmic Starfall", Entity():getValue("isPulseGenerator"), "_cv after pulse")
 				include("cosmicvaultdebug").info("Cosmic Starfall", Entity():getBoostedValue(StatsBonuses.LootCollectionRange, 0), "_ab")
 				include("cosmicvaultdebug").info("Cosmic Starfall", "__________")
 			end
 		else
-			Entity():removeScriptBonuses()
+			clearPulseBonuses()
 			Entity():setValue("isPulseGenerator", 0)
 			--_cv = ReverseBonusRange(_cv)
 
@@ -222,7 +231,7 @@ end
 
 function onUninstalled(seed, rarity, permanent)
 	if onServer() then
-		Entity():removeScriptBonuses()
+		clearPulseBonuses()
 		executeDelete()
 	end
 end

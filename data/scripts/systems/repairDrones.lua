@@ -428,7 +428,6 @@ function onUninstalled(seed, rarity, permanent)
 			Entity().maxDurabilityFactor = math.max(0, Entity().maxDurabilityFactor - hullBonus / 100)
 			Entity():setValue("isRepairDrones", false)
 		end
-		Entity():removeScriptBonuses()
 		executeDelete()
 	end
 end

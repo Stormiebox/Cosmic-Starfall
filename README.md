@@ -2,7 +2,7 @@
 
 *A massive balance and progression overhaul for high-tier weaponry and systems.*
 
-![Version](https://img.shields.io/badge/version-2.0.16-6f42c1?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.0.17-6f42c1?style=flat-square)
 ![Avorion](https://img.shields.io/badge/Avorion-2.5.13-2f81f7?style=flat-square)
 ![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-informational?style=flat-square)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey?style=flat-square)

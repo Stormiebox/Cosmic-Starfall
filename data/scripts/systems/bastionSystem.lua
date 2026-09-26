@@ -1122,7 +1122,6 @@ function onUninstalled(seed, rarity, permanent)
 	-- Entity().shieldDamageFactor = 1
 	if onServer() then
 		executeDelete()
-		Entity():removeScriptBonuses()
 	end
 end
 

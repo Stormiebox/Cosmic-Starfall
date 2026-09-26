@@ -524,7 +524,6 @@ end
 
 function onUninstalled(seed, rarity, permanent)
 	if onServer() then
-		Entity():removeScriptBonuses()
 		executeDelete()
 	end
 end

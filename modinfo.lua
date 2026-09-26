@@ -26,7 +26,7 @@ meta =
     -- This will be used to check for unmet dependencies or incompatibilities, and to check compatibility between clients and dedicated servers with mods.
     -- If a client with an unmatching major or minor mod version wants to log into a server, login is prohibited.
     -- Unmatching patch version still allows logging into a server. This works in both ways (server or client higher or lower version).
-    version = "2.0.16",
+    version = "2.0.17",
 
     -- If your mod requires dependencies, enter them here. The game will check that all dependencies given here are met.
     -- Possible attributes:
@@ -45,7 +45,7 @@ meta =
     -- },
     dependencies = {
         { id = "2977686775", incompatible = true }, -- Starfall
-        { id = "3727542782", min = "3.7.0" }, -- Cosmic Vault (needs cosmicvaultupgradecategories.lua)
+        { id = "3727542782", min = "4.1.0" }, -- Cosmic Vault
         { id = "Avorion",    min = "2.0", max = "*.*" }
     },
 

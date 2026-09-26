@@ -19,6 +19,7 @@ local MCfound = 0
 local debuffValue = 0
 local DoNotShowAlert = false
 local initSW = true
+local penaltyKey = nil --Handle of the fire rate penalty bonus (server only, not persisted: keys reset on restart)
 
 local locLines = {}
 -- This script runs on the server too (attached to every ship/station via entity/init.lua),
@@ -191,14 +192,18 @@ function mainCaliber.serverApplyFirerate(_amount)
 	--Cutting off
 	if not (_amount) then return end
 
+	--Drops only this script's own fire rate penalty. removeScriptBonuses() would also clear every
+	--other script's bonuses on the ship (subsystem passives, set bonuses, auras).
+	if penaltyKey then
+		self:removeBonus(penaltyKey)
+		penaltyKey = nil
+	end
+
 	--Bonus purpose
 	if _amount < 0 then
-		self:removeScriptBonuses()
-		self:addBaseMultiplier(StatsBonuses.FireRate, _amount)
+		penaltyKey = self:addBaseMultiplier(StatsBonuses.FireRate, _amount)
 		Debug('Bonus applied')
 	else
-		--Bonus exclusion
-		self:removeScriptBonuses()
 		Debug('Bonus removed')
 	end
 end
